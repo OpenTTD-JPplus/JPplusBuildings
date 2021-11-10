@@ -1,0 +1,630 @@
+// Begin Header
+
+grf {
+	grfid: "TT12";
+	name: string(STR_GRF_NAME);
+	desc: string(STR_GRF_DESC);
+	version: 0;
+	min_compatible_version: 0;
+}
+
+cargotable {
+	PASS, MAIL, GOOD, FOOD, WSTE
+}
+
+disable_item(FEAT_HOUSES);
+
+// End Header
+/* Begin Functions */
+
+switch(FEAT_INDUSTRIES, SELF, dumb_add, a, b, a + b) { return; }
+
+//switch (FEAT_HOUSES, SELF, func_is_flat, x,y, nearby_tile_slope(x,y) == SLOPE_FLAT) {return;}
+
+/* End Functions */
+// Begin Sprite Templates
+
+
+// Only 1 sprites to be used in four directions
+template template_house_1dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+template template_house_2dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+
+
+template template_z64(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x+72,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x+144,	y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x+216,	y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+template template_z128(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    sw: [ x+72,		y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    nw: [ x+144,	y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    ne: [ x+216,	y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+}
+
+/* Random recolors */
+
+random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_r1)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+/* Rotation checks for buildings to face roads */
+
+// Bus stops are TILE_CLASS_STATION, not TILE_CLASS_ROAD. If the building is not adjacent to a road (below) it may be adacent to a bus stop which it should face.
+// Note: This will make buildings truly not adjacent to a road, but adjacent to a station (of any type) face the station.
+switch (FEAT_HOUSES, SELF, switch_station_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_STATION)
+	{1: return 3; return 0;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_STATION)
+	{1: return 2; switch_station_adj_ne;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_STATION)
+	{1: return 1; switch_station_adj_nw;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_se, nearby_tile_class(0,1) == TILE_CLASS_STATION)
+	{1: return 0; switch_station_adj_sw;}
+// Check for roads first
+switch (FEAT_HOUSES, SELF, switch_road_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_ROAD)
+	{1: return 3; switch_station_adj_se;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_ROAD)
+	{1: return 2; switch_road_adj_ne;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_ROAD)
+	{1: return 1; switch_road_adj_nw;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_se, nearby_tile_class(0,1) == TILE_CLASS_ROAD)
+	{1: return 0; switch_road_adj_sw;}
+
+switch (FEAT_HOUSES,SELF, switch_road_adjacency, 1) {switch_road_adj_se;}
+
+
+
+/* For houses with driveways and slope sprites, check whether construction is allowed */
+
+/* Are the tile and adjacent road sloped down and to the right? */
+switch (FEAT_HOUSES, SELF, func_sloped_right,
+	(nearby_tile_slope(0,0) == SLOPE_NW && nearby_tile_slope(1,0) == SLOPE_NW && (nearby_tile_class(1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_NE && nearby_tile_slope(0,-1) == SLOPE_NE && (nearby_tile_class(0,-1) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SE && nearby_tile_slope(-1,0) == SLOPE_SE && (nearby_tile_class(-1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SW && nearby_tile_slope(0,1) == SLOPE_SW && (nearby_tile_class(0,1) == TILE_CLASS_ROAD))
+	) {1: return 1; return 0;}
+
+/* Are the tile and adjacent road sloped down and to the right? */
+switch (FEAT_HOUSES, SELF, func_sloped_left,
+	(nearby_tile_slope(0,0) == SLOPE_NW && nearby_tile_slope(-1,0) == SLOPE_NW && (nearby_tile_class(-1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_NE && nearby_tile_slope(0,1) == SLOPE_NE && (nearby_tile_class(0,1) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SE && nearby_tile_slope(1,0) == SLOPE_SE && (nearby_tile_class(1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SW && nearby_tile_slope(0,-1) == SLOPE_SW && (nearby_tile_class(0,-1) == TILE_CLASS_ROAD))
+	) {1: return 1; return 0;}
+
+
+// End Sprite Templates
+
+// Begin c1_boylston_library
+
+spriteset (spr_c1_boylston_library, "src/gfx/c1_boylston_library_8bpp.png") {
+	template_z64(0,0)
+}
+
+spriteset (spr_c1_boylston_library_snow, "src/gfx/c1_boylston_library_snow_8bpp.png") {
+	template_z64(0,0)
+}
+
+spritelayout sprlay_c1_boylston_library_norm {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_boylston_library(LOAD_TEMP(1));
+	}
+}
+
+spritelayout sprlay_c1_boylston_library_snow {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_boylston_library_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_c1_boylston_library_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_c1_boylston_library_snow; sprlay_c1_boylston_library_norm;}
+
+item(FEAT_HOUSES, item_c1_boylston_library, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 0;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1904,0xFFFF];
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_c1_boylston_library_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End c1_boylston_library
+
+
+// Begin c1_citgo_station
+
+spriteset (spr_c1_citgo_station, "src/gfx/c1_citgo_station_8bpp.png") {
+	template_z64(0,0)
+}
+
+spriteset (spr_c1_citgo_station_snow, "src/gfx/c1_citgo_station_snow_8bpp.png") {
+	template_z64(0,0)
+}
+
+spritelayout sprlay_c1_citgo_station_norm {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_citgo_station(LOAD_TEMP(1));
+	}
+}
+
+spritelayout sprlay_c1_citgo_station_snow {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_citgo_station_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_c1_citgo_station_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_c1_citgo_station_snow; sprlay_c1_citgo_station_norm;}
+
+item(FEAT_HOUSES, item_c1_citgo_station, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 0;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1904,0xFFFF];
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_c1_citgo_station_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End c1_citgo_station
+
+
+// Begin c1_industrial_gym
+
+spriteset (spr_c1_industrial_gym, "src/gfx/c1_industrial_gym_8bpp.png") {
+	template_z64(0,0)
+}
+
+spriteset (spr_c1_industrial_gym_snow, "src/gfx/c1_industrial_gym_snow_8bpp.png") {
+	template_z64(0,0)
+}
+
+spritelayout sprlay_c1_industrial_gym_norm {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_industrial_gym(LOAD_TEMP(1));
+	}
+}
+
+spritelayout sprlay_c1_industrial_gym_snow {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_c1_industrial_gym_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_c1_industrial_gym_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_c1_industrial_gym_snow; sprlay_c1_industrial_gym_norm;}
+
+item(FEAT_HOUSES, item_c1_industrial_gym, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 0;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1904,0xFFFF];
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_c1_industrial_gym_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End c1_industrial_gym
+
+
+// Begin c3_international_place
+
+spriteset (spr_c3_international_place, "src/gfx/c3_international_place_8bpp.png") {
+	template_z128(0,0)
+}
+
+spriteset (spr_c3_international_place_snow, "src/gfx/c3_international_place_snow_8bpp.png") {
+	template_z128(0,0)
+}
+
+spritelayout sprlay_c3_international_place_norm {
+	ground {
+		sprite: 1420;
+	}
+	building {
+		sprite: spr_c3_international_place(LOAD_TEMP(1));
+	}
+}
+
+spritelayout sprlay_c3_international_place_snow {
+	ground {
+		sprite: 1420;
+	}
+	building {
+		sprite: spr_c3_international_place_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_c3_international_place_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_c3_international_place_snow; sprlay_c3_international_place_norm;}
+
+item(FEAT_HOUSES, item_c3_international_place, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 00;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 0;
+		accepted_cargos: [[PASS, 8],[MAIL, 8]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1904,0xFFFF];
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		availability_mask: [bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_c3_international_place_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End c3_international_place
+
+
+// Begin naganuma_house
+
+spriteset (spr_naganuma_house, 								"src/gfx/blank.png") 						{template_house_2dir(1,1)}
+spriteset (spr_naganuma_house_snow, 						"src/gfx/blank.png") 						{template_house_2dir(1,80)}
+spriteset (spr_naganuma_house_ground, 						"src/gfx/blank.png") 						{template_house_2dir(1,1)}
+spriteset (spr_naganuma_house_ground_snow, 					"src/gfx/blank.png") 						{template_house_2dir(1,80)}
+
+alternative_sprites(spr_naganuma_house,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/naganuma_house.png","src/gfx/naganuma_house_mask.png")                 {template_house_2dir(1,1)}
+alternative_sprites(spr_naganuma_house_snow,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/naganuma_house.png")                 {template_house_2dir(1,80)}
+alternative_sprites(spr_naganuma_house_ground,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/naganuma_house_ground.png")          {template_house_2dir(1,1)}
+alternative_sprites(spr_naganuma_house_ground_snow,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/naganuma_house_ground.png")          {template_house_2dir(1,80)}
+
+
+spritelayout sprlay_naganuma_house_norm {
+	ground {
+		sprite: spr_naganuma_house_ground(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_naganuma_house(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_naganuma_house_snow {
+	ground {
+		sprite: spr_naganuma_house_ground_snow(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_naganuma_house_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_naganuma_house_snow; sprlay_naganuma_house_norm;}
+
+item(FEAT_HOUSES, item_naganuma_house, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 30;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1929,0xFFFF];
+		minimum_lifetime: 2;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_naganuma_house_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End naganuma_house
+
+// Begin nishikawa_house
+
+spriteset (spr_nishikawa_house, 								"src/gfx/blank.png") 						{template_house_2dir(1,1)}
+spriteset (spr_nishikawa_house_snow, 						"src/gfx/blank.png") 						{template_house_2dir(1,80)}
+spriteset (spr_nishikawa_house_ground, 						"src/gfx/blank.png") 						{template_house_2dir(1,1)}
+spriteset (spr_nishikawa_house_ground_snow, 					"src/gfx/blank.png") 						{template_house_2dir(1,80)}
+
+alternative_sprites(spr_nishikawa_house,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/nishikawa_house.png","src/gfx/nishikawa_house_mask.png")                 {template_house_2dir(1,1)}
+alternative_sprites(spr_nishikawa_house_snow,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/nishikawa_house.png","src/gfx/nishikawa_house_mask.png")                {template_house_2dir(1,80)}
+alternative_sprites(spr_nishikawa_house_ground,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/nishikawa_house_ground.png")          {template_house_2dir(1,1)}
+alternative_sprites(spr_nishikawa_house_ground_snow,                    
+    ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP,                     "src/gfx/nishikawa_house_ground.png")          {template_house_2dir(1,80)}
+
+
+spritelayout sprlay_nishikawa_house_norm {
+	ground {
+		sprite: spr_nishikawa_house_ground(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_nishikawa_house(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_snow {
+	ground {
+		sprite: spr_nishikawa_house_ground_snow(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_nishikawa_house_snow(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_nishikawa_house_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_nishikawa_house_snow; sprlay_nishikawa_house_norm;}
+
+item(FEAT_HOUSES, item_nishikawa_house, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 30;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1929,0xFFFF];
+		minimum_lifetime: 2;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_nishikawa_house_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+		colour: rand_switch_recolor_r1;
+	}
+}
+
+// End nishikawa_house
+
+// Begin r1_fulton
+
+spriteset (spr_r1_fulton, "src/gfx/r1_fulton_8bpp.png") {
+	template_z64(0,0)
+}
+
+spriteset (spr_r1_fulton_snow, "src/gfx/r1_fulton_snow_8bpp.png") {
+	template_z64(0,0)
+}
+
+spritelayout sprlay_r1_fulton_norm {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_r1_fulton(LOAD_TEMP(1));
+	}
+}
+
+spritelayout sprlay_r1_fulton_snow {
+	ground {
+		sprite: LOAD_TEMP(0);
+	}
+	building {
+		sprite: spr_r1_fulton_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_r1_fulton_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_r1_fulton_snow; sprlay_r1_fulton_norm;}
+
+item(FEAT_HOUSES, item_r1_fulton, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 30;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1929,0xFFFF];
+		minimum_lifetime: 2;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_r1_fulton_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+
+// End r1_fulton
+
+// Begin r1_stiles
+
+spriteset (spr_r1_stiles, "src/gfx/r1_stiles_8bpp.png") {
+	template_z64(0,0)
+}
+
+spriteset (spr_r1_stiles_snow, "src/gfx/r1_stiles_snow_8bpp.png") {
+	template_z64(0,0)
+}
+
+spritelayout sprlay_r1_stiles_norm {
+	ground {
+		sprite: LOAD_TEMP(0) + LOAD_TEMP(2);
+		
+	}
+	building {
+		sprite: spr_r1_stiles(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_r1_stiles_snow {
+	ground {
+		sprite: LOAD_TEMP(0) + LOAD_TEMP(2);
+	}
+	building {
+		sprite: spr_r1_stiles_snow(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_r1_stiles_sprites, [ 
+ 	// Check for snow and set the groundsprite with the proper slope in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+	STORE_TEMP(slope_to_sprite_offset(nearby_tile_slope(0,0)), 2),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adj_se(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_r1_stiles_snow; sprlay_r1_stiles_norm;}
+
+item(FEAT_HOUSES, item_r1_stiles, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 30;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1990,0xFFFF];
+		minimum_lifetime: 2;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_r1_stiles_sprites;
+		construction_check: func_sloped_right();
+		foundations: CB_RESULT_NO_FOUNDATIONS;
+		colour: rand_switch_recolor_r1;
+	}
+}
+
+// End r1_stiles

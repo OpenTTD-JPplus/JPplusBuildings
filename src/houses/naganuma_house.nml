@@ -1,0 +1,58 @@
+
+// Begin naganuma_house
+
+spriteset (spr_naganuma_house, 								"src/gfx/houses/naganuma/building.png") 						{template_house_2dir(1,1)}
+spriteset (spr_naganuma_house_snow, 						"src/gfx/houses/naganuma/building.png") 						{template_house_2dir(1,80)}
+spriteset (spr_naganuma_house_ground, 						"src/gfx/houses/naganuma/ground.png") 						{template_house_2dir(1,1)}
+spriteset (spr_naganuma_house_ground_snow, 					"src/gfx/houses/naganuma/ground.png") 						{template_house_2dir(1,80)}
+
+spritelayout sprlay_naganuma_house_norm {
+	ground {
+		sprite: spr_naganuma_house_ground(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_naganuma_house(LOAD_TEMP(1));
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_naganuma_house_snow {
+	ground {
+		sprite: spr_naganuma_house_ground_snow(LOAD_TEMP(1));
+	}
+	building {
+		sprite: spr_naganuma_house_snow(LOAD_TEMP(1));
+	}
+}
+
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_sprites, [ 
+ 	// Check for snow and set the groundsprite in temporary variable 0
+ 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
+ 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_naganuma_house_snow; sprlay_naganuma_house_norm;}
+/*
+item(FEAT_HOUSES, naganuma_house, -1, HOUSE_SIZE_1X1){
+	property {
+		substitute: 06;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 30;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 80;
+		probability: 1;
+		years_available: [1929,0xFFFF];
+		minimum_lifetime: 2;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: switch_naganuma_house_sprites;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT ? 1 : 0);
+	}
+}
+*/
+// End naganuma_house

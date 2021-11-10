@@ -1,0 +1,125 @@
+// Begin Sprite Templates
+
+
+// Only 1 sprites to be used in four directions
+template template_house_con(x, y) {   
+	//left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+template template_house_1dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+template template_house_80_1dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
+    sw: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
+    ne: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
+}
+
+template template_house_100_1dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		100,	-31,		-68,	NOCROP | ANIM]
+    sw: [ x,		y,		64,		100,	-31,		-68,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		100,	-31,		-68,	NOCROP | ANIM]
+    ne: [ x,		y,		64,		100,	-31,		-68,	NOCROP | ANIM]
+}
+
+template template_house_2dir(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+
+
+template template_z64(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    sw: [ x+72,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    nw: [ x+144,	y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+    ne: [ x+216,	y,		64,		78,		-31,		-46,	NOCROP | ANIM]
+}
+
+template template_z128(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    sw: [ x+72,		y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    nw: [ x+144,	y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+    ne: [ x+216,	y,		64,		123,		-31,		-92,	NOCROP | ANIM]
+}
+
+/* Random recolors */
+
+random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_r1)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+/* Rotation checks for buildings to face roads */
+
+// Bus stops are TILE_CLASS_STATION, not TILE_CLASS_ROAD. If the building is not adjacent to a road (below) it may be adacent to a bus stop which it should face.
+// Note: This will make buildings truly not adjacent to a road, but adjacent to a station (of any type) face the station.
+switch (FEAT_HOUSES, SELF, switch_station_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_STATION)
+	{1: return 3; return 0;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_STATION)
+	{1: return 2; switch_station_adj_ne;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_STATION)
+	{1: return 1; switch_station_adj_nw;}
+switch (FEAT_HOUSES, SELF, switch_station_adj_se, nearby_tile_class(0,1) == TILE_CLASS_STATION)
+	{1: return 0; switch_station_adj_sw;}
+// Check for roads first
+switch (FEAT_HOUSES, SELF, switch_road_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_ROAD)
+	{1: return 3; switch_station_adj_se;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_ROAD)
+	{1: return 2; switch_road_adj_ne;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_ROAD)
+	{1: return 1; switch_road_adj_nw;}
+switch (FEAT_HOUSES, SELF, switch_road_adj_se, nearby_tile_class(0,1) == TILE_CLASS_ROAD)
+	{1: return 0; switch_road_adj_sw;}
+
+switch (FEAT_HOUSES,SELF, switch_road_adjacency, 1) {switch_road_adj_se;}
+
+
+
+/* For houses with driveways and slope sprites, check whether construction is allowed */
+
+/* Are the tile and adjacent road sloped down and to the right? */
+switch (FEAT_HOUSES, SELF, func_sloped_right,
+	(nearby_tile_slope(0,0) == SLOPE_NW && nearby_tile_slope(1,0) == SLOPE_NW && (nearby_tile_class(1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_NE && nearby_tile_slope(0,-1) == SLOPE_NE && (nearby_tile_class(0,-1) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SE && nearby_tile_slope(-1,0) == SLOPE_SE && (nearby_tile_class(-1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SW && nearby_tile_slope(0,1) == SLOPE_SW && (nearby_tile_class(0,1) == TILE_CLASS_ROAD))
+	) {1: return 1; return 0;}
+
+/* Are the tile and adjacent road sloped down and to the right? */
+switch (FEAT_HOUSES, SELF, func_sloped_left,
+	(nearby_tile_slope(0,0) == SLOPE_NW && nearby_tile_slope(-1,0) == SLOPE_NW && (nearby_tile_class(-1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_NE && nearby_tile_slope(0,1) == SLOPE_NE && (nearby_tile_class(0,1) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SE && nearby_tile_slope(1,0) == SLOPE_SE && (nearby_tile_class(1,0) == TILE_CLASS_ROAD)) ||
+	(nearby_tile_slope(0,0) == SLOPE_SW && nearby_tile_slope(0,-1) == SLOPE_SW && (nearby_tile_class(0,-1) == TILE_CLASS_ROAD))
+	) {1: return 1; return 0;}
+
+
+// End Sprite Templates

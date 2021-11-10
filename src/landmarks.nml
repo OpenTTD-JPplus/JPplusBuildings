@@ -1,0 +1,469 @@
+
+/* *** Begin Landmarks *** */
+
+/* Towns with this church will value historic preservation of their commercial buildings (historic districts will be protected). Both this and the regular church below have the church flag, allowing only one per town. */
+item(FEAT_HOUSES, item_historic_church, 38, HOUSE_SIZE_1X1){
+	property {
+		substitute: 03;
+		name: string(STR_NAME_HISTORIC_CHURCH);
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_CHURCH, HOUSE_FLAG_PROTECTED);
+		population: 5;
+		mail_multiplier: 2;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 230;
+		removal_cost_multiplier: 90;
+		probability: 4;
+		years_available: [1700,0xFFFF];
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_church;
+		construction_check: (nearby_tile_class(0,1) == TILE_CLASS_ROAD) ? 1 : 0; // Road in SE tile
+		cargo_production: func_produce(1,1,1);
+	}
+}
+
+/* Towns with this church won't value preservation (random preservation only). Onward to the future! Both this and the above historic church have the church flag, allowing only one per town. */
+item(FEAT_HOUSES, item_old_church, 03, HOUSE_SIZE_1X1){
+	property {
+		substitute: 03;
+		name: TTD_STR_TOWN_BUILDING_NAME_CHURCH_1;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_CHURCH, HOUSE_FLAG_PROTECTED);
+		population: 5;
+		mail_multiplier: 2;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 230;
+		removal_cost_multiplier: 90;
+		probability: 6;
+		years_available: [1700,0xFFFF];
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_church;
+		construction_check: (nearby_tile_class(0,1) == TILE_CLASS_ROAD) ? 1 : 0; // Road in SE tile
+		cargo_production: func_produce(1,1,1);
+	}
+}
+
+/* Other churches don't affect preservation and don't have the church flag, allowing more than one type (although only one of each is allowed) */
+
+item(FEAT_HOUSES, item_modern_church_1, 60, HOUSE_SIZE_1X1){
+	property {
+		substitute: 60;
+		name: TTD_STR_TOWN_BUILDING_NAME_CHURCH_1;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 6;
+		mail_multiplier: 2;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 230;
+		removal_cost_multiplier: 85;
+		probability: 1;
+		years_available: [1960,0xFFFF];
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_modern_church_1;
+		construction_check: (nearby_tile_class(0,1) == TILE_CLASS_ROAD && same_house_count_town == 0) ? 1 : 0; // Road in SE tile and only modern church in town
+		protection: random_preservation;
+		cargo_production: func_produce(1,1,1);
+	}
+}
+
+item(FEAT_HOUSES, item_modern_church_2, 58, HOUSE_SIZE_1X1){
+	property {
+		substitute: 58;
+		name: TTD_STR_TOWN_BUILDING_NAME_CHURCH_1;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 8;
+		mail_multiplier: 2;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 230;
+		removal_cost_multiplier: 85;
+		probability: 1;
+		years_available: [1970,0xFFFF];
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_modern_church_2;
+		construction_check: (nearby_tile_class(1,0) == TILE_CLASS_ROAD && same_house_count_town == 0) ? 1 : 0; // Road in SW tile and only modern church in town
+		protection: random_preservation;
+		cargo_production: func_produce(1,1,1);
+	}
+}
+
+/* This Neo-Moorish style church is a cool landmark, only active if the extra sub-tropic sprites parameter is enabled. */
+if (extra_tropic == 1){
+item(FEAT_HOUSES, item_neomoorish_church, 83, HOUSE_SIZE_1X1){
+	property {
+		substitute: 83;
+		name: TTD_STR_TOWN_BUILDING_NAME_CHURCH_1;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_PROTECTED);
+		population: 8;
+		mail_multiplier: 2;
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 230;
+		removal_cost_multiplier: 85;
+		probability: 1;
+		years_available: [1850,1900];
+		availability_mask: [bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_neomoorish_church;
+		construction_check: (nearby_tile_class(1,0) == TILE_CLASS_ROAD && same_house_count_town == 0) ? 1 : 0; // Road in SW tile and only neomoorish church in town
+		cargo_production: func_produce(1,1,1);
+	}
+}}
+
+/* Old stadium requires a population of at least 500. Substitute shopping centre to avoid inheriting stadium flag. */
+item(FEAT_HOUSES, item_old_stadium, 20, HOUSE_SIZE_2X2){
+	property {
+		substitute: 20;
+		name: TTD_STR_TOWN_BUILDING_NAME_STADIUM_1;
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		population: 65;
+		mail_multiplier: 0;
+		accepted_cargos: [[PASS, 8],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 300;
+		removal_cost_multiplier: 250;
+		probability: 4;
+		years_available: [1800,0xFFFF];
+		minimum_lifetime: 10;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		graphics_north: sprite_old_stadium_N;
+		graphics_east: sprite_old_stadium_E;
+		graphics_west: sprite_old_stadium_W;
+		graphics_south: sprite_old_stadium_S;
+		construction_check: switch_population_500;
+		cargo_production: func_produce(9,0,2);
+	}
+}
+
+/* Modern stadium requires a population of at least 10,000. Substitute shopping centre to avoid inheriting stadium flag. */
+item(FEAT_HOUSES, item_new_stadium, 32, HOUSE_SIZE_2X2){
+	property {
+		substitute: 40;
+		name: TTD_STR_TOWN_BUILDING_NAME_STADIUM_1;
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		population: 255;
+		mail_multiplier: 0;
+		accepted_cargos: [[PASS, 8],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 300;
+		removal_cost_multiplier: 250;
+		probability: 4;
+		years_available: [1958,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		graphics_north: sprite_new_stadium_N;
+		graphics_east: sprite_new_stadium_E;
+		graphics_west: sprite_new_stadium_W;
+		graphics_south: sprite_new_stadium_S;
+		construction_check: switch_population_10k;
+		cargo_production: func_produce(32,0,4);
+	}
+}
+
+/* Hotels are only built in cities. */
+item(FEAT_HOUSES, item_hotel, 07, HOUSE_SIZE_1X2){
+	property {
+		substitute: 07;
+		name: TTD_STR_TOWN_BUILDING_NAME_HOTEL_1;
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		accepted_cargos: [[PASS, 8],[FOOD, 8],[BEER, 8],[MAIL, 8]];
+		probability: 4;
+		years_available: [1900,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		graphics_north: sprite_hotel_N;
+		graphics_east: sprite_hotel_E;
+		construction_check: switch_hotel_check_1;
+		cargo_production: func_produce(18,2,2);
+	}
+}
+
+item(FEAT_HOUSES, item_cinema, 39, HOUSE_SIZE_1X1){
+	property {
+		substitute: 39;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED);
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		probability: 1;
+		years_available: [1945,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_cinema;
+		construction_check: (nearest_house_matching_criterion(10, SEARCH_HOUSE_BY_TYPE) == 0 && nearby_tile_class(0,1) == TILE_CLASS_ROAD) ? 1 : 0; // No cinemas within 10 tiles, require road in SE tile
+		cargo_production: func_produce(5,1,1);
+	}
+}
+
+item(FEAT_HOUSES, item_theatre, 31, HOUSE_SIZE_1X1){
+	property {
+		substitute: 31;
+		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED);
+		accepted_cargos: [[PASS, 4],[MAIL, 2]];
+		probability: 1;
+		years_available: [1900,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_theatre;
+		construction_check: (nearest_house_matching_criterion(10, SEARCH_HOUSE_BY_TYPE) == 0 && nearby_tile_class(1,0) == TILE_CLASS_ROAD) ? 1 : 0; // No theatres within 10 tiles, require road in SW tile
+		cargo_production: func_produce(5,2,1);
+	}
+}
+
+/* The Market is 2x2 tiles and accepts a variety of commercial goods. */
+item(FEAT_HOUSES, item_market, 40, HOUSE_SIZE_2X2){
+	property {
+		substitute: 40;
+		name: TTD_STR_TOWN_BUILDING_NAME_SHOPPING_MALL_1;
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		accepted_cargos: [[PASS, 8],[GOOD, 8],[FOOD, 8],[BEER, 8]];
+		probability: 1;
+		years_available: [1900,0xFFFF];
+		minimum_lifetime: 3;
+		availability_mask: [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 0;
+	}
+	graphics {
+		graphics_north: sprite_shopping_mall_N;
+		graphics_east: sprite_shopping_mall_E;
+		graphics_west: sprite_shopping_mall_W;
+		graphics_south: sprite_shopping_mall_S;
+		construction_check: (same_house_count_town == 0) ? 1 : 0; // Only one per town
+		cargo_production: func_produce(23,2,4);
+	}
+}
+
+/* The Warehouse sprite selection depends on the extra sub-tropic sprite parameter. I don't remember why there are two item definitions based on the parameter, but I assume there's a good reason. */
+
+if (extra_tropic == 1){
+	item(FEAT_HOUSES, item_warehouse, 18, HOUSE_SIZE_1X1) {
+		property {
+			substitute: 18;
+			accepted_cargos: [[MAIL, 3],[GOOD, 8],[PASS, 2]];
+			probability: 1;
+			years_available: [1930,0xFFFF];
+			minimum_lifetime: 4;
+			availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+			building_class: 0;
+		}
+		graphics {
+			default: random_sprite_warehouse;
+			construction_check: (nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Cannot build within 2 tiles of another class 0 house
+			cargo_production: func_produce(1,3,1);
+	}
+}} else {
+	item(FEAT_HOUSES, item_warehouse, 18, HOUSE_SIZE_1X1) {
+		property {
+			substitute: 18;
+			accepted_cargos: [[MAIL, 3],[GOOD, 8],[PASS, 2]];
+			probability: 1;
+			years_available: [1930,0xFFFF];
+			minimum_lifetime: 4;
+			availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+			building_class: 0;
+		}
+		graphics {
+			default: sprite_warehouse;
+			construction_check: (nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Cannot build within 2 tiles of another class 0 house
+			cargo_production: func_produce(1,3,1);
+		}}
+}
+
+
+item(FEAT_HOUSES, item_fountain, 10, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 10;
+		probability: 1;
+		years_available: [1700,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 0;
+	}
+	graphics {
+		default: sprite_fountain;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT && nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Can only build on flat terrain, cannot build within 2 tiles of another class 0 house
+		protection: (nearby_tile_class(0,-1) == 3) ? 1 : 0; // Protect if historic building is nearby (for eye-candy)
+	}
+}
+
+item(FEAT_HOUSES, item_statue, 09, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 09;
+		probability: 1;
+		years_available: [1700,0xFFFF];
+		minimum_lifetime: 20;
+		availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 0;
+	}
+	graphics {
+		default: sprite_statue;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT && nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Can only build on flat terrain, cannot build within 2 tiles of another class 0 house
+		protection: (nearby_tile_class(0,-1) == 3) ? 1 : 0; // Protect if historic building is nearby (for eye-candy)
+	}
+}
+
+/* This shop has the maximum probability and is always available, giving nearly every town acceptance of Food and Goods. This is important for Game Scripts which require these cargos for a town to grow. */
+item(FEAT_HOUSES, item_shop, 46, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 46;
+		name: string(STR_NAME_SHOP);
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		population: 25;
+		mail_multiplier: 4;
+		accepted_cargos: [[PASS, 8], [GOOD, 8],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 80;
+		removal_cost_multiplier: 100;
+		probability: 15;
+		years_available: [1700,0xFFFF];
+		minimum_lifetime: 5;
+		availability_mask: [bitmask(TOWNZONE_EDGE, TOWNZONE_OUTSKIRT, TOWNZONE_OUTER_SUBURB, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 0;
+	}
+	graphics {
+		default: sprite_shop;
+		construction_check: (same_house_count_town == 0) ? 1 : 0; // Only one per town
+		cargo_production: func_produce(4,1,1);
+	}
+}
+
+item(FEAT_HOUSES, item_park_pond, 11, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 11;
+		probability: 1;
+		years_available: [1700,0xFFFF];
+		minimum_lifetime: 5;
+		availability_mask: [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 1;
+	}
+	graphics {
+		default: sprite_park_pond;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT && nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Can only build on flat terrain, cannot build within 2 tiles of another class 0 house
+		}
+}
+
+item(FEAT_HOUSES, item_park_alley, 12, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 12;
+		probability: 2;
+		years_available: [1700,0xFFFF];
+		minimum_lifetime: 5;
+		availability_mask: [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		building_class: 1;
+	}
+	graphics {
+		default: sprite_park_alley;
+		construction_check: (nearby_tile_slope(0,0) == SLOPE_FLAT && nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) == 0) ? 1 : 0; // Can only build on flat terrain, cannot build within 2 tiles of another class 0 house
+	}
+}
+
+
+item(FEAT_HOUSES, item_museum, 103, HOUSE_SIZE_1X1){
+	property {
+		substitute: 16;
+		name: string(STR_NAME_MUSEUM);
+		building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+		population: 255;
+		mail_multiplier: 20;
+		accepted_cargos: [[PASS, 8],[MAIL, 4]];
+		local_authority_impact: 250;
+		removal_cost_multiplier: 200;
+		probability: 1;
+		years_available: [1950,0xFFFF];
+		minimum_lifetime: 10;
+		availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+	}
+	graphics {
+		default: sprite_museum;
+		construction_check: switch_museum_shore_SE;
+		cargo_production: func_produce(32,3,2);
+	}
+}
+
+/* If the extra bank sprites parameter is active, bank sprites from the sub-arctic/sub-tropic and temperate climates become a Courthouse and University, respectively. */
+
+if (extra_bank == 1) {
+	item(FEAT_HOUSES, item_courthouse, 104, HOUSE_SIZE_2X1){
+		property {
+			substitute: 74;
+			name: string(STR_NAME_COURTHOUSE);
+			building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+			population: 65;
+			mail_multiplier: 70;
+			accepted_cargos: [[PASS, 8],[MAIL, 8]];
+			local_authority_impact: 300;
+			removal_cost_multiplier: 250;
+			probability: 1;
+			years_available: [1850,0xFFFF];
+			minimum_lifetime: 100;
+			availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		}
+		graphics {
+			graphics_north: sprite_courthouse_n;
+			graphics_west: sprite_courthouse_w;
+			construction_check: switch_university_check;
+			cargo_production: func_produce(9,9,1);
+		}
+	}
+
+	item(FEAT_HOUSES, item_university, 106, HOUSE_SIZE_2X1){
+		property {
+			substitute: 74;
+			name: string(STR_NAME_UNIVERSITY);
+			building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+			population: 255;
+			mail_multiplier: 70;
+			accepted_cargos: [[PASS, 8],[MAIL, 8]];
+			local_authority_impact: 300;
+			removal_cost_multiplier: 250;
+			probability: 1;
+			years_available: [1700,0xFFFF];
+			minimum_lifetime: 100;
+			availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		}
+		graphics {
+			graphics_north: sprite_university_n;
+			graphics_west: sprite_university_w;
+			construction_check: switch_university_check;
+			cargo_production: func_produce(32,9,3);
+		}
+	}
+}
+
+/* Spas use the sub-arctic hotel sprite, but only if the parameter is active -- FIRS uses this sprite for its hotel industry. */
+
+if (extra_hotel == 1) {
+	item(FEAT_HOUSES, item_spa, 101, HOUSE_SIZE_1X2){
+		property {
+			substitute: 07;
+			name: string(STR_NAME_SPA);
+			building_flags: bitmask(HOUSE_FLAG_PROTECTED);
+			population: 85;
+			mail_multiplier: 4;
+			accepted_cargos: [[PASS, 8],[MAIL, 4]];
+			local_authority_impact: 200;
+			removal_cost_multiplier: 150;
+			probability: 1;
+			years_available: [1880,0xFFFF];
+			minimum_lifetime: 10;
+			availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
+		}
+		graphics {
+			graphics_north: sprite_spa_n;
+			graphics_east: sprite_spa_e;
+			construction_check: switch_hotel_check_1;
+			cargo_production: func_produce(11,1,2);
+		}
+	}
+}
+
+/* *** End Landmarks *** */
