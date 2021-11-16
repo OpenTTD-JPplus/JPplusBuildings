@@ -12,11 +12,13 @@ header_stuff = [
     "functions",  
     "waste",
     "sprite_templates",
+    "recolouring",
+    "switches"
     ]
 
 # Houses
 houses = [  
-    ### Class 0 - RESIDENTIAL - are all the IDs added into the population adder function? ###
+    ### Class 0 - RESIDENTIAL - make sure all the IDs added into the population adder function!! ###
     
     ### Townhouses ###
     "townhouses_01",            # ID 06
@@ -30,38 +32,34 @@ houses = [
     #"townhouses_old",          # ID 109
     ### Small Apartments ###
     "small_apartments_01",      # ID 02
-    "small_apartments_02",      # ID 02
+    "small_apartments_02",      # ID 44
+    "small_apartments_03",      # ID 45
     ### Apartments ###
     "apartments_01",            # ID 27
     "apartments_02",            # ID 27
-    
-    ### SHOPS AND OFFICES ###
-    
-    ### Shops ###
-    #"shops_01"                  # ID 33
-    ### Offices ###
+
     ]
 
 # Files to place in alphabetical order below
 unordered_stuff = [
-    "residential", 
+    #"residential", 
     "commercial", 
-    "landmarks", 
-    "tropic", 
-    #"arctic"
+    "landmarks"
     ]
 
 # Items that have to appear after the graphic
 post_graphics_stuff = [
-    "switches"
+    #"switches"
 ]
 
 commercial = [    
     ### SHOPS AND OFFICES ###
     
     ### Shops ###
-    "shops_01"                  # ID 33
+    "shops_01",                 # ID 48
+    "shops_02",                 # ID 47
     ### Offices ###
+    "offices_01"                # ID 36
     ]
 
 # Do you want to copy the completed NewGRF to your OpenTTD folder? (True/False)
@@ -79,6 +77,12 @@ openttd_path = "/home/john/.local/share/openttd/newgrf"
 import codecs
 import subprocess
 import shutil
+
+# Get the version number from the custom tags file to use in the filename
+with open("src/custom_tags.txt") as v:
+    lines = v.read() 
+    first = lines.split('\n', 1)[0]
+version = first.split(":")[1]
 
 # Create an empty list where all the NML code will be placed
 sections = []
@@ -122,8 +126,8 @@ commercial.sort()
 for i in commercial:
     append_houses(i)
 
-merged_nml_path = "src/merged/" + newgrf_name + ".nml"
-grf_name = newgrf_name + ".grf"
+merged_nml_path = "src/merged/" + newgrf_name + "_v" + version +".nml"
+grf_name = newgrf_name + "_v" + version + ".grf"
 
 # Write the content of 'sections' into a file and save it
 processed_nml_file = codecs.open(merged_nml_path,'w','utf8')

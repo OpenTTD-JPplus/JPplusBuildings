@@ -91,29 +91,6 @@ item(FEAT_HOUSES, item_modern_church_2, 58, HOUSE_SIZE_1X1){
 	}
 }
 
-/* This Neo-Moorish style church is a cool landmark, only active if the extra sub-tropic sprites parameter is enabled. */
-if (extra_tropic == 1){
-item(FEAT_HOUSES, item_neomoorish_church, 83, HOUSE_SIZE_1X1){
-	property {
-		substitute: 83;
-		name: TTD_STR_TOWN_BUILDING_NAME_CHURCH_1;
-		building_flags: bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_PROTECTED);
-		population: 8;
-		mail_multiplier: 2;
-		accepted_cargos: [[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 230;
-		removal_cost_multiplier: 85;
-		probability: 1;
-		years_available: [1850,1900];
-		availability_mask: [bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_TOYLAND)];
-	}
-	graphics {
-		default: sprite_neomoorish_church;
-		construction_check: (nearby_tile_class(1,0) == TILE_CLASS_ROAD && same_house_count_town == 0) ? 1 : 0; // Road in SW tile and only neomoorish church in town
-		cargo_production: func_produce(1,1,1);
-	}
-}}
-
 /* Old stadium requires a population of at least 500. Substitute shopping centre to avoid inheriting stadium flag. */
 item(FEAT_HOUSES, item_old_stadium, 20, HOUSE_SIZE_2X2){
 	property {

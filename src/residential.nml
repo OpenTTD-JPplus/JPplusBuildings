@@ -2,24 +2,6 @@
 
 /* Houses with _old suffixes are available earlier, with lesser population to allow older, smaller vehicles to keep up. They also accept wood and/or coal as fuel. */
 
-item(FEAT_HOUSES, item_houses, 26, HOUSE_SIZE_1X1){
-	property {
-		substitute: 26;
-		probability: 4;
-		years_available: [1945,0xFFFF];
-		minimum_lifetime: 2;
-		availability_mask: [ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		building_class: 0;
-		
-		}
-	graphics {
-		default: house_sprite_sloped;
-		construction_check: switch_house_office_gap;
-		cargo_production: func_produce(2,1,1);
-		colour: rand_switch_recolor_r1;
-	}
-}
-
 item(FEAT_HOUSES, item_houses_old, 108, HOUSE_SIZE_1X1){
 	property {
 		substitute: 26;
@@ -36,22 +18,6 @@ item(FEAT_HOUSES, item_houses_old, 108, HOUSE_SIZE_1X1){
 	}
 }
 
-item(FEAT_HOUSES, item_townhouses, 06, HOUSE_SIZE_1X1){
-	property {
-		substitute: 06;
-		probability: 1;
-		years_available: [1945,0xFFFF];
-		minimum_lifetime: 2;
-		availability_mask: [bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TOYLAND)];
-		}
-	graphics {
-		default: random_sprite_townhouses;
-		construction_check: switch_house_office_gap;
-		cargo_production: func_produce(4,1,1);
-		colour: rand_switch_recolor_r1;
-	}
-}
-
 item(FEAT_HOUSES, item_townhouses_old, 109, HOUSE_SIZE_1X1){
 	property {
 		substitute: 06;
@@ -65,38 +31,6 @@ item(FEAT_HOUSES, item_townhouses_old, 109, HOUSE_SIZE_1X1){
 	graphics {
 		default: random_sprite_townhouses;
 		cargo_production: func_produce(2,1,1);
-	}
-}
-
-item(FEAT_HOUSES, item_flats, 27, HOUSE_SIZE_1X1){
-	property {
-		substitute: 27;
-		probability: 1;
-		years_available: [1945,0xFFFF];
-		minimum_lifetime: 5;
-		availability_mask: [ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		}
-	graphics {
-		default: random_sprite_flats;
-		construction_check: (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1) ? 1 : 0; 	
-			// Only build within the catchment area of a station which received passengers this month or last month
-		cargo_production: func_produce(13,4,2);
-	}
-}
-
-item(FEAT_HOUSES, item_small_flats, 02, HOUSE_SIZE_1X1){
-	property {
-		substitute: 02;
-		probability: 1;
-		years_available: [1945,0xFFFF];
-		minimum_lifetime: 4;
-		availability_mask: [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TOYLAND)];
-		}
-	graphics {
-		default: random_sprite_small_flats;
-		construction_check: switch_small_flats_check_1;
-		cargo_production: func_produce(5,2,1);
-		colour: rand_switch_recolor_r1;
 	}
 }
 

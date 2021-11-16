@@ -21,46 +21,9 @@
 *
 */
 
-random_switch (FEAT_HOUSES, SELF, random_sprite_townhouses) {
-	1: switch_townhouses_01_sprites;
-	1: switch_townhouses_02_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_houses_any) {
-	1: switch_naganuma_house_sprites;
-	1: switch_nishikawa_house_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_houses_SW) {
-	1: switch_naganuma_house_sprites;
-	1: switch_nishikawa_house_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_houses_SE) {
-	1: switch_naganuma_house_sprites;
-	1: switch_nishikawa_house_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_small_flats) {
-	1: switch_small_apartments_01_sprites;
-	1: switch_small_apartments_02_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_flats) {
-	1: switch_apartments_01_sprites;
-	1: switch_apartments_02_sprites;
-}
-
 random_switch (FEAT_HOUSES, SELF, random_sprite_shops_and_offices_15) {
 	1: sprite_shops_and_offices_15a;
 	1: sprite_shops_and_offices_15b;
-}
-
-random_switch (FEAT_HOUSES, SELF, random_sprite_old_houses) {
-	1:	sprite_old_houses_1;
-	1:	sprite_old_houses_2;
-	1:	sprite_old_houses_3;
-	1:	sprite_old_houses_4;
 }
 
 random_switch (FEAT_HOUSES, SELF, random_sprite_warehouse) {
@@ -68,27 +31,12 @@ random_switch (FEAT_HOUSES, SELF, random_sprite_warehouse) {
 	1:	sprite_warehouse_89;
 }
 
-random_switch (FEAT_HOUSES, SELF, random_colour_offices) {
-	1:	return PALETTE_CC_DARK_BLUE;
-	1:	return PALETTE_CC_GREY;
-	1:	return PALETTE_CC_BROWN;
-	1:	return PALETTE_CC_MAUVE;
-	1:	return PALETTE_CC_WHITE;
-	1:	return PALETTE_CC_DARK_GREEN;
-}
-
-random_switch (FEAT_HOUSES,SELF, random_colour_masonry) {
-	1:	return PALETTE_STRUCT_CONCRETE;
-	1:	return PALETTE_STRUCT_WHITE;
-	1:	return PALETTE_STRUCT_BROWN;
-	1:	return PALETTE_USE_DEFAULT;
-}
-
 /* House sprite selection depends on roads and slopes */
+/*
 switch(FEAT_HOUSES, SELF, house_sprite_orientation_SE, nearby_tile_class(0,1)) {TILE_CLASS_ROAD: random_sprite_houses_SE; random_sprite_houses_any;}
 switch(FEAT_HOUSES, SELF, house_sprite_orientation_SW, nearby_tile_class(1,0)) {TILE_CLASS_ROAD: random_sprite_houses_SW; house_sprite_orientation_SE;}
 switch(FEAT_HOUSES, SELF, house_sprite_sloped, nearby_tile_slope(0,0)) {0: house_sprite_orientation_SW; random_sprite_houses_any;}
-
+*/
 /* Unique buildings require population and no duplicates */
 switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
 switch (FEAT_HOUSES, PARENT, switch_population_500, population >= 500) {1: switch_unique_house; return 0;} // Old stadium
