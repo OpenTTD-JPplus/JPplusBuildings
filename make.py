@@ -59,7 +59,8 @@ commercial = [
     "shops_01",                 # ID 48
     "shops_02",                 # ID 47
     ### Offices ###
-    "offices_01"                # ID 36
+    "offices_01",                # ID 36
+    "temple_01"
     ]
 
 # Do you want to copy the completed NewGRF to your OpenTTD folder? (True/False)

@@ -1,48 +1,42 @@
 // Begin apartments_02
 
 // Building Sprites
-spriteset (spr_apartments_02, 							"src/gfx/apartments/apartments_02/building.png") 						{template_house_80_1dir(1,1)}
-spriteset (spr_apartments_02_snow, 						"src/gfx/apartments/apartments_02/building.png") 						{template_house_80_1dir(1,82)}
-
-// Construction
-//spriteset (spr_apartments_02_con2, 							"src/gfx/small_apartments/apartments_02/building.png") 						{template_house_1dir(66,1)}
-//spriteset (spr_apartments_02_con1, 							"src/gfx/small_apartments/apartments_02/building.png") 						{template_house_1dir(131,1)}
-//spriteset (spr_apartments_02_con0, 							"src/gfx/small_apartments/apartments_02/building.png") 						{template_house_1dir(192,1)}
+spriteset (spr_apartments_02, 							"src/gfx/apartments/apartments_02/building.png") 						{template_house_128(1,1)}
+spriteset (spr_apartments_02_snow, 						"src/gfx/apartments/apartments_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_apartments_02_ground, 					"src/gfx/apartments/apartments_02/ground.png") 						{template_house_80_1dir(1,1)}
-spriteset (spr_apartments_02_ground_snow, 				"src/gfx/apartments/apartments_02/ground.png") 						{template_house_80_1dir(1,82)}
+spriteset (spr_apartments_02_ground, 					"src/gfx/apartments/apartments_02/ground.png") 						{template_house_128(1,1)}
+spriteset (spr_apartments_02_ground_snow, 				"src/gfx/apartments/apartments_02/ground.png") 						{template_house_128(1,130)}
 
+// Normal Sprites
 spritelayout sprlay_apartments_02_norm {
 	ground {
-		sprite: spr_apartments_02_ground(LOAD_TEMP(1));
+		sprite: spr_apartments_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_apartments_02(LOAD_TEMP(1));
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
+		sprite: spr_apartments_02(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
+// Snow Sprites
 spritelayout sprlay_apartments_02_snow {
 	ground {
-		sprite: spr_apartments_02_ground_snow(LOAD_TEMP(1));
+		sprite: spr_apartments_02_ground_snow(construction_state);
 	}
 	building {
-		sprite: spr_apartments_02_snow(LOAD_TEMP(1));
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
+		sprite: spr_apartments_02_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-switch (FEAT_HOUSES, SELF, switch_apartments_02_sprites, [ 
- 	// Check for snow and set the groundsprite in temporary variable 0
- 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
- 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_apartments_02_snow; sprlay_apartments_02_norm;}
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_apartments_02_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_apartments_02_snow;
+	sprlay_apartments_02_norm;
+}
 
 item(FEAT_HOUSES, item_apartments_02, 30, HOUSE_SIZE_1X1){
 	property {
@@ -58,11 +52,11 @@ item(FEAT_HOUSES, item_apartments_02, 30, HOUSE_SIZE_1X1){
 		availability_mask: [ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];		
 		}
 	graphics {
-		default: switch_apartments_02_sprites;
+		default: switch_apartments_02_snow;
 		construction_check: (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1) ? 1 : 0; 	
 			// Only build within the catchment area of a station which received passengers this month or last month
 		cargo_production: func_produce(13,4,2);
-		//colour: rand_switch_recolor_r1;
+		colour: rand_switch_recolor_r1;
 	}
 }
 
