@@ -36,21 +36,16 @@ houses = [
     "small_apartments_03",      # ID 45
     ### Apartments ###
     "apartments_01",            # ID 27
-    "apartments_02",            # ID 27
+    "apartments_02",            # ID 30
 
     ]
 
 # Files to place in alphabetical order below
 unordered_stuff = [
     #"residential", 
-    "commercial", 
-    "landmarks"
+    #"commercial", 
+    #"landmarks"
     ]
-
-# Items that have to appear after the graphic
-post_graphics_stuff = [
-    #"switches"
-]
 
 commercial = [    
     ### SHOPS AND OFFICES ###
@@ -59,7 +54,8 @@ commercial = [
     "shops_01",                 # ID 48
     "shops_02",                 # ID 47
     ### Offices ###
-    "offices_01",                # ID 36
+    "offices_01",               # ID 36
+    "offices_02",               # ID 37
     "temple_01"
     ]
 
@@ -112,10 +108,6 @@ for i in header_stuff:
 houses.sort()
 for i in houses:
     append_houses(i)
-
-# Append post graphics stuff which should always be first
-for i in post_graphics_stuff:
-    append_code(i)
 
 # Sort the unordered list for readability in the printout, then append to the list
 unordered_stuff.sort()

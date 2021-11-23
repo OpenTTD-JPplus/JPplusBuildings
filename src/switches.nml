@@ -26,11 +26,6 @@ random_switch (FEAT_HOUSES, SELF, random_sprite_shops_and_offices_15) {
 	1: sprite_shops_and_offices_15b;
 }
 
-random_switch (FEAT_HOUSES, SELF, random_sprite_warehouse) {
-	4:	sprite_warehouse;
-	1:	sprite_warehouse_89;
-}
-
 /* House sprite selection depends on roads and slopes */
 /*
 switch(FEAT_HOUSES, SELF, house_sprite_orientation_SE, nearby_tile_class(0,1)) {TILE_CLASS_ROAD: random_sprite_houses_SE; random_sprite_houses_any;}
@@ -44,9 +39,6 @@ switch (FEAT_HOUSES, PARENT, switch_population_10k, population >= 10000) {1: swi
 
 /* Coast check for Museum */
 switch(FEAT_HOUSES, SELF, switch_museum_shore_SE, nearby_tile_is_water(0,1)) {1: switch_population_10k; return 0;}
-
-/* Road check for University and Courthouse */
-switch(FEAT_HOUSES, SELF, switch_university_check, nearby_tile_class(0,1)) {TILE_CLASS_ROAD: switch_population_10k; return 0;}
 
 /* Distance check: Hotel cannot build within 30 tiles of another Hotel and must have a road to SW */
 switch(FEAT_HOUSES, PARENT, switch_hotel_check_2, is_city == 1) {1: return 1; return 0;}

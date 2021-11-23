@@ -49,27 +49,36 @@ switch (FEAT_HOUSES, SELF, switch_shops_01_sprites, [
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_shops_01_con_check, HasRoadAdjacentSW() && HasRoadAdjacentSE() && switch_modern_office_pop_check()) {return;}	
 
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_01) {
+	1:	return PALETTE_CC_DARK_BLUE;
+	1:	return PALETTE_CC_GREY;
+	1:	return PALETTE_CC_BROWN;
+	1:	return PALETTE_CC_MAUVE;
+	1:	return PALETTE_CC_WHITE;
+	1:	return PALETTE_CC_DARK_GREEN;
+}
 
 item(FEAT_HOUSES, item_shops_01, 48, HOUSE_SIZE_1X1) {
 	property {
-		substitute: 30;
-		name: TTD_STR_TOWN_BUILDING_NAME_SHOPS_AND_OFFICES_1;
-		population: 180;
-		mail_multiplier: 75;
-		accepted_cargos: [[PASS, 8],[MAIL,8],[GOOD, 8],[FOOD, 8],[BEER, 8]];
-		local_authority_impact: 180;
-		removal_cost_multiplier: 155;
-		probability: 1;
-		years_available: [1973,0xFFFF];
-		minimum_lifetime: 5;
-		availability_mask: [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class: 2;
+		substitute: 				30;
+		name: 						string(NAME_SHOPS_01);
+		population: 				180;
+		mail_multiplier: 			75;
+		accepted_cargos: 			[[PASS, 8],[MAIL,8],[GOOD, 8]];
+		local_authority_impact: 	180;
+		removal_cost_multiplier: 	155;
+		probability: 				1;
+		years_available: 			[1970,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	// JPSet 4,3
+		building_class: 			2;
 	}
 	graphics {
-		default: switch_shops_01_sprites;
-		construction_check: switch_shops_01_con_check;
-		colour: random_colour_offices;
-		cargo_production: func_produce(24,10,3);
+		default: 					switch_shops_01_sprites;
+		construction_check: 		switch_shops_01_con_check;
+		colour: 					random_recolour_shops_01;
+		//cargo_production: 			func_produce(24,10,3);
 	}
 }
 // End shops_01
