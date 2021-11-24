@@ -21,11 +21,6 @@
 *
 */
 
-random_switch (FEAT_HOUSES, SELF, random_sprite_shops_and_offices_15) {
-	1: sprite_shops_and_offices_15a;
-	1: sprite_shops_and_offices_15b;
-}
-
 /* House sprite selection depends on roads and slopes */
 /*
 switch(FEAT_HOUSES, SELF, house_sprite_orientation_SE, nearby_tile_class(0,1)) {TILE_CLASS_ROAD: random_sprite_houses_SE; random_sprite_houses_any;}
@@ -33,12 +28,12 @@ switch(FEAT_HOUSES, SELF, house_sprite_orientation_SW, nearby_tile_class(1,0)) {
 switch(FEAT_HOUSES, SELF, house_sprite_sloped, nearby_tile_slope(0,0)) {0: house_sprite_orientation_SW; random_sprite_houses_any;}
 */
 /* Unique buildings require population and no duplicates */
-switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
-switch (FEAT_HOUSES, PARENT, switch_population_500, population >= 500) {1: switch_unique_house; return 0;} // Old stadium
-switch (FEAT_HOUSES, PARENT, switch_population_10k, population >= 10000) {1: switch_unique_house; return 0;} // New stadium
+//switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
+//switch (FEAT_HOUSES, PARENT, switch_population_500, population >= 500) {1: switch_unique_house; return 0;} 		// Old stadium
+//switch (FEAT_HOUSES, PARENT, switch_population_10k, population >= 10000) {1: switch_unique_house; return 0;} 	// New stadium
 
 /* Coast check for Museum */
-switch(FEAT_HOUSES, SELF, switch_museum_shore_SE, nearby_tile_is_water(0,1)) {1: switch_population_10k; return 0;}
+//switch(FEAT_HOUSES, SELF, switch_museum_shore_SE, nearby_tile_is_water(0,1)) {1: switch_population_10k; return 0;}
 
 /* Distance check: Hotel cannot build within 30 tiles of another Hotel and must have a road to SW */
 switch(FEAT_HOUSES, PARENT, switch_hotel_check_2, is_city == 1) {1: return 1; return 0;}
@@ -115,7 +110,8 @@ switch(FEAT_HOUSES,SELF, switch_office_road_SE, nearby_tile_class(0,1) == TILE_C
 
 /* Unique office building (capsule tower) only allows one on the map in a city with population >= 30k */
 switch(FEAT_HOUSES,PARENT, pop_over_30k, population) {0 .. 30000: return 0; switch_office_cluster_1;}
-switch(FEAT_HOUSES,SELF, unique_worldwide, same_house_count_map) {0: pop_over_30k; return 0;}
+//switch(FEAT_HOUSES,SELF, unique_worldwide, same_house_count_map) {0: pop_over_30k; return 0;}
+switch(FEAT_HOUSES,SELF, unique_in_town, same_house_count_town) {0: pop_over_30k; return 0;}
 
 /* 	Historic buildings are preserved if they are in a town with a Historic Church (acting as a random toggle for a town's attitude toward preservation)
 *	and are within 2 tiles of another historic building.

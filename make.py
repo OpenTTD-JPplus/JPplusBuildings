@@ -8,7 +8,7 @@ newgrf_name = "JPplusBuildings"
 # Files which should be first, in order (header, cargotable, etc)
 header_stuff = [
     "header", 
-    "graphics", 
+    #"graphics", 
     "functions",  
     "waste",
     "sprite_templates",
@@ -56,7 +56,9 @@ commercial = [
     ### Offices ###
     "offices_01",               # ID 36
     "offices_02",               # ID 37
-    "temple_01"
+    "temple_01",
+    ### Skyscrapers ###
+    "skyscraper_01"
     ]
 
 # Do you want to copy the completed NewGRF to your OpenTTD folder? (True/False)
