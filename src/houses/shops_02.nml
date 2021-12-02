@@ -1,24 +1,19 @@
 // Begin shops_02
 
 // Building Sprites
-spriteset (spr_shops_02, 							"src/gfx/shops/shops_02/building.png") 						{template_house_80_1dir(1,1)}
-spriteset (spr_shops_02_snow, 						"src/gfx/shops/shops_02/building.png") 						{template_house_80_1dir(1,82)}
-
-// Construction
-//spriteset (spr_shops_02_con2, 							"src/gfx/small_shops/shops_02/building.png") 						{template_house_1dir(66,1)}
-//spriteset (spr_shops_02_con1, 							"src/gfx/small_shops/shops_02/building.png") 						{template_house_1dir(131,1)}
-//spriteset (spr_shops_02_con0, 							"src/gfx/small_shops/shops_02/building.png") 						{template_house_1dir(192,1)}
+spriteset (spr_shops_02, 							"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,1)}
+spriteset (spr_shops_02_snow, 						"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_shops_02_ground, 					"src/gfx/shops/shops_02/ground.png") 						{template_house_80_1dir(1,1)}
-spriteset (spr_shops_02_ground_snow, 				"src/gfx/shops/shops_02/ground.png") 						{template_house_80_1dir(1,1)}
+spriteset (spr_shops_02_ground, 					"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
+//spriteset (spr_shops_02_ground_snow, 				"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
 
 spritelayout sprlay_shops_02_norm {
 	ground {
-		sprite: spr_shops_02_ground(LOAD_TEMP(1));
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_shops_02(LOAD_TEMP(1));
+		sprite: spr_shops_02(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -26,24 +21,20 @@ spritelayout sprlay_shops_02_norm {
 
 spritelayout sprlay_shops_02_snow {
 	ground {
-		sprite: spr_shops_02_ground_snow(LOAD_TEMP(1));
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_shops_02_snow(LOAD_TEMP(1));
+		sprite: spr_shops_02_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-// Sprite selection
-switch (FEAT_HOUSES, SELF, switch_shops_02_sprites, [ 
- 	// Check for snow and set the groundsprite in temporary variable 0
- 	STORE_TEMP(GROUNDSPRITE_NORMAL, 0),
- 	STORE_TEMP(terrain_type == TILETYPE_SNOW ? GROUNDSPRITE_SNOW : LOAD_TEMP(0), 0),
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_shops_02_snow; sprlay_shops_02_norm;}
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_shops_02_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_02_snow;
+	sprlay_shops_02_norm;
+}
 
 // Construction Check
 //switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, switch_modern_office_pop_check()) {return;}	

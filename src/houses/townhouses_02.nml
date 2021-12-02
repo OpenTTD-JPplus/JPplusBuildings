@@ -36,6 +36,23 @@ switch (FEAT_HOUSES, SELF, switch_townhouses_02_sprites, [
 	terrain_type == TILETYPE_SNOW])
 	{1: sprlay_townhouses_02_snow; sprlay_townhouses_02_norm;}
 
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_02)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+
 item(FEAT_HOUSES, item_townhouses_02, 05, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				06;
@@ -54,7 +71,7 @@ item(FEAT_HOUSES, item_townhouses_02, 05, HOUSE_SIZE_1X1){
 		default: 					switch_townhouses_02_sprites;
 		construction_check: 		switch_house_office_gap;
 		cargo_production: 			func_produce(4,1,1);
-		colour: 					rand_switch_recolor_r1;
+		colour: 					rand_recolor_townhouses_02;
 	}
 }
 

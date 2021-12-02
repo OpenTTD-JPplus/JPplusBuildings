@@ -1,4 +1,4 @@
- // Begin offices_01
+// Begin offices_01
 
 // Building Sprites
 spriteset (spr_offices_01, 							"src/gfx/offices/offices_01/building.png") 						{template_house_128_1dir(1,1)}
@@ -40,6 +40,23 @@ switch (FEAT_HOUSES, SELF, switch_offices_01_sprites, [
 	terrain_type == TILETYPE_SNOW])
 	{1: sprlay_offices_01_snow; sprlay_offices_01_norm;}
 
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+
 item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
@@ -58,7 +75,7 @@ item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 		default: 					switch_offices_01_sprites;
 		construction_check: 		switch_modern_office_pop_check; 	
 		cargo_production: 			func_produce(13,4,2);
-		colour: 					rand_switch_recolor_r1;
+		colour: 					rand_recolor_offices_01;
 	}
 }
 

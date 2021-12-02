@@ -8,21 +8,19 @@ newgrf_name = "JPplusBuildings"
 # Files which should be first, in order (header, cargotable, etc)
 header_stuff = [
     "header", 
-    #"graphics", 
     "functions",  
     "waste",
     "sprite_templates",
-    "recolouring",
     "switches"
     ]
 
 # Houses
 houses = [  
-    ### Class 0 - RESIDENTIAL - make sure all the IDs added into the population adder function!! ###
+    ### RESIDENTIAL | Class 0 | make sure all the IDs added into the population adder function!! ###
     
     ### Townhouses ###
     "townhouses_01",            # ID 06
-    "townhouses_02",            # ID 06
+    "townhouses_02",            # ID 05
     ### Houses ###
     "naganuma_house",           # ID 26
     "nishikawa_house",          # ID 26
@@ -37,17 +35,8 @@ houses = [
     ### Apartments ###
     "apartments_01",            # ID 27
     "apartments_02",            # ID 30
-
-    ]
-
-# Files to place in alphabetical order below
-unordered_stuff = [
-    #"residential", 
-    #"commercial", 
-    #"landmarks"
-    ]
-
-commercial = [    
+    "apartments_04",            # ID 56
+    
     ### SHOPS AND OFFICES ###
     
     ### Shops ###
@@ -56,9 +45,16 @@ commercial = [
     ### Offices ###
     "offices_01",               # ID 36
     "offices_02",               # ID 37
-    "temple_01",
-    ### Skyscrapers ###
-    "skyscraper_01"
+    "offices_03",               # ID 49
+    ### Skyscrapers ###         
+    "skyscraper_01",            # ID 76-77
+    "skyscraper_02",            # ID 78
+
+    ### LANDMARKS ###
+    
+    "temple_01",                # ID 66-69
+    "shiro_01",                 # ID 70-73
+
     ]
 
 # Do you want to copy the completed NewGRF to your OpenTTD folder? (True/False)
@@ -109,16 +105,6 @@ for i in header_stuff:
 # Sort the unordered list for readability in the printout, then append to the list
 houses.sort()
 for i in houses:
-    append_houses(i)
-
-# Sort the unordered list for readability in the printout, then append to the list
-unordered_stuff.sort()
-for i in unordered_stuff:
-    append_code(i)
-
-# Sort the unordered list for readability in the printout, then append to the list
-commercial.sort()
-for i in commercial:
     append_houses(i)
 
 merged_nml_path = "src/merged/" + newgrf_name + "_v" + version +".nml"

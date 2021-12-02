@@ -69,18 +69,32 @@ switch(FEAT_HOUSES, SELF, switch_skyscraper_01_east,terrain_type) {
 	sprlay_skyscraper_01_east;
 }
 
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
 
 item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
 		name: 						string(NAME_SKYSCRAPER_01);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
-		population: 				200;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		population: 				255;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				10;
-		years_available: 			[1700,0xFFFF];
+		years_available: 			[2006,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				2;	
@@ -90,7 +104,7 @@ item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
 		graphics_east: 				switch_skyscraper_01_east;
 		construction_check:			unique_in_town;
 		cargo_production: 			func_produce(24,10,3);
-		colour: 					rand_switch_recolor_r1_less_white; 						// No recolouring
+		colour: 					rand_recolor_skyscraper_01;
 	}
 }
 

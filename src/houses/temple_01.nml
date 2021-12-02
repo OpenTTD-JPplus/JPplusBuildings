@@ -1,8 +1,8 @@
  // Begin temple_01
 
 // Sprites
-spriteset (spr_temple_01, 							"src/gfx/temple/temple_01/temple.png") 						{template_house_128(1,1)}
-spriteset (spr_temple_01_snow, 						"src/gfx/temple/temple_01/temple.png") 						{template_house_128(1,130)}
+spriteset (spr_temple_01, 							"src/gfx/landmarks/temple_01/temple.png") 						{template_house_128(1,1)}
+spriteset (spr_temple_01_snow, 						"src/gfx/landmarks/temple_01/temple.png") 						{template_house_128(1,130)}
 
 // Normal Sprites
 spritelayout sprlay_temple_01_north {
@@ -120,6 +120,20 @@ switch(FEAT_HOUSES, SELF, switch_temple_01_south,terrain_type) {
 	sprlay_temple_01_south;
 }
 
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_temple_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
 
 item(FEAT_HOUSES, item_temple_01, 66, HOUSE_SIZE_2X2){
 	property {
@@ -142,7 +156,7 @@ item(FEAT_HOUSES, item_temple_01, 66, HOUSE_SIZE_2X2){
 		graphics_south: 			switch_temple_01_south;
 		construction_check:			(nearby_tile_class(0,2) == TILE_CLASS_ROAD) ? 1 : 0;	//Check from North tile
 		cargo_production: 			func_produce(1,1,1);
-		colour: 					rand_switch_recolor_r1_less_white;
+		colour: 					rand_recolor_temple_01;
 	}
 }
 

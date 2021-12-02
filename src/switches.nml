@@ -28,7 +28,7 @@ switch(FEAT_HOUSES, SELF, house_sprite_orientation_SW, nearby_tile_class(1,0)) {
 switch(FEAT_HOUSES, SELF, house_sprite_sloped, nearby_tile_slope(0,0)) {0: house_sprite_orientation_SW; random_sprite_houses_any;}
 */
 /* Unique buildings require population and no duplicates */
-//switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
+switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
 //switch (FEAT_HOUSES, PARENT, switch_population_500, population >= 500) {1: switch_unique_house; return 0;} 		// Old stadium
 //switch (FEAT_HOUSES, PARENT, switch_population_10k, population >= 10000) {1: switch_unique_house; return 0;} 	// New stadium
 
@@ -36,8 +36,8 @@ switch(FEAT_HOUSES, SELF, house_sprite_sloped, nearby_tile_slope(0,0)) {0: house
 //switch(FEAT_HOUSES, SELF, switch_museum_shore_SE, nearby_tile_is_water(0,1)) {1: switch_population_10k; return 0;}
 
 /* Distance check: Hotel cannot build within 30 tiles of another Hotel and must have a road to SW */
-switch(FEAT_HOUSES, PARENT, switch_hotel_check_2, is_city == 1) {1: return 1; return 0;}
-switch(FEAT_HOUSES, SELF, switch_hotel_check_1, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 && nearby_tile_class(1,0) == TILE_CLASS_ROAD) {1: switch_hotel_check_2; return 0;}
+//switch(FEAT_HOUSES, PARENT, switch_hotel_check_2, is_city == 1) {1: return 1; return 0;}
+//switch(FEAT_HOUSES, SELF, switch_hotel_check_1, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 && nearby_tile_class(1,0) == TILE_CLASS_ROAD) {1: switch_hotel_check_2; return 0;}
 
 
 /* Houses and Town Houses cannot build within 2 tiles of a modern office building*/
@@ -100,12 +100,12 @@ switch(FEAT_HOUSES, SELF, switch_modern_office_pop_check, (func_population_adder
 
 
 /* Old office buildings need residential population */
-switch(FEAT_HOUSES, SELF, switch_old_office_pop_check, (func_population_adder() > (1 + same_class_count_town) * 30) )
-	{1: switch_office_cluster_1; return 0;}
+//switch(FEAT_HOUSES, SELF, switch_old_office_pop_check, (func_population_adder() > (1 + same_class_count_town) * 30) )
+//	{1: switch_office_cluster_1; return 0;}
 
 
 /* One office building requires a road in the SE tile */
-switch(FEAT_HOUSES,SELF, switch_office_road_SE, nearby_tile_class(0,1) == TILE_CLASS_ROAD) {1: switch_modern_office_pop_check; return 0;}
+//switch(FEAT_HOUSES,SELF, switch_office_road_SE, nearby_tile_class(0,1) == TILE_CLASS_ROAD) {1: switch_modern_office_pop_check; return 0;}
 
 
 /* Unique office building (capsule tower) only allows one on the map in a city with population >= 30k */
@@ -117,9 +117,9 @@ switch(FEAT_HOUSES,SELF, unique_in_town, same_house_count_town) {0: pop_over_30k
 *	and are within 2 tiles of another historic building.
 *	Otherwise, they use a random 1/8th chance preservation check.
 */
-random_switch(FEAT_HOUSES,SELF, random_preservation) {1: return 1; 7: return 0;}
-switch(FEAT_HOUSES,SELF, switch_preservation_3, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS)) {0: return 0; return 1;}
-switch(FEAT_HOUSES,SELF, switch_preservation_2, other_house_count_town(38)) {1: switch_preservation_3; random_preservation;}
-switch(FEAT_HOUSES,SELF, func_preservation_year, cutoff, (current_year < cutoff)) {0: return 0; switch_preservation_2;}
+//random_switch(FEAT_HOUSES,SELF, random_preservation) {1: return 1; 7: return 0;}
+//switch(FEAT_HOUSES,SELF, switch_preservation_3, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS)) {0: return 0; return 1;}
+//switch(FEAT_HOUSES,SELF, switch_preservation_2, other_house_count_town(38)) {1: switch_preservation_3; random_preservation;}
+//switch(FEAT_HOUSES,SELF, func_preservation_year, cutoff, (current_year < cutoff)) {0: return 0; switch_preservation_2;}
 
 /* *** End Switches *** */
