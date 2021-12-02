@@ -584,7 +584,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_02)
 		2: PALETTE_CC_LIGHT_BLUE;
 		//1: PALETTE_CC_PINK;			// too silly
 		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
+		//1: PALETTE_CC_GREEN;			// nah
 		2: PALETTE_CC_DARK_GREEN;
 		3: PALETTE_CC_CREAM;
 		1: PALETTE_CC_MAUVE;
@@ -782,18 +782,19 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house)
 		4: PALETTE_CC_WHITE;
 	}
 
+
 item(FEAT_HOUSES, item_naganuma_house, 26, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_NAGANUMA_HOUSE);
-		population: 				30;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		population: 				20;	
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				1;
-		years_available: 			[1945,0xFFFF];
+		years_available: 			[1870,0xFFFF];
 		minimum_lifetime: 			2;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];	// House office gap to restrict placement in inner zones
 		building_class: 			0;
 		
 		}
@@ -1267,14 +1268,14 @@ item(FEAT_HOUSES, item_shiro_01, 70, HOUSE_SIZE_2X2){
 		substitute: 				20; //Stadium since 2x2
 		name: 						string(NAME_SHIRO_01);
 		building_flags: 			bitmask(HOUSE_FLAG_PROTECTED);
-		population: 				20;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		population: 				160;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				6;
 		years_available: 			[1700,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
+		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
 		}
 	graphics {
 		graphics_north: 			switch_shiro_01_north;
