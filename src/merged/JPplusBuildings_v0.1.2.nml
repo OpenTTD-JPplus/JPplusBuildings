@@ -14,7 +14,18 @@ grf {
 }
 
 cargotable {
-	PASS, MAIL, GOOD, FOOD, BEER, COAL, WOOD, RCYC, WSTE, WATR, VEHI,
+	PASS, 
+	MAIL, 
+	GOOD, 
+	FOOD, 
+	BEER, 
+	COAL, 
+	WOOD, 
+	RCYC, 
+	WSTE, 
+	WATR, 
+	VEHI, 
+	PETR,		// For Petrol Stations
 	
 	/* IOTC industrial cargos */
 	SGCN, TBCO, OIL_, NKOR, MOLS, RFPR, FUEL, PIPE, ENSP
@@ -296,6 +307,15 @@ template template_house_250(x, y) {
     nw: [ x+130,	y,		64,		250,	-31,		-218,	NOCROP | ANIM]
     ne: [ x+195,	y,		64,		250,	-31,		-218,	NOCROP | ANIM]
 }
+
+template template_house_250_wide(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		75,		250,	-36,		-218,	NOCROP | ANIM]
+    sw: [ x+76,		y,		75,		250,	-36,		-218,	NOCROP | ANIM]  
+    nw: [ x+152,	y,		75,		250,	-36,		-218,	NOCROP | ANIM]
+    ne: [ x+228,	y,		75,		250,	-36,		-218,	NOCROP | ANIM]
+}
+
 
 template template_house_2dir(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
@@ -1125,6 +1145,113 @@ item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 
 // End offices_03
 
+// Begin petrol_station_01
+
+// Building Sprites
+spriteset (spr_build_petrol_station_01, 							"src/gfx/shops/petrol_station_01/building.png") 						{template_house_80(1,1)}
+spriteset (spr_build_petrol_station_01_snow, 						"src/gfx/shops/petrol_station_01/building.png") 						{template_house_80(1,82)}
+
+// Ground Sprites
+spriteset (spr_ground_petrol_station_01, 							"src/gfx/shops/petrol_station_01/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_ground_petrol_station_01_snow, 						"src/gfx/shops/petrol_station_01/ground.png") 						{template_house_80(1,82)}
+
+// Normal Sprites
+spritelayout sprlay_petrol_station_01_north {
+	ground {
+		sprite: spr_ground_petrol_station_01(0);
+	}
+	building {
+		sprite: spr_build_petrol_station_01(0);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_petrol_station_01_east {
+	ground {
+		sprite: spr_ground_petrol_station_01(1);
+	}
+	building {
+		sprite: spr_build_petrol_station_01(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_petrol_station_01_snow_north {
+	ground {
+		sprite: spr_ground_petrol_station_01_snow(0);
+	}
+	building {
+		sprite: spr_build_petrol_station_01_snow(0);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_petrol_station_01_snow_east {
+	ground {
+		sprite: spr_ground_petrol_station_01_snow(1);
+	}
+	building {
+		sprite: spr_build_petrol_station_01_snow(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_petrol_station_01_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_petrol_station_01_snow_north;
+	sprlay_petrol_station_01_north;
+}
+switch(FEAT_HOUSES, SELF, switch_petrol_station_01_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_petrol_station_01_snow_east;
+	sprlay_petrol_station_01_east;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_petrol_station_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
+item(FEAT_HOUSES, item_petrol_station_01, 50, HOUSE_SIZE_1X2){
+	property {
+		substitute: 				7; 													
+		name: 						string(NAME_PETROL_STATION_01);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4],[PETR,8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[2006,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT,TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				2;	
+		}
+	graphics {
+		graphics_north: 			switch_petrol_station_01_north;
+		graphics_east: 				switch_petrol_station_01_east;
+		//construction_check:			unique_in_town;
+		cargo_production: 			func_produce(24,10,3);
+		colour: 					rand_recolor_petrol_station_01;
+	}
+}
+
+// End petrol_station_01
+
  // Begin shiro_01
 
 // Sprites
@@ -1633,6 +1760,91 @@ item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 }
 
 // End skyscraper_02
+
+// Begin skyscraper_03
+
+// Building Sprites
+spriteset (spr_build_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/building.png") 							{template_house_250_wide(1,1)}
+spriteset (spr_build_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/building.png") 						{template_house_250_wide(1,252)}
+
+// Ground Sprites
+spriteset (spr_ground_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_250_wide(1,1)}
+spriteset (spr_ground_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_250_wide(1,252)}
+
+// Normal Sprites
+spritelayout sprlay_skyscraper_03 {
+	ground {
+		sprite: spr_ground_skyscraper_03(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_03(construction_state);
+		//xoffset: -1;
+		//yoffset: -2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_skyscraper_03_snow {
+	ground {
+		sprite: spr_ground_skyscraper_03_snow(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_03_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_skyscraper_03,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_03_snow;
+	sprlay_skyscraper_03;
+}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_03)
+	{
+		1: PALETTE_CC_RED;			
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;			
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+
+item(FEAT_HOUSES, item_skyscraper_03, 79, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				4; 													
+		name: 						string(NAME_SKYSCRAPER_03);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				220;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[2000,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				2;	
+		}
+	graphics {
+		default: 					switch_skyscraper_03;
+		construction_check:			unique_in_town;
+		cargo_production: 			func_produce(24,10,3);
+		//colour: 					rand_recolor_skyscraper_03; 
+	}
+}
+
+// End skyscraper_03
 
 // Begin small_apartments_01
 

@@ -42,6 +42,7 @@ houses = [
     ### Shops ###
     "shops_01",                 # ID 48
     "shops_02",                 # ID 47
+    "petrol_station_01",         # ID 50-51
     ### Offices ###
     "offices_01",               # ID 36
     "offices_02",               # ID 37
@@ -49,6 +50,7 @@ houses = [
     ### Skyscrapers ###         
     "skyscraper_01",            # ID 76-77
     "skyscraper_02",            # ID 78
+    "skyscraper_03",            # ID 79
 
     ### LANDMARKS ###
     "temple_01",                # ID 66-69
