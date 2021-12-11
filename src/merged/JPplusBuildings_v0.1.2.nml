@@ -47,6 +47,9 @@ desert_paved_roads = 1;
 
 switch(FEAT_HOUSES, SELF, func_pass_service, (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
 
+switch(FEAT_HOUSES, SELF, FuncServicePASS, (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
+switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
+
 switch(FEAT_HOUSES, SELF, func_population_adder, 
 	(other_house_count_town(25)*1)+ 	// Cottages
 	(other_house_count_town(24)*1)+ 	// Old houses
@@ -54,6 +57,41 @@ switch(FEAT_HOUSES, SELF, func_population_adder,
 	(other_house_count_town(26)*2)+ 	// Naganuma House
 	(other_house_count_town(65)*2)+ 	// Nishikawa House
 	(other_house_count_town(109)*3)+ 	// Pre-1945 Townhouses
+
+	/* Takamaro Houses */
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
+
+	/* Town Houses */
+	(other_house_count_town(05)*3)+ 	// Townhouses_02
+	(other_house_count_town(06)*3)+ 	// Townhouses_01
+	
+	/* Apartments */		
+	(other_house_count_town(27)*10)+ 	// Apartments_01
+	(other_house_count_town(30)*10)+ 	// Apartments_02
+	(other_house_count_town(56)*10)+ 	// Apartments_04	
+
+	/* Small Apartments */
+	(other_house_count_town(02)*4)+ 	// Small Apartments 01
+	(other_house_count_town(44)*4)+ 	// Small Apartments 02
+	(other_house_count_town(45)*4) 		// Small Apartments 03
+	) {return;}
+
+switch(FEAT_HOUSES, SELF, FuncPopulationAdder, 
+	(other_house_count_town(25)*1)+ 	// Cottages
+	(other_house_count_town(24)*1)+ 	// Old houses
+	(other_house_count_town(108)*2)+ 	// Pre-1945 Houses
+	(other_house_count_town(26)*2)+ 	// Naganuma House
+	(other_house_count_town(65)*2)+ 	// Nishikawa House
+	(other_house_count_town(109)*3)+ 	// Pre-1945 Townhouses
+
+	/* Takamaro Houses */
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
 
 	/* Town Houses */
 	(other_house_count_town(05)*3)+ 	// Townhouses_02
@@ -71,9 +109,12 @@ switch(FEAT_HOUSES, SELF, func_population_adder,
 	) {return;}
 
 
+/* Check for road (and stations) in adjacent tiles functions */
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSW, nearby_tile_class(1,0) == TILE_CLASS_ROAD || nearby_tile_class(1,0) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class(0,1) == TILE_CLASS_ROAD || nearby_tile_class(0,1) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class(0,-1) == TILE_CLASS_ROAD || nearby_tile_class(0,-1) == TILE_CLASS_STATION) {return;}
+
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE2x2, nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION) {return;}
 
 /* Land value helper functions */
 
@@ -91,8 +132,32 @@ switch (FEAT_HOUSES, SELF, IsAdjacentToHouseClass, class_num,
 	IsTileHouseClass(-1,1, class_num) ||
 	IsTileHouseClass(-1,-1, class_num) )
 	{return;}
+*/
 
+/* Must be a city */
 switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
+
+/* Population must be over a certain level */
+switch (FEAT_HOUSES, PARENT, PopOver30k, population > 30000) {return;}
+
+/* House is Unique */
+switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
+
+/* Can only appear when town is being generated */
+switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
+
+/* Probabilities */
+switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
+
+/* Radius Checks */
+/* There is a building of the same class within a radius of 2, or there is no building of that class */
+switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
+
+/* Modern Office Population Check */
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, (FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+
+
 
 /* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
 /*
@@ -103,7 +168,6 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNE, nearby_tile_class(-1,0) == TILE_CL
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class(0,1) == TILE_CLASS_ROAD || nearby_tile_class(0,1) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class(0,-1) == TILE_CLASS_ROAD || nearby_tile_class(0,-1) == TILE_CLASS_STATION) {return;}
 
-switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
 switch (FEAT_HOUSES, SELF, IsUniqueInRadius, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_TYPE) == 0) {return;}
 
 switch (FEAT_HOUSES, SELF, HasSameClassNearby, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_CLASS) ) {0: return 0; return 1;}
@@ -380,7 +444,7 @@ switch(FEAT_HOUSES, SELF, house_sprite_orientation_SW, nearby_tile_class(1,0)) {
 switch(FEAT_HOUSES, SELF, house_sprite_sloped, nearby_tile_slope(0,0)) {0: house_sprite_orientation_SW; random_sprite_houses_any;}
 */
 /* Unique buildings require population and no duplicates */
-switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
+//switch(FEAT_HOUSES, SELF, switch_unique_house, same_house_count_town == 0) {1: return 1; return 0;}
 //switch (FEAT_HOUSES, PARENT, switch_population_500, population >= 500) {1: switch_unique_house; return 0;} 		// Old stadium
 //switch (FEAT_HOUSES, PARENT, switch_population_10k, population >= 10000) {1: switch_unique_house; return 0;} 	// New stadium
 
@@ -867,7 +931,22 @@ switch (FEAT_HOUSES, SELF, switch_nishikawa_house_sprites, [
 	{1: sprlay_nishikawa_house_snow; sprlay_nishikawa_house_norm;}
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_old)
+	{
+		//1: PALETTE_CC_RED;
+		//2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;			
+		//1: PALETTE_CC_DARK_BLUE;		
+		//1: PALETTE_CC_GREEN;			
+		//2: PALETTE_CC_DARK_GREEN;
+		//3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_new)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -881,6 +960,12 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house)
 		4: PALETTE_CC_GREY;
 		4: PALETTE_CC_WHITE;
 	}
+
+switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house, current_year){
+    0..1960: 	rand_recolor_nishikawa_house_old;
+    1960..9999: rand_recolor_nishikawa_house_new;
+    rand_recolor_nishikawa_house_new;
+}
 
 item(FEAT_HOUSES, item_nishikawa_house, 65, HOUSE_SIZE_1X1){
 	property {
@@ -1124,15 +1209,15 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_03)
 item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		name: 						string(NAME_OFFICES_03);
 		population: 				30;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				1;
-		years_available: 			[1945,0xFFFF];
+		years_available: 			[1970,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
 	graphics {
@@ -1144,6 +1229,162 @@ item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 }
 
 // End offices_03
+
+// Begin offices_04
+
+// Building Sprites
+spriteset (spr_offices_04, 							"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,1)}
+spriteset (spr_offices_04_snow, 						"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,102)}
+
+// Ground Tiles
+spriteset (spr_offices_04_ground, 					"src/gfx/offices/offices_04/ground.png") 						{template_house_100(1,1)}
+spriteset (spr_offices_04_ground_snow, 				"src/gfx/offices/offices_04/ground.png") 						{template_house_100(1,102)}
+
+spritelayout sprlay_offices_04_norm {
+	ground {
+		sprite: spr_offices_04_ground(construction_state);
+	}
+	building {
+		sprite: spr_offices_04(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_offices_04_snow {
+	ground {
+		sprite: spr_offices_04_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_offices_04_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_offices_04_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_04_snow;
+	sprlay_offices_04_norm;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_04)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+item(FEAT_HOUSES, item_offices_04, 58, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_OFFICES_04);
+		population: 				120;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1945,1979];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class: 			2;
+		}
+	graphics {
+		default: 					switch_offices_04_sprites;
+		construction_check: 		switch_modern_office_pop_check; 	
+		cargo_production: 			func_produce(13,4,2);
+		colour: 					rand_recolor_offices_04;
+	}
+}
+
+// End offices_04
+
+// Begin offices_05
+
+// Building Sprites
+spriteset (spr_offices_05, 							"src/gfx/offices/offices_05/building.png") 						{template_house_128(1,1)}
+spriteset (spr_offices_05_snow, 						"src/gfx/offices/offices_05/building.png") 						{template_house_128(1,130)}
+
+// Ground Tiles
+spriteset (spr_offices_05_ground, 					"src/gfx/offices/offices_05/ground.png") 						{template_house_128(1,1)}
+spriteset (spr_offices_05_ground_snow, 				"src/gfx/offices/offices_05/ground.png") 						{template_house_128(1,130)}
+
+spritelayout sprlay_offices_05_norm {
+	ground {
+		sprite: spr_offices_05_ground(3);
+	}
+	building {
+		sprite: spr_offices_05(3);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_offices_05_snow {
+	ground {
+		sprite: spr_offices_05_ground_snow(3);
+	}
+	building {
+		sprite: spr_offices_05_snow(3);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_offices_05_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_05_snow;
+	sprlay_offices_05_norm;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_05)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+item(FEAT_HOUSES, item_offices_05, 59, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_OFFICES_05);
+		population: 				120;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1950,1989];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class: 			2;
+		}
+	graphics {
+		default: 					switch_offices_05_sprites;
+		construction_check: 		switch_modern_office_pop_check; 	
+		cargo_production: 			func_produce(13,4,2);
+		colour: 					rand_recolor_offices_05;
+	}
+}
+
+// End offices_05
 
 // Begin petrol_station_01
 
@@ -1212,7 +1453,7 @@ switch(FEAT_HOUSES, SELF, switch_petrol_station_01_east,terrain_type) {
 }
 
 // Recolouring
-/*
+
 random_switch (FEAT_HOUSES, SELF, rand_recolor_petrol_station_01)
 	{
 		1: PALETTE_CC_RED;
@@ -1226,33 +1467,51 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_petrol_station_01)
 		4: PALETTE_CC_BROWN;
 		4: PALETTE_CC_GREY;
 	}
-*/
+
 
 // Construction Check
+switch (FEAT_HOUSES, SELF, switch_petrol_station_01_con_check, 
+	HasRoadAdjacentSW() &&		// Must have road to the SW
+	ThirtyTileGap()				// Can't appear within 30 tiles of another
+	) {return;}	
 
-
+// Protection Check
+switch (FEAT_HOUSES, SELF, switch_petrol_station_01_pro_check, 
+	HasRoadAdjacentSW() &&		// Must have road to the SW
+	FuncServicePETR()			// Must have PETR delivered
+	) {return;}	
 
 item(FEAT_HOUSES, item_petrol_station_01, 50, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
 		name: 						string(NAME_PETROL_STATION_01);
-		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
-		population: 				20;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4],[PETR,8]];
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);	// Want flat land
+		population: 				80;														// Agreed to JPS
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[GOOD, 2],[PETR,8]];				// Agreed to JPS and added Petrol
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				10;
-		years_available: 			[2006,0xFFFF];
+		years_available: 			[1970,0xFFFF];	
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT,TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				2;	
+		availability_mask: 			[bitmask(
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT,
+										TOWNZONE_EDGE
+										), 
+									bitmask(
+										CLIMATE_TEMPERATE, 
+										CLIMATE_ARCTIC, 
+										ABOVE_SNOWLINE
+										)];
+		//building_class:			2;	
 		}
 	graphics {
 		graphics_north: 			switch_petrol_station_01_north;
 		graphics_east: 				switch_petrol_station_01_east;
-		//construction_check:			unique_in_town;
+		construction_check:			switch_petrol_station_01_con_check;
+		protection:					switch_petrol_station_01_pro_check;
 		cargo_production: 			func_produce(20,5,3);
-		//colour: 					rand_recolor_petrol_station_01;
+		colour: 					rand_recolor_petrol_station_01;
 	}
 }
 
@@ -1383,40 +1642,50 @@ switch(FEAT_HOUSES, SELF, switch_shiro_01_south,terrain_type) {
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, rand_recolor_shiro_01)
 	{
-		1: PALETTE_CC_RED;
+		//1: PALETTE_CC_RED;			nah
 		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_PINK;
 		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
+		//1: PALETTE_CC_GREEN;
 		2: PALETTE_CC_DARK_GREEN;
 		3: PALETTE_CC_CREAM;
 		1: PALETTE_CC_MAUVE;
 		4: PALETTE_CC_BROWN;
 		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
+		//4: PALETTE_CC_WHITE;			too much like snow
 	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_shiro_01_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Shiro per city
+	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	RandomBitsFour()) {return;}	// Think this makes the probability abouty a quarter
 
 item(FEAT_HOUSES, item_shiro_01, 70, HOUSE_SIZE_2X2){
 	property {
-		substitute: 				20; //Stadium since 2x2
+		substitute: 				20; 								//Stadium since 2x2
 		name: 						string(NAME_SHIRO_01);
-		building_flags: 			bitmask(HOUSE_FLAG_PROTECTED);
-		population: 				160;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 1]];
+		building_flags: 			bitmask(HOUSE_FLAG_PROTECTED);		// Cities should delete
+		population: 				160;								// Same as JPS
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];	// Same as JPS
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				6;
+		probability: 				1;									
 		years_available: 			[1700,0xFFFF];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
+		minimum_lifetime: 			50;
+		availability_mask: 			[	
+										bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), 				// Same as JPS
+									 	bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)
+									];	
 		}
 	graphics {
 		graphics_north: 			switch_shiro_01_north;
 		graphics_east: 				switch_shiro_01_east;
 		graphics_west: 				switch_shiro_01_west;
 		graphics_south: 			switch_shiro_01_south;
-		construction_check:			switch_unique_house;
-		cargo_production: 			func_produce(1,1,1);
+		construction_check:			switch_shiro_01_con_check;
+		cargo_production: 			func_produce(10,2,1);
 		colour: 					rand_recolor_shiro_01;
 	}
 }
@@ -1659,6 +1928,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_01)
 		4: PALETTE_CC_GREY;
 	}
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_01_con_check, 
+	FuncServicePASS() &&		// Must have passenger service
+	IsCity() && 				// Can only appear in cities
+	IsUniqueHouse() &&			// Only one in city
+	PopOver30k() &&				// Population of city is over 30k
+	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	WithinTwoOfSameClass()		// Must be within two tiles of the same building class
+	) {return;}		
+ 
+
 item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
@@ -1670,14 +1950,14 @@ item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
 		removal_cost_multiplier: 	80;
 		probability: 				10;
 		years_available: 			[2006,0xFFFF];
-		minimum_lifetime: 			5;
+		minimum_lifetime: 			20;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				2;	
 		}
 	graphics {
 		graphics_north: 			switch_skyscraper_01_north;
 		graphics_east: 				switch_skyscraper_01_east;
-		construction_check:			unique_in_town;
+		construction_check:			switch_skyscraper_01_con_check;
 		cargo_production: 			func_produce(24,10,3);
 		colour: 					rand_recolor_skyscraper_01;
 	}
@@ -1741,6 +2021,15 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_02)
 		4: PALETTE_CC_WHITE;
 	}
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check, 
+	FuncServicePASS() &&		// Must have passenger service
+	IsCity() && 				// Can only appear in cities
+	IsUniqueHouse() &&			// Only one in city
+	PopOver30k() &&				// Population of city is over 30k
+	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	WithinTwoOfSameClass()		// Must be within two tiles of the same building class
+	) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 	property {
@@ -1759,7 +2048,7 @@ item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_skyscraper_02;
-		construction_check:			unique_in_town;
+		construction_check:			switch_skyscraper_02_con_check;
 		cargo_production: 			func_produce(24,10,3);
 		colour: 					rand_recolor_skyscraper_02; 						// No recolouring
 	}
@@ -1827,6 +2116,16 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_03)
 	}
 */
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_03_con_check, 
+	FuncServicePASS() &&		// Must have passenger service
+	IsCity() && 				// Can only appear in cities
+	IsUniqueHouse() &&			// Only one in city
+	PopOver30k() &&				// Population of city is over 30k
+	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	WithinTwoOfSameClass()		// Must be within two tiles of the same building class
+	) {return;}	
+
 item(FEAT_HOUSES, item_skyscraper_03, 79, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
@@ -1844,7 +2143,7 @@ item(FEAT_HOUSES, item_skyscraper_03, 79, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_skyscraper_03;
-		construction_check:			unique_in_town;
+		construction_check:			switch_skyscraper_03_con_check;
 		cargo_production: 			func_produce(24,10,3);
 		//colour: 					rand_recolor_skyscraper_03; 
 	}
@@ -2123,10 +2422,11 @@ spritelayout sprlay_takamaro_01_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_01_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_takamaro_01_snow;
-	sprlay_takamaro_01_norm;
-}
+switch(FEAT_HOUSES, SELF, switch_takamaro_01_sprites, [
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_takamaro_01_snow; sprlay_takamaro_01_norm;}
 
 // Recolouring
 /*
@@ -2170,6 +2470,162 @@ item(FEAT_HOUSES, item_takamaro_01, 52, HOUSE_SIZE_1X1){
 
 // End takamaro_01
 
+// Begin takamaro_02
+
+spriteset (spr_takamaro_02, 							"src/gfx/houses_old/takamaro_02/building.png") 						{template_house_80(1,1)}
+spriteset (spr_takamaro_02_snow, 						"src/gfx/houses_old/takamaro_02/building.png") 						{template_house_80(1,82)}
+spriteset (spr_takamaro_02_ground, 						"src/gfx/houses_old/takamaro_02/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_takamaro_02_ground_snow, 				"src/gfx/houses_old/takamaro_02/ground.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_takamaro_02_norm {
+	ground {
+		sprite: spr_takamaro_02_ground;
+	}
+	building {
+		sprite: spr_takamaro_02;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_takamaro_02_snow {
+	ground {
+		sprite: spr_takamaro_02_ground_snow;
+	}
+	building {
+		sprite: spr_takamaro_02_snow;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_takamaro_02_sprites, [
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_takamaro_02_snow; sprlay_takamaro_02_norm;}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_02)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+
+item(FEAT_HOUSES, item_takamaro_02, 53, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 				30;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1900,0xFFFF];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: 					switch_takamaro_02_sprites;
+		construction_check: 		switch_house_office_gap;
+		cargo_production: 			func_produce(2,1,1);
+		//colour: 					rand_recolor_takamaro_02;
+	}
+}
+
+// End takamaro_02
+
+// Begin takamaro_03
+
+spriteset (spr_takamaro_03, 							"src/gfx/houses_old/takamaro_03/building.png") 						{template_house_80(1,1)}
+spriteset (spr_takamaro_03_snow, 						"src/gfx/houses_old/takamaro_03/building.png") 						{template_house_80(1,82)}
+spriteset (spr_takamaro_03_ground, 						"src/gfx/houses_old/takamaro_03/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_takamaro_03_ground_snow, 				"src/gfx/houses_old/takamaro_03/ground.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_takamaro_03_norm {
+	ground {
+		sprite: spr_takamaro_03_ground;
+	}
+	building {
+		sprite: spr_takamaro_03(LOAD_TEMP(1));
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_takamaro_03_snow {
+	ground {
+		sprite: spr_takamaro_03_ground_snow;
+	}
+	building {
+		sprite: spr_takamaro_03_snow(LOAD_TEMP(1));
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_takamaro_03_sprites, [
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_takamaro_03_snow; sprlay_takamaro_03_norm;}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_03)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+
+item(FEAT_HOUSES, item_takamaro_03, 54, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		population: 				30;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1900,0xFFFF];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		
+		}
+	graphics {
+		default: 					switch_takamaro_03_sprites;
+		construction_check: 		switch_house_office_gap;
+		cargo_production: 			func_produce(2,1,1);
+		//colour: 					rand_recolor_takamaro_03;
+	}
+}
+
+// End takamaro_03
+
 // Begin takamaro_04
 
 spriteset (spr_takamaro_04, 							"src/gfx/houses_old/takamaro_04/building.png") 						{template_house_80(1,1)}
@@ -2200,10 +2656,11 @@ spritelayout sprlay_takamaro_04_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_04_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_takamaro_04_snow;
-	sprlay_takamaro_04_norm;
-}
+switch(FEAT_HOUSES, SELF, switch_takamaro_04_sprites, [
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_takamaro_04_snow; sprlay_takamaro_04_norm;}
 
 // Recolouring
 /*
@@ -2372,39 +2829,47 @@ switch(FEAT_HOUSES, SELF, switch_temple_01_south,terrain_type) {
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, rand_recolor_temple_01)
 	{
-		1: PALETTE_CC_RED;
+		//1: PALETTE_CC_RED;			Nah
 		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_PINK;			Nah
 		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
+		//1: PALETTE_CC_GREEN;			Nah
 		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
+		//3: PALETTE_CC_CREAM;
+		//1: PALETTE_CC_MAUVE;			Nah
 		4: PALETTE_CC_BROWN;
 		4: PALETTE_CC_GREY;
 	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_temple_01_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Temple per city
+	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	HasRoadAdjacentSE2x2() &&	// Requires a road to the SE, due to sticking out entrance
+	RandomBitsFour()) {return;}	// Think this makes the probability abouty a quarter
 
 item(FEAT_HOUSES, item_temple_01, 66, HOUSE_SIZE_2X2){
 	property {
 		substitute: 				20; //Stadium since 2x2
 		name: 						string(NAME_TEMPLE_01);
-		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_CHURCH, HOUSE_FLAG_PROTECTED);
-		population: 				20;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_CHURCH, HOUSE_FLAG_PROTECTED);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				6;
+		probability: 				5;
 		years_available: 			[1700,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
 		}
 	graphics {
 		graphics_north: 			switch_temple_01_north;
 		graphics_east: 				switch_temple_01_east;
 		graphics_west: 				switch_temple_01_west;
 		graphics_south: 			switch_temple_01_south;
-		construction_check:			(nearby_tile_class(0,2) == TILE_CLASS_ROAD) ? 1 : 0;	//Check from North tile
-		cargo_production: 			func_produce(1,1,1);
+		construction_check:			switch_temple_01_con_check;	
+		cargo_production: 			func_produce(10,2,1);
 		colour: 					rand_recolor_temple_01;
 	}
 }

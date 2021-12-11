@@ -3,6 +3,9 @@
 
 switch(FEAT_HOUSES, SELF, func_pass_service, (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
 
+switch(FEAT_HOUSES, SELF, FuncServicePASS, (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
+switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
+
 switch(FEAT_HOUSES, SELF, func_population_adder, 
 	(other_house_count_town(25)*1)+ 	// Cottages
 	(other_house_count_town(24)*1)+ 	// Old houses
@@ -10,6 +13,41 @@ switch(FEAT_HOUSES, SELF, func_population_adder,
 	(other_house_count_town(26)*2)+ 	// Naganuma House
 	(other_house_count_town(65)*2)+ 	// Nishikawa House
 	(other_house_count_town(109)*3)+ 	// Pre-1945 Townhouses
+
+	/* Takamaro Houses */
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
+
+	/* Town Houses */
+	(other_house_count_town(05)*3)+ 	// Townhouses_02
+	(other_house_count_town(06)*3)+ 	// Townhouses_01
+	
+	/* Apartments */		
+	(other_house_count_town(27)*10)+ 	// Apartments_01
+	(other_house_count_town(30)*10)+ 	// Apartments_02
+	(other_house_count_town(56)*10)+ 	// Apartments_04	
+
+	/* Small Apartments */
+	(other_house_count_town(02)*4)+ 	// Small Apartments 01
+	(other_house_count_town(44)*4)+ 	// Small Apartments 02
+	(other_house_count_town(45)*4) 		// Small Apartments 03
+	) {return;}
+
+switch(FEAT_HOUSES, SELF, FuncPopulationAdder, 
+	(other_house_count_town(25)*1)+ 	// Cottages
+	(other_house_count_town(24)*1)+ 	// Old houses
+	(other_house_count_town(108)*2)+ 	// Pre-1945 Houses
+	(other_house_count_town(26)*2)+ 	// Naganuma House
+	(other_house_count_town(65)*2)+ 	// Nishikawa House
+	(other_house_count_town(109)*3)+ 	// Pre-1945 Townhouses
+
+	/* Takamaro Houses */
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
 
 	/* Town Houses */
 	(other_house_count_town(05)*3)+ 	// Townhouses_02
@@ -27,9 +65,12 @@ switch(FEAT_HOUSES, SELF, func_population_adder,
 	) {return;}
 
 
+/* Check for road (and stations) in adjacent tiles functions */
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSW, nearby_tile_class(1,0) == TILE_CLASS_ROAD || nearby_tile_class(1,0) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class(0,1) == TILE_CLASS_ROAD || nearby_tile_class(0,1) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class(0,-1) == TILE_CLASS_ROAD || nearby_tile_class(0,-1) == TILE_CLASS_STATION) {return;}
+
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE2x2, nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION) {return;}
 
 /* Land value helper functions */
 
@@ -47,8 +88,32 @@ switch (FEAT_HOUSES, SELF, IsAdjacentToHouseClass, class_num,
 	IsTileHouseClass(-1,1, class_num) ||
 	IsTileHouseClass(-1,-1, class_num) )
 	{return;}
+*/
 
+/* Must be a city */
 switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
+
+/* Population must be over a certain level */
+switch (FEAT_HOUSES, PARENT, PopOver30k, population > 30000) {return;}
+
+/* House is Unique */
+switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
+
+/* Can only appear when town is being generated */
+switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
+
+/* Probabilities */
+switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
+
+/* Radius Checks */
+/* There is a building of the same class within a radius of 2, or there is no building of that class */
+switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
+
+/* Modern Office Population Check */
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, (FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+
+
 
 /* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
 /*
@@ -59,7 +124,6 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNE, nearby_tile_class(-1,0) == TILE_CL
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class(0,1) == TILE_CLASS_ROAD || nearby_tile_class(0,1) == TILE_CLASS_STATION) {return;}
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class(0,-1) == TILE_CLASS_ROAD || nearby_tile_class(0,-1) == TILE_CLASS_STATION) {return;}
 
-switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
 switch (FEAT_HOUSES, SELF, IsUniqueInRadius, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_TYPE) == 0) {return;}
 
 switch (FEAT_HOUSES, SELF, HasSameClassNearby, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_CLASS) ) {0: return 0; return 1;}

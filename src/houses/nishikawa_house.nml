@@ -37,7 +37,22 @@ switch (FEAT_HOUSES, SELF, switch_nishikawa_house_sprites, [
 	{1: sprlay_nishikawa_house_snow; sprlay_nishikawa_house_norm;}
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_old)
+	{
+		//1: PALETTE_CC_RED;
+		//2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;			
+		//1: PALETTE_CC_DARK_BLUE;		
+		//1: PALETTE_CC_GREEN;			
+		//2: PALETTE_CC_DARK_GREEN;
+		//3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_new)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -51,6 +66,12 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house)
 		4: PALETTE_CC_GREY;
 		4: PALETTE_CC_WHITE;
 	}
+
+switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house, current_year){
+    0..1960: 	rand_recolor_nishikawa_house_old;
+    1960..9999: rand_recolor_nishikawa_house_new;
+    rand_recolor_nishikawa_house_new;
+}
 
 item(FEAT_HOUSES, item_nishikawa_house, 65, HOUSE_SIZE_1X1){
 	property {

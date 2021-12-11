@@ -54,6 +54,15 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_02)
 		4: PALETTE_CC_WHITE;
 	}
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check, 
+	FuncServicePASS() &&		// Must have passenger service
+	IsCity() && 				// Can only appear in cities
+	IsUniqueHouse() &&			// Only one in city
+	PopOver30k() &&				// Population of city is over 30k
+	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	WithinTwoOfSameClass()		// Must be within two tiles of the same building class
+	) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 	property {
@@ -72,7 +81,7 @@ item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_skyscraper_02;
-		construction_check:			unique_in_town;
+		construction_check:			switch_skyscraper_02_con_check;
 		cargo_production: 			func_produce(24,10,3);
 		colour: 					rand_recolor_skyscraper_02; 						// No recolouring
 	}

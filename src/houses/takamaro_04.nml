@@ -28,10 +28,11 @@ spritelayout sprlay_takamaro_04_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_04_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_takamaro_04_snow;
-	sprlay_takamaro_04_norm;
-}
+switch(FEAT_HOUSES, SELF, switch_takamaro_04_sprites, [
+	// Check the rotation of the house
+	STORE_TEMP(switch_road_adjacency(), 1),
+	terrain_type == TILETYPE_SNOW])
+	{1: sprlay_takamaro_04_snow; sprlay_takamaro_04_norm;}
 
 // Recolouring
 /*

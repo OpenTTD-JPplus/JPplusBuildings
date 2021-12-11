@@ -123,40 +123,50 @@ switch(FEAT_HOUSES, SELF, switch_shiro_01_south,terrain_type) {
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, rand_recolor_shiro_01)
 	{
-		1: PALETTE_CC_RED;
+		//1: PALETTE_CC_RED;			nah
 		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_PINK;
 		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
+		//1: PALETTE_CC_GREEN;
 		2: PALETTE_CC_DARK_GREEN;
 		3: PALETTE_CC_CREAM;
 		1: PALETTE_CC_MAUVE;
 		4: PALETTE_CC_BROWN;
 		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
+		//4: PALETTE_CC_WHITE;			too much like snow
 	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_shiro_01_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Shiro per city
+	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	RandomBitsFour()) {return;}	// Think this makes the probability abouty a quarter
 
 item(FEAT_HOUSES, item_shiro_01, 70, HOUSE_SIZE_2X2){
 	property {
-		substitute: 				20; //Stadium since 2x2
+		substitute: 				20; 								//Stadium since 2x2
 		name: 						string(NAME_SHIRO_01);
-		building_flags: 			bitmask(HOUSE_FLAG_PROTECTED);
-		population: 				160;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 1]];
+		building_flags: 			bitmask(HOUSE_FLAG_PROTECTED);		// Cities should delete
+		population: 				160;								// Same as JPS
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];	// Same as JPS
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				6;
+		probability: 				1;									
 		years_available: 			[1700,0xFFFF];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	
+		minimum_lifetime: 			50;
+		availability_mask: 			[	
+										bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), 				// Same as JPS
+									 	bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)
+									];	
 		}
 	graphics {
 		graphics_north: 			switch_shiro_01_north;
 		graphics_east: 				switch_shiro_01_east;
 		graphics_west: 				switch_shiro_01_west;
 		graphics_south: 			switch_shiro_01_south;
-		construction_check:			switch_unique_house;
-		cargo_production: 			func_produce(1,1,1);
+		construction_check:			switch_shiro_01_con_check;
+		cargo_production: 			func_produce(10,2,1);
 		colour: 					rand_recolor_shiro_01;
 	}
 }

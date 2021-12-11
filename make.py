@@ -26,6 +26,8 @@ houses = [
     "nishikawa_house",          # ID 26
     #"houses_old",              # ID 108
     "takamaro_01",              # ID 52
+    "takamaro_02",              # ID 53
+    "takamaro_03",              # ID 54
     "takamaro_04",              # ID 55
     #"old_houses",              # ID 24
     #"cottages",                # ID 25
@@ -49,6 +51,8 @@ houses = [
     "offices_01",               # ID 36
     "offices_02",               # ID 37
     "offices_03",               # ID 49
+    "offices_04",               # ID 58
+    "offices_05",               # ID 59
     ### Skyscrapers ###         
     "skyscraper_01",            # ID 76-77
     "skyscraper_02",            # ID 78
