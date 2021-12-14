@@ -7,7 +7,8 @@ newgrf_name = "JPplusBuildings"
 
 # Files which should be first, in order (header, functions, etc)
 header_stuff = [
-    "header", 
+    "header",
+    "HouseGap", 
     "functions",  
     "sprite_templates",
     ]
