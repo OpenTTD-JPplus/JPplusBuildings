@@ -160,7 +160,9 @@ switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
 switch (FEAT_HOUSES, PARENT, PopOver30k, population > 30000) {return;}
 
 /* Modern Office Population Check */
-switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, (FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
+	// Residential population must be greater than the amount shown below
+	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
 
 /* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
 /*
@@ -168,79 +170,7 @@ switch (FEAT_HOUSES, PARENT, HasPopulation, required, population >= required) {r
 
 /* End population */
 
-/* Begin Functions */
-
-/* Building Classes
-*
-*	Class 0
-*	Buildings in class: House, Market, Warehouse, Fountain, Statue
-*
-*	Class 1
-*	Parks cannot be within 2 tiles of another park
-*
-*	Class 2
-*	Skyscrapers/office towers can only build within 5 tiles of another skyscraper/office towers
-*	Buildings in class: skyscrapers, office towers
-*
-*	Class 3
-*	Temple
-*
-*	Class 4
-*	Old houses (must be within 2 tiles of another old house, to prevent sparse town growth with house limit)
-*
-*	Class 5
-*	Skyscrapers
-*
-*/
-
-// Small Flats cannot build within 1 tile of a modern office building unless no passenger service is provided to the tile
-switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
-	// Shops and Offices
-	nearby_tile_house_class(0,1) == 258 ||
-	nearby_tile_house_class(0,-1) == 258 ||
-	nearby_tile_house_class(1,0) == 258 ||
-	nearby_tile_house_class(1,1) == 258 ||
-	nearby_tile_house_class(1,-1) == 258 ||
-	nearby_tile_house_class(-1,0) == 258 ||
-	nearby_tile_house_class(-1,1) == 258 ||
-	nearby_tile_house_class(-1,-1) == 258 ||
-	// Skyscrapers
-	nearby_tile_house_class(0,1) == 261 ||
-	nearby_tile_house_class(0,-1) == 261 ||
-	nearby_tile_house_class(1,0) == 261 ||
-	nearby_tile_house_class(1,1) == 261 ||
-	nearby_tile_house_class(1,-1) == 261 ||
-	nearby_tile_house_class(-1,0) == 261 ||
-	nearby_tile_house_class(-1,1) == 261 ||
-	nearby_tile_house_class(-1,-1) == 261
-		){return;}
-
-// Function looking for no Passenger service, but there is a Class Two Building nearby
-switch(FEAT_HOUSES, SELF, NoPassBesideModernOffice,
-	ClassTwoWithinOneTile() &&
-	FuncNoServicePASS()
-		){return;}
-
-// Small Apartments Check - There must be Passenger Service, but if there is not, and there is a Class Two Building nearby, allow building
-switch(FEAT_HOUSES, SELF, SmallApartmentsCheck,
-	NoPassBesideModernOffice() ||
-	FuncServicePASS()
-		){return;}
-
-// Check for road (and stations) in adjacent tiles functions
-//switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION) {return;}
-switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION) {return;}
-switch (FEAT_HOUSES, SELF, HasRoadAdjacentSW, nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION) {return;}
-
-switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE2x2, nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION) {return;}
-
-switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW, 
-	nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || 
-	nearby_tile_class( 0,-1) == TILE_CLASS_STATION || 
-	nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || 
-	nearby_tile_class( 1, 0) == TILE_CLASS_STATION
-	) {return;}
-
+/* Begin historical distrcit */
 
 /* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
 
@@ -323,6 +253,81 @@ switch (FEAT_HOUSES, SELF, BanFromHistDistrict, IsAdjacentToHouseClass(3) == 0
 
 /* Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District*/ 
 switch (FEAT_HOUSES, SELF, AllowInHistDistrict, IsAdjacentToHouseClass(3) != 0 
+	) {return;}
+
+/* End historical district */
+
+/* Begin Functions */
+
+/* Building Classes
+*
+*	Class 0
+*	Buildings in class: House, Market, Warehouse, Fountain, Statue
+*
+*	Class 1
+*	Parks cannot be within 2 tiles of another park
+*
+*	Class 2
+*	Skyscrapers/office towers can only build within 5 tiles of another skyscraper/office towers
+*	Buildings in class: skyscrapers, office towers
+*
+*	Class 3
+*	Temple
+*
+*	Class 4
+*	Old houses (must be within 2 tiles of another old house, to prevent sparse town growth with house limit)
+*
+*	Class 5
+*	Skyscrapers
+*
+*/
+
+// Small Flats cannot build within 1 tile of a modern office building unless no passenger service is provided to the tile
+switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
+	// Shops and Offices
+	nearby_tile_house_class(0,1) == 258 ||
+	nearby_tile_house_class(0,-1) == 258 ||
+	nearby_tile_house_class(1,0) == 258 ||
+	nearby_tile_house_class(1,1) == 258 ||
+	nearby_tile_house_class(1,-1) == 258 ||
+	nearby_tile_house_class(-1,0) == 258 ||
+	nearby_tile_house_class(-1,1) == 258 ||
+	nearby_tile_house_class(-1,-1) == 258 ||
+	// Skyscrapers
+	nearby_tile_house_class(0,1) == 261 ||
+	nearby_tile_house_class(0,-1) == 261 ||
+	nearby_tile_house_class(1,0) == 261 ||
+	nearby_tile_house_class(1,1) == 261 ||
+	nearby_tile_house_class(1,-1) == 261 ||
+	nearby_tile_house_class(-1,0) == 261 ||
+	nearby_tile_house_class(-1,1) == 261 ||
+	nearby_tile_house_class(-1,-1) == 261
+		){return;}
+
+// Function looking for no Passenger service, but there is a Class Two Building nearby
+switch(FEAT_HOUSES, SELF, NoPassBesideModernOffice,
+	ClassTwoWithinOneTile() &&
+	FuncNoServicePASS()
+		){return;}
+
+// Small Apartments Check - There must be Passenger Service, but if there is not, and there is a Class Two Building nearby, allow building
+switch(FEAT_HOUSES, SELF, SmallApartmentsCheck,
+	NoPassBesideModernOffice() ||
+	FuncServicePASS()
+		){return;}
+
+// Check for road (and stations) in adjacent tiles functions
+//switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION) {return;}
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE, nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION) {return;}
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSW, nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION) {return;}
+
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE2x2, nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION) {return;}
+
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW, 
+	nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || 
+	nearby_tile_class( 0,-1) == TILE_CLASS_STATION || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_STATION
 	) {return;}
 
 /* House is Unique */

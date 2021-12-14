@@ -11,6 +11,7 @@ header_stuff = [
     "cargotable",
     "HouseGap",
     "population",
+    "historical_district",
     "functions",  
     "sprite_templates",
     ]
