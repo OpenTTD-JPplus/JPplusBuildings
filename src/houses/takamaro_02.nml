@@ -52,6 +52,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_02)
 	}
 */
 
+switch (FEAT_HOUSES, SELF, switch_takamaro_02_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
 item(FEAT_HOUSES, item_takamaro_02, 53, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				06;
@@ -68,8 +73,8 @@ item(FEAT_HOUSES, item_takamaro_02, 53, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_takamaro_02_sprites;
-		construction_check: 		switch_house_office_gap;
-		cargo_production: 			func_produce(2,1,1);
+		construction_check: 		switch_takamaro_02_con_check;
+		cargo_production: 			func_produce(2,1);
 		//colour: 					rand_recolor_takamaro_02;
 	}
 }

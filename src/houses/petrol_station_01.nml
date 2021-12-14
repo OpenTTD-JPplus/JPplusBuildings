@@ -84,7 +84,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_petrol_station_01)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_petrol_station_01_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
-	ThirtyTileGap()				// Can't appear within 30 tiles of another
+	ThirtyTileGap() &&			// Can't appear within 30 tiles of another
+	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
 // Protection Check
@@ -122,7 +123,7 @@ item(FEAT_HOUSES, item_petrol_station_01, 50, HOUSE_SIZE_1X2){
 		graphics_east: 				switch_petrol_station_01_east;
 		construction_check:			switch_petrol_station_01_con_check;
 		protection:					switch_petrol_station_01_pro_check;
-		cargo_production: 			func_produce(20,5,3);
+		cargo_production: 			func_produce(20,5);
 		colour: 					rand_recolor_petrol_station_01;
 	}
 }

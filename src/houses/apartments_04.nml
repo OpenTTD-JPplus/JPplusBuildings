@@ -83,6 +83,12 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_04)
 		4: PALETTE_CC_WHITE;
 	}
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_apartments_04_con_check, 	
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	BanFromHistDistrict()			// Do not allow building near Temple
+	) {return;}	
+
 item(FEAT_HOUSES, item_apartments_04, 56, HOUSE_SIZE_2X1){
 	property {
 		substitute: 				76; 													
@@ -101,9 +107,8 @@ item(FEAT_HOUSES, item_apartments_04, 56, HOUSE_SIZE_2X1){
 	graphics {
 		graphics_north: 			switch_apartments_04_north;
 		graphics_west: 				switch_apartments_04_west;
-		construction_check: (cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1) ? 1 : 0; 	
-			// Only build within the catchment area of a station which received passengers this month or last month
-		cargo_production: 			func_produce(13,4,2);
+		construction_check: 		switch_apartments_04_con_check; 	
+		cargo_production: 			func_produce(13,4);
 		colour: 					rand_recolor_apartments_04;
 	} 					
 }

@@ -37,7 +37,14 @@ switch(FEAT_HOUSES, SELF, switch_shops_01_sprites,terrain_type) {
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_shops_01_con_check, HasRoadAdjacentSW() && HasRoadAdjacentSE() && switch_modern_office_pop_check()) {return;}	
+switch (FEAT_HOUSES, SELF, switch_shops_01_con_check, 
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	BanFromHistDistrict() &&		// Cannot build close to Temple
+	HasRoadAdjacentSW() && 
+	HasRoadAdjacentSE() && 
+	ModernOfficePopCheck() &&		// Is there population to allow another
+	WithinTwoOfSameClass()			// Must be within two tiles of the same building class
+	) {return;}	
 
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, random_recolour_shops_01) {
@@ -68,7 +75,7 @@ item(FEAT_HOUSES, item_shops_01, 48, HOUSE_SIZE_1X1) {
 		default: 					switch_shops_01_sprites;
 		construction_check: 		switch_shops_01_con_check;
 		colour: 					random_recolour_shops_01;
-		//cargo_production: 			func_produce(24,10,3);
+		cargo_production: 			func_produce(24,10);
 	}
 }
 // End shops_01

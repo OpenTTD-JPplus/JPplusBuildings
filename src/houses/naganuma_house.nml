@@ -50,6 +50,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house)
 		4: PALETTE_CC_WHITE;
 	}
 
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_con_check, 
+	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	BanFromHistDistrict()			// Cannot build close to Temple
+	) {return;}	
 
 item(FEAT_HOUSES, item_naganuma_house, 26, HOUSE_SIZE_1X1){
 	property {
@@ -68,8 +73,8 @@ item(FEAT_HOUSES, item_naganuma_house, 26, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_naganuma_house_sprites;
-		construction_check: 		switch_house_office_gap;
-		cargo_production: 			func_produce(2,1,1);
+		construction_check: 		switch_naganuma_house_con_check;
+		cargo_production: 			func_produce(2,1);
 		colour: 					rand_recolor_naganuma_house;
 	}
 }

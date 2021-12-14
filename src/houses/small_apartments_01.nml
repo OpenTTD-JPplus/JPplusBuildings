@@ -55,7 +55,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_apartments_01)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_small_apartments_01_con_check, HasRoadAdjacentSW() || HasRoadAdjacentNW()) {1: switch_small_flats_check_1; return 0;}
+switch (FEAT_HOUSES, SELF, switch_small_apartments_01_con_check, 
+	HasRoadAdjacentNWSW() &&		// Can build with a road either to the NW or SW
+	SmallApartmentsCheck() &&		// Small Apartments can't build next to Modern Office Building unless there no passenger service
+	BanFromHistDistrict()			// Do not allow building near Temple
+	) {return;}	
 
 item(FEAT_HOUSES, item_small_apartments_01, 02, HOUSE_SIZE_1X1){
 	property {
@@ -68,13 +72,13 @@ item(FEAT_HOUSES, item_small_apartments_01, 02, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			4;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		
 		}
 	graphics {
 		default: 					switch_small_apartments_01_snow;
 		construction_check: 		switch_small_apartments_01_con_check;
-		cargo_production: 			func_produce(5,2,1);
+		cargo_production: 			func_produce(5,2);
 		colour: 					rand_recolor_small_apartments_01;
 	}
 }

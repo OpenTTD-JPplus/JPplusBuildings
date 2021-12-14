@@ -36,8 +36,6 @@ switch(FEAT_HOUSES, SELF, switch_shops_02_sprites,terrain_type) {
 	sprlay_shops_02_norm;
 }
 
-// Construction Check
-//switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, switch_modern_office_pop_check()) {return;}	
 
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
@@ -48,6 +46,14 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
 	1:	return PALETTE_CC_WHITE;
 	1:	return PALETTE_CC_DARK_GREEN;
 }
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, 
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	BanFromHistDistrict() &&		// Cannot build close to Temple
+	ModernOfficePopCheck() &&		// Is there sufficieny population to build another?
+	WithinTwoOfSameClass()			// Must be within two tiles of the same building class
+	) {return;}	
 
 item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	property {
@@ -66,9 +72,9 @@ item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	}
 	graphics {
 		default: 					switch_shops_02_sprites;
-		construction_check: 		switch_modern_office_pop_check;
+		construction_check: 		switch_shops_02_con_check;
 		colour: 					random_recolour_shops_02;
-		cargo_production: 			func_produce(24,10,3);
+		cargo_production: 			func_produce(24,10);
 	}
 }
 // End shops_02

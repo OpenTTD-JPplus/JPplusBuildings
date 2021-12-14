@@ -61,7 +61,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check,
 	IsUniqueHouse() &&			// Only one in city
 	PopOver30k() &&				// Population of city is over 30k
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass()		// Must be within two tiles of the same building class
+	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
@@ -82,7 +83,7 @@ item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 	graphics {
 		default: 					switch_skyscraper_02;
 		construction_check:			switch_skyscraper_02_con_check;
-		cargo_production: 			func_produce(24,10,3);
+		cargo_production: 			func_produce(24,10);
 		colour: 					rand_recolor_skyscraper_02; 						// No recolouring
 	}
 }

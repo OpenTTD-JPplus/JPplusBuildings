@@ -5,13 +5,11 @@
 # Name of NewGRF, as it appears in file names
 newgrf_name = "JPplusBuildings"
 
-# Files which should be first, in order (header, cargotable, etc)
+# Files which should be first, in order (header, functions, etc)
 header_stuff = [
     "header", 
     "functions",  
-    "waste",
     "sprite_templates",
-    "switches"
     ]
 
 # Houses
