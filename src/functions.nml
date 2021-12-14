@@ -74,8 +74,9 @@ switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
 	(other_house_count_town(45)*4) 		// Small Apartments 03
 	) {return;}
 
-// Houses and Town Houses cannot build within 2 tiles of a modern office building
+// Houses and Town Houses cannot build within 2 tiles Shops, Offices and Skyscrapers
 switch(FEAT_HOUSES, SELF, HouseOfficeGap,
+	// Shops and Offices
 	nearby_tile_house_class(0,1) != 258 ||
 	nearby_tile_house_class(0,-1) != 258 ||
 	nearby_tile_house_class(1,0) != 258 ||
@@ -99,11 +100,37 @@ switch(FEAT_HOUSES, SELF, HouseOfficeGap,
 	nearby_tile_house_class(2,-1) != 258 ||
 	nearby_tile_house_class(2,0) != 258 ||
 	nearby_tile_house_class(2,1) != 258 ||
-	nearby_tile_house_class(2,2) != 258
+	nearby_tile_house_class(2,2) != 258 ||
+	// Skyscrapers
+	nearby_tile_house_class(0,1) != 261 ||
+	nearby_tile_house_class(0,-1) != 261 ||
+	nearby_tile_house_class(1,0) != 261 ||
+	nearby_tile_house_class(1,1) != 261 ||
+	nearby_tile_house_class(1,-1) != 261 ||
+	nearby_tile_house_class(-1,0) != 261 ||
+	nearby_tile_house_class(-1,1) != 261 ||
+	nearby_tile_house_class(-1,-1) != 261 ||
+	nearby_tile_house_class(-2,-2) != 261 ||
+	nearby_tile_house_class(-2,-1) != 261 ||
+	nearby_tile_house_class(-2,0) != 261 ||
+	nearby_tile_house_class(-2,1) != 261 ||
+	nearby_tile_house_class(-2,2) != 261 ||
+	nearby_tile_house_class(-1,-2) != 261 ||
+	nearby_tile_house_class(-1,2) != 261 ||
+	nearby_tile_house_class(0,-2) != 261 ||
+	nearby_tile_house_class(0,-2) != 261 ||
+	nearby_tile_house_class(1,-2) != 261 ||
+	nearby_tile_house_class(1,-2) != 261 ||
+	nearby_tile_house_class(2,-2) != 261 ||
+	nearby_tile_house_class(2,-1) != 261 ||
+	nearby_tile_house_class(2,0) != 261 ||
+	nearby_tile_house_class(2,1) != 261 ||
+	nearby_tile_house_class(2,2) != 261
 		){return;}
 
 // Small Flats cannot build within 1 tile of a modern office building unless no passenger service is provided to the tile
 switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
+	// Shops and Offices
 	nearby_tile_house_class(0,1) == 258 ||
 	nearby_tile_house_class(0,-1) == 258 ||
 	nearby_tile_house_class(1,0) == 258 ||
@@ -111,7 +138,16 @@ switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
 	nearby_tile_house_class(1,-1) == 258 ||
 	nearby_tile_house_class(-1,0) == 258 ||
 	nearby_tile_house_class(-1,1) == 258 ||
-	nearby_tile_house_class(-1,-1) == 258
+	nearby_tile_house_class(-1,-1) == 258 ||
+	// Skyscrapers
+	nearby_tile_house_class(0,1) == 261 ||
+	nearby_tile_house_class(0,-1) == 261 ||
+	nearby_tile_house_class(1,0) == 261 ||
+	nearby_tile_house_class(1,1) == 261 ||
+	nearby_tile_house_class(1,-1) == 261 ||
+	nearby_tile_house_class(-1,0) == 261 ||
+	nearby_tile_house_class(-1,1) == 261 ||
+	nearby_tile_house_class(-1,-1) == 261
 		){return;}
 
 // Function looking for no Passenger service, but there is a Class Two Building nearby
