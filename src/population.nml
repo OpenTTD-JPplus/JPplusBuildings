@@ -1,0 +1,44 @@
+/* Begin population */
+
+// Function to add the the numbers of residential building, with a population factor based on size
+switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
+	
+	// Houses
+	(other_house_count_town(26)*2)+ 	// Naganuma House
+	(other_house_count_town(65)*2)+ 	// Nishikawa House
+
+	// Takamaro Houses
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
+
+	// Town Houses
+	(other_house_count_town(05)*3)+ 	// Townhouses_02
+	(other_house_count_town(06)*3)+ 	// Townhouses_01
+	
+	// Apartments		
+	(other_house_count_town(27)*10)+ 	// Apartments_01
+	(other_house_count_town(30)*10)+ 	// Apartments_02
+	(other_house_count_town(56)*10)+ 	// Apartments_04	
+
+	// Small Apartments
+	(other_house_count_town(02)*4)+ 	// Small Apartments 01
+	(other_house_count_town(44)*4)+ 	// Small Apartments 02
+	(other_house_count_town(45)*4) 		// Small Apartments 03
+	) {return;}
+
+/* Function to check if City */
+switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
+
+/* Population must be over a certain level */
+switch (FEAT_HOUSES, PARENT, PopOver30k, population > 30000) {return;}
+
+/* Modern Office Population Check */
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, (FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+
+/* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
+/*
+switch (FEAT_HOUSES, PARENT, HasPopulation, required, population >= required) {return;}
+
+/* End population */

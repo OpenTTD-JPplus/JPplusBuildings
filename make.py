@@ -9,7 +9,8 @@ newgrf_name = "JPplusBuildings"
 header_stuff = [
     "header",
     "cargotable",
-    "HouseGap", 
+    "HouseGap",
+    "population",
     "functions",  
     "sprite_templates",
     ]
