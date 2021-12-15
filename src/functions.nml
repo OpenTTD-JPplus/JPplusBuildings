@@ -71,6 +71,13 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW,
 	nearby_tile_class( 1, 0) == TILE_CLASS_STATION
 	) {return;}
 
+switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
+	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
+	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
+	) {return;}
+
 /* House is Unique */
 switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
 
@@ -81,9 +88,20 @@ switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
 switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
 
 /* Radius Checks */
-/* There is a building of the same class within a radius of 2, or there is no building of that class */
+/* There is a building of the same class within a radius of 2, or there is no building of that class at all in the town */
 switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+
+switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
+	same_class_count_town == 0 || 
+	(WithinThreeOfSameClass()  && HasTrackAdjacent() ) ||
+	WithinTwoOfSameClass()
+	) {return;}
+
 switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
+
+switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
+((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )) {return;}
 
 //switch (FEAT_HOUSES, SELF, IsUniqueInRadius, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_TYPE) == 0) {return;}
 

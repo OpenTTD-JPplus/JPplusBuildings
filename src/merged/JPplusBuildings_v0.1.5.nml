@@ -40,7 +40,7 @@ cargotable {
 
 // Passenger Service
 switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
-switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 || cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
+switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
 // Petroleum Fuels Service - for Petrol Stations
 switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
 
@@ -330,6 +330,13 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW,
 	nearby_tile_class( 1, 0) == TILE_CLASS_STATION
 	) {return;}
 
+switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
+	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
+	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
+	) {return;}
+
 /* House is Unique */
 switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
 
@@ -340,9 +347,20 @@ switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
 switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
 
 /* Radius Checks */
-/* There is a building of the same class within a radius of 2, or there is no building of that class */
+/* There is a building of the same class within a radius of 2, or there is no building of that class at all in the town */
 switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+
+switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
+	same_class_count_town == 0 || 
+	(WithinThreeOfSameClass()  && HasTrackAdjacent() ) ||
+	WithinTwoOfSameClass()
+	) {return;}
+
 switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
+
+switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
+((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )) {return;}
 
 //switch (FEAT_HOUSES, SELF, IsUniqueInRadius, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_TYPE) == 0) {return;}
 
@@ -1033,7 +1051,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_01)
 switch (FEAT_HOUSES, SELF, switch_offices_01_con_check, 
 	FuncServicePASS() &&		// Must have passenger service
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
+	IsUniqueHouse() &&			// Only one per city
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
@@ -1119,7 +1138,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_02)
 switch (FEAT_HOUSES, SELF, switch_offices_02_con_check, 
 	FuncServicePASS() &&		// Must have passenger service
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
@@ -1205,7 +1224,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_03)
 switch (FEAT_HOUSES, SELF, switch_offices_03_con_check, 
 	FuncServicePASS() &&		// Must have passenger service
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&		// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
@@ -1291,7 +1310,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_04)
 switch (FEAT_HOUSES, SELF, switch_offices_04_con_check, 
 	FuncServicePASS() &&		// Must have passenger service
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
@@ -1377,7 +1396,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_05)
 switch (FEAT_HOUSES, SELF, switch_offices_05_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&		// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
 	BanFromHistDistrict()			// Cannot build close to Temple
 	) {return;}	
 
@@ -1758,7 +1777,7 @@ switch (FEAT_HOUSES, SELF, switch_shops_01_con_check,
 	HasRoadAdjacentSW() && 
 	HasRoadAdjacentSE() && 
 	ModernOfficePopCheck() &&		// Is there population to allow another
-	WithinTwoOfSameClass()			// Must be within two tiles of the same building class
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
 	) {return;}	
 
 // Recolouring
@@ -1849,7 +1868,7 @@ switch (FEAT_HOUSES, SELF, switch_shops_02_con_check,
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	BanFromHistDistrict() &&		// Cannot build close to Temple
 	ModernOfficePopCheck() &&		// Is there sufficieny population to build another?
-	WithinTwoOfSameClass()			// Must be within two tiles of the same building class
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
 	) {return;}	
 
 item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
@@ -1969,7 +1988,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_01_con_check,
 	IsUniqueHouse() &&			// Only one in city
 	PopOver30k() &&				// Population of city is over 30k
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
+	IfFirstSkyscraper() &&		// If first skyscraper, it must build beside a Class 2
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}		
  
@@ -2063,7 +2083,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check,
 	IsUniqueHouse() &&			// Only one in city
 	PopOver30k() &&				// Population of city is over 30k
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
+	IfFirstSkyscraper() &&		// If first skyscraper, it must build beside a Class 2
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
@@ -2159,7 +2180,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_03_con_check,
 	IsUniqueHouse() &&			// Only one in city
 	PopOver30k() &&				// Population of city is over 30k
 	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	WithinTwoOfSameClass() &&	// Must be within two tiles of the same building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
+	IfFirstSkyscraper() &&		// If first skyscraper, it must build beside a Class 2
 	BanFromHistDistrict()		// Cannot build close to Temple
 	) {return;}	
 
