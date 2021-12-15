@@ -63,6 +63,7 @@ houses = [
     ### LANDMARKS ###
     "temple_01",                # ID 66-69
     "shiro_01",                 # ID 70-73
+    "stadium_01",               # ID 60-63
 
     ]
 

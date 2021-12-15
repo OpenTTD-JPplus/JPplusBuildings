@@ -4,9 +4,8 @@ cargotable {
 	PASS, 		// Obviously
 	MAIL, 		// Obviously
 	GOOD, 		// For Commercial Buildings
-	FOOD, 
-	BEER, 
-	WSTE, 		// Kept in for compatibility with ITI 
+	FOOD, 		// 
+	BEER, 		// For Stadiums
 	PETR,		// For Petrol Stations	
 }
 
@@ -17,6 +16,10 @@ switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PA
 switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
 // Petroleum Fuels Service - for Petrol Stations
 switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
+// Alcohol Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceBEER, (cargo_accepted_nearby_last_month(BEER) == 1 || cargo_accepted_nearby_this_month(BEER) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceFOOD, (cargo_accepted_nearby_last_month(FOOD) == 1 || cargo_accepted_nearby_this_month(FOOD) == 1)) {return;}
 
 /* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
 

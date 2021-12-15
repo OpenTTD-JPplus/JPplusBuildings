@@ -1,0 +1,178 @@
+// Begin stadium_01
+
+// Sprites
+spriteset (spr_build_stadium_01, 						"src/gfx/landmarks/stadium_01/building.png") 					{template_house_100(1,1)}
+spriteset (spr_build_stadium_01_snow, 					"src/gfx/landmarks/stadium_01/building.png") 					{template_house_100(1,102)}
+
+spriteset (spr_ground_stadium_01, 						"src/gfx/landmarks/stadium_01/ground.png") 						{template_house_100(1,1)}
+spriteset (spr_ground_stadium_01_snow, 					"src/gfx/landmarks/stadium_01/ground.png") 						{template_house_100(1,102)}
+
+// Normal Sprites
+spritelayout sprlay_stadium_01_north {
+	ground {
+		sprite: spr_ground_stadium_01(0);
+	}
+	building {
+		sprite: spr_build_stadium_01(0);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_east {
+	ground {
+		sprite: spr_ground_stadium_01(2);
+	}
+	building {
+		sprite: spr_build_stadium_01(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_west {
+	ground {
+		sprite: spr_ground_stadium_01(1);
+	}
+	building {
+		sprite: spr_build_stadium_01(1);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_south {
+	ground {
+		sprite: spr_ground_stadium_01(3);
+	}
+	building {
+		sprite: spr_build_stadium_01(3);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_stadium_01_snow_north {
+	ground {
+		sprite: spr_ground_stadium_01_snow(0);
+	}
+	building {
+		sprite: spr_build_stadium_01_snow(0);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_snow_east {
+	ground {
+		sprite: spr_ground_stadium_01_snow(2);
+	}
+	building {
+		sprite: spr_build_stadium_01_snow(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_snow_west {
+	ground {
+		sprite: spr_ground_stadium_01_snow(1);
+	}
+	building {
+		sprite: spr_build_stadium_01_snow(1);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_stadium_01_snow_south {
+	ground {
+		sprite: spr_ground_stadium_01_snow(3);
+	}
+	building {
+		sprite: spr_build_stadium_01_snow(3);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_stadium_01_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_stadium_01_snow_north;
+	sprlay_stadium_01_north;
+}
+switch(FEAT_HOUSES, SELF, switch_stadium_01_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_stadium_01_snow_east;
+	sprlay_stadium_01_east;
+}
+switch(FEAT_HOUSES, SELF, switch_stadium_01_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_stadium_01_snow_west;
+	sprlay_stadium_01_west;
+}
+switch(FEAT_HOUSES, SELF, switch_stadium_01_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_stadium_01_snow_south;
+	sprlay_stadium_01_south;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_stadium_01)
+	{
+		//1: PALETTE_CC_RED;			Nah
+		2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;			Nah
+		1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;			Nah
+		2: PALETTE_CC_DARK_GREEN;
+		//3: PALETTE_CC_CREAM;
+		//1: PALETTE_CC_MAUVE;			Nah
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_stadium_01_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse()				// Only one per city
+	) {return;}	
+
+// Protection Check
+switch (FEAT_HOUSES, SELF, switch_stadium_01_pro_check, 
+	FuncServiceFOOD() ||		
+	FuncServiceBEER()			
+	) {return;}	
+
+item(FEAT_HOUSES, item_stadium_01, 60, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20; //Stadium since 2x2
+		name: 						string(NAME_STADIUM_01);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				65;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1970,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		//building_class:			3;	
+		}
+	graphics {
+		graphics_north: 			switch_stadium_01_north;
+		graphics_east: 				switch_stadium_01_east;
+		graphics_west: 				switch_stadium_01_west;
+		graphics_south: 			switch_stadium_01_south;
+		construction_check:			switch_stadium_01_con_check;
+		protection:					switch_stadium_01_pro_check;	
+		cargo_production: 			func_produce(10,2);
+		colour: 					rand_recolor_stadium_01;
+	}
+}
+
+// End stadium_01
