@@ -38,6 +38,7 @@ houses = [
     "small_apartments_01",      # ID 02
     "small_apartments_02",      # ID 44
     "small_apartments_03",      # ID 45
+    "small_apartments_04",      # ID 46
     ### Apartments ###
     "apartments_01",            # ID 27
     "apartments_02",            # ID 30
