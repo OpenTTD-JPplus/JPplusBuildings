@@ -60,7 +60,7 @@ houses = [
     "skyscraper_01",            # ID 76-77
     "skyscraper_02",            # ID 78
     "skyscraper_03",            # ID 79
-
+    "skyscraper_04",            # ID 80
     ### LANDMARKS ###
     "temple_01",                # ID 66-69
     "shiro_01",                 # ID 70-73
