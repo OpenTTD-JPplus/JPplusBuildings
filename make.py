@@ -49,7 +49,8 @@ houses = [
     ### Shops ###
     "shops_01",                 # ID 48
     "shops_02",                 # ID 47
-    "petrol_station_01",         # ID 50-51
+    "petrol_station_01",        # ID 50-51
+    "restaurant_01",            # ID 64
     ### Offices ###
     "offices_01",               # ID 36
     "offices_02",               # ID 37
