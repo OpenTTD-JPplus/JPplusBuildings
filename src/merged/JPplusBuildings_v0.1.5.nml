@@ -30,9 +30,14 @@ cargotable {
 	PASS, 		// Obviously
 	MAIL, 		// Obviously
 	GOOD, 		// For Commercial Buildings
-	FOOD, 		// 
+	EOIL,		// For Restaurants
+	FISH,		// For Restaurants
+	FOOD, 		// For Stadiums and Restaurants
+	JAVA,		// For Restaurants
+	LVST,		// For Restaurants
 	BEER, 		// For Stadiums
-	PETR,		// For Petrol Stations	
+	PETR,		// For Petrol Stations
+	RFPR,		// For Hospitals	
 }
 
 /* Functions checking for service of cargoes */
@@ -46,6 +51,10 @@ switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PET
 switch(FEAT_HOUSES, SELF, FuncServiceBEER, (cargo_accepted_nearby_last_month(BEER) == 1 || cargo_accepted_nearby_this_month(BEER) == 1)) {return;}
 // Food Service - for Stadiums
 switch(FEAT_HOUSES, SELF, FuncServiceFOOD, (cargo_accepted_nearby_last_month(FOOD) == 1 || cargo_accepted_nearby_this_month(FOOD) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceEOIL, (cargo_accepted_nearby_last_month(EOIL) == 1 || cargo_accepted_nearby_this_month(EOIL) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceFISH, (cargo_accepted_nearby_last_month(FISH) == 1 || cargo_accepted_nearby_this_month(FISH) == 1)) {return;}
 
 /* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
 
@@ -1634,17 +1643,26 @@ switch (FEAT_HOUSES, SELF, switch_restaurant_01_con_check,
 
 // Protection Check
 switch (FEAT_HOUSES, SELF, switch_restaurant_01_pro_check, 
-	FuncServicePASS() &&		// Must have PASS delivered
-	FuncServiceFOOD()			// Must have PETR delivered
+	FuncServicePASS() 	&&		// Must have PASS delivered
+	(FuncServiceFOOD()	||		// Must have either FOOD delivered
+	FuncServiceEOIL()	||		// or Edible Oil
+	FuncServiceFISH()   )		// or Fish	
 	) {return;}	
 
 item(FEAT_HOUSES, item_restaurant_01, 64, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				29; 													
 		name: 						string(NAME_RESTAURANT_01);
-		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);	// Want flat land
-		population: 				50;														// Agreed to JPS
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[FOOD,8]];							// Agreed to JPS and bumped up FOOD
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);		// Want flat land
+		population: 				50;									// Agreed to JPS
+		accepted_cargos: 			[
+										[PASS, 4],[MAIL, 2],			// Of course
+										[FOOD, 8],						// Food in general
+										[JAVA ,8],						// Coffee
+										[EOIL, 8],						// Oil for cooking
+										[LVST, 8],						// Meat for restaurant
+										[FISH, 8],						// It's a sushi restuarant!
+									];							
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				10;
@@ -2358,8 +2376,8 @@ spritelayout sprlay_skyscraper_04_snow {
 	}
 	building {
 		sprite: spr_build_skyscraper_04_snow(construction_state);
-		xoffset: -1;
-		yoffset: -2;
+		xoffset: 3;
+		yoffset: 0;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
