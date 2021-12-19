@@ -21,51 +21,52 @@ houses = [
     ### RESIDENTIAL | Class 0 | make sure all the IDs added into the population adder function!! ###
     
     ### Townhouses ###
-    "townhouses_01",            # ID 06
-    "townhouses_02",            # ID 05
+    "townhouses/townhouses_01",             # ID 06
+    "townhouses/townhouses_02",             # ID 05
     ### Houses ###
-    "naganuma_house",           # ID 26
-    "nishikawa_house",          # ID 26
-    #"houses_old",              # ID 108
-    "takamaro_01",              # ID 52
-    "takamaro_02",              # ID 53
-    "takamaro_03",              # ID 54
-    "takamaro_04",              # ID 55
-    #"old_houses",              # ID 24
-    #"cottages",                # ID 25
-    #"townhouses_old",          # ID 109
+    "houses/naganuma_house",                # ID 26
+    "houses/nishikawa_house",               # ID 26
+    #"houses_old",              
+    "takamaro/takamaro_01",                 # ID 52
+    "takamaro/takamaro_02",                 # ID 53
+    "takamaro/takamaro_03",                 # ID 54
+    "takamaro/takamaro_04",                 # ID 55
+    #"old_houses",              
+    #"cottages",                
+    #"townhouses_old",          
     ### Small Apartments ###
-    "small_apartments_01",      # ID 02
-    "small_apartments_02",      # ID 44
-    "small_apartments_03",      # ID 45
-    "small_apartments_04",      # ID 46
+    "small_apartments/small_apartments_01",      # ID 02
+    "small_apartments/small_apartments_02",      # ID 44
+    "small_apartments/small_apartments_03",      # ID 45
+    "small_apartments/small_apartments_04",      # ID 46
     ### Apartments ###
-    "apartments_01",            # ID 27
-    "apartments_02",            # ID 30
-    "apartments_04",            # ID 56
+    "apartments/apartments_01",            # ID 27
+    "apartments/apartments_02",            # ID 30
+    "apartments/apartments_04",            # ID 56
     
     ### SHOPS AND OFFICES | Class 2 ###
     
     ### Shops ###
-    "shops_01",                 # ID 48
-    "shops_02",                 # ID 47
-    "petrol_station_01",        # ID 50-51
-    "restaurant_01",            # ID 64
+    "shops/shops_01",                       # ID 48
+    "shops/shops_02",                       # ID 47
+    "shops/petrol_station_01",              # ID 50-51
+    "shops/restaurant_01",                  # ID 64
     ### Offices ###
-    "offices_01",               # ID 36
-    "offices_02",               # ID 37
-    "offices_03",               # ID 49
-    "offices_04",               # ID 58
-    "offices_05",               # ID 59
+    "offices/offices_01",                   # ID 36
+    "offices/offices_02",                   # ID 37
+    "offices/offices_03",                   # ID 49
+    "offices/offices_04",                   # ID 58
+    "offices/offices_05",                   # ID 59
     ### Skyscrapers ###         
-    "skyscraper_01",            # ID 76-77
-    "skyscraper_02",            # ID 78
-    "skyscraper_03",            # ID 79
-    "skyscraper_04",            # ID 80
+    "skyscrapers/skyscraper_01",            # ID 76-77
+    "skyscrapers/skyscraper_02",            # ID 78
+    "skyscrapers/skyscraper_03",            # ID 79
+    "skyscrapers/skyscraper_04",            # ID 80
     ### LANDMARKS ###
-    "temple_01",                # ID 66-69
-    "shiro_01",                 # ID 70-73
-    "stadium_01",               # ID 60-63
+    "landmarks/temple_01",                  # ID 66-69
+    "landmarks/shiro_01",                   # ID 70-73
+    "landmarks/stadium_01",                 # ID 60-63
+    "landmarks/hospital_01",                # ID 40-43
 
     ]
 
