@@ -42,6 +42,7 @@ houses = [
     ### Apartments ###
     "apartments/apartments_01",            # ID 27
     "apartments/apartments_02",            # ID 30
+    "apartments/apartments_03",            # ID 31
     "apartments/apartments_04",            # ID 56
     
     ### SHOPS AND OFFICES | Class 2 ###
