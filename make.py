@@ -10,8 +10,8 @@ header_stuff = [
     "header",
     "cargotable",
     "HouseGap",
+    "clustering",
     "population",
-    "historical_district",
     "functions",  
     "sprite_templates",
     ]
@@ -64,6 +64,8 @@ houses = [
     "skyscrapers/skyscraper_03",            # ID 79
     "skyscrapers/skyscraper_04",            # ID 80
     "skyscrapers/skyscraper_05",            # ID 81
+    "skyscrapers/skyscraper_06",            # ID 82
+
     ### LANDMARKS ###
     "landmarks/temple_01",                  # ID 66-69
     "landmarks/shiro_01",                   # ID 70-73

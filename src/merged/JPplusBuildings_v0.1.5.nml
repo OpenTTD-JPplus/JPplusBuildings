@@ -137,56 +137,7 @@ switch(FEAT_HOUSES, SELF, HouseOfficeGap,
 
 /* End HouseGap */
 
-/* Begin population */
-
-// Function to add the the numbers of residential building, with a population factor based on size
-switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
-	
-	// Houses
-	(other_house_count_town(26)*2)+ 	// Naganuma House
-	(other_house_count_town(65)*2)+ 	// Nishikawa House
-
-	// Takamaro Houses
-	(other_house_count_town(52)*3)+ 	// Takamaro_01
-	(other_house_count_town(53)*3)+ 	// Takamaro_02
-	(other_house_count_town(54)*3)+ 	// Takamaro_03
-	(other_house_count_town(55)*3)+ 	// Takamaro_04
-
-	// Town Houses
-	(other_house_count_town(05)*3)+ 	// Townhouses_02
-	(other_house_count_town(06)*3)+ 	// Townhouses_01
-	
-	// Apartments		
-	(other_house_count_town(27)*10)+ 	// Apartments_01
-	(other_house_count_town(30)*10)+ 	// Apartments_02
-	(other_house_count_town(31)*10)+ 	// Apartments_02
-	(other_house_count_town(56)*10)+ 	// Apartments_04	
-
-	// Small Apartments
-	(other_house_count_town(02)*4)+ 	// Small Apartments 01
-	(other_house_count_town(44)*4)+ 	// Small Apartments 02
-	(other_house_count_town(45)*4) 		// Small Apartments 03
-	) {return;}
-
-/* Function to check if City */
-switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
-
-/* Population must be over a certain level */
-switch (FEAT_HOUSES, PARENT, PopOver10k, population >= 10000) {return;}
-switch (FEAT_HOUSES, PARENT, PopOver30k, population >= 30000) {return;}
-
-/* Modern Office Population Check */
-switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
-	// Residential population must be greater than the amount shown below
-	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
-
-/* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
-/*
-switch (FEAT_HOUSES, PARENT, HasPopulation, required, population >= required) {return;}
-
-/* End population */
-
-/* Begin historical district */
+/* Begin clustering */
 
 /* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
 
@@ -262,16 +213,98 @@ switch (FEAT_HOUSES, SELF, IsAdjacentToHouseClass, class_num,
 	IsTileHouseClass( 4,-4, class_num)
 	){return;}
 
+switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
+	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
+	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
+	) {return;}
 
-/* Function for Buildings that cannot build near Temple (Building Class 3) */ 
+switch (FEAT_HOUSES, SELF, AcrossAnAvenue, 
+	(nearby_tile_class( 0,-1) == TILE_CLASS_ROAD && nearby_tile_class( 0,-2) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class( 0, 1) == TILE_CLASS_ROAD && nearby_tile_class( 0, 2) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class(-1, 0) == TILE_CLASS_ROAD && nearby_tile_class(-2, 0) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class( 1, 0) == TILE_CLASS_ROAD && nearby_tile_class( 1, 0) == TILE_CLASS_ROAD)
+	) {return;}
+
+switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinFourOfSameClass, nearest_house_matching_criterion(4, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+
+/* Functions to appears in Construction Checks of buildings */
+
+// Allow first skyscraper to build near Class 2
+switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
+	((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || 
+	nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )
+	) {return;}
+
+// Buildings after the first of the class must cluster near the same class
+switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
+	same_class_count_town == 0 || 								// No building of same class in town OR
+	(WithinFourOfSameClass() &&  AcrossAnAvenue() ) ||			// Same class within 3 and with two road tiles in between OR
+	(WithinThreeOfSameClass() && HasTrackAdjacent() ) ||		// Same class within 3 and track beside new building OR
+	WithinTwoOfSameClass()										// Same class within 2
+	) {return;}
+
+// Function for Buildings that cannot build near Temple (Building Class 3)
 switch (FEAT_HOUSES, SELF, BanFromHistDistrict, IsAdjacentToHouseClass(3) == 0 
 	) {return;}
 
-/* Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District*/ 
+// Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District
 switch (FEAT_HOUSES, SELF, AllowInHistDistrict, IsAdjacentToHouseClass(3) != 0 
 	) {return;}
 
-/* End historical district */
+/* End clustering */
+
+/* Begin population */
+
+// Function to add the the numbers of residential building, with a population factor based on size
+switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
+	
+	// Houses
+	(other_house_count_town(26)*2)+ 	// Naganuma House
+	(other_house_count_town(65)*2)+ 	// Nishikawa House
+
+	// Takamaro Houses
+	(other_house_count_town(52)*3)+ 	// Takamaro_01
+	(other_house_count_town(53)*3)+ 	// Takamaro_02
+	(other_house_count_town(54)*3)+ 	// Takamaro_03
+	(other_house_count_town(55)*3)+ 	// Takamaro_04
+
+	// Town Houses
+	(other_house_count_town(05)*3)+ 	// Townhouses_02
+	(other_house_count_town(06)*3)+ 	// Townhouses_01
+	
+	// Apartments		
+	(other_house_count_town(27)*10)+ 	// Apartments_01
+	(other_house_count_town(30)*10)+ 	// Apartments_02
+	(other_house_count_town(31)*10)+ 	// Apartments_02
+	(other_house_count_town(56)*10)+ 	// Apartments_04	
+
+	// Small Apartments
+	(other_house_count_town(02)*4)+ 	// Small Apartments 01
+	(other_house_count_town(44)*4)+ 	// Small Apartments 02
+	(other_house_count_town(45)*4) 		// Small Apartments 03
+	) {return;}
+
+/* Function to check if City */
+switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
+
+/* Population must be over a certain level */
+switch (FEAT_HOUSES, PARENT, PopOver10k, population >= 10000) {return;}
+switch (FEAT_HOUSES, PARENT, PopOver30k, population >= 30000) {return;}
+
+/* Modern Office Population Check */
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
+	// Residential population must be greater than the amount shown below
+	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+
+/* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
+/*
+switch (FEAT_HOUSES, PARENT, HasPopulation, required, population >= required) {return;}
+
+/* End population */
 
 /* Begin Functions */
 
@@ -346,13 +379,6 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW,
 	nearby_tile_class( 1, 0) == TILE_CLASS_STATION
 	) {return;}
 
-switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
-	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
-	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
-	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
-	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
-	) {return;}
-
 /* House is Unique */
 switch (FEAT_HOUSES, SELF, IsUniqueHouse, same_house_count_town == 0) {return;}
 
@@ -362,21 +388,7 @@ switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
 /* Probabilities */
 switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
 
-/* Radius Checks */
-/* There is a building of the same class within a radius of 2, or there is no building of that class at all in the town */
-switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
-switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
-
-switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
-	same_class_count_town == 0 || 
-	(WithinThreeOfSameClass()  && HasTrackAdjacent() ) ||
-	WithinTwoOfSameClass()
-	) {return;}
-
 switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
-
-switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
-((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )) {return;}
 
 //switch (FEAT_HOUSES, SELF, IsUniqueInRadius, radius, nearest_house_matching_criterion(radius, SEARCH_HOUSE_BY_TYPE) == 0) {return;}
 
@@ -480,10 +492,10 @@ template template_house_200(x, y) {
 
 template template_house_200_wide(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
-    se: [ x,		y,		75,		200,	-36,		-168,	NOCROP | ANIM]
-    sw: [ x+76,		y,		75,		200,	-36,		-168,	NOCROP | ANIM]  
-    nw: [ x+152,	y,		75,		200,	-36,		-168,	NOCROP | ANIM]
-    ne: [ x+228,	y,		75,		200,	-36,		-168,	NOCROP | ANIM]
+    se: [ x,		y,		76,		200,	-37,		-168,	NOCROP | ANIM]
+    sw: [ x+77,		y,		76,		200,	-37,		-168,	NOCROP | ANIM]  
+    nw: [ x+154,	y,		76,		200,	-37,		-168,	NOCROP | ANIM]
+    ne: [ x+231,	y,		76,		200,	-37,		-168,	NOCROP | ANIM]
 }
 
 template template_house_250(x, y) {
@@ -496,10 +508,10 @@ template template_house_250(x, y) {
 
 template template_house_250_wide(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
-    se: [ x,		y,		75,		250,	-36,		-218,	NOCROP | ANIM]
-    sw: [ x+76,		y,		75,		250,	-36,		-218,	NOCROP | ANIM]  
-    nw: [ x+152,	y,		75,		250,	-36,		-218,	NOCROP | ANIM]
-    ne: [ x+228,	y,		75,		250,	-36,		-218,	NOCROP | ANIM]
+    se: [ x,		y,		76,		250,	-37,		-218,	NOCROP | ANIM]
+    sw: [ x+77,		y,		76,		250,	-37,		-218,	NOCROP | ANIM]  
+    nw: [ x+154,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
+    ne: [ x+231,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
 }
 
 
@@ -2908,12 +2920,12 @@ item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 // Begin skyscraper_03
 
 // Building Sprites
-spriteset (spr_build_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/building.png") 							{template_house_250_wide(1,1)}
+spriteset (spr_build_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/building.png") 						{template_house_250_wide(1,1)}
 spriteset (spr_build_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/building.png") 						{template_house_250_wide(1,252)}
 
 // Ground Sprites
-spriteset (spr_ground_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_250_wide(1,1)}
-spriteset (spr_ground_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_250_wide(1,252)}
+spriteset (spr_ground_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_house_80(1,82)}
 
 // Normal Sprites
 spritelayout sprlay_skyscraper_03 {
@@ -3118,8 +3130,8 @@ spritelayout sprlay_skyscraper_05 {
 	}
 	building {
 		sprite: spr_build_skyscraper_05(construction_state);
-		xoffset: -1;
-		yoffset:  1;
+		xoffset:  0;
+		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -3132,8 +3144,8 @@ spritelayout sprlay_skyscraper_05_snow {
 	}
 	building {
 		sprite: spr_build_skyscraper_05_snow(construction_state);
-		xoffset: -1;
-		yoffset:  1;
+		xoffset:  0;
+		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -3199,6 +3211,108 @@ item(FEAT_HOUSES, item_skyscraper_05, 81, HOUSE_SIZE_1X1){
 }
 
 // End skyscraper_05
+
+// Begin skyscraper_06
+
+// Building Sprites
+spriteset (spr_build_skyscraper_06, 			"src/gfx/skyscrapers/skyscraper_06/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_06_snow, 		"src/gfx/skyscrapers/skyscraper_06/building.png") 				{template_house_200_wide(1,202)}
+
+// Ground Sprites
+spriteset (spr_ground_skyscraper_06, 			"src/gfx/skyscrapers/skyscraper_06/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_06_snow, 		"src/gfx/skyscrapers/skyscraper_06/ground.png") 				{template_house_80(1,82)}
+
+// Normal Sprites
+spritelayout sprlay_skyscraper_06 {
+	ground {
+		sprite: spr_ground_skyscraper_06(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_06(construction_state);
+		xoffset:  0;
+		yoffset:  2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_skyscraper_06_snow {
+	ground {
+		sprite: spr_ground_skyscraper_06_snow(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_06_snow(construction_state);
+		xoffset:  0;
+		yoffset:  2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_skyscraper_06,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_06_snow;
+	sprlay_skyscraper_06;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_06)
+	{
+		1: PALETTE_CC_RED;			
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;			
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_06_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	IsCity() && 					// Can only appear in cities
+	IsUniqueHouse() &&				// Only one in city
+	PopOver30k() &&					// Population of city is over 30k
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
+	BanFromHistDistrict()			// Cannot build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_skyscraper_06, 82, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				4; 													
+		name: 						string(NAME_SKYSCRAPER_06);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				200;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1960,0xFFFF];											// JPS=1989
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE), 
+									bitmask(
+										CLIMATE_TEMPERATE, 
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE
+									)];
+		building_class:				5;	
+		}
+	graphics {
+		default: 					switch_skyscraper_06;
+		construction_check:			switch_skyscraper_06_con_check;
+		cargo_production: 			func_produce(24,10);
+		colour: 					rand_recolor_skyscraper_06; 
+	}
+}
+
+// End skyscraper_06
 
 // Begin small_apartments_01
 

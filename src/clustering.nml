@@ -1,4 +1,4 @@
-/* Begin historical district */
+/* Begin clustering */
 
 /* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
 
@@ -74,13 +74,46 @@ switch (FEAT_HOUSES, SELF, IsAdjacentToHouseClass, class_num,
 	IsTileHouseClass( 4,-4, class_num)
 	){return;}
 
+switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
+	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
+	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
+	) {return;}
 
-/* Function for Buildings that cannot build near Temple (Building Class 3) */ 
+switch (FEAT_HOUSES, SELF, AcrossAnAvenue, 
+	(nearby_tile_class( 0,-1) == TILE_CLASS_ROAD && nearby_tile_class( 0,-2) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class( 0, 1) == TILE_CLASS_ROAD && nearby_tile_class( 0, 2) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class(-1, 0) == TILE_CLASS_ROAD && nearby_tile_class(-2, 0) == TILE_CLASS_ROAD) || 
+	(nearby_tile_class( 1, 0) == TILE_CLASS_ROAD && nearby_tile_class( 1, 0) == TILE_CLASS_ROAD)
+	) {return;}
+
+switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinFourOfSameClass, nearest_house_matching_criterion(4, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+
+/* Functions to appears in Construction Checks of buildings */
+
+// Allow first skyscraper to build near Class 2
+switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
+	((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || 
+	nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )
+	) {return;}
+
+// Buildings after the first of the class must cluster near the same class
+switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
+	same_class_count_town == 0 || 								// No building of same class in town OR
+	(WithinFourOfSameClass() &&  AcrossAnAvenue() ) ||			// Same class within 3 and with two road tiles in between OR
+	(WithinThreeOfSameClass() && HasTrackAdjacent() ) ||		// Same class within 3 and track beside new building OR
+	WithinTwoOfSameClass()										// Same class within 2
+	) {return;}
+
+// Function for Buildings that cannot build near Temple (Building Class 3)
 switch (FEAT_HOUSES, SELF, BanFromHistDistrict, IsAdjacentToHouseClass(3) == 0 
 	) {return;}
 
-/* Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District*/ 
+// Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District
 switch (FEAT_HOUSES, SELF, AllowInHistDistrict, IsAdjacentToHouseClass(3) != 0 
 	) {return;}
 
-/* End historical district */
+/* End clustering */
