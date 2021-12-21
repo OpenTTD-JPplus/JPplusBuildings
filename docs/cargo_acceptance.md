@@ -16,9 +16,9 @@
 ### 2) Raw Food
 | 1) | Code | Name of Cargo | Accepted | Where its accepted |
 | --- | --- | --- | --- | --- |
-| 🥔 | CASS | Cassava | | |
+| 🥔 | CASS | Cassava | ✅ | Small Shops |
 | ☕️ | JAVA | Coffee | ✅ | Restaurants |
-| 🍎 | FRUT | Fruit | | |
+| 🍎 | FRUT | Fruit | ✅ | Small Shops |
 | 🥩 | LVST | Livestock | ✅ | Restaurants |
 | 🌽 | MAIZ| Maize | | |
 |🥜 | NUTS | Nuts | | |
@@ -53,7 +53,7 @@
 | 🍺 | BEER | Alcohol  | ✅ | Hospital |
 | 🧱 | BDMT | Building Mats | | |
 | 🔌 | COPR | Copper | | |
-| 🍲 | FOOD | Food | ✅ | Restaurants |
+| 🍲 | FOOD | Food | ✅ | Various |
 | 📦 | GOOD | Goods| ✅ | Commercial Buildings |
 
 

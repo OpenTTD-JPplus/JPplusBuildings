@@ -4,9 +4,11 @@ cargotable {
 	PASS, 		// Obviously
 	MAIL, 		// Obviously
 	GOOD, 		// For Commercial Buildings
+	CASS,		// For Shops
 	EOIL,		// For Restaurants
 	FISH,		// For Restaurants
 	FOOD, 		// For Stadiums and Restaurants
+	FRUT,		// For Shops
 	JAVA,		// For Restaurants
 	LVST,		// For Restaurants
 	BEER, 		// For Stadiums
@@ -31,6 +33,12 @@ switch(FEAT_HOUSES, SELF, FuncServiceEOIL, (cargo_accepted_nearby_last_month(EOI
 switch(FEAT_HOUSES, SELF, FuncServiceFISH, (cargo_accepted_nearby_last_month(FISH) == 1 || cargo_accepted_nearby_this_month(FISH) == 1)) {return;}
 // Chemicals Service - for Stadiums
 switch(FEAT_HOUSES, SELF, FuncServiceRFPR, (cargo_accepted_nearby_last_month(RFPR) == 1 || cargo_accepted_nearby_this_month(RFPR) == 1)) {return;}
+// Fruit - for Shops
+switch(FEAT_HOUSES, SELF, FuncServiceFRUT, (cargo_accepted_nearby_last_month(FRUT) == 1 || cargo_accepted_nearby_this_month(FRUT) == 1)) {return;}
+// Cassava - for shops
+switch(FEAT_HOUSES, SELF, FuncServiceCASS, (cargo_accepted_nearby_last_month(CASS) == 1 || cargo_accepted_nearby_this_month(CASS) == 1)) {return;}
+// Goods - for various
+switch(FEAT_HOUSES, SELF, FuncServiceGOOD, (cargo_accepted_nearby_last_month(GOOD) == 1 || cargo_accepted_nearby_this_month(GOOD) == 1)) {return;}
 
 /* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
 
