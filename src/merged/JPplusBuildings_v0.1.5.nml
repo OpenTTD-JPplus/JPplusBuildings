@@ -5,12 +5,22 @@
 */
 
 grf {
-	grfid: "KR04";
-	name: string(STR_GRF_NAME);
-	desc: string(STR_GRF_DESC);
-	version: 1;
-	min_compatible_version: 1;
-	url: string(STR_WEBSITE);
+	grfid: 						"KR04";
+	name: 						string(STR_GRF_NAME);
+	desc: 						string(STR_GRF_DESC);
+	version: 					1;
+	min_compatible_version: 	1;
+	url: 						string(STR_WEBSITE);
+
+/*
+param 0 {
+  extra_bank {
+   name: 						string(STR_PARAM_NAME_EXTRA_BANK);
+   desc: 						string(STR_PARAM_DESC_EXTRA_BANK);
+   type: 						bool;
+   def_value: 					0;
+   }}
+*/
 }
 
 if (version_openttd(1,10,0,28004) > openttd_version) {
@@ -18,9 +28,6 @@ if (version_openttd(1,10,0,28004) > openttd_version) {
 }
 
 disable_item(FEAT_HOUSES);
-
-/* Use sidewalks on desert roads, as in Temperate. */
-desert_paved_roads = 1;
 
 /* *** End Header *** */
 
@@ -3555,6 +3562,105 @@ item(FEAT_HOUSES, item_skyscraper_06, 82, HOUSE_SIZE_1X1){
 }
 
 // End skyscraper_06
+
+// Begin skyscraper_07
+
+// Building Sprites
+spriteset (spr_build_skyscraper_07, 			"src/gfx/skyscrapers/skyscraper_07/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_07_snow, 		"src/gfx/skyscrapers/skyscraper_07/building.png") 				{template_house_200_wide(1,202)}
+
+// Ground Sprites
+spriteset (spr_ground_skyscraper_07, 			"src/gfx/skyscrapers/skyscraper_07/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_07_snow, 		"src/gfx/skyscrapers/skyscraper_07/ground.png") 				{template_house_80(1,82)}
+
+// Normal Sprites
+spritelayout sprlay_skyscraper_07 {
+	ground {
+		sprite: spr_ground_skyscraper_07(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_07(construction_state);
+		xoffset:  2;
+		yoffset:  0;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_skyscraper_07_snow {
+	ground {
+		sprite: spr_ground_skyscraper_07_snow(construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_07_snow(construction_state);
+		xoffset:  0;
+		yoffset:  2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_skyscraper_07,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_07_snow;
+	sprlay_skyscraper_07;
+}
+
+// Recolouring
+
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_07)
+	{
+		1: PALETTE_CC_RED;			
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;			
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_07_con_check, 
+	FuncServicePASS() &&		// Must have passenger service
+	IsCity() && 				// Can only appear in cities
+	IsUniqueHouse() &&			// Only one in city
+	PopOver30k() &&				// Population of city is over 30k
+	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
+	IfFirstSkyscraper() &&		// If first skyscraper, it must build beside a Class 2
+	BanFromHistDistrict()		// Cannot build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_skyscraper_07, 83, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				4; 													
+		name: 						string(NAME_SKYSCRAPER_07);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				220;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[2000,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				5;	
+		}
+	graphics {
+		default: 					switch_skyscraper_07;
+		construction_check:			switch_skyscraper_07_con_check;
+		cargo_production: 			func_produce(24,10);
+		colour: 					rand_recolor_skyscraper_07; 
+	}
+}
+
+// End skyscraper_07
 
 // Begin small_apartments_01
 
