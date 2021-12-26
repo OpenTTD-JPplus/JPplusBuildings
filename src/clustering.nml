@@ -81,11 +81,65 @@ switch (FEAT_HOUSES, SELF, HasTrackAdjacent,
 	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
 	) {return;}
 
+/* Purpose of this function is to allow Class 2 and Class 5 to build across an Avenue, i.e. 2 or 3 tile wide roads/trams */
 switch (FEAT_HOUSES, SELF, AcrossAnAvenue, 
-	(nearby_tile_class( 0,-1) == TILE_CLASS_ROAD && nearby_tile_class( 0,-2) == TILE_CLASS_ROAD) || 
-	(nearby_tile_class( 0, 1) == TILE_CLASS_ROAD && nearby_tile_class( 0, 2) == TILE_CLASS_ROAD) || 
-	(nearby_tile_class(-1, 0) == TILE_CLASS_ROAD && nearby_tile_class(-2, 0) == TILE_CLASS_ROAD) || 
-	(nearby_tile_class( 1, 0) == TILE_CLASS_ROAD && nearby_tile_class( 1, 0) == TILE_CLASS_ROAD)
+	(	(	
+		nearby_tile_class( 0,-1) == TILE_CLASS_ROAD && 
+		nearby_tile_class( 0,-2) == TILE_CLASS_ROAD 
+		) 
+		&& 
+		(	
+		nearby_tile_house_class ( 0,-3) == 258 || 
+		nearby_tile_house_class ( 0,-3) == 261 || 
+		nearby_tile_house_class ( 0,-4) == 258 || 
+		nearby_tile_house_class ( 0,-4) == 261 
+		)
+	) 
+
+	|| 
+
+	(	(	
+		nearby_tile_class( 0, 1) == TILE_CLASS_ROAD && 
+		nearby_tile_class( 0, 2) == TILE_CLASS_ROAD
+		)
+		&& 
+		(	
+		nearby_tile_house_class ( 0, 3) == 258 || 
+		nearby_tile_house_class ( 0, 3) == 261 || 
+		nearby_tile_house_class ( 0, 4) == 258 || 
+		nearby_tile_house_class ( 0, 4) == 261 
+		)
+	) 	
+	
+	|| 
+
+	(	(
+		nearby_tile_class(-1, 0) == TILE_CLASS_ROAD && 
+		nearby_tile_class(-2, 0) == TILE_CLASS_ROAD
+		)
+		&& 
+		(	
+		nearby_tile_house_class (-3, 0) == 258 || 
+		nearby_tile_house_class (-3, 0) == 261 || 
+		nearby_tile_house_class (-4, 0) == 258 || 
+		nearby_tile_house_class (-4, 0) == 261 
+		)
+	)  
+		
+	||
+
+	(	(
+		nearby_tile_class( 1, 0) == TILE_CLASS_ROAD && 
+		nearby_tile_class( 2, 0) == TILE_CLASS_ROAD
+		)  
+		&& 
+		(	
+		nearby_tile_house_class ( 3, 0) == 258 || 
+		nearby_tile_house_class ( 3, 0) == 261 || 
+		nearby_tile_house_class ( 4, 0) == 258 || 
+		nearby_tile_house_class ( 4, 0) == 261 
+		)
+	)  
 	) {return;}
 
 switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}

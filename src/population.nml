@@ -36,6 +36,10 @@ switch (FEAT_HOUSES, PARENT, IsCity, is_city == 1) {return;}
 /* Population must be over a certain level */
 switch (FEAT_HOUSES, PARENT, PopOver10k, population >= 10000) {return;}
 switch (FEAT_HOUSES, PARENT, PopOver30k, population >= 30000) {return;}
+switch (FEAT_HOUSES, PARENT, PopOver50k, population >= 50000) {return;}
+switch (FEAT_HOUSES, PARENT, PopOver70k, population >= 70000) {return;}
+
+//switch (FEAT_HOUSES, SELF, SkyscraperPopLadder, (population >= (30000 + (other_class_count_town(5) * 5000) ) ) ){return;}
 
 /* Modern Office Population Check */
 switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
@@ -43,7 +47,5 @@ switch (FEAT_HOUSES, SELF, ModernOfficePopCheck,
 	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
 
 /* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
-/*
-switch (FEAT_HOUSES, PARENT, HasPopulation, required, population >= required) {return;}
 
 /* End population */
