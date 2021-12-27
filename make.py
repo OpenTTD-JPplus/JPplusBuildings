@@ -26,11 +26,13 @@ houses = [
     ### Houses ###
     "houses/naganuma_house",                # ID 26
     "houses/nishikawa_house",               # ID 26
-    #"houses_old",              
-    "takamaro/takamaro_01",                 # ID 52
-    "takamaro/takamaro_02",                 # ID 53
-    "takamaro/takamaro_03",                 # ID 54
-    "takamaro/takamaro_04",                 # ID 55
+    ### Old Houses ###              
+    #"houses_old/takamaro/takamaro_01",      # ID 52
+    #"houses_old/takamaro/takamaro_02",      # ID 53
+    #"houses_old/takamaro/takamaro_03",      # ID 54
+    #"houses_old/takamaro/takamaro_04",      # ID 55
+    "houses_old/old_houses_01",             # ID 13
+    "houses_old/old_houses_02",             # ID 14
     #"old_houses",              
     #"cottages",                
     #"townhouses_old",          

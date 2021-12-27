@@ -347,6 +347,9 @@ switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
 	(other_house_count_town(26)*2)+ 	// Naganuma House
 	(other_house_count_town(65)*2)+ 	// Nishikawa House
 
+	// Old House
+	(other_house_count_town(13)*2)+ 	// Old Houses 01
+
 	// Takamaro Houses
 	(other_house_count_town(52)*3)+ 	// Takamaro_01
 	(other_house_count_town(53)*3)+ 	// Takamaro_02
@@ -1330,6 +1333,260 @@ item(FEAT_HOUSES, item_nishikawa_house, 65, HOUSE_SIZE_1X1){
 	}
 }
 // End nishikawa_house
+
+// Begin old_houses_01
+
+spriteset (spr_old_houses_01_a, 						"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_01_a_snow, 					"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_01_b, 						"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_01_b_snow, 					"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_01_ground, 					"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_old_houses_01_ground_snow, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_old_houses_01_a {
+	ground {
+		sprite: spr_old_houses_01_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_a(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_b {
+	ground {
+		sprite: spr_old_houses_01_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_b(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_a_snow {
+	ground {
+		sprite: spr_old_houses_01_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_a_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_b_snow {
+	ground {
+		sprite: spr_old_houses_01_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_b_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_old_houses_01_a,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_01_a_snow;
+	sprlay_old_houses_01_a;
+}
+
+switch(FEAT_HOUSES, SELF, switch_old_houses_01_b,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_01_b_snow;
+	sprlay_old_houses_01_b;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_old_houses_01_sprites) {
+	1: switch_old_houses_01_a;
+	1: switch_old_houses_01_b;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+switch (FEAT_HOUSES, SELF, switch_old_houses_01_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_old_houses_01, 13, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_OLD_HOUSES_01);
+		population: 				30;
+		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_old_houses_01_sprites;
+		construction_check: 		switch_old_houses_01_con_check;
+		cargo_production: 			func_produce(4,1);
+		colour: 					rand_recolor_old_houses_01;
+	}
+}
+
+// End old_houses_01
+
+// Begin old_houses_02
+
+spriteset (spr_old_houses_02_a, 						"src/gfx/houses_old/old_houses/building_02a.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_02_a_snow, 					"src/gfx/houses_old/old_houses/building_02a.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_02_b, 						"src/gfx/houses_old/old_houses/building_02b.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_02_b_snow, 					"src/gfx/houses_old/old_houses/building_02b.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_02_ground, 					"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_old_houses_02_ground_snow, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_old_houses_02_a {
+	ground {
+		sprite: spr_old_houses_02_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_02_a(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_02_b {
+	ground {
+		sprite: spr_old_houses_02_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_02_b(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_02_a_snow {
+	ground {
+		sprite: spr_old_houses_02_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_02_a_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_02_b_snow {
+	ground {
+		sprite: spr_old_houses_02_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_02_b_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_old_houses_02_a,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_02_a_snow;
+	sprlay_old_houses_02_a;
+}
+
+switch(FEAT_HOUSES, SELF, switch_old_houses_02_b,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_02_b_snow;
+	sprlay_old_houses_02_b;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_old_houses_02_sprites) {
+	1: switch_old_houses_02_a;
+	1: switch_old_houses_02_b;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_02)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+switch (FEAT_HOUSES, SELF, switch_old_houses_02_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_old_houses_02, 14, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_OLD_HOUSES_02);
+		population: 				30;
+		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_old_houses_02_sprites;
+		construction_check: 		switch_old_houses_02_con_check;
+		cargo_production: 			func_produce(4,1);
+		colour: 					rand_recolor_old_houses_02;
+	}
+}
+
+// End old_houses_02
 
 // Begin hospital_01
 
@@ -4347,340 +4604,6 @@ item(FEAT_HOUSES, item_small_apartments_04, 46, HOUSE_SIZE_1X1){
 }
 
 // End small_apartments_04
-
-// Begin takamaro_01
-
-spriteset (spr_takamaro_01, 							"src/gfx/houses_old/takamaro_01/building.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_01_snow, 						"src/gfx/houses_old/takamaro_01/building.png") 						{template_house_80(1,82)}
-spriteset (spr_takamaro_01_ground, 						"src/gfx/houses_old/takamaro_01/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_01_ground_snow, 				"src/gfx/houses_old/takamaro_01/ground.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_takamaro_01_norm {
-	ground {
-		sprite: spr_takamaro_01_ground;
-	}
-	building {
-		sprite: spr_takamaro_01;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_takamaro_01_snow {
-	ground {
-		sprite: spr_takamaro_01_ground_snow;
-	}
-	building {
-		sprite: spr_takamaro_01_snow;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_01_sprites, [
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_takamaro_01_snow; sprlay_takamaro_01_norm;}
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_01)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
-
-switch (FEAT_HOUSES, SELF, switch_takamaro_01_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_takamaro_01, 52, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
-		population: 				30;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1900,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		
-		}
-	graphics {
-		default: 					switch_takamaro_01_sprites;
-		construction_check: 		switch_takamaro_01_con_check;
-		cargo_production: 			func_produce(2,1);
-		//colour: 					rand_recolor_takamaro_01;
-	}
-}
-
-// End takamaro_01
-
-// Begin takamaro_02
-
-spriteset (spr_takamaro_02, 							"src/gfx/houses_old/takamaro_02/building.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_02_snow, 						"src/gfx/houses_old/takamaro_02/building.png") 						{template_house_80(1,82)}
-spriteset (spr_takamaro_02_ground, 						"src/gfx/houses_old/takamaro_02/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_02_ground_snow, 				"src/gfx/houses_old/takamaro_02/ground.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_takamaro_02_norm {
-	ground {
-		sprite: spr_takamaro_02_ground;
-	}
-	building {
-		sprite: spr_takamaro_02;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_takamaro_02_snow {
-	ground {
-		sprite: spr_takamaro_02_ground_snow;
-	}
-	building {
-		sprite: spr_takamaro_02_snow;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_02_sprites, [
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_takamaro_02_snow; sprlay_takamaro_02_norm;}
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_02)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
-
-switch (FEAT_HOUSES, SELF, switch_takamaro_02_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_takamaro_02, 53, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
-		population: 				30;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1900,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		
-		}
-	graphics {
-		default: 					switch_takamaro_02_sprites;
-		construction_check: 		switch_takamaro_02_con_check;
-		cargo_production: 			func_produce(2,1);
-		//colour: 					rand_recolor_takamaro_02;
-	}
-}
-
-// End takamaro_02
-
-// Begin takamaro_03
-
-spriteset (spr_takamaro_03, 							"src/gfx/houses_old/takamaro_03/building.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_03_snow, 						"src/gfx/houses_old/takamaro_03/building.png") 						{template_house_80(1,82)}
-spriteset (spr_takamaro_03_ground, 						"src/gfx/houses_old/takamaro_03/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_03_ground_snow, 				"src/gfx/houses_old/takamaro_03/ground.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_takamaro_03_norm {
-	ground {
-		sprite: spr_takamaro_03_ground;
-	}
-	building {
-		sprite: spr_takamaro_03(LOAD_TEMP(1));
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_takamaro_03_snow {
-	ground {
-		sprite: spr_takamaro_03_ground_snow;
-	}
-	building {
-		sprite: spr_takamaro_03_snow(LOAD_TEMP(1));
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_03_sprites, [
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_takamaro_03_snow; sprlay_takamaro_03_norm;}
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_03)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_takamaro_03_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_takamaro_03, 54, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
-		population: 				30;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1900,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		
-		}
-	graphics {
-		default: 					switch_takamaro_03_sprites;
-		construction_check: 		switch_takamaro_03_con_check;
-		cargo_production: 			func_produce(2,1);
-		//colour: 					rand_recolor_takamaro_03;
-	}
-}
-
-// End takamaro_03
-
-// Begin takamaro_04
-
-spriteset (spr_takamaro_04, 							"src/gfx/houses_old/takamaro_04/building.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_04_snow, 						"src/gfx/houses_old/takamaro_04/building.png") 						{template_house_80(1,82)}
-spriteset (spr_takamaro_04_ground, 						"src/gfx/houses_old/takamaro_04/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_takamaro_04_ground_snow, 				"src/gfx/houses_old/takamaro_04/ground.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_takamaro_04_norm {
-	ground {
-		sprite: spr_takamaro_04_ground;
-	}
-	building {
-		sprite: spr_takamaro_04;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_takamaro_04_snow {
-	ground {
-		sprite: spr_takamaro_04_ground_snow;
-	}
-	building {
-		sprite: spr_takamaro_04_snow;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_takamaro_04_sprites, [
-	// Check the rotation of the house
-	STORE_TEMP(switch_road_adjacency(), 1),
-	terrain_type == TILETYPE_SNOW])
-	{1: sprlay_takamaro_04_snow; sprlay_takamaro_04_norm;}
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_takamaro_04)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_takamaro_04_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_takamaro_04, 55, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
-		population: 				30;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1900,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		
-		}
-	graphics {
-		default: 					switch_takamaro_04_sprites;
-		construction_check: 		switch_takamaro_04_con_check;
-		cargo_production: 			func_produce(2,1);
-		//colour: 					rand_recolor_takamaro_04;
-	}
-}
-
-// End takamaro_04
 
 // Begin townhouses_01
 

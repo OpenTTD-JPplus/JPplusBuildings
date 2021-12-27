@@ -1,0 +1,126 @@
+// Begin old_houses_01
+
+spriteset (spr_old_houses_01_a, 						"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_01_a_snow, 					"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_01_b, 						"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,1)}
+spriteset (spr_old_houses_01_b_snow, 					"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,82)}
+
+spriteset (spr_old_houses_01_ground, 					"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_old_houses_01_ground_snow, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_old_houses_01_a {
+	ground {
+		sprite: spr_old_houses_01_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_a(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_b {
+	ground {
+		sprite: spr_old_houses_01_ground(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_b(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_a_snow {
+	ground {
+		sprite: spr_old_houses_01_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_a_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_old_houses_01_b_snow {
+	ground {
+		sprite: spr_old_houses_01_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_old_houses_01_b_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_old_houses_01_a,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_01_a_snow;
+	sprlay_old_houses_01_a;
+}
+
+switch(FEAT_HOUSES, SELF, switch_old_houses_01_b,terrain_type) {
+	TILETYPE_SNOW: sprlay_old_houses_01_b_snow;
+	sprlay_old_houses_01_b;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_old_houses_01_sprites) {
+	1: switch_old_houses_01_a;
+	1: switch_old_houses_01_b;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+switch (FEAT_HOUSES, SELF, switch_old_houses_01_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_old_houses_01, 13, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_OLD_HOUSES_01);
+		population: 				60;
+		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_old_houses_01_sprites;
+		construction_check: 		switch_old_houses_01_con_check;
+		cargo_production: 			func_produce(4,1);
+		colour: 					rand_recolor_old_houses_01;
+	}
+}
+
+// End old_houses_01
