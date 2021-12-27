@@ -21,6 +21,8 @@ cargotable {
 // Passenger Service
 switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
 switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
+// Mail Service
+switch(FEAT_HOUSES, SELF, FuncServiceMAIL, 	(cargo_accepted_nearby_last_month(MAIL) == 1 || cargo_accepted_nearby_this_month(MAIL) == 1)) {return;}
 // Petroleum Fuels Service - for Petrol Stations
 switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
 // Alcohol Service - for Stadiums
@@ -50,5 +52,10 @@ switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 
 
 /* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
 switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
+
+switch(FEAT_HOUSES, SELF, CommercialCargoes,
+	param_commercial_cargoes == 0 ||
+	(param_commercial_cargoes == 1 && FuncServiceMAIL() )
+) {return;}
 
 /* End cargotable */

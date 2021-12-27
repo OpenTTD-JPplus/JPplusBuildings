@@ -12,15 +12,20 @@ grf {
 	min_compatible_version: 	1;
 	url: 						string(STR_WEBSITE);
 
-/*
-param 0 {
-  extra_bank {
-   name: 						string(STR_PARAM_NAME_EXTRA_BANK);
-   desc: 						string(STR_PARAM_DESC_EXTRA_BANK);
-   type: 						bool;
-   def_value: 					0;
-   }}
-*/
+	param 0 {
+  		param_commercial_cargoes {
+			type: 				int;
+   			name: 				string(STR_PARAM_NAME_COMMERCIAL_CARGOES);
+   			desc: 				string(STR_PARAM_DESC_COMMERCIAL_CARGOES);
+   			def_value: 			0;
+			min_value:			0;
+			max_value:			1;
+			names: {
+				0: string(STR_PARAM_VALUE_COMMERCIAL_CARGOES_NONE);
+				1: string(STR_PARAM_VALUE_COMMERCIAL_CARGOES_MAIL_ONLY);
+			};
+   		}
+	}
 }
 
 if (version_openttd(1,10,0,28004) > openttd_version) {
@@ -54,6 +59,8 @@ cargotable {
 // Passenger Service
 switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
 switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
+// Mail Service
+switch(FEAT_HOUSES, SELF, FuncServiceMAIL, 	(cargo_accepted_nearby_last_month(MAIL) == 1 || cargo_accepted_nearby_this_month(MAIL) == 1)) {return;}
 // Petroleum Fuels Service - for Petrol Stations
 switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
 // Alcohol Service - for Stadiums
@@ -83,6 +90,11 @@ switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 
 
 /* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
 switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
+
+switch(FEAT_HOUSES, SELF, CommercialCargoes,
+	param_commercial_cargoes == 0 ||
+	(param_commercial_cargoes == 1 && FuncServiceMAIL() )
+) {return;}
 
 /* End cargotable */
 
@@ -235,6 +247,7 @@ switch (FEAT_HOUSES, SELF, HasTrackAdjacent,
 	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
 	) {return;}
 
+/* Purpose of this function is to allow Class 2 and Class 5 to build across an Avenue, i.e. 2 or 3 tile wide roads/trams */
 switch (FEAT_HOUSES, SELF, AcrossAnAvenue, 
 	(	(	
 		nearby_tile_class( 0,-1) == TILE_CLASS_ROAD && 
@@ -2111,11 +2124,12 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_01)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_offices_01_con_check, 
-	FuncServicePASS() &&		// Must have passenger service
-	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
-	IsUniqueHouse() &&			// Only one per city
-	BanFromHistDistrict()		// Cannot build close to Temple
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	IsUniqueHouse() &&				// Only one per city
+	BanFromHistDistrict()			// Cannot build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
@@ -2198,10 +2212,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_02)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_offices_02_con_check, 
-	FuncServicePASS() &&		// Must have passenger service
-	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
-	BanFromHistDistrict()		// Cannot build close to Temple
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	BanFromHistDistrict()			// Cannot build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_offices_02, 37, HOUSE_SIZE_1X1){
@@ -2284,10 +2299,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_03)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_offices_03_con_check, 
-	FuncServicePASS() &&		// Must have passenger service
-	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	BanFromHistDistrict()		// Cannot build close to Temple
+	BanFromHistDistrict()			// Cannot build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
@@ -2370,10 +2386,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_04)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_offices_04_con_check, 
-	FuncServicePASS() &&		// Must have passenger service
-	ModernOfficePopCheck() &&	// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&	// Must be within two tiles of the same building class
-	BanFromHistDistrict()		// Cannot build close to Temple
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	BanFromHistDistrict()			// Cannot build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_offices_04, 58, HOUSE_SIZE_1X1){
@@ -2457,6 +2474,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_05)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_offices_05_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
 	BanFromHistDistrict()			// Cannot build close to Temple
@@ -2773,6 +2791,7 @@ switch(FEAT_HOUSES, SELF, switch_shops_01_sprites,terrain_type) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_shops_01_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	BanFromHistDistrict() &&		// Cannot build close to Temple
 	HasRoadAdjacentSW() && 
 	HasRoadAdjacentSE() && 
@@ -2866,6 +2885,7 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	BanFromHistDistrict() &&		// Cannot build close to Temple
 	ModernOfficePopCheck() &&		// Is there sufficieny population to build another?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
