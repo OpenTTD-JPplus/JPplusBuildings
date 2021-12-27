@@ -2064,6 +2064,179 @@ item(FEAT_HOUSES, item_temple_01, 66, HOUSE_SIZE_2X2){
 
 // End temple_01
 
+// Begin temple_02
+
+// Sprites
+spriteset (spr_temple_02, 							"src/gfx/landmarks/temple_02/temple_02.png") 						{template_house_128(1,1)}
+spriteset (spr_temple_02_snow, 						"src/gfx/landmarks/temple_02/temple_02.png") 						{template_house_128(1,130)}
+
+// Normal Sprites
+spritelayout sprlay_temple_02_north {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_east {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(2);
+		xoffset: 1;
+		yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_west {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(0);
+		xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_south {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_temple_02_snow_north {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_east {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(2);
+		xoffset: 1;
+		yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_west {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(0);
+		xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_south {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_temple_02_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_north;
+	sprlay_temple_02_north;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_east;
+	sprlay_temple_02_east;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_west;
+	sprlay_temple_02_west;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_south;
+	sprlay_temple_02_south;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_temple_02)
+	{
+		//1: PALETTE_CC_RED;			Nah
+		2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;			Nah
+		1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;			Nah
+		2: PALETTE_CC_DARK_GREEN;
+		//3: PALETTE_CC_CREAM;
+		//1: PALETTE_CC_MAUVE;			Nah
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_temple_02_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Temple per city
+	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	HasRoadAdjacentSE2x2() &&	// Requires a road to the SE, due to sticking out entrance
+	RandomBitsFour()) {return;}	// Think this makes the probability abouty a quarter
+
+item(FEAT_HOUSES, item_temple_02, 09, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20; //Stadium since 2x2
+		name: 						string(NAME_TEMPLE_02);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_CHURCH, HOUSE_FLAG_PROTECTED);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1700,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				3;	
+		}
+	graphics {
+		graphics_north: 			switch_temple_02_north;
+		graphics_east: 				switch_temple_02_east;
+		graphics_west: 				switch_temple_02_west;
+		graphics_south: 			switch_temple_02_south;
+		construction_check:			switch_temple_02_con_check;	
+		cargo_production: 			func_produce(10,2);
+		colour: 					rand_recolor_temple_02;
+	}
+}
+
+// End temple_02
+
 // Begin offices_01
 
 // Building Sprites

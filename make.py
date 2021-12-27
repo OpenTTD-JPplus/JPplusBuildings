@@ -71,6 +71,7 @@ houses = [
 
     ### LANDMARKS ###
     "landmarks/temple_01",                  # ID 66-69
+    "landmarks/temple_02",                  # ID 09-12
     "landmarks/shiro_01",                   # ID 70-73
     "landmarks/stadium_01",                 # ID 60-63
     "landmarks/hospital_01",                # ID 40-43
