@@ -692,7 +692,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_01)
 
 switch (FEAT_HOUSES, SELF, switch_townhouses_01_con_check, 
 	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	BanFromHistDistrict()			// Can build close to Temple
+	BanFromHistDistrict()			// Can't build close to Temple
 	) {return;}	
 
 item(FEAT_HOUSES, item_townhouses_01, 06, HOUSE_SIZE_1X1){
@@ -990,79 +990,208 @@ item(FEAT_HOUSES, item_nishikawa_house, 65, HOUSE_SIZE_1X1){
 }
 // End nishikawa_house
 
-// Begin old_houses_01
+// Begin dense_wooden
 
-spriteset (spr_old_houses_01_a, 						"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,1)}
-spriteset (spr_old_houses_01_a_snow, 					"src/gfx/houses_old/old_houses/building_01a.png") 					{template_house_80(1,82)}
+// Ground Sprites
+spriteset (spr_dense_wooden_ground, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_dense_wooden_ground_snow, 			"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
 
-spriteset (spr_old_houses_01_b, 						"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,1)}
-spriteset (spr_old_houses_01_b_snow, 					"src/gfx/houses_old/old_houses/building_01b.png") 					{template_house_80(1,82)}
+// Buildings
+spriteset (spr_dense_wooden_a, 						"src/gfx/houses_old/old_houses/building_a.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_a_snow, 				"src/gfx/houses_old/old_houses/building_a.png") 					{template_house_80(1,82)}
 
-spriteset (spr_old_houses_01_ground, 					"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_old_houses_01_ground_snow, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
+spriteset (spr_dense_wooden_b, 						"src/gfx/houses_old/old_houses/building_b.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_b_snow, 				"src/gfx/houses_old/old_houses/building_b.png") 					{template_house_80(1,82)}
 
-spritelayout sprlay_old_houses_01_a {
+spriteset (spr_dense_wooden_c, 						"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_c_snow, 				"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_d, 						"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_d_snow, 				"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_e, 						"src/gfx/houses_old/old_houses/building_e.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_e_snow, 				"src/gfx/houses_old/old_houses/building_e.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_f, 						"src/gfx/houses_old/old_houses/building_f.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_f_snow, 				"src/gfx/houses_old/old_houses/building_f.png") 					{template_house_80(1,82)}
+
+
+// Spritelayouts
+spritelayout sprlay_dense_wooden_a {
 	ground {
-		sprite: spr_old_houses_01_ground(construction_state);
+		sprite: spr_dense_wooden_ground(construction_state);
 	}
 	building {
-		sprite: spr_old_houses_01_a(construction_state);
+		sprite: spr_dense_wooden_a(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_old_houses_01_b {
+spritelayout sprlay_dense_wooden_a_snow {
 	ground {
-		sprite: spr_old_houses_01_ground(construction_state);
+		sprite: spr_dense_wooden_ground_snow(construction_state);
 	}
 	building {
-		sprite: spr_old_houses_01_b(construction_state);
+		sprite: spr_dense_wooden_a_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_old_houses_01_a_snow {
+spritelayout sprlay_dense_wooden_b {
 	ground {
-		sprite: spr_old_houses_01_ground_snow(construction_state);
+		sprite: spr_dense_wooden_ground(construction_state);
 	}
 	building {
-		sprite: spr_old_houses_01_a_snow(construction_state);
+		sprite: spr_dense_wooden_b(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_old_houses_01_b_snow {
+spritelayout sprlay_dense_wooden_b_snow {
 	ground {
-		sprite: spr_old_houses_01_ground_snow(construction_state);
+		sprite: spr_dense_wooden_ground_snow(construction_state);
 	}
 	building {
-		sprite: spr_old_houses_01_b_snow(construction_state);
+		sprite: spr_dense_wooden_b_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_c {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_c(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_c_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_c_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_d {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_d(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_d_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_d_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_e {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_e(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_e_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_e_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_f {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_f(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_f_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_f_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_old_houses_01_a,terrain_type) {
-	TILETYPE_SNOW: sprlay_old_houses_01_a_snow;
-	sprlay_old_houses_01_a;
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_a,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_a_snow;
+	sprlay_dense_wooden_a;
 }
 
-switch(FEAT_HOUSES, SELF, switch_old_houses_01_b,terrain_type) {
-	TILETYPE_SNOW: sprlay_old_houses_01_b_snow;
-	sprlay_old_houses_01_b;
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_b,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_b_snow;
+	sprlay_dense_wooden_b;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_old_houses_01_sprites) {
-	1: switch_old_houses_01_a;
-	1: switch_old_houses_01_b;
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_c,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_c_snow;
+	sprlay_dense_wooden_c;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_d,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_d_snow;
+	sprlay_dense_wooden_d;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_e,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_e_snow;
+	sprlay_dense_wooden_e;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_f,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_f_snow;
+	sprlay_dense_wooden_f;
+}
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_sprites) {
+	1: switch_dense_wooden_a;
+	1: switch_dense_wooden_b;
+	1: switch_dense_wooden_c;
+	1: switch_dense_wooden_d;
+	1: switch_dense_wooden_e;
+	1: switch_dense_wooden_f;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_01)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_dense_wooden)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -1077,23 +1206,23 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_01)
 		4: PALETTE_CC_WHITE;
 	}
 
-switch (FEAT_HOUSES, SELF, switch_old_houses_01_con_check, 
+switch (FEAT_HOUSES, SELF, switch_dense_wooden_con_check, 
 	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
 	AllowInHistDistrict()			// Can build close to Temple
 	) {return;}	
 
-item(FEAT_HOUSES, item_old_houses_01, 13, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_dense_wooden, 13, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				06;
-		name: 						string(NAME_OLD_HOUSES_01);
-		population: 				60;
+		name: 						string(NAME_DENSE_WOODEN);
+		population: 				60;										// Agreed to JPS
 		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				1;
-		years_available: 			[1700,1950];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(
+		years_available: 			[1700,1950];							// Agreed to JPS
+		minimum_lifetime: 			2;										
+		availability_mask: 			[bitmask(								// Agreed to JPS
 										TOWNZONE_CENTRE,			// 4
 										TOWNZONE_INNER_SUBURB		// 3
 										//TOWNZONE_OUTER_SUBURB,	// 2
@@ -1108,150 +1237,23 @@ item(FEAT_HOUSES, item_old_houses_01, 13, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_old_houses_01_sprites;
-		construction_check: 		switch_old_houses_01_con_check;
-		cargo_production: 			func_produce(4,1);
-		colour: 					rand_recolor_old_houses_01;
+		default: 					switch_dense_wooden_sprites;
+		construction_check: 		switch_dense_wooden_con_check;
+		cargo_production: 			func_produce(4,1);						// 
+		colour: 					rand_recolor_dense_wooden;
 	}
 }
 
-// End old_houses_01
-
-// Begin old_houses_02
-
-spriteset (spr_old_houses_02_a, 						"src/gfx/houses_old/old_houses/building_02a.png") 					{template_house_80(1,1)}
-spriteset (spr_old_houses_02_a_snow, 					"src/gfx/houses_old/old_houses/building_02a.png") 					{template_house_80(1,82)}
-
-spriteset (spr_old_houses_02_b, 						"src/gfx/houses_old/old_houses/building_02b.png") 					{template_house_80(1,1)}
-spriteset (spr_old_houses_02_b_snow, 					"src/gfx/houses_old/old_houses/building_02b.png") 					{template_house_80(1,82)}
-
-spriteset (spr_old_houses_02_ground, 					"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_old_houses_02_ground_snow, 				"src/gfx/houses_old/old_houses/ground.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_old_houses_02_a {
-	ground {
-		sprite: spr_old_houses_02_ground(construction_state);
-	}
-	building {
-		sprite: spr_old_houses_02_a(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_old_houses_02_b {
-	ground {
-		sprite: spr_old_houses_02_ground(construction_state);
-	}
-	building {
-		sprite: spr_old_houses_02_b(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_old_houses_02_a_snow {
-	ground {
-		sprite: spr_old_houses_02_ground_snow(construction_state);
-	}
-	building {
-		sprite: spr_old_houses_02_a_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_old_houses_02_b_snow {
-	ground {
-		sprite: spr_old_houses_02_ground_snow(construction_state);
-	}
-	building {
-		sprite: spr_old_houses_02_b_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_old_houses_02_a,terrain_type) {
-	TILETYPE_SNOW: sprlay_old_houses_02_a_snow;
-	sprlay_old_houses_02_a;
-}
-
-switch(FEAT_HOUSES, SELF, switch_old_houses_02_b,terrain_type) {
-	TILETYPE_SNOW: sprlay_old_houses_02_b_snow;
-	sprlay_old_houses_02_b;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_old_houses_02_sprites) {
-	1: switch_old_houses_02_a;
-	1: switch_old_houses_02_b;
-}
-
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_old_houses_02)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-
-switch (FEAT_HOUSES, SELF, switch_old_houses_02_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_old_houses_02, 14, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_OLD_HOUSES_02);
-		population: 				60;
-		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1700,1950];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB		// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT			// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_old_houses_02_sprites;
-		construction_check: 		switch_old_houses_02_con_check;
-		cargo_production: 			func_produce(4,1);
-		colour: 					rand_recolor_old_houses_02;
-	}
-}
-
-// End old_houses_02
+// End dense_wooden
 
 // Begin historical_zone_01
 
 
 random_switch (FEAT_HOUSES, SELF, switch_historical_zone_01_sprites) {
-	1: switch_old_houses_01_a;
-	1: switch_old_houses_01_b;
-	1: switch_old_houses_02_a;
-	1: switch_old_houses_02_b;
+	1: switch_dense_wooden_a;
+	1: switch_dense_wooden_b;
+	1: switch_dense_wooden_c;
+	1: switch_dense_wooden_d;
 }
 
 switch (FEAT_HOUSES, SELF, switch_historical_zone_01_con_check, 
@@ -1271,10 +1273,10 @@ item(FEAT_HOUSES, item_historical_zone_01, 00, HOUSE_SIZE_1X1){
 		minimum_lifetime: 			20;
 		availability_mask: 			[bitmask(
 										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB		// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT			// 1
-										//TOWNZONE_EDGE				// 0
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
 									), bitmask(
 										CLIMATE_TEMPERATE,
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
