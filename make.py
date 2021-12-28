@@ -33,6 +33,7 @@ houses = [
     #"houses_old/takamaro/takamaro_04",      # ID 55
     "houses_old/old_houses_01",             # ID 13
     "houses_old/old_houses_02",             # ID 14
+    "houses_old/historical_zone_01",         # ID 00
     #"old_houses",              
     #"cottages",                
     #"townhouses_old",          
@@ -127,7 +128,7 @@ for i in header_stuff:
     append_code(i)
 
 # Sort the unordered list for readability in the printout, then append to the list
-houses.sort()
+#houses.sort()
 for i in houses:
     append_houses(i)
 
