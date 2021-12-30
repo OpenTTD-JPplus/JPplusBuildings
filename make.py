@@ -32,6 +32,8 @@ houses = [
     #"houses_old/takamaro/takamaro_03",      # ID 54
     #"houses_old/takamaro/takamaro_04",      # ID 55
     "houses_old/dense_wooden",                  # ID 13
+    "houses_old/wooden_townhouses_01",          # ID 01
+    "houses_old/wooden_townhouses_02",          # ID 03
     "houses_old/historical_zone_01",            # ID 00
     #"old_houses",              
     #"cottages",                

@@ -348,7 +348,9 @@ switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
 	(other_house_count_town(65)*2)+ 	// Nishikawa House
 
 	// Old House
-	(other_house_count_town(13)*2)+ 	// Old Houses 01
+	(other_house_count_town(13)*2)+ 	// Dense Wooden
+	(other_house_count_town(01)*2)+ 	// Wooden Townhouse 01
+	(other_house_count_town(03)*2)+ 	// Wooden Townhouse 02
 
 	// Takamaro Houses
 	(other_house_count_town(52)*3)+ 	// Takamaro_01
@@ -538,6 +540,14 @@ template template_house_80(x, y) {
     ne: [ x+195,	y,		64,		80,		-31,		-48,	NOCROP | ANIM]
 }
 
+template template_house_80_wide(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		76,		80,	    -37,		-48,	NOCROP | ANIM]
+    sw: [ x+77,		y,		76,		80,	    -37,		-48,	NOCROP | ANIM]  
+    nw: [ x+154,	y,		76,		80,	    -37,		-48,	NOCROP | ANIM]
+    ne: [ x+231,	y,		76,		80,	    -37,		-48,	NOCROP | ANIM]
+}
+
 template template_house_100_1dir(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
     se: [ x,		y,		64,		100,	-31,		-68,	NOCROP | ANIM]
@@ -638,10 +648,10 @@ switch (FEAT_HOUSES,SELF, switch_road_adjacency, 1) {switch_road_adj_se;}
 // End Sprite Templates
 // Begin townhouses_01
 
-spriteset (spr_townhouses_01, 							"src/gfx/townhouses/townhouses_01/building.png") 						{template_house_1dir(1,1)}
-spriteset (spr_townhouses_01_snow, 						"src/gfx/townhouses/townhouses_01/building.png") 						{template_house_1dir(1,80)}
-spriteset (spr_townhouses_01_ground, 						"src/gfx/townhouses/townhouses_01/ground.png") 						{template_house_1dir(1,1)}
-spriteset (spr_townhouses_01_ground_snow, 				"src/gfx/townhouses/townhouses_01/ground.png") 						{template_house_1dir(1,80)}
+spriteset (spr_townhouses_01, 							"src/gfx/houses/townhouses_01/building.png") 						{template_house_1dir(1,1)}
+spriteset (spr_townhouses_01_snow, 						"src/gfx/houses/townhouses_01/building.png") 						{template_house_1dir(1,80)}
+spriteset (spr_townhouses_01_ground, 					"src/gfx/houses/townhouses_01/ground.png") 						{template_house_1dir(1,1)}
+spriteset (spr_townhouses_01_ground_snow, 				"src/gfx/houses/townhouses_01/ground.png") 						{template_house_1dir(1,80)}
 
 spritelayout sprlay_townhouses_01_norm {
 	ground {
@@ -721,10 +731,10 @@ item(FEAT_HOUSES, item_townhouses_01, 06, HOUSE_SIZE_1X1){
 
 // Begin townhouses_02
 
-spriteset (spr_townhouses_02, 							"src/gfx/townhouses/townhouses_02/building.png") 						{template_house_1dir(1,1)}
-spriteset (spr_townhouses_02_snow, 						"src/gfx/townhouses/townhouses_02/building.png") 						{template_house_1dir(1,80)}
-spriteset (spr_townhouses_02_ground, 						"src/gfx/townhouses/townhouses_02/ground.png") 						{template_house_1dir(1,1)}
-spriteset (spr_townhouses_02_ground_snow, 				"src/gfx/townhouses/townhouses_02/ground.png") 						{template_house_1dir(1,80)}
+spriteset (spr_townhouses_02, 							"src/gfx/houses/townhouses_02/building.png") 					{template_house_1dir(1,1)}
+spriteset (spr_townhouses_02_snow, 						"src/gfx/houses/townhouses_02/building.png") 					{template_house_1dir(1,80)}
+spriteset (spr_townhouses_02_ground, 					"src/gfx/houses/townhouses_02/ground.png") 						{template_house_1dir(1,1)}
+spriteset (spr_townhouses_02_ground_snow, 				"src/gfx/houses/townhouses_02/ground.png") 						{template_house_1dir(1,80)}
 
 spritelayout sprlay_townhouses_02_norm {
 	ground {
@@ -1003,8 +1013,8 @@ spriteset (spr_dense_wooden_a_snow, 				"src/gfx/houses_old/old_houses/building_
 spriteset (spr_dense_wooden_b, 						"src/gfx/houses_old/old_houses/building_b.png") 					{template_house_80(1,1)}
 spriteset (spr_dense_wooden_b_snow, 				"src/gfx/houses_old/old_houses/building_b.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_c, 						"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_c_snow, 				"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_c, 						"src/gfx/houses_old/old_houses/building_c.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_c_snow, 				"src/gfx/houses_old/old_houses/building_c.png") 					{template_house_80(1,82)}
 
 spriteset (spr_dense_wooden_d, 						"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,1)}
 spriteset (spr_dense_wooden_d_snow, 				"src/gfx/houses_old/old_houses/building_d.png") 					{template_house_80(1,82)}
@@ -1015,14 +1025,43 @@ spriteset (spr_dense_wooden_e_snow, 				"src/gfx/houses_old/old_houses/building_
 spriteset (spr_dense_wooden_f, 						"src/gfx/houses_old/old_houses/building_f.png") 					{template_house_80(1,1)}
 spriteset (spr_dense_wooden_f_snow, 				"src/gfx/houses_old/old_houses/building_f.png") 					{template_house_80(1,82)}
 
+spriteset (spr_dense_wooden_g, 						"src/gfx/houses_old/old_houses/building_g.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_g_snow, 				"src/gfx/houses_old/old_houses/building_g.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_h, 						"src/gfx/houses_old/old_houses/building_h.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_h_snow, 				"src/gfx/houses_old/old_houses/building_h.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_i, 						"src/gfx/houses_old/old_houses/building_i.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_i_snow, 				"src/gfx/houses_old/old_houses/building_i.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_j, 						"src/gfx/houses_old/old_houses/building_j.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_j_snow, 				"src/gfx/houses_old/old_houses/building_j.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_k, 						"src/gfx/houses_old/old_houses/building_k.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_k_snow, 				"src/gfx/houses_old/old_houses/building_k.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_l, 						"src/gfx/houses_old/old_houses/building_l.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_l_snow, 				"src/gfx/houses_old/old_houses/building_l.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_m, 						"src/gfx/houses_old/old_houses/building_m.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_m_snow, 				"src/gfx/houses_old/old_houses/building_m.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_n, 						"src/gfx/houses_old/old_houses/building_n.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_n_snow, 				"src/gfx/houses_old/old_houses/building_n.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_o, 						"src/gfx/houses_old/old_houses/building_o.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_o_snow, 				"src/gfx/houses_old/old_houses/building_o.png") 					{template_house_80(1,82)}
+
+spriteset (spr_dense_wooden_p, 						"src/gfx/houses_old/old_houses/building_p.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_p_snow, 				"src/gfx/houses_old/old_houses/building_p.png") 					{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_dense_wooden_a {
 	ground {
-		sprite: spr_dense_wooden_ground(construction_state);
+		sprite: spr_dense_wooden_ground (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_a(construction_state);
+		sprite: spr_dense_wooden_a (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1030,10 +1069,10 @@ spritelayout sprlay_dense_wooden_a {
 
 spritelayout sprlay_dense_wooden_a_snow {
 	ground {
-		sprite: spr_dense_wooden_ground_snow(construction_state);
+		sprite: spr_dense_wooden_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_a_snow(construction_state);
+		sprite: spr_dense_wooden_a_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1041,10 +1080,10 @@ spritelayout sprlay_dense_wooden_a_snow {
 
 spritelayout sprlay_dense_wooden_b {
 	ground {
-		sprite: spr_dense_wooden_ground(construction_state);
+		sprite: spr_dense_wooden_ground (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_b(construction_state);
+		sprite: spr_dense_wooden_b (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1052,10 +1091,10 @@ spritelayout sprlay_dense_wooden_b {
 
 spritelayout sprlay_dense_wooden_b_snow {
 	ground {
-		sprite: spr_dense_wooden_ground_snow(construction_state);
+		sprite: spr_dense_wooden_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_b_snow(construction_state);
+		sprite: spr_dense_wooden_b_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1063,10 +1102,10 @@ spritelayout sprlay_dense_wooden_b_snow {
 
 spritelayout sprlay_dense_wooden_c {
 	ground {
-		sprite: spr_dense_wooden_ground(construction_state);
+		sprite: spr_dense_wooden_ground (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_c(construction_state);
+		sprite: spr_dense_wooden_c (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1074,10 +1113,10 @@ spritelayout sprlay_dense_wooden_c {
 
 spritelayout sprlay_dense_wooden_c_snow {
 	ground {
-		sprite: spr_dense_wooden_ground_snow(construction_state);
+		sprite: spr_dense_wooden_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_dense_wooden_c_snow(construction_state);
+		sprite: spr_dense_wooden_c_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -1149,6 +1188,226 @@ spritelayout sprlay_dense_wooden_f_snow {
 	}
 }
 
+spritelayout sprlay_dense_wooden_g {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_g(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_g_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_g_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_h {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_h(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_h_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_h_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_i {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_i (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_i_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_i_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_j {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_j(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_j_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_j_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_k {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_k(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_k_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_k_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_l {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_l(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_l_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_l_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_m {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_m (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_m_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_m_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_n {
+	ground {
+		sprite: spr_dense_wooden_ground(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_n (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_n_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_n_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_o {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_o (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_o_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_o_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_p {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_p (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_dense_wooden_p_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_dense_wooden_p_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_dense_wooden_a,terrain_type) {
 	TILETYPE_SNOW: sprlay_dense_wooden_a_snow;
@@ -1180,6 +1439,56 @@ switch(FEAT_HOUSES, SELF, switch_dense_wooden_f,terrain_type) {
 	sprlay_dense_wooden_f;
 }
 
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_g,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_g_snow;
+	sprlay_dense_wooden_g;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_h,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_h_snow;
+	sprlay_dense_wooden_h;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_i,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_i_snow;
+	sprlay_dense_wooden_i;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_j,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_j_snow;
+	sprlay_dense_wooden_j;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_k,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_k_snow;
+	sprlay_dense_wooden_k;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_l,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_l_snow;
+	sprlay_dense_wooden_l;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_m,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_m_snow;
+	sprlay_dense_wooden_m;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_n,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_n_snow;
+	sprlay_dense_wooden_n;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_o,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_o_snow;
+	sprlay_dense_wooden_o;
+}
+
+switch(FEAT_HOUSES, SELF, switch_dense_wooden_p,terrain_type) {
+	TILETYPE_SNOW: sprlay_dense_wooden_p_snow;
+	sprlay_dense_wooden_p;
+}
+
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_sprites) {
 	1: switch_dense_wooden_a;
@@ -1188,6 +1497,17 @@ random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_sprites) {
 	1: switch_dense_wooden_d;
 	1: switch_dense_wooden_e;
 	1: switch_dense_wooden_f;
+	1: switch_dense_wooden_g;
+	1: switch_dense_wooden_h;
+	1: switch_dense_wooden_i;
+	1: switch_dense_wooden_j;
+	1: switch_dense_wooden_k;
+	1: switch_dense_wooden_l;
+	1: switch_dense_wooden_m;
+	1: switch_dense_wooden_n;
+	1: switch_dense_wooden_o;
+	1: switch_dense_wooden_p;
+
 }
 
 // Recolouring
@@ -1245,6 +1565,198 @@ item(FEAT_HOUSES, item_dense_wooden, 13, HOUSE_SIZE_1X1){
 }
 
 // End dense_wooden
+
+// Begin wooden_townhouses_01
+
+// Ground Sprites
+
+// Leveraged from dense wooden
+
+// Buildings
+spriteset (spr_wooden_townhouses_01, 			"src/gfx/houses_old/old_houses/wooden_townhouses_01.png") 			{template_house_80_wide(1,1)}
+spriteset (spr_wooden_townhouses_01_snow, 		"src/gfx/houses_old/old_houses/wooden_townhouses_01.png") 			{template_house_80_wide(1,82)}
+
+// Spritelayouts
+spritelayout sprlay_wooden_townhouses_01 {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_01 (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_wooden_townhouses_01_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_01_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_01,terrain_type) {
+	TILETYPE_SNOW: sprlay_wooden_townhouses_01_snow;
+	sprlay_wooden_townhouses_01;
+}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_01_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_wooden_townhouses_01, 01, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES_SHOPS);
+		population: 				40;										// Agreed to JPS
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];							// Agreed to JPS
+		minimum_lifetime: 			2;										
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_01;
+		construction_check: 		switch_wooden_townhouses_01_con_check;
+		cargo_production: 			func_produce(4,1);						// 
+		//colour: 					rand_recolor_wooden_townhouses;
+	}
+}
+
+// End wooden_townhouses_01
+
+// Begin wooden_townhouses_02
+
+// Ground Sprites
+
+// Leveraged from dense wooden
+
+// Buildings
+spriteset (spr_wooden_townhouses_02, 			"src/gfx/houses_old/old_houses/wooden_townhouses_02.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_townhouses_02_snow, 		"src/gfx/houses_old/old_houses/wooden_townhouses_02.png") 			{template_house_80(1,82)}
+
+// Spritelayouts
+spritelayout sprlay_wooden_townhouses_02 {
+	ground {
+		sprite: spr_dense_wooden_ground (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_02 (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_wooden_townhouses_02_snow {
+	ground {
+		sprite: spr_dense_wooden_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_02_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_02,terrain_type) {
+	TILETYPE_SNOW: sprlay_wooden_townhouses_02_snow;
+	sprlay_wooden_townhouses_02;
+}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_02_con_check, 
+	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	AllowInHistDistrict()			// Can build close to Temple
+	) {return;}	
+
+item(FEAT_HOUSES, item_wooden_townhouses_02, 03, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES);
+		population: 				40;										// Agreed to JPS
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];							// Agreed to JPS
+		minimum_lifetime: 			2;										
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_02;
+		construction_check: 		switch_wooden_townhouses_02_con_check;
+		cargo_production: 			func_produce(4,1);						// 
+		//colour: 					rand_recolor_wooden_townhouses;
+	}
+}
+
+// End wooden_townhouses_02
 
 // Begin historical_zone_01
 
