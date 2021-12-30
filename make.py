@@ -34,6 +34,7 @@ houses = [
     "houses_old/dense_wooden",                  # ID 13
     "houses_old/wooden_townhouses_01",          # ID 01
     "houses_old/wooden_townhouses_02",          # ID 03
+    "houses_old/wooden_townhouses_03",          # ID 04
     "houses_old/historical_zone_01",            # ID 00
     #"old_houses",              
     #"cottages",                
