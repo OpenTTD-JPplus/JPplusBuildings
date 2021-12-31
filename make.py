@@ -24,7 +24,9 @@ houses = [
     "townhouses/townhouses_01",             # ID 06
     "townhouses/townhouses_02",             # ID 05
     ### Houses ###
-    "houses/naganuma_house",                # ID 26
+    #"houses/naganuma_house",                # ID 26     Replaced   
+    "houses/naganuma_house_v2",             # ID 26 & 24
+    "houses/naganuma_house_v3",             # ID 25 & 23
     "houses/nishikawa_house",               # ID 26
     ### Old Houses ###              
     #"houses_old/takamaro/takamaro_01",      # ID 52
