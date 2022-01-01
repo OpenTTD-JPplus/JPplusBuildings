@@ -8,12 +8,17 @@ newgrf_name = "JPplusBuildings"
 # Files which should be first, in order (header, cargotable, etc)
 header_stuff = [
     "header",
+    # Standalone Functions
+    "functions/HouseGap",
+    "functions/ClassTwoWithinTwoTiles",
+    "functions/CommercialWithinOneTile",
+    "functions/NoCommercialWithinOneTile",
+    "functions/AcrossAnAvenue",
+    # Other
     "cargotable",
-    "HouseGap",
-    "AcrossAnAvenue",
     "clustering",
     "population",
-    "functions",  
+    "combo_functions",  
     "sprite_templates",
     ]
 
@@ -38,7 +43,7 @@ houses = [
     "houses_old/wooden_townhouses_02",          # ID 03
     "houses_old/wooden_townhouses_03",          # ID 04
     "houses_old/wooden_townhouses_04",          # ID 08
-    "houses_old/historical_zone_01",            # ID 00
+    #"houses_old/historical_zone_01",            # ID 00
     #"old_houses",              
     #"cottages",                
     #"townhouses_old",          
