@@ -1,16 +1,12 @@
 // Begin naganuma_house
 
+// South West Pointing
 spriteset (spr_naganuma_house_v2, 					"src/gfx/houses/naganuma/building_v2.png") 						{template_house_80(1,1)}
 spriteset (spr_naganuma_house_v2_snow, 				"src/gfx/houses/naganuma/building_v2.png") 						{template_house_80(1,82)}
 spriteset (spr_naganuma_house_v2_ground, 			"src/gfx/houses/naganuma/ground_v2.png") 						{template_house_80(1,1)}
 spriteset (spr_naganuma_house_v2_ground_snow, 		"src/gfx/houses/naganuma/ground_v2.png") 						{template_house_80(1,82)}
 
-spriteset (spr_naganuma_house_v3, 					"src/gfx/houses/naganuma/building_v3.png") 						{template_house_80(1,1)}
-spriteset (spr_naganuma_house_v3_snow, 				"src/gfx/houses/naganuma/building_v3.png") 						{template_house_80(1,82)}
-spriteset (spr_naganuma_house_v3_ground, 			"src/gfx/houses/naganuma/ground_v3.png") 						{template_house_80(1,1)}
-spriteset (spr_naganuma_house_v3_ground_snow, 		"src/gfx/houses/naganuma/ground_v3.png") 						{template_house_80(1,82)}
-
-spritelayout sprlay_naganuma_house_v2_norm {
+spritelayout sprlay_naganuma_house_v2_norm_old {
 	ground {
 		sprite: spr_naganuma_house_v2_ground (construction_state);
 	}
@@ -21,7 +17,7 @@ spritelayout sprlay_naganuma_house_v2_norm {
 	}
 }
 
-spritelayout sprlay_naganuma_house_v2_snow {
+spritelayout sprlay_naganuma_house_v2_snow_old {
 	ground {
 		sprite: spr_naganuma_house_v2_ground_snow (construction_state);
 	}
@@ -30,39 +26,39 @@ spritelayout sprlay_naganuma_house_v2_snow {
 	}
 }
 
-spritelayout sprlay_naganuma_house_v3_norm {
+spritelayout sprlay_naganuma_house_v2_norm_new {
 	ground {
-		sprite: spr_naganuma_house_v3_ground (construction_state);
+		sprite: spr_naganuma_house_v2_ground (construction_state);
 	}
 	building {
-		sprite: spr_naganuma_house_v3 (construction_state);
+		sprite: spr_naganuma_house_v2 (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_naganuma_house_v3_snow {
+spritelayout sprlay_naganuma_house_v2_snow_new {
 	ground {
-		sprite: spr_naganuma_house_v3_ground_snow (construction_state);
+		sprite: spr_naganuma_house_v2_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_naganuma_house_v3_snow (construction_state);
+		sprite: spr_naganuma_house_v2_snow (construction_state);
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_naganuma_house_v2_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_naganuma_house_v2_snow;
-	sprlay_naganuma_house_v2_norm;
+switch(FEAT_HOUSES, SELF, switch_naganuma_house_v2_old_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_naganuma_house_v2_snow_old;
+	sprlay_naganuma_house_v2_norm_old;
 }
 
-switch(FEAT_HOUSES, SELF, switch_naganuma_house_v3_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_naganuma_house_v3_snow;
-	sprlay_naganuma_house_v3_norm;
+switch(FEAT_HOUSES, SELF, switch_naganuma_house_v2_new_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_naganuma_house_v2_snow_new;
+	sprlay_naganuma_house_v2_norm_new;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_old)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_v2_old)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -77,7 +73,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_old)
 		4: PALETTE_CC_WHITE;
 	}
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_new)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_v2_new)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -93,7 +89,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_new)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_naganuma_house_con_check, 
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_v2_old_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_v2_new_con_check, 
 	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
 	) {return;}	
 
@@ -123,14 +123,14 @@ item(FEAT_HOUSES, item_naganuma_house_v2_old, 19, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_naganuma_house_v2_sprites;
-		construction_check: 		switch_naganuma_house_con_check;
+		default: 					switch_naganuma_house_v2_old_sprites;
+		construction_check: 		switch_naganuma_house_v2_old_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_naganuma_house_old;
+		colour: 					rand_recolor_naganuma_house_v2_old;
 	}
 }
 
-item(FEAT_HOUSES, item_naganuma_house_v2, 20, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_naganuma_house_v2_new, 20, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_NAGANUMA_HOUSE);
@@ -156,12 +156,111 @@ item(FEAT_HOUSES, item_naganuma_house_v2, 20, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_naganuma_house_v2_sprites;
-		construction_check: 		switch_naganuma_house_con_check;
+		default: 					switch_naganuma_house_v2_new_sprites;
+		construction_check: 		switch_naganuma_house_v2_new_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_naganuma_house_new;
+		colour: 					rand_recolor_naganuma_house_v2_new;
 	}
 }
+
+// South East Pointing
+spriteset (spr_naganuma_house_v3, 					"src/gfx/houses/naganuma/building_v3.png") 						{template_house_80(1,1)}
+spriteset (spr_naganuma_house_v3_snow, 				"src/gfx/houses/naganuma/building_v3.png") 						{template_house_80(1,82)}
+spriteset (spr_naganuma_house_v3_ground, 			"src/gfx/houses/naganuma/ground_v3.png") 						{template_house_80(1,1)}
+spriteset (spr_naganuma_house_v3_ground_snow, 		"src/gfx/houses/naganuma/ground_v3.png") 						{template_house_80(1,82)}
+
+
+spritelayout sprlay_naganuma_house_v3_norm_old {
+	ground {
+		sprite: spr_naganuma_house_v3_ground (construction_state);
+	}
+	building {
+		sprite: spr_naganuma_house_v3 (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_naganuma_house_v3_snow_old {
+	ground {
+		sprite: spr_naganuma_house_v3_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_naganuma_house_v3_snow (construction_state);
+	}
+}
+
+spritelayout sprlay_naganuma_house_v3_norm_new {
+	ground {
+		sprite: spr_naganuma_house_v3_ground (construction_state);
+	}
+	building {
+		sprite: spr_naganuma_house_v3 (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_naganuma_house_v3_snow_new {
+	ground {
+		sprite: spr_naganuma_house_v3_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_naganuma_house_v3_snow (construction_state);
+	}
+}
+
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_naganuma_house_v3_old_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_naganuma_house_v3_snow_old;
+	sprlay_naganuma_house_v3_norm_old;
+}
+
+switch(FEAT_HOUSES, SELF, switch_naganuma_house_v3_new_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_naganuma_house_v3_snow_new;
+	sprlay_naganuma_house_v3_norm_new;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_v3_old)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_v3_new)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_v3_old_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_naganuma_house_v3_new_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	) {return;}	
 
 item(FEAT_HOUSES, item_naganuma_house_v3_old, 21, HOUSE_SIZE_1X1){
 	property {
@@ -189,10 +288,10 @@ item(FEAT_HOUSES, item_naganuma_house_v3_old, 21, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_naganuma_house_v3_sprites;
-		construction_check: 		switch_naganuma_house_con_check;
+		default: 					switch_naganuma_house_v3_old_sprites;
+		construction_check: 		switch_naganuma_house_v3_old_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_naganuma_house_old;
+		colour: 					rand_recolor_naganuma_house_v3_old;
 	}
 }
 
@@ -222,10 +321,10 @@ item(FEAT_HOUSES, item_naganuma_house_v3, 22, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_naganuma_house_v3_sprites;
-		construction_check: 		switch_naganuma_house_con_check;
+		default: 					switch_naganuma_house_v3_new_sprites;
+		construction_check: 		switch_naganuma_house_v3_new_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_naganuma_house_new;
+		colour: 					rand_recolor_naganuma_house_v3_new;
 	}
 }
 

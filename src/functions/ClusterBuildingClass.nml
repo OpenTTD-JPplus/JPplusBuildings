@@ -1,0 +1,11 @@
+/* Begin Cluster Building Class */
+
+// Buildings after the first of the class must cluster near the same class
+switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
+	same_class_count_town == 0 || 								// No building of same class in town OR
+	AcrossAnAvenue()  ||										// Allowing buildings accross an avenue ('wide' road) OR
+	(WithinThreeOfSameClass() && AcrossTracks() ) ||			// Same class within 3 and track beside new building OR
+	WithinTwoOfSameClass()										// Same class within 2
+	) {return;}
+
+/* End Cluster Building Class */

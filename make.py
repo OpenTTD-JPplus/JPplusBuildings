@@ -8,17 +8,24 @@ newgrf_name = "JPplusBuildings"
 # Files which should be first, in order (header, cargotable, etc)
 header_stuff = [
     "header",
-    # Standalone Functions
+    # Primary Functions (i.e. do not use any other Function)
     "functions/HouseGap",
+    "functions/FuncPopulationAdder",
     "functions/ClassTwoWithinTwoTiles",
     "functions/CommercialWithinOneTile",
     "functions/NoCommercialWithinOneTile",
     "functions/AcrossAnAvenue",
+    "functions/AcrossTracks",
+    "functions/one_liner_functions",
+    "functions/CargoServiceChecks",
+    # Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
+    "functions/ModernOfficePopCheck",
+    "functions/SmallApartmentsCheck",
+    "functions/ClusterBuildingClass",
+    "functions/IfFirstSkyscraper",
+    "functions/CommercialCargoes",
     # Other
     "cargotable",
-    "clustering",
-    "population",
-    "combo_functions",  
     "sprite_templates",
     ]
 
@@ -30,9 +37,8 @@ houses = [
     "townhouses/townhouses_01",             # ID 06
     "townhouses/townhouses_02",             # ID 05
     ### Houses ###
-    #"houses/naganuma_house",                # ID 26     Replaced   
-    "houses/naganuma_house",                # ID 23-26
-    "houses/nishikawa_house",               # ID 19-22
+    "houses/naganuma_house",                # ID 19-22
+    "houses/nishikawa_house",               # ID 23-26
     ### Old Houses ###              
     #"houses_old/takamaro/takamaro_01",      # ID 52
     #"houses_old/takamaro/takamaro_02",      # ID 53
