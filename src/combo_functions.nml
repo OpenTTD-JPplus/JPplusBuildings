@@ -1,61 +1,14 @@
 /* Begin Functions */
 
-/* Building Classes
-*
-*	Class 0
-*	Buildings in class: House, Market, Warehouse, Fountain, Statue
-*
-*	Class 1
-*	Parks cannot be within 2 tiles of another park
-*
-*	Class 2
-*	Skyscrapers/office towers can only build within 5 tiles of another skyscraper/office towers
-*	Buildings in class: skyscrapers, office towers
-*
-*	Class 3
-*	Temple
-*
-*	Class 4
-*	Old houses (must be within 2 tiles of another old house, to prevent sparse town growth with house limit)
-*
-*	Class 5
-*	Skyscrapers
-*
-*/
-
-// Small Flats cannot build within 1 tile of a modern office building unless no passenger service is provided to the tile
-switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
-	// Shops and Offices
-	nearby_tile_house_class(0,1) == 258 ||
-	nearby_tile_house_class(0,-1) == 258 ||
-	nearby_tile_house_class(1,0) == 258 ||
-	nearby_tile_house_class(1,1) == 258 ||
-	nearby_tile_house_class(1,-1) == 258 ||
-	nearby_tile_house_class(-1,0) == 258 ||
-	nearby_tile_house_class(-1,1) == 258 ||
-	nearby_tile_house_class(-1,-1) == 258 ||
-	// Skyscrapers
-	nearby_tile_house_class(0,1) == 261 ||
-	nearby_tile_house_class(0,-1) == 261 ||
-	nearby_tile_house_class(1,0) == 261 ||
-	nearby_tile_house_class(1,1) == 261 ||
-	nearby_tile_house_class(1,-1) == 261 ||
-	nearby_tile_house_class(-1,0) == 261 ||
-	nearby_tile_house_class(-1,1) == 261 ||
-	nearby_tile_house_class(-1,-1) == 261
-		){return;}
-
-// Function looking for no Passenger service, but there is a Class Two Building nearby
-switch(FEAT_HOUSES, SELF, NoPassBesideModernOffice,
-	ClassTwoWithinOneTile() &&
-	FuncNoServicePASS()
-		){return;}
-
-// Small Apartments Check - There must be Passenger Service, but if there is not, and there is a Class Two Building nearby, allow building
+/* Small Apartments Check */
 switch(FEAT_HOUSES, SELF, SmallApartmentsCheck,
-	NoPassBesideModernOffice() ||
-	FuncServicePASS()
-		){return;}
+	// If there is NO PASS Service, but would be beside a Commercial building (which will have PASS service)
+	(FuncNoServicePASS() && CommercialWithinOneTile() )	
+	// OR
+	||	
+	// There is PASS service and is not beside a Commercial building
+	(FuncServicePASS() && NoCommercialWithinOneTile() )
+){return;}
 
 // Check for road (and stations) in adjacent tiles functions
 //switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION) {return;}

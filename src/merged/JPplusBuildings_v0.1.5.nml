@@ -36,68 +36,6 @@ disable_item(FEAT_HOUSES);
 
 /* *** End Header *** */
 
-/* Begin cargotable */
-
-cargotable {
-	PASS, 		// Obviously
-	MAIL, 		// Obviously
-	GOOD, 		// For Commercial Buildings
-	CASS,		// For Shops
-	EOIL,		// For Restaurants
-	FISH,		// For Restaurants
-	FOOD, 		// For Stadiums and Restaurants
-	FRUT,		// For Shops
-	JAVA,		// For Restaurants
-	LVST,		// For Restaurants
-	BEER, 		// For Stadiums
-	PETR,		// For Petrol Stations
-	RFPR,		// For Hospitals	
-}
-
-/* Functions checking for service of cargoes */
-
-// Passenger Service
-switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
-switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
-// Mail Service
-switch(FEAT_HOUSES, SELF, FuncServiceMAIL, 	(cargo_accepted_nearby_last_month(MAIL) == 1 || cargo_accepted_nearby_this_month(MAIL) == 1)) {return;}
-// Petroleum Fuels Service - for Petrol Stations
-switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
-// Alcohol Service - for Stadiums
-switch(FEAT_HOUSES, SELF, FuncServiceBEER, (cargo_accepted_nearby_last_month(BEER) == 1 || cargo_accepted_nearby_this_month(BEER) == 1)) {return;}
-// Food Service - for Stadiums
-switch(FEAT_HOUSES, SELF, FuncServiceFOOD, (cargo_accepted_nearby_last_month(FOOD) == 1 || cargo_accepted_nearby_this_month(FOOD) == 1)) {return;}
-// Food Service - for Stadiums
-switch(FEAT_HOUSES, SELF, FuncServiceEOIL, (cargo_accepted_nearby_last_month(EOIL) == 1 || cargo_accepted_nearby_this_month(EOIL) == 1)) {return;}
-// Food Service - for Stadiums
-switch(FEAT_HOUSES, SELF, FuncServiceFISH, (cargo_accepted_nearby_last_month(FISH) == 1 || cargo_accepted_nearby_this_month(FISH) == 1)) {return;}
-// Chemicals Service - for Stadiums
-switch(FEAT_HOUSES, SELF, FuncServiceRFPR, (cargo_accepted_nearby_last_month(RFPR) == 1 || cargo_accepted_nearby_this_month(RFPR) == 1)) {return;}
-// Fruit - for Shops
-switch(FEAT_HOUSES, SELF, FuncServiceFRUT, (cargo_accepted_nearby_last_month(FRUT) == 1 || cargo_accepted_nearby_this_month(FRUT) == 1)) {return;}
-// Cassava - for shops
-switch(FEAT_HOUSES, SELF, FuncServiceCASS, (cargo_accepted_nearby_last_month(CASS) == 1 || cargo_accepted_nearby_this_month(CASS) == 1)) {return;}
-// Goods - for various
-switch(FEAT_HOUSES, SELF, FuncServiceGOOD, (cargo_accepted_nearby_last_month(GOOD) == 1 || cargo_accepted_nearby_this_month(GOOD) == 1)) {return;}
-
-/* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
-
-switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 0, 8)) {
-	0: (PASS * 256) + (abs(extra_callback_info2 % 8) == 0) * LOAD_TEMP(1);
-	1: (MAIL * 256) + (abs(extra_callback_info2 % 8) == 0) * LOAD_TEMP(2);
-	return CB_RESULT_HOUSE_NO_MORE_PRODUCTION;
-}
-
-/* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
-switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
-
-switch(FEAT_HOUSES, SELF, CommercialCargoes,
-	param_commercial_cargoes == 0 ||
-	(param_commercial_cargoes == 1 && FuncServiceMAIL() )
-) {return;}
-
-/* End cargotable */
-
 /* Begin HouseGap */
 
 /* 	
@@ -163,6 +101,97 @@ switch(FEAT_HOUSES, SELF, HouseOfficeGap,
 		){return;}
 
 /* End HouseGap */
+
+/* Begin ClassTwoWithinTwoTiles */
+
+/* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
+
+switch(FEAT_HOUSES, SELF, ClassTwoWithinTwoTiles,
+	// Within One Tile
+    nearby_tile_house_class( 0, 1) == 258 ||
+	nearby_tile_house_class( 0,-1) == 258 ||
+	nearby_tile_house_class( 1, 0) == 258 ||
+	nearby_tile_house_class( 1, 1) == 258 ||
+	nearby_tile_house_class( 1,-1) == 258 ||
+	nearby_tile_house_class(-1, 0) == 258 ||
+	nearby_tile_house_class(-1, 1) == 258 ||
+	nearby_tile_house_class(-1,-1) == 258 ||
+    // Within Two Tiles
+    nearby_tile_house_class( 0, 2) == 258 ||
+	nearby_tile_house_class( 0,-2) == 258 ||
+	nearby_tile_house_class( 1, 2) == 258 ||
+	nearby_tile_house_class( 1,-2) == 258 ||
+    nearby_tile_house_class(-1, 2) == 258 ||
+	nearby_tile_house_class(-1,-2) == 258 ||
+    nearby_tile_house_class( 2, 2) == 258 ||
+	nearby_tile_house_class( 2,-2) == 258 ||
+    nearby_tile_house_class(-2, 2) == 258 ||
+	nearby_tile_house_class(-2,-2) == 258 ||
+    nearby_tile_house_class( 2,-1) == 258 ||
+    nearby_tile_house_class(-2,-1) == 258 ||
+	nearby_tile_house_class( 2, 0) == 258 ||
+    nearby_tile_house_class(-2, 0) == 258 ||
+    nearby_tile_house_class( 2, 1) == 258 ||
+    nearby_tile_house_class(-2, 1) == 258
+		){return;}
+
+/* End ClassTwoWithinTwoTiles */
+
+/* Begin CommericalWithinOneTile */
+
+/* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
+
+switch(FEAT_HOUSES, SELF, CommercialWithinOneTile,
+	// Shops and Offices
+	nearby_tile_house_class( 0, 1) == 258 ||
+	nearby_tile_house_class( 0,-1) == 258 ||
+	nearby_tile_house_class( 1, 0) == 258 ||
+	nearby_tile_house_class( 1, 1) == 258 ||
+	nearby_tile_house_class( 1,-1) == 258 ||
+	nearby_tile_house_class(-1, 0) == 258 ||
+	nearby_tile_house_class(-1, 1) == 258 ||
+	nearby_tile_house_class(-1,-1) == 258 ||
+	// Skyscrapers
+	nearby_tile_house_class( 0, 1) == 261 ||
+	nearby_tile_house_class( 0,-1) == 261 ||
+	nearby_tile_house_class( 1, 0) == 261 ||
+	nearby_tile_house_class( 1, 1) == 261 ||
+	nearby_tile_house_class( 1,-1) == 261 ||
+	nearby_tile_house_class(-1, 0) == 261 ||
+	nearby_tile_house_class(-1, 1) == 261 ||
+	nearby_tile_house_class(-1,-1) == 261
+		){return;}
+
+/* End CommericalWithinOneTile */
+
+/* Begin NoCommericalWithinOneTile */
+
+/* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
+
+// This function is required since Class 0 buildings will be checking for Class 2 and Class 5 buildings
+
+switch(FEAT_HOUSES, SELF, NoCommercialWithinOneTile,
+	// Shops and Offices
+	nearby_tile_house_class( 0, 1) != 258 &&
+	nearby_tile_house_class( 0,-1) != 258 &&
+	nearby_tile_house_class( 1, 0) != 258 &&
+	nearby_tile_house_class( 1, 1) != 258 &&
+	nearby_tile_house_class( 1,-1) != 258 &&
+	nearby_tile_house_class(-1, 0) != 258 &&
+	nearby_tile_house_class(-1, 1) != 258 &&
+	nearby_tile_house_class(-1,-1) != 258 &&
+	// Skyscrapers
+	nearby_tile_house_class( 0, 1) != 261 &&
+	nearby_tile_house_class( 0,-1) != 261 &&
+	nearby_tile_house_class( 1, 0) != 261 &&
+	nearby_tile_house_class( 1, 1) != 261 &&
+	nearby_tile_house_class( 1,-1) != 261 &&
+	nearby_tile_house_class(-1, 0) != 261 &&
+	nearby_tile_house_class(-1, 1) != 261 &&
+	nearby_tile_house_class(-1,-1) != 261
+		){return;}
+
+/* End NoCommericalWithinOneTile */
 
 /* Begin AcrossAnAvenue */
 
@@ -286,81 +315,69 @@ switch (FEAT_HOUSES, SELF, AcrossAnAvenue,
 
 /* End AcrossAnAvenue */
 
+/* Begin cargotable */
+
+cargotable {
+	PASS, 		// Obviously
+	MAIL, 		// Obviously
+	GOOD, 		// For Commercial Buildings
+	CASS,		// For Shops
+	EOIL,		// For Restaurants
+	FISH,		// For Restaurants
+	FOOD, 		// For Stadiums and Restaurants
+	FRUT,		// For Shops
+	JAVA,		// For Restaurants
+	LVST,		// For Restaurants
+	BEER, 		// For Stadiums
+	PETR,		// For Petrol Stations
+	RFPR,		// For Hospitals	
+}
+
+/* Functions checking for service of cargoes */
+
+// Passenger Service
+switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PASS) == 1 || cargo_accepted_nearby_this_month(PASS) == 1)) {return;}
+switch(FEAT_HOUSES, SELF, FuncNoServicePASS, (cargo_accepted_nearby_last_month(PASS) == 0 && cargo_accepted_nearby_this_month(PASS) == 0)) {return;}
+// Mail Service
+switch(FEAT_HOUSES, SELF, FuncServiceMAIL, 	(cargo_accepted_nearby_last_month(MAIL) == 1 || cargo_accepted_nearby_this_month(MAIL) == 1)) {return;}
+// Petroleum Fuels Service - for Petrol Stations
+switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
+// Alcohol Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceBEER, (cargo_accepted_nearby_last_month(BEER) == 1 || cargo_accepted_nearby_this_month(BEER) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceFOOD, (cargo_accepted_nearby_last_month(FOOD) == 1 || cargo_accepted_nearby_this_month(FOOD) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceEOIL, (cargo_accepted_nearby_last_month(EOIL) == 1 || cargo_accepted_nearby_this_month(EOIL) == 1)) {return;}
+// Food Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceFISH, (cargo_accepted_nearby_last_month(FISH) == 1 || cargo_accepted_nearby_this_month(FISH) == 1)) {return;}
+// Chemicals Service - for Stadiums
+switch(FEAT_HOUSES, SELF, FuncServiceRFPR, (cargo_accepted_nearby_last_month(RFPR) == 1 || cargo_accepted_nearby_this_month(RFPR) == 1)) {return;}
+// Fruit - for Shops
+switch(FEAT_HOUSES, SELF, FuncServiceFRUT, (cargo_accepted_nearby_last_month(FRUT) == 1 || cargo_accepted_nearby_this_month(FRUT) == 1)) {return;}
+// Cassava - for shops
+switch(FEAT_HOUSES, SELF, FuncServiceCASS, (cargo_accepted_nearby_last_month(CASS) == 1 || cargo_accepted_nearby_this_month(CASS) == 1)) {return;}
+// Goods - for various
+switch(FEAT_HOUSES, SELF, FuncServiceGOOD, (cargo_accepted_nearby_last_month(GOOD) == 1 || cargo_accepted_nearby_this_month(GOOD) == 1)) {return;}
+
+/* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
+
+switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 0, 8)) {
+	0: (PASS * 256) + (abs(extra_callback_info2 % 8) == 0) * LOAD_TEMP(1);
+	1: (MAIL * 256) + (abs(extra_callback_info2 % 8) == 0) * LOAD_TEMP(2);
+	return CB_RESULT_HOUSE_NO_MORE_PRODUCTION;
+}
+
+/* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
+switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
+
+switch(FEAT_HOUSES, SELF, CommercialCargoes,
+	param_commercial_cargoes == 0 ||
+	(param_commercial_cargoes == 1 && FuncServiceMAIL() )
+) {return;}
+
+/* End cargotable */
+
 /* Begin clustering */
-
-/* Note: Per NML specs, returns 256+X (X = 0..255) if the house has been defined by this NewGRF with building_class X */
-
-switch (FEAT_HOUSES, SELF, IsTileHouseClass, x, y, class_num, nearby_tile_house_class(x,y) == 256 + class_num) {return;}
-
-switch (FEAT_HOUSES, SELF, IsAdjacentToHouseClass, class_num,
-	// One square radius
-	IsTileHouseClass(-1, 0, class_num) ||
-	IsTileHouseClass(-1,-1, class_num) ||
-	IsTileHouseClass(-1, 1, class_num) ||
-	IsTileHouseClass( 0,-1, class_num) ||
-	IsTileHouseClass( 0, 1, class_num) ||
-	IsTileHouseClass( 1, 0, class_num) ||
-	IsTileHouseClass( 1,-1, class_num) ||
-	IsTileHouseClass( 1, 1, class_num) ||
-	// Two square radius
-	IsTileHouseClass(-2,-2, class_num) ||
-	IsTileHouseClass(-2,-1, class_num) ||
-	IsTileHouseClass(-2, 0, class_num) ||
-	IsTileHouseClass(-2, 1, class_num) ||
-	IsTileHouseClass(-2, 2, class_num) ||
-	IsTileHouseClass(-1,-2, class_num) ||
-	IsTileHouseClass(-1, 2, class_num) ||
-	IsTileHouseClass( 0,-2, class_num) ||
-	IsTileHouseClass( 0, 2, class_num) ||
-	IsTileHouseClass( 1,-2, class_num) ||
-	IsTileHouseClass( 1, 2, class_num) ||
-	IsTileHouseClass( 2,-2, class_num) ||
-	IsTileHouseClass( 2,-1, class_num) ||
-	IsTileHouseClass( 2, 0, class_num) ||
-	IsTileHouseClass( 2, 1, class_num) ||
-	IsTileHouseClass( 2, 2, class_num) ||
-	// Three square radius
-	IsTileHouseClass(-3,-3, class_num) ||
-	IsTileHouseClass(-3,-2, class_num) ||
-	IsTileHouseClass(-3,-1, class_num) ||
-	IsTileHouseClass(-3, 0, class_num) ||
-	IsTileHouseClass(-3, 1, class_num) ||
-	IsTileHouseClass(-3, 2, class_num) ||
-	IsTileHouseClass(-3, 3, class_num) ||
-	IsTileHouseClass(-1,-3, class_num) ||
-	IsTileHouseClass(-1, 3, class_num) ||
-	IsTileHouseClass( 0,-3, class_num) ||
-	IsTileHouseClass( 0, 3, class_num) ||
-	IsTileHouseClass( 1,-3, class_num) ||
-	IsTileHouseClass( 1, 3, class_num) ||
-	IsTileHouseClass( 2,-3, class_num) ||
-	IsTileHouseClass( 2, 3, class_num) ||
-	IsTileHouseClass( 3,-3, class_num) ||
-	IsTileHouseClass( 3,-2, class_num) ||
-	IsTileHouseClass( 3,-1, class_num) ||
-	IsTileHouseClass( 3, 0, class_num) ||
-	IsTileHouseClass( 3, 1, class_num) ||
-	IsTileHouseClass( 3, 2, class_num) ||
-	IsTileHouseClass( 3, 3, class_num) ||
-	// Four square radius - adjustments to take into consideration that Temple is 2x2
-	IsTileHouseClass(-4,-4, class_num) ||
-	IsTileHouseClass(-4,-3, class_num) ||
-	IsTileHouseClass(-4,-2, class_num) ||
-	IsTileHouseClass(-4,-1, class_num) ||
-	IsTileHouseClass(-4, 0, class_num) ||
-	IsTileHouseClass(-4, 1, class_num) ||
-	IsTileHouseClass(-4, 2, class_num) ||
-	IsTileHouseClass(-4, 3, class_num) ||
-	IsTileHouseClass(-4, 4, class_num) ||
-	IsTileHouseClass(-3,-4, class_num) ||
-	IsTileHouseClass(-2,-4, class_num) ||
-	IsTileHouseClass(-1,-4, class_num) ||
-	IsTileHouseClass( 0,-4, class_num) ||
-	IsTileHouseClass( 1,-4, class_num) ||
-	IsTileHouseClass( 2,-4, class_num) ||
-	IsTileHouseClass( 3,-4, class_num) ||
-	IsTileHouseClass( 4,-4, class_num)
-	){return;}
 
 switch (FEAT_HOUSES, SELF, HasTrackAdjacent, 
 	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
@@ -372,28 +389,20 @@ switch (FEAT_HOUSES, SELF, HasTrackAdjacent,
 switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
 switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
 
-/* Functions to appears in Construction Checks of buildings */
+/* Functions to appear in Construction Checks of buildings */
 
 // Allow first skyscraper to build near Class 2
 switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, 
-	((same_class_count_town == 0 && IsAdjacentToHouseClass(2)) || 
+	((same_class_count_town == 0 && ClassTwoWithinTwoTiles() ) || 
 	nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 )
 	) {return;}
 
 // Buildings after the first of the class must cluster near the same class
 switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
 	same_class_count_town == 0 || 								// No building of same class in town OR
-	AcrossAnAvenue()  ||			// Same class within 3 and with two road tiles in between OR
+	AcrossAnAvenue()  ||										// Allowing buildings accross an avenue ('wide' road) OR
 	(WithinThreeOfSameClass() && HasTrackAdjacent() ) ||		// Same class within 3 and track beside new building OR
 	WithinTwoOfSameClass()										// Same class within 2
-	) {return;}
-
-// Function for Buildings that cannot build near Temple (Building Class 3)
-switch (FEAT_HOUSES, SELF, BanFromHistDistrict, IsAdjacentToHouseClass(3) == 0 
-	) {return;}
-
-// Function for Buildings that can build near the Temple (Building Class 3) to create a Historical District
-switch (FEAT_HOUSES, SELF, AllowInHistDistrict, IsAdjacentToHouseClass(3) != 0 
 	) {return;}
 
 /* End clustering */
@@ -412,21 +421,15 @@ switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
 	(other_house_count_town(25)*2)+ 	// Naganuma House
 	(other_house_count_town(24)*2)+ 	// Naganuma House
 	(other_house_count_town(23)*2)+ 	// Naganuma House
-	(other_house_count_town(65)*2)+ 	// Nishikawa House
 
 	// Old House
+	/*
 	(other_house_count_town(13)*2)+ 	// Dense Wooden
 	(other_house_count_town(01)*2)+ 	// Wooden Townhouse 01
 	(other_house_count_town(03)*2)+ 	// Wooden Townhouse 02
 	(other_house_count_town(04)*2)+ 	// Wooden Townhouse 03
 	(other_house_count_town(08)*2)+ 	// Wooden Townhouse 04
-
-	// Takamaro Houses
-	(other_house_count_town(52)*3)+ 	// Takamaro_01
-	(other_house_count_town(53)*3)+ 	// Takamaro_02
-	(other_house_count_town(54)*3)+ 	// Takamaro_03
-	(other_house_count_town(55)*3)+ 	// Takamaro_04
-
+	*/
 	// Town Houses
 	(other_house_count_town(05)*3)+ 	// Townhouses_02
 	(other_house_count_town(06)*3)+ 	// Townhouses_01
@@ -458,7 +461,8 @@ switch (FEAT_HOUSES, PARENT, PopOver70k, population >= 70000) {return;}
 /* Modern Office Population Check */
 switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
 	// Residential population must be greater than the amount shown below
-	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) ) {return;}
+	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) 
+) {return;}
 
 /* Note: Check population is inaccurate when generating towns. This will only work properly when growing towns in-game. */
 
@@ -466,62 +470,15 @@ switch (FEAT_HOUSES, SELF, ModernOfficePopCheck,
 
 /* Begin Functions */
 
-/* Building Classes
-*
-*	Class 0
-*	Buildings in class: House, Market, Warehouse, Fountain, Statue
-*
-*	Class 1
-*	Parks cannot be within 2 tiles of another park
-*
-*	Class 2
-*	Skyscrapers/office towers can only build within 5 tiles of another skyscraper/office towers
-*	Buildings in class: skyscrapers, office towers
-*
-*	Class 3
-*	Temple
-*
-*	Class 4
-*	Old houses (must be within 2 tiles of another old house, to prevent sparse town growth with house limit)
-*
-*	Class 5
-*	Skyscrapers
-*
-*/
-
-// Small Flats cannot build within 1 tile of a modern office building unless no passenger service is provided to the tile
-switch(FEAT_HOUSES, SELF, ClassTwoWithinOneTile,
-	// Shops and Offices
-	nearby_tile_house_class(0,1) == 258 ||
-	nearby_tile_house_class(0,-1) == 258 ||
-	nearby_tile_house_class(1,0) == 258 ||
-	nearby_tile_house_class(1,1) == 258 ||
-	nearby_tile_house_class(1,-1) == 258 ||
-	nearby_tile_house_class(-1,0) == 258 ||
-	nearby_tile_house_class(-1,1) == 258 ||
-	nearby_tile_house_class(-1,-1) == 258 ||
-	// Skyscrapers
-	nearby_tile_house_class(0,1) == 261 ||
-	nearby_tile_house_class(0,-1) == 261 ||
-	nearby_tile_house_class(1,0) == 261 ||
-	nearby_tile_house_class(1,1) == 261 ||
-	nearby_tile_house_class(1,-1) == 261 ||
-	nearby_tile_house_class(-1,0) == 261 ||
-	nearby_tile_house_class(-1,1) == 261 ||
-	nearby_tile_house_class(-1,-1) == 261
-		){return;}
-
-// Function looking for no Passenger service, but there is a Class Two Building nearby
-switch(FEAT_HOUSES, SELF, NoPassBesideModernOffice,
-	ClassTwoWithinOneTile() &&
-	FuncNoServicePASS()
-		){return;}
-
-// Small Apartments Check - There must be Passenger Service, but if there is not, and there is a Class Two Building nearby, allow building
+/* Small Apartments Check */
 switch(FEAT_HOUSES, SELF, SmallApartmentsCheck,
-	NoPassBesideModernOffice() ||
-	FuncServicePASS()
-		){return;}
+	// If there is NO PASS Service, but would be beside a Commercial building (which will have PASS service)
+	(FuncNoServicePASS() && CommercialWithinOneTile() )	
+	// OR
+	||	
+	// There is PASS service and is not beside a Commercial building
+	(FuncServicePASS() && NoCommercialWithinOneTile() )
+){return;}
 
 // Check for road (and stations) in adjacent tiles functions
 //switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION) {return;}
@@ -770,9 +727,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_01)
 	}
 
 switch (FEAT_HOUSES, SELF, switch_townhouses_01_con_check, 
-	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	BanFromHistDistrict()			// Can't build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_townhouses_01, 06, HOUSE_SIZE_1X1){
 	property {
@@ -853,9 +809,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_02)
 	}
 
 switch (FEAT_HOUSES, SELF, switch_townhouses_02_con_check, 
-	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	BanFromHistDistrict()			// Can't build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_townhouses_02, 05, HOUSE_SIZE_1X1){
 	property {
@@ -977,8 +932,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_naganuma_house_new)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_naganuma_house_con_check, 
-	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	BanFromHistDistrict()			// Cannot build close to Temple
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
 	) {return;}	
 
 item(FEAT_HOUSES, item_naganuma_house_v2_old, 19, HOUSE_SIZE_1X1){
@@ -1211,9 +1165,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_new)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_nishikawa_house_con_check, 
-	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_nishikawa_house_v2_old, 26, HOUSE_SIZE_1X1){
 	property {
@@ -1876,9 +1829,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_dense_wooden)
 	}
 
 switch (FEAT_HOUSES, SELF, switch_dense_wooden_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_dense_wooden, 13, HOUSE_SIZE_1X1){
 	property {
@@ -1954,27 +1906,9 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_01,terrain_type) {
 	sprlay_wooden_townhouses_01;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
 switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_01_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_wooden_townhouses_01, 01, HOUSE_SIZE_1X1){
 	property {
@@ -2050,27 +1984,10 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_02,terrain_type) {
 	sprlay_wooden_townhouses_02;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
+// Construction Checks
 switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_02_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_wooden_townhouses_02, 03, HOUSE_SIZE_1X1){
 	property {
@@ -2146,27 +2063,9 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_03,terrain_type) {
 	sprlay_wooden_townhouses_03;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
 switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_03_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_wooden_townhouses_03, 04, HOUSE_SIZE_1X1){
 	property {
@@ -2242,27 +2141,10 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_04,terrain_type) {
 	sprlay_wooden_townhouses_04;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
+
 switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_04_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap()				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_wooden_townhouses_04, 08, HOUSE_SIZE_1X1){
 	property {
@@ -2298,55 +2180,6 @@ item(FEAT_HOUSES, item_wooden_townhouses_04, 08, HOUSE_SIZE_1X1){
 }
 
 // End wooden_townhouses_04
-
-// Begin historical_zone_01
-
-
-random_switch (FEAT_HOUSES, SELF, switch_historical_zone_01_sprites) {
-	1: switch_dense_wooden_a;
-	1: switch_dense_wooden_b;
-	1: switch_dense_wooden_c;
-	1: switch_dense_wooden_d;
-}
-
-switch (FEAT_HOUSES, SELF, switch_historical_zone_01_con_check, 
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
-
-item(FEAT_HOUSES, item_historical_zone_01, 00, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_HISTORICAL_ZONE_01);
-		population: 				60;
-		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1700,0xFFFF];
-		minimum_lifetime: 			20;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_historical_zone_01_sprites;
-		construction_check: 		switch_historical_zone_01_con_check;
-		cargo_production: 			func_produce(4,1);
-		//colour: 					rand_recolor_historical_zone_01;
-	}
-}
-
-// End historical_zone_01
 
 // Begin small_apartments_01
 
@@ -2407,9 +2240,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_apartments_01)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_small_apartments_01_con_check, 
 	HasRoadAdjacentNWSW() &&		// Can build with a road either to the NW or SW
-	SmallApartmentsCheck() &&		// Small Apartments can't build next to Modern Office Building unless there no passenger service
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	SmallApartmentsCheck()			// Small Apartments can't build next to Modern Office Building unless there no passenger service
+) {return;}	
 
 item(FEAT_HOUSES, item_small_apartments_01, 02, HOUSE_SIZE_1X1){
 	property {
@@ -2493,9 +2325,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_apartments_02)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_small_apartments_02_con_check, 
-	SmallApartmentsCheck() &&		// Small Apartments can't build next to Modern Office Building unless there no passenger service
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	SmallApartmentsCheck() 			// Small Apartments can't build next to Modern Office Building unless there no passenger service
+) {return;}	
 
 item(FEAT_HOUSES, item_small_apartments_02, 44, HOUSE_SIZE_1X1){
 	property {
@@ -2574,9 +2405,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_03)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_small_apartments_03_con_check, 
-	SmallApartmentsCheck() &&		// Small Apartments can't build next to Modern Office Building unless there no passenger service
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	SmallApartmentsCheck()			// Small Apartments can't build next to Modern Office Building unless there no passenger service
+) {return;}	
 
 item(FEAT_HOUSES, item_small_apartments_03, 45, HOUSE_SIZE_1X1){
 	property {
@@ -2651,9 +2481,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_apartments_04)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_small_apartments_04_con_check, 
-	SmallApartmentsCheck() &&		// Small Apartments can't build next to Modern Office Building unless there no passenger service
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	SmallApartmentsCheck() 				// Small Apartments can't build next to Modern Office Building unless there no passenger service
+) {return;}	
 
 item(FEAT_HOUSES, item_small_apartments_04, 46, HOUSE_SIZE_1X1){
 	property {
@@ -2736,8 +2565,7 @@ random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_01)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_01_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	BanFromHistDistrict()			// Do not allow building near Temple
+	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
 	) {return;}	
 
 item(FEAT_HOUSES, item_apartments_01, 27, HOUSE_SIZE_1X1){
@@ -2822,9 +2650,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_02)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_02_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+) {return;}	
 
 item(FEAT_HOUSES, item_apartments_02, 30, HOUSE_SIZE_1X1){
 	property {
@@ -2909,9 +2736,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_03)
 */
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_03_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	FuncServicePASS() 			// Only build within the catchment area of a station which received passengers this month or last month
+) {return;}	
 
 item(FEAT_HOUSES, item_apartments_03, 31, HOUSE_SIZE_1X1){
 	property {
@@ -3033,9 +2859,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_04)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_04_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+) {return;}	
 
 item(FEAT_HOUSES, item_apartments_04, 56, HOUSE_SIZE_2X1){
 	property {
@@ -3151,9 +2976,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_05)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_05_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	BanFromHistDistrict()			// Do not allow building near Temple
-	) {return;}	
+	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+) {return;}	
 
 item(FEAT_HOUSES, item_apartments_05, 32, HOUSE_SIZE_1X1){
 	property {
@@ -3230,12 +3054,11 @@ switch(FEAT_HOUSES, SELF, switch_shops_01_sprites,terrain_type) {
 switch (FEAT_HOUSES, SELF, switch_shops_01_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	BanFromHistDistrict() &&		// Cannot build close to Temple
 	HasRoadAdjacentSW() && 
 	HasRoadAdjacentSE() && 
 	ModernOfficePopCheck() &&		// Is there population to allow another
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
-	) {return;}	
+) {return;}	
 
 // Recolouring
 random_switch (FEAT_HOUSES, SELF, random_recolour_shops_01) {
@@ -3324,10 +3147,9 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
 switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	BanFromHistDistrict() &&		// Cannot build close to Temple
 	ModernOfficePopCheck() &&		// Is there sufficieny population to build another?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
-	) {return;}	
+) {return;}	
 
 item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	property {
@@ -3439,9 +3261,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_petrol_station_01)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_petrol_station_01_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
-	ThirtyTileGap() &&			// Can't appear within 30 tiles of another
-	BanFromHistDistrict()		// Cannot build close to Temple
-	) {return;}	
+	ThirtyTileGap()				// Can't appear within 30 tiles of another
+) {return;}	
 
 // Protection Check
 switch (FEAT_HOUSES, SELF, switch_petrol_station_01_pro_check, 
@@ -3545,9 +3366,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_restaurant_01)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_restaurant_01_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
-	ThirtyTileGap() &&			// Can't appear within 30 tiles of another
-	BanFromHistDistrict()		// Cannot build close to Temple
-	) {return;}	
+	ThirtyTileGap()				// Can't appear within 30 tiles of another
+) {return;}	
 
 // Protection Check
 switch (FEAT_HOUSES, SELF, switch_restaurant_01_pro_check, 
@@ -3659,9 +3479,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_shops_small_01)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_shops_small_01_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
-	TwentyTileGap() &&			// Can't appear within 20 tiles of another
-	BanFromHistDistrict()		// Cannot build close to Temple
-	) {return;}	
+	TwentyTileGap()				// Can't appear within 20 tiles of another
+) {return;}	
 
 // Protection Check
 switch (FEAT_HOUSES, SELF, switch_shops_small_01_pro_check, 
@@ -3670,7 +3489,7 @@ switch (FEAT_HOUSES, SELF, switch_shops_small_01_pro_check,
 	FuncServiceGOOD()	||		// or GOOD
 	FuncServiceCASS()	||		// or CASS
 	FuncServiceFRUT()   )		// or FRUT	
-	) {return;}	
+) {return;}	
 
 item(FEAT_HOUSES, item_shops_small_01, 7, HOUSE_SIZE_1X1){
 	property {
@@ -3779,9 +3598,8 @@ switch (FEAT_HOUSES, SELF, switch_offices_01_con_check,
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IsUniqueHouse() &&				// Only one per city
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IsUniqueHouse()					// Only one per city
+) {return;}	
 
 item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 	property {
@@ -3866,9 +3684,8 @@ switch (FEAT_HOUSES, SELF, switch_offices_02_con_check,
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
 
 item(FEAT_HOUSES, item_offices_02, 37, HOUSE_SIZE_1X1){
 	property {
@@ -3953,9 +3770,8 @@ switch (FEAT_HOUSES, SELF, switch_offices_03_con_check,
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
 
 item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 	property {
@@ -4040,9 +3856,8 @@ switch (FEAT_HOUSES, SELF, switch_offices_04_con_check,
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
 
 item(FEAT_HOUSES, item_offices_04, 58, HOUSE_SIZE_1X1){
 	property {
@@ -4127,9 +3942,8 @@ switch (FEAT_HOUSES, SELF, switch_offices_05_con_check,
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
 
 item(FEAT_HOUSES, item_offices_05, 59, HOUSE_SIZE_1X1){
 	property {
@@ -4249,9 +4063,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_01_con_check,
 	PopOver70k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}		
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}		
  
 
 item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
@@ -4344,9 +4157,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check,
 	PopOver50k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 	property {
@@ -4441,9 +4253,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_03_con_check,
 	PopOver70k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper()				// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_03, 79, HOUSE_SIZE_1X1){
 	property {
@@ -4540,9 +4351,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_04_con_check,
 	PopOver50k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_04, 80, HOUSE_SIZE_1X1){
 	property {
@@ -4639,9 +4449,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_05_con_check,
 	PopOver30k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_05, 81, HOUSE_SIZE_1X1){
 	property {
@@ -4736,9 +4545,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_06_con_check,
 	PopOver30k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_06, 82, HOUSE_SIZE_1X1){
 	property {
@@ -4840,9 +4648,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_07_con_check,
 	PopOver50k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_07, 83, HOUSE_SIZE_1X1){
 	property {
@@ -4939,9 +4746,8 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_08_con_check,
 	PopOver10k() &&					// Population of city check
 	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() &&			// If first skyscraper, it must build beside a Class 2
-	BanFromHistDistrict()			// Cannot build close to Temple
-	) {return;}	
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
 
 item(FEAT_HOUSES, item_skyscraper_08, 84, HOUSE_SIZE_1X1){
 	property {

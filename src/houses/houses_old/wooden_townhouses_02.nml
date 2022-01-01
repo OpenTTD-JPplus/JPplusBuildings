@@ -37,27 +37,10 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_02,terrain_type) {
 	sprlay_wooden_townhouses_02;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_wooden_townhouses)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
+// Construction Checks
 switch (FEAT_HOUSES, SELF, switch_wooden_townhouses_02_con_check, 
-	HouseOfficeGap() ||				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	AllowInHistDistrict()			// Can build close to Temple
-	) {return;}	
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
 
 item(FEAT_HOUSES, item_wooden_townhouses_02, 03, HOUSE_SIZE_1X1){
 	property {
