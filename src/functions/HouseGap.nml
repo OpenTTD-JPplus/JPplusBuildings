@@ -1,65 +1,15 @@
 /* Begin HouseGap */
 
-/* 	
-	Function for Houses and Town Houses, so they cannot build within 2 tiles of;
-	
-	* Building Class 2 - Shops and Offices
-	* Building Class 5 - Skyscrapers
-
-	If all tiles are neither Class 2 or Class 5, then HouseOfficeGap will return 1, and therefore allow construction
-*/
-
 switch(FEAT_HOUSES, SELF, HouseOfficeGap,
-	// Shops and Offices
-	nearby_tile_house_class(0,1) != 258 &&
-	nearby_tile_house_class(0,-1) != 258 &&
-	nearby_tile_house_class(1,0) != 258 &&
-	nearby_tile_house_class(1,1) != 258 &&
-	nearby_tile_house_class(1,-1) != 258 &&
-	nearby_tile_house_class(-1,0) != 258 &&
-	nearby_tile_house_class(-1,1) != 258 &&
-	nearby_tile_house_class(-1,-1) != 258 &&
-	nearby_tile_house_class(-2,-2) != 258 &&
-	nearby_tile_house_class(-2,-1) != 258 &&
-	nearby_tile_house_class(-2,0) != 258 &&
-	nearby_tile_house_class(-2,1) != 258 &&
-	nearby_tile_house_class(-2,2) != 258 &&
-	nearby_tile_house_class(-1,-2) != 258 &&
-	nearby_tile_house_class(-1,2) != 258 &&
-	nearby_tile_house_class(0,-2) != 258 &&
-	nearby_tile_house_class(0,-2) != 258 &&
-	nearby_tile_house_class(1,-2) != 258 &&
-	nearby_tile_house_class(1,-2) != 258 &&
-	nearby_tile_house_class(2,-2) != 258 &&
-	nearby_tile_house_class(2,-1) != 258 &&
-	nearby_tile_house_class(2,0) != 258 &&
-	nearby_tile_house_class(2,1) != 258 &&
-	nearby_tile_house_class(2,2) != 258 &&
-	// Skyscrapers
-	nearby_tile_house_class(0,1) != 261 &&
-	nearby_tile_house_class(0,-1) != 261 &&
-	nearby_tile_house_class(1,0) != 261 &&
-	nearby_tile_house_class(1,1) != 261 &&
-	nearby_tile_house_class(1,-1) != 261 &&
-	nearby_tile_house_class(-1,0) != 261 &&
-	nearby_tile_house_class(-1,1) != 261 &&
-	nearby_tile_house_class(-1,-1) != 261 &&
-	nearby_tile_house_class(-2,-2) != 261 &&
-	nearby_tile_house_class(-2,-1) != 261 &&
-	nearby_tile_house_class(-2,0) != 261 &&
-	nearby_tile_house_class(-2,1) != 261 &&
-	nearby_tile_house_class(-2,2) != 261 &&
-	nearby_tile_house_class(-1,-2) != 261 &&
-	nearby_tile_house_class(-1,2) != 261 &&
-	nearby_tile_house_class(0,-2) != 261 &&
-	nearby_tile_house_class(0,-2) != 261 &&
-	nearby_tile_house_class(1,-2) != 261 &&
-	nearby_tile_house_class(1,-2) != 261 &&
-	nearby_tile_house_class(2,-2) != 261 &&
-	nearby_tile_house_class(2,-1) != 261 &&
-	nearby_tile_house_class(2,0) != 261 &&
-	nearby_tile_house_class(2,1) != 261 &&
-	nearby_tile_house_class(2,2) != 261
-		){return;}
+	
+	// MAIN CRITERIA - Houses and Townhouses cannot build within two tiles of Commercial Buildings (Classes 2 & 5)
+	!CommercialWithinTwoTiles()
+
+	||
+
+	// EXCEPTION - Unless there is a commercial building two tiles away (but not adjacent i.e. 1 tile) AND NO passenger service
+	( CommercialWithinTwoTiles() && !CommercialWithinOneTile() && !FuncServicePASS() )
+
+){return;}
 
 /* End HouseGap */

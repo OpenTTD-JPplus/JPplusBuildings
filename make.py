@@ -8,53 +8,47 @@ newgrf_name = "JPplusBuildings"
 # Files which should be first, in order (header, cargotable, etc)
 header_stuff = [
     "header",
+    "cargotable",
+    "sprite_templates",
     ### Primary Functions (i.e. do not use any other Function)
-    "functions/HouseGap",
-    "functions/FuncPopulationAdder",
     "functions/ModernOfficePopCheckV2",
-    "functions/ClassTwoWithinTwoTiles",
+    "functions/CommercialWithinTwoTiles",
     "functions/CommercialWithinOneTile",
-    "functions/NoCommercialWithinOneTile",
     "functions/AcrossAnAvenue",
     "functions/AcrossTracks",
-    "functions/one_liner_functions",
     "functions/CargoServiceChecks",
+    "functions/one_liner_functions",
     ### Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
-    #"functions/ModernOfficePopCheck",
+    "functions/HouseGap",
     "functions/SmallApartmentsCheck",
     "functions/ClusterBuildingClass",
     "functions/IfFirstSkyscraper",
-    "functions/CommercialCargoes",
-    # Other
-    "cargotable",
-    "sprite_templates",
+    "functions/CommercialCargoes",  
     ]
 
 # Houses
 houses = [  
-    ### RESIDENTIAL | Class 0 | make sure all the IDs added into the population adder function!! ###
+    ### RESIDENTIAL | Class 0 ###
     
     ### Townhouses ###
     "townhouses/townhouses_01",             # ID 06
     "townhouses/townhouses_02",             # ID 05
     ### Houses ###
-    #"houses/naganuma_house",                # ID 19-22
     "houses/naganuma_house_v2_new",          # ID 19
-    #"houses/nishikawa_house",               # ID 23-26
+    "houses/naganuma_house_v3_new",          # ID 20
+    "houses/naganuma_house_v2_old",          # ID 21
+    "houses/naganuma_house_v3_old",          # ID 22
+    "houses/nishikawa_house_v2_new",         # ID 23
+    "houses/nishikawa_house_v3_new",         # ID 24
+    "houses/nishikawa_house_v2_old",         # ID 25
+    "houses/nishikawa_house_v3_old",         # ID 26
     ### Old Houses ###              
-    #"houses_old/takamaro/takamaro_01",      # ID 52
-    #"houses_old/takamaro/takamaro_02",      # ID 53
-    #"houses_old/takamaro/takamaro_03",      # ID 54
-    #"houses_old/takamaro/takamaro_04",      # ID 55
     "houses_old/dense_wooden",                  # ID 13
     "houses_old/wooden_townhouses_01",          # ID 01
     "houses_old/wooden_townhouses_02",          # ID 03
     "houses_old/wooden_townhouses_03",          # ID 04
     "houses_old/wooden_townhouses_04",          # ID 08
-    #"houses_old/historical_zone_01",            # ID 00
-    #"old_houses",              
-    #"cottages",                
-    #"townhouses_old",          
+        
     ### Small Apartments ###
     "small_apartments/small_apartments_01",      # ID 02
     "small_apartments/small_apartments_02",      # ID 44
@@ -81,6 +75,9 @@ houses = [
     "offices/offices_03",                   # ID 49
     "offices/offices_04",                   # ID 58
     "offices/offices_05",                   # ID 59
+    
+    ### SKYSCRAPERS | Class 5 ###
+
     ### Skyscrapers ###         
     "skyscrapers/skyscraper_01",            # ID 76-77
     "skyscrapers/skyscraper_02",            # ID 78

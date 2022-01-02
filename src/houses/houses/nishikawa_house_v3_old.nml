@@ -1,0 +1,89 @@
+// Begin nishikawa_v3_old
+
+spriteset (spr_nishikawa_v3_old, 						"src/gfx/houses/nishikawa/building_v3.png") 					{template_house_80(1,1)}
+spriteset (spr_nishikawa_v3_old_snow, 					"src/gfx/houses/nishikawa/building_v3.png") 					{template_house_80(1,82)}
+spriteset (spr_nishikawa_v3_old_ground, 				"src/gfx/houses/nishikawa/ground_v3.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_v3_old_ground_snow, 			"src/gfx/houses/nishikawa/ground_v3.png") 						{template_house_80(1,82)}
+
+spritelayout sprlay_nishikawa_v3_old_norm {
+	ground {
+		sprite: spr_nishikawa_v3_old_ground (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_v3_old (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_v3_old_snow {
+	ground {
+		sprite: spr_nishikawa_v3_old_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_v3_old_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_nishikawa_v3_old_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_v3_old_snow;
+	sprlay_nishikawa_v3_old_norm;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_v3_old)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+switch (FEAT_HOUSES, SELF, switch_nishikawa_v3_old_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
+
+item(FEAT_HOUSES, item_nishikawa_v3_old, 26, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				26;
+		name: 						string(NAME_NISHIKAWA_HOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1870,1959];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class: 			0;
+		
+		}
+	graphics {
+		default: 					switch_nishikawa_v3_old_sprites;
+		construction_check: 		switch_nishikawa_v3_old_con_check;
+		cargo_production: 			func_produce(2,1);
+		colour: 					rand_recolor_nishikawa_v3_old;
+	}
+}
+
+// End nishikawa_v3_old

@@ -3,11 +3,11 @@
 /* Used to control placement of Small Apartments */
 switch(FEAT_HOUSES, SELF, SmallApartmentsCheck,
 	// If there is NO PASS Service, but would be beside a Commercial building (which will have PASS service)
-	(FuncNoServicePASS() && CommercialWithinOneTile() )	
+	(!FuncServicePASS() && CommercialWithinOneTile() )	
 	// OR
 	||	
-	// There is PASS service and is not beside a Commercial building
-	(FuncServicePASS() && NoCommercialWithinOneTile() )
+	// There is PASS service and is NO Commercial building within one tile
+	(FuncServicePASS() && !CommercialWithinOneTile() )
 ){return;}
 
 /* End Small Apartments Check */
