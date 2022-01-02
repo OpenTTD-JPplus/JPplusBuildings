@@ -48,6 +48,7 @@ houses = [
     "houses_old/wooden_townhouses_02",          # ID 03
     "houses_old/wooden_townhouses_03",          # ID 04
     "houses_old/wooden_townhouses_04",          # ID 08
+    "houses_old/two_wooden_houses_01",          # ID 14
         
     ### Small Apartments ###
     "small_apartments/small_apartments_01",      # ID 02
