@@ -8,7 +8,7 @@ grf {
 	grfid: 						"KR04";
 	name: 						string(STR_GRF_NAME);
 	desc: 						string(STR_GRF_DESC);
-	version: 					2;
+	version: 					3;
 	min_compatible_version: 	1;
 	url: 						string(STR_WEBSITE);
 
@@ -143,6 +143,24 @@ switch(FEAT_HOUSES, SELF, FuncPopulationAdder,
 ) {return;}
 
 /* End Function Population Adder */
+
+/* Begin Modern Office Population Check */
+
+switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
+	((1 + same_class_count_town) * 60) 
+	
+	< 
+
+	(
+	(other_class_count_town(00) * 2)	+	// Houses
+	(other_class_count_town(01) * 3)	+	// Townhouses
+	(other_class_count_town(03) * 4)	+	// Small Apartments
+	(other_class_count_town(04) * 10)		// Apartments
+	)
+
+) {return;}
+
+/* End Modern Office Population Check */
 
 /* Begin ClassTwoWithinTwoTiles */
 
@@ -436,17 +454,6 @@ switch(FEAT_HOUSES, SELF, FuncServiceCASS, (cargo_accepted_nearby_last_month(CAS
 switch(FEAT_HOUSES, SELF, FuncServiceGOOD, (cargo_accepted_nearby_last_month(GOOD) == 1 || cargo_accepted_nearby_this_month(GOOD) == 1)) {return;}
 
 /* End Cargo Service Checks */
-
-/* Begin Modern Office Population Check */
-
-// This function compares the total of the Population Adder Function to the formula below
-// It should Return 1 when the residential factor exceeds the commercial factor
-
-switch (FEAT_HOUSES, SELF, ModernOfficePopCheck, 
-	(FuncPopulationAdder() > ( (other_class_count_town(3) * 30) + ((1 + same_class_count_town) * 60) ) ) 
-) {return;}
-
-/* End Modern Office Population Check */
 
 /* Begin Small Apartments Check */
 
@@ -752,6 +759,7 @@ item(FEAT_HOUSES, item_townhouses_01, 06, HOUSE_SIZE_1X1){
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			2;
 		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:				1;
 		
 		}
 	graphics {
@@ -834,6 +842,7 @@ item(FEAT_HOUSES, item_townhouses_02, 05, HOUSE_SIZE_1X1){
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			2;
 		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB,TOWNZONE_CENTRE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:				1;
 		
 		}
 	graphics {
@@ -1889,6 +1898,7 @@ item(FEAT_HOUSES, item_small_apartments_01, 02, HOUSE_SIZE_1X1){
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			4;
 		availability_mask: 			[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:				3;
 		
 		}
 	graphics {
@@ -1974,7 +1984,7 @@ item(FEAT_HOUSES, item_small_apartments_02, 44, HOUSE_SIZE_1X1){
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			4;
 		availability_mask: 			[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		
+		building_class:				3;
 		
 		}
 	graphics {
@@ -2053,7 +2063,8 @@ item(FEAT_HOUSES, item_small_apartments_03, 45, HOUSE_SIZE_1X1){
 		probability: 					1;
 		years_available: 				[1950,0xFFFF];
 		minimum_lifetime: 				5;
-		availability_mask: 				[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];		
+		availability_mask: 				[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:					3;		
 		}
 	graphics {
 		default: 						switch_small_apartments_03_sprites;
@@ -2129,7 +2140,8 @@ item(FEAT_HOUSES, item_small_apartments_04, 46, HOUSE_SIZE_1X1){
 		probability: 					1;
 		years_available: 				[1955,1989];
 		minimum_lifetime: 				5;
-		availability_mask: 				[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];		
+		availability_mask: 				[bitmask(TOWNZONE_OUTER_SUBURB,TOWNZONE_OUTSKIRT), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:					3;		
 		}
 	graphics {
 		default: 						switch_small_apartments_04_sprites;
@@ -2214,6 +2226,7 @@ item(FEAT_HOUSES, item_apartments_01, 27, HOUSE_SIZE_1X1){
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:				4;
 				
 		}
 	graphics {
@@ -2299,7 +2312,7 @@ item(FEAT_HOUSES, item_apartments_02, 30, HOUSE_SIZE_1X1){
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-				
+		building_class:				4;		
 		}
 	graphics {
 		default: 					switch_apartments_02_snow;
@@ -2394,7 +2407,8 @@ item(FEAT_HOUSES, item_apartments_03, 31, HOUSE_SIZE_1X1){
 										CLIMATE_TEMPERATE,
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
-									)];	
+									)];
+		building_class:				4;
 		}
 	graphics {
 		default: 					switch_apartments_03_snow;
@@ -2509,7 +2523,7 @@ item(FEAT_HOUSES, item_apartments_04, 56, HOUSE_SIZE_2X1){
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
-		building_class:				0;	
+		building_class:				4;	
 		}
 	graphics {
 		graphics_north: 			switch_apartments_04_north;
@@ -2635,6 +2649,7 @@ item(FEAT_HOUSES, item_apartments_05, 32, HOUSE_SIZE_1X1){
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
 									)];
+		building_class:				4;
 	}
 	graphics {
 		default: 					switch_apartments_05_snow;
@@ -4566,7 +4581,7 @@ item(FEAT_HOUSES, item_temple_01, 66, HOUSE_SIZE_2X2){
 		years_available: 			[1700,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				3;	
+		building_class:				6;	
 		}
 	graphics {
 		graphics_north: 			switch_temple_01_north;
@@ -4740,7 +4755,7 @@ item(FEAT_HOUSES, item_temple_02, 09, HOUSE_SIZE_2X2){
 		years_available: 			[1700,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				3;	
+		building_class:				6;	
 		}
 	graphics {
 		graphics_north: 			switch_temple_02_north;
