@@ -33,6 +33,7 @@ houses = [
     ### Townhouses ###
     "townhouses/townhouses_01",             # ID 06
     "townhouses/townhouses_02",             # ID 05
+
     ### Houses ###
     "houses/naganuma_house_v2_new",          # ID 19
     "houses/naganuma_house_v3_new",          # ID 20
@@ -42,6 +43,7 @@ houses = [
     "houses/nishikawa_house_v3_new",         # ID 24
     "houses/nishikawa_house_v2_old",         # ID 25
     "houses/nishikawa_house_v3_old",         # ID 26
+
     ### Old Houses ###              
     "houses_old/dense_wooden",                  # ID 13
     "houses_old/wooden_townhouses_01",          # ID 01
@@ -49,12 +51,14 @@ houses = [
     "houses_old/wooden_townhouses_03",          # ID 04
     "houses_old/wooden_townhouses_04",          # ID 08
     "houses_old/two_wooden_houses_01",          # ID 14
+    "houses_old/two_wooden_houses_02",          # ID 15
         
     ### Small Apartments ###
     "small_apartments/small_apartments_01",      # ID 02
     "small_apartments/small_apartments_02",      # ID 44
     "small_apartments/small_apartments_03",      # ID 45
     "small_apartments/small_apartments_04",      # ID 46
+
     ### Apartments ###
     "apartments/apartments_01",            # ID 27
     "apartments/apartments_02",            # ID 30
@@ -70,6 +74,7 @@ houses = [
     "shops/petrol_station_01",              # ID 50-51
     "shops/restaurant_01",                  # ID 64
     "shops/shops_small_01",                 # ID 7
+    
     ### Offices ###
     "offices/offices_01",                   # ID 36
     "offices/offices_02",                   # ID 37
