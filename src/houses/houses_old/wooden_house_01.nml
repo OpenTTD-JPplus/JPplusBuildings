@@ -134,32 +134,14 @@ random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_any) {
 	1: switch_wooden_house_01d;		// Any
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SE) {
-	10: switch_wooden_house_01a;	// SE
-	1: switch_wooden_house_01b;		// Any
-	1: switch_wooden_house_01d;		// Any
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SW) {
-	1: switch_wooden_house_01b;		// Any
-	10: switch_wooden_house_01c;	// SW
-	1: switch_wooden_house_01d;		// Any
-}
-
 random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SESW) {
 	1: switch_wooden_house_01a;		// SE
 	1: switch_wooden_house_01c;		// SW
 }
 
-switch (FEAT_HOUSES, SELF, switch_SE_facing, HasRoadAdjacentSE() )
-	{1: return 1; return 0;}
-
-switch (FEAT_HOUSES, SELF, switch_SW_facing, HasRoadAdjacentSW() )
-	{1: return 2; return 0;}
-
-switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites, switch_SE_facing() + switch_SW_facing() ) {
-	1: switch_wooden_house_01_sprites_SE; 
-	2: switch_wooden_house_01_sprites_SW;
+switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites, SpriteDirections() ) {
+	1: switch_wooden_house_01a; 
+	2: switch_wooden_house_01c;
 	3: switch_wooden_house_01_sprites_SESW;
 	default: switch_wooden_house_01_sprites_any;
 }

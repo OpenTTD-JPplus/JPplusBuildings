@@ -39,7 +39,8 @@ switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_sprites,terrain_type) {
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_con_check, 
-	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HasRoadAdjacentSE()
 ) {return;}	
 
 item(FEAT_HOUSES, item_wooden_farmhouse_01, 17, HOUSE_SIZE_1X1){
@@ -50,7 +51,7 @@ item(FEAT_HOUSES, item_wooden_farmhouse_01, 17, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				4;										// Increased due to only SE facing
 		years_available: 			[1700,1950];							// Agreed to JPS
 		minimum_lifetime: 			2;										
 		availability_mask: 			[bitmask(								// Agreed to JPS

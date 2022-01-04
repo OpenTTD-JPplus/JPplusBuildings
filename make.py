@@ -21,6 +21,7 @@ header_stuff = [
     "functions/one_liner_functions",
 
     ### Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
+    "functions/SpriteDirections",
     "functions/HouseGap",
     "functions/SmallApartmentsCheck",
     "functions/ClusterBuildingClass",

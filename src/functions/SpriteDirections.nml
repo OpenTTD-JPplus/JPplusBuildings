@@ -1,0 +1,28 @@
+/* Begin Sprite Directions*/
+
+/*
+
+When using Sprite Directions, list out the outcomes desired with the following results the switch in the nml file for the House
+
+0 
+1 SE Only
+2 SW Only
+3 SE && SW
+
+*/
+
+// Road to the SE
+switch (FEAT_HOUSES, SELF, switch_SE_facing, HasRoadAdjacentSE() )
+	{1: return 1; return 0;}
+
+// Road to the SW
+switch (FEAT_HOUSES, SELF, switch_SW_facing, HasRoadAdjacentSW() )
+	{1: return 2; return 0;}
+
+switch (FEAT_HOUSES, SELF, SpriteDirections, 
+	switch_SE_facing() + 
+	switch_SW_facing()
+){return;}
+
+
+/* End Sprite Directions */

@@ -543,7 +543,39 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentSE2x2, nearby_tile_class(0,2) == TILE_
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION || 
 	nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION) {return;}
 
+switch (FEAT_HOUSES, SELF, HasRoadAdjacentSESW, nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION || 
+	nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION) {return;}
+
 /* End one_liners */
+
+/* Begin Sprite Directions*/
+
+/*
+
+When using Sprite Directions, list out the outcomes desired with the following results the switch in the nml file for the House
+
+0 
+1 SE Only
+2 SW Only
+3 SE && SW
+
+*/
+
+// Road to the SE
+switch (FEAT_HOUSES, SELF, switch_SE_facing, HasRoadAdjacentSE() )
+	{1: return 1; return 0;}
+
+// Road to the SW
+switch (FEAT_HOUSES, SELF, switch_SW_facing, HasRoadAdjacentSW() )
+	{1: return 2; return 0;}
+
+switch (FEAT_HOUSES, SELF, SpriteDirections, 
+	switch_SE_facing() + 
+	switch_SW_facing()
+){return;}
+
+
+/* End Sprite Directions */
 
 /* Begin HouseGap */
 
@@ -1533,7 +1565,8 @@ switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_sprites,terrain_type) {
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_con_check, 
-	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HasRoadAdjacentSE()
 ) {return;}	
 
 item(FEAT_HOUSES, item_wooden_farmhouse_01, 17, HOUSE_SIZE_1X1){
@@ -1544,7 +1577,7 @@ item(FEAT_HOUSES, item_wooden_farmhouse_01, 17, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				4;										// Increased due to only SE facing
 		years_available: 			[1700,1950];							// Agreed to JPS
 		minimum_lifetime: 			2;										
 		availability_mask: 			[bitmask(								// Agreed to JPS
@@ -1707,32 +1740,14 @@ random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_any) {
 	1: switch_wooden_house_01d;		// Any
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SE) {
-	10: switch_wooden_house_01a;	// SE
-	1: switch_wooden_house_01b;		// Any
-	1: switch_wooden_house_01d;		// Any
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SW) {
-	1: switch_wooden_house_01b;		// Any
-	10: switch_wooden_house_01c;	// SW
-	1: switch_wooden_house_01d;		// Any
-}
-
 random_switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites_SESW) {
 	1: switch_wooden_house_01a;		// SE
 	1: switch_wooden_house_01c;		// SW
 }
 
-switch (FEAT_HOUSES, SELF, switch_SE_facing, HasRoadAdjacentSE() )
-	{1: return 1; return 0;}
-
-switch (FEAT_HOUSES, SELF, switch_SW_facing, HasRoadAdjacentSW() )
-	{1: return 2; return 0;}
-
-switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites, switch_SE_facing() + switch_SW_facing() ) {
-	1: switch_wooden_house_01_sprites_SE; 
-	2: switch_wooden_house_01_sprites_SW;
+switch (FEAT_HOUSES, SELF, switch_wooden_house_01_sprites, SpriteDirections() ) {
+	1: switch_wooden_house_01a; 
+	2: switch_wooden_house_01c;
 	3: switch_wooden_house_01_sprites_SESW;
 	default: switch_wooden_house_01_sprites_any;
 }
@@ -2787,15 +2802,33 @@ switch(FEAT_HOUSES, SELF, switch_two_wooden_houses_01d,terrain_type) {
 }
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites) {
-	1: switch_two_wooden_houses_01a;
-	1: switch_two_wooden_houses_01b;
-	1: switch_two_wooden_houses_01c;
-	1: switch_two_wooden_houses_01d;
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SE) {
+	1: switch_two_wooden_houses_01a;		// SE
+	1: switch_two_wooden_houses_01b;		// SE
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SW) {
+	1: switch_two_wooden_houses_01c;		// SW
+	1: switch_two_wooden_houses_01d;		// SW
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SESW) {
+	1: switch_two_wooden_houses_01a;		// SE
+	1: switch_two_wooden_houses_01b;		// SE
+	1: switch_two_wooden_houses_01c;		// SW
+	1: switch_two_wooden_houses_01d;		// SW
+}
+
+switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites, SpriteDirections() ) {
+	1: switch_two_wooden_houses_01_sprites_SE; 				// SE Only
+	2: switch_two_wooden_houses_01_sprites_SW;				// SW Only
+	3: switch_two_wooden_houses_01_sprites_SESW;			// SE or SW
+	default: switch_two_wooden_houses_01_sprites_SESW;		// Otherwise
 }
 
 switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_con_check, 
-	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HasRoadAdjacentSESW()			// Must have road to the SE or SW
 ) {return;}	
 
 item(FEAT_HOUSES, item_two_wooden_houses_01, 14, HOUSE_SIZE_1X1){
@@ -2806,7 +2839,7 @@ item(FEAT_HOUSES, item_two_wooden_houses_01, 14, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 3],[MAIL, 1],[GOOD, 3]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				2;										// Increased since can only face SE or SW
 		years_available: 			[1700,1950];							// Agreed to JPS
 		minimum_lifetime: 			2;										
 		availability_mask: 			[bitmask(								// Agreed to JPS

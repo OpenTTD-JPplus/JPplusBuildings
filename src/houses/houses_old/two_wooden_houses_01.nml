@@ -129,15 +129,33 @@ switch(FEAT_HOUSES, SELF, switch_two_wooden_houses_01d,terrain_type) {
 }
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites) {
-	1: switch_two_wooden_houses_01a;
-	1: switch_two_wooden_houses_01b;
-	1: switch_two_wooden_houses_01c;
-	1: switch_two_wooden_houses_01d;
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SE) {
+	1: switch_two_wooden_houses_01a;		// SE
+	1: switch_two_wooden_houses_01b;		// SE
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SW) {
+	1: switch_two_wooden_houses_01c;		// SW
+	1: switch_two_wooden_houses_01d;		// SW
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites_SESW) {
+	1: switch_two_wooden_houses_01a;		// SE
+	1: switch_two_wooden_houses_01b;		// SE
+	1: switch_two_wooden_houses_01c;		// SW
+	1: switch_two_wooden_houses_01d;		// SW
+}
+
+switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_sprites, SpriteDirections() ) {
+	1: switch_two_wooden_houses_01_sprites_SE; 				// SE Only
+	2: switch_two_wooden_houses_01_sprites_SW;				// SW Only
+	3: switch_two_wooden_houses_01_sprites_SESW;			// SE or SW
+	default: switch_two_wooden_houses_01_sprites_SESW;		// Otherwise
 }
 
 switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_con_check, 
-	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HasRoadAdjacentSESW()			// Must have road to the SE or SW
 ) {return;}	
 
 item(FEAT_HOUSES, item_two_wooden_houses_01, 14, HOUSE_SIZE_1X1){
@@ -148,7 +166,7 @@ item(FEAT_HOUSES, item_two_wooden_houses_01, 14, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 3],[MAIL, 1],[GOOD, 3]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				2;										// Increased since can only face SE or SW
 		years_available: 			[1700,1950];							// Agreed to JPS
 		minimum_lifetime: 			2;										
 		availability_mask: 			[bitmask(								// Agreed to JPS
