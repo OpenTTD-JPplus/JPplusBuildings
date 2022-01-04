@@ -10,7 +10,7 @@ header_stuff = [
     "header",
     "cargotable",
     "sprite_templates",
-    
+
     ### Primary Functions (i.e. do not use any other Function)
     "functions/ModernOfficePopCheckV2",
     "functions/CommercialWithinTwoTiles",
@@ -28,7 +28,7 @@ header_stuff = [
     "functions/CommercialCargoes",  
     ]
 
-# Houses
+# HOUSES
 houses = [  
     ### RESIDENTIAL | Class 0 ###
     
@@ -48,6 +48,7 @@ houses = [
 
     ### Old Houses ###              
     "houses_old/wooden_farmhouse_01",        # ID 17
+    "houses_old/wooden_house_01",            # ID 18
     "houses_old/dense_wooden",               # ID 13
     "houses_old/wooden_townhouses_01",       # ID 01
     "houses_old/wooden_townhouses_02",       # ID 03
