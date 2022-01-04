@@ -10,6 +10,7 @@ header_stuff = [
     "header",
     "cargotable",
     "sprite_templates",
+    
     ### Primary Functions (i.e. do not use any other Function)
     "functions/ModernOfficePopCheckV2",
     "functions/CommercialWithinTwoTiles",
@@ -18,6 +19,7 @@ header_stuff = [
     "functions/AcrossTracks",
     "functions/CargoServiceChecks",
     "functions/one_liner_functions",
+
     ### Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
     "functions/HouseGap",
     "functions/SmallApartmentsCheck",
@@ -31,8 +33,8 @@ houses = [
     ### RESIDENTIAL | Class 0 ###
     
     ### Townhouses ###
-    "townhouses/townhouses_01",             # ID 06
-    "townhouses/townhouses_02",             # ID 05
+    "townhouses/townhouses_01",              # ID 06
+    "townhouses/townhouses_02",              # ID 05
 
     ### Houses ###
     "houses/naganuma_house_v2_new",          # ID 19
@@ -45,20 +47,21 @@ houses = [
     "houses/nishikawa_house_v3_old",         # ID 26
 
     ### Old Houses ###              
-    "houses_old/dense_wooden",                  # ID 13
-    "houses_old/wooden_townhouses_01",          # ID 01
-    "houses_old/wooden_townhouses_02",          # ID 03
-    "houses_old/wooden_townhouses_03",          # ID 04
-    "houses_old/wooden_townhouses_04",          # ID 08
-    "houses_old/two_wooden_houses_01",          # ID 14
-    "houses_old/two_wooden_houses_02",          # ID 15
-    "houses_old/two_wooden_houses_03",          # ID 16
+    "houses_old/wooden_farmhouse_01",        # ID 17
+    "houses_old/dense_wooden",               # ID 13
+    "houses_old/wooden_townhouses_01",       # ID 01
+    "houses_old/wooden_townhouses_02",       # ID 03
+    "houses_old/wooden_townhouses_03",       # ID 04
+    "houses_old/wooden_townhouses_04",       # ID 08
+    "houses_old/two_wooden_houses_01",       # ID 14
+    "houses_old/two_wooden_houses_02",       # ID 15
+    "houses_old/two_wooden_houses_03",       # ID 16
         
     ### Small Apartments ###
-    "small_apartments/small_apartments_01",      # ID 02
-    "small_apartments/small_apartments_02",      # ID 44
-    "small_apartments/small_apartments_03",      # ID 45
-    "small_apartments/small_apartments_04",      # ID 46
+    "small_apartments/small_apartments_01",  # ID 02
+    "small_apartments/small_apartments_02",  # ID 44
+    "small_apartments/small_apartments_03",  # ID 45
+    "small_apartments/small_apartments_04",  # ID 46
 
     ### Apartments ###
     "apartments/apartments_01",            # ID 27
