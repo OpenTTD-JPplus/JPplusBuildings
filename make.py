@@ -52,6 +52,7 @@ houses = [
     "houses_old/two_wooden_houses_01",       # ID 14
     "houses_old/two_wooden_houses_02",       # ID 15
     "houses_old/two_wooden_houses_03",       # ID 16
+    "houses_old/large_wooden_house_01",      # ID 23
         
     ### Small Apartments ###
     "small_apartments/small_apartments_01",  # ID 02
@@ -60,11 +61,11 @@ houses = [
     "small_apartments/small_apartments_04",  # ID 46
 
     ### Apartments ###
-    "apartments/apartments_01",            # ID 27
-    "apartments/apartments_02",            # ID 30
-    "apartments/apartments_03",            # ID 31
-    "apartments/apartments_04",            # ID 56
-    "apartments/apartments_05",            # ID 32
+    "apartments/apartments_01",              # ID 27
+    "apartments/apartments_02",              # ID 30
+    "apartments/apartments_03",              # ID 31
+    "apartments/apartments_04",              # ID 56
+    "apartments/apartments_05",              # ID 32
     
     ### SHOPS AND OFFICES | Class 2 ###
     
@@ -113,7 +114,7 @@ openttd_path = "/home/john/.local/share/openttd/newgrf"
 # NO NEED TO CHANGE STUFF BELOW #
 #################################
 
-# Thanks to Andythenorth for much of this code
+# Thanks to Andythenorth for much of this code, as well as 2TallTyler 
 
 import codecs
 import subprocess
