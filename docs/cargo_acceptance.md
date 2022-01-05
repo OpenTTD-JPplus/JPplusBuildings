@@ -3,7 +3,7 @@
 ## Background
 * I like to play using Game Scripts, especially Renewed Village Growth ("RVG")
 * RVG is pretty punishing when category goals are not met, greatly restricting town growth
-* Instead of funding industries which accpet cargo from each category, I wanted to provide an 'easy' way to meet cargo objstives using the house set
+* Instead of funding industries which accept cargo from each category, I wanted to provide an 'easy' way to meet cargo objectives using the house set
 
 ## FIRS 4 - In a Hot Country
 
