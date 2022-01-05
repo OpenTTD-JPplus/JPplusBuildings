@@ -1,108 +1,117 @@
 // Begin nishikawa_house
 
-// South West Pointing
-spriteset (spr_nishikawa_house_v2_old, 					"src/gfx/houses/nishikawa/building_v2.png") 					{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v2_snow_old, 			"src/gfx/houses/nishikawa/building_v2.png") 					{template_house_80(1,82)}
-spriteset (spr_nishikawa_house_v2_ground_old, 			"src/gfx/houses/nishikawa/ground_v2.png") 						{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v2_ground_snow_old, 		"src/gfx/houses/nishikawa/ground_v2.png") 						{template_house_80(1,82)}
+// A
+spriteset (spr_nishikawa_house_a, 					"src/gfx/houses/nishikawa/building_a.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_a_snow, 				"src/gfx/houses/nishikawa/building_a.png") 						{template_house_80(1,82)}
+spriteset (spr_nishikawa_house_a_ground, 			"src/gfx/houses/nishikawa/ground_a.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_a_ground_snow, 		"src/gfx/houses/nishikawa/ground_a.png") 						{template_house_80(1,82)}
 
-spriteset (spr_nishikawa_house_v2_new, 					"src/gfx/houses/nishikawa/building_v2.png") 					{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v2_snow_new, 			"src/gfx/houses/nishikawa/building_v2.png") 					{template_house_80(1,82)}
-spriteset (spr_nishikawa_house_v2_ground_new, 			"src/gfx/houses/nishikawa/ground_v2.png") 						{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v2_ground_snow_new, 		"src/gfx/houses/nishikawa/ground_v2.png") 						{template_house_80(1,82)}
+// B
+spriteset (spr_nishikawa_house_b, 					"src/gfx/houses/nishikawa/building_b.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_b_snow, 				"src/gfx/houses/nishikawa/building_b.png") 						{template_house_80(1,82)}
+spriteset (spr_nishikawa_house_b_ground, 			"src/gfx/houses/nishikawa/ground_b.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_b_ground_snow, 		"src/gfx/houses/nishikawa/ground_b.png") 						{template_house_80(1,82)}
 
-spritelayout sprlay_nishikawa_house_v2_norm_old {
+// Spritelayouts
+spritelayout sprlay_nishikawa_house_a_norm {
 	ground {
-		sprite: spr_nishikawa_house_v2_ground_old (construction_state);
+		sprite: spr_nishikawa_house_a_ground (construction_state);
 	}
 	building {
-		sprite: spr_nishikawa_house_v2_old (construction_state);
+		sprite: spr_nishikawa_house_a (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_nishikawa_house_v2_snow_old {
+spritelayout sprlay_nishikawa_house_a_snow {
 	ground {
-		sprite: spr_nishikawa_house_v2_ground_snow_old (construction_state);
+		sprite: spr_nishikawa_house_a_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_nishikawa_house_v2_snow_old (construction_state);
-	}
-}
-
-spritelayout sprlay_nishikawa_house_v2_norm_new {
-	ground {
-		sprite: spr_nishikawa_house_v2_ground_new (construction_state);
-	}
-	building {
-		sprite: spr_nishikawa_house_v2_new (construction_state);
+		sprite: spr_nishikawa_house_a_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_nishikawa_house_v2_snow_new {
+spritelayout sprlay_nishikawa_house_b_norm {
 	ground {
-		sprite: spr_nishikawa_house_v2_ground_snow_new (construction_state);
+		sprite: spr_nishikawa_house_b_ground (construction_state);
 	}
 	building {
-		sprite: spr_nishikawa_house_v2_snow_new (construction_state);
+		sprite: spr_nishikawa_house_b (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_b_snow {
+	ground {
+		sprite: spr_nishikawa_house_b_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_b_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_nishikawa_house_v2_old_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_nishikawa_house_v2_snow_old;
-	sprlay_nishikawa_house_v2_norm_old;
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_a_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_a_snow;
+	sprlay_nishikawa_house_a_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_nishikawa_house_v2_new_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_nishikawa_house_v2_snow_new;
-	sprlay_nishikawa_house_v2_norm_new;
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_b_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_b_snow;
+	sprlay_nishikawa_house_b_norm;
 }
 
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_v2_old)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
+// Selection of Sprites based in relation to where roads are
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_v2_new)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
+random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_sprites) {
+	1: switch_nishikawa_house_a_sprites;		// SE
+	1: switch_nishikawa_house_b_sprites;		// SW
+}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_nishikawa_house_v2_old_con_check, 
+switch (FEAT_HOUSES, SELF, switch_nishikawa_house_con_check, 
 	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
 	) {return;}	
 
-switch (FEAT_HOUSES, SELF, switch_nishikawa_house_v2_new_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	) {return;}	
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_old)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
 
-item(FEAT_HOUSES, item_nishikawa_house_v2_old, 23, HOUSE_SIZE_1X1){
+random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_new)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+item(FEAT_HOUSES, item_nishikawa_house_old, 21, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_NISHIKAWA_HOUSE);
@@ -128,14 +137,14 @@ item(FEAT_HOUSES, item_nishikawa_house_v2_old, 23, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_nishikawa_house_v2_old_sprites;
-		construction_check: 		switch_nishikawa_house_v2_old_con_check;
+		default: 					switch_nishikawa_house_sprites;
+		construction_check: 		switch_nishikawa_house_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_nishikawa_house_v2_old;
+		colour: 					rand_recolor_nishikawa_house_old;
 	}
 }
 
-item(FEAT_HOUSES, item_nishikawa_house_v2_new, 24, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_nishikawa_house_new, 22, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_NISHIKAWA_HOUSE);
@@ -161,175 +170,10 @@ item(FEAT_HOUSES, item_nishikawa_house_v2_new, 24, HOUSE_SIZE_1X1){
 		
 		}
 	graphics {
-		default: 					switch_nishikawa_house_v2_new_sprites;
-		construction_check: 		switch_nishikawa_house_v2_new_con_check;
+		default: 					switch_nishikawa_house_sprites;
+		construction_check: 		switch_nishikawa_house_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_nishikawa_house_v2_new;
-	}
-}
-
-// South East Pointing
-spriteset (spr_nishikawa_house_v3, 					"src/gfx/houses/nishikawa/building_v3.png") 					{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v3_snow, 			"src/gfx/houses/nishikawa/building_v3.png") 					{template_house_80(1,82)}
-spriteset (spr_nishikawa_house_v3_ground, 			"src/gfx/houses/nishikawa/ground_v3.png") 						{template_house_80(1,1)}
-spriteset (spr_nishikawa_house_v3_ground_snow, 		"src/gfx/houses/nishikawa/ground_v3.png") 						{template_house_80(1,82)}
-
-
-spritelayout sprlay_nishikawa_house_v3_norm_old {
-	ground {
-		sprite: spr_nishikawa_house_v3_ground (construction_state);
-	}
-	building {
-		sprite: spr_nishikawa_house_v3 (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_nishikawa_house_v3_snow_old {
-	ground {
-		sprite: spr_nishikawa_house_v3_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_nishikawa_house_v3_snow (construction_state);
-	}
-}
-
-spritelayout sprlay_nishikawa_house_v3_norm_new {
-	ground {
-		sprite: spr_nishikawa_house_v3_ground (construction_state);
-	}
-	building {
-		sprite: spr_nishikawa_house_v3 (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_nishikawa_house_v3_snow_new {
-	ground {
-		sprite: spr_nishikawa_house_v3_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_nishikawa_house_v3_snow (construction_state);
-	}
-}
-
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_nishikawa_house_v3_old_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_nishikawa_house_v3_snow_old;
-	sprlay_nishikawa_house_v3_norm_old;
-}
-
-switch(FEAT_HOUSES, SELF, switch_nishikawa_house_v3_new_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_nishikawa_house_v3_snow_new;
-	sprlay_nishikawa_house_v3_norm_new;
-}
-
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_v3_old)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-
-random_switch (FEAT_HOUSES, SELF, rand_recolor_nishikawa_house_v3_new)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_nishikawa_house_v3_old_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	) {return;}	
-
-switch (FEAT_HOUSES, SELF, switch_nishikawa_house_v3_new_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	) {return;}	
-
-item(FEAT_HOUSES, item_nishikawa_house_v3_old, 25, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				26;
-		name: 						string(NAME_NISHIKAWA_HOUSE);
-		population: 				20;	
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1870,1959];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class: 			0;
-		
-		}
-	graphics {
-		default: 					switch_nishikawa_house_v3_old_sprites;
-		construction_check: 		switch_nishikawa_house_v3_old_con_check;
-		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_nishikawa_house_v3_old;
-	}
-}
-
-item(FEAT_HOUSES, item_nishikawa_house_v3_new, 26, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				26;
-		name: 						string(NAME_NISHIKAWA_HOUSE);
-		population: 				20;	
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class: 			0;
-		
-		}
-	graphics {
-		default: 					switch_nishikawa_house_v3_new_sprites;
-		construction_check: 		switch_nishikawa_house_v3_new_con_check;
-		cargo_production: 			func_produce(2,1);
-		colour: 					rand_recolor_nishikawa_house_v3_new;
+		colour: 					rand_recolor_nishikawa_house_new;
 	}
 }
 
