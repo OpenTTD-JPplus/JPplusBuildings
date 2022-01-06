@@ -54,6 +54,7 @@ houses = [
     "houses_old/two_wooden_houses_03",       # ID 16
     "houses_old/large_wooden_house_01",      # ID 23
     "houses_old/large_wooden_house_02",      # ID 24
+    "houses_old/large_wooden_farmhouse_01",  # ID 25
         
     ### Small Apartments ###
     "small_apartments/small_apartments_01",  # ID 02
@@ -71,37 +72,37 @@ houses = [
     ### SHOPS AND OFFICES | Class 2 ###
     
     ### Shops ###
-    "shops/shops_01",                       # ID 48
-    "shops/shops_02",                       # ID 47
-    "shops/petrol_station_01",              # ID 50-51
-    "shops/restaurant_01",                  # ID 64
-    "shops/shops_small_01",                 # ID 7
+    "shops/shops_01",                        # ID 48
+    "shops/shops_02",                        # ID 47
+    "shops/petrol_station_01",               # ID 50-51
+    "shops/restaurant_01",                   # ID 64
+    "shops/shops_small_01",                  # ID 7
     
     ### Offices ###
-    "offices/offices_01",                   # ID 36
-    "offices/offices_02",                   # ID 37
-    "offices/offices_03",                   # ID 49
-    "offices/offices_04",                   # ID 58
-    "offices/offices_05",                   # ID 59
+    "offices/offices_01",                    # ID 36
+    "offices/offices_02",                    # ID 37
+    "offices/offices_03",                    # ID 49
+    "offices/offices_04",                    # ID 58
+    "offices/offices_05",                    # ID 59
     
     ### SKYSCRAPERS | Class 5 ###
 
     ### Skyscrapers ###         
-    "skyscrapers/skyscraper_01",            # ID 76-77
-    "skyscrapers/skyscraper_02",            # ID 78
-    "skyscrapers/skyscraper_03",            # ID 79
-    "skyscrapers/skyscraper_04",            # ID 80
-    "skyscrapers/skyscraper_05",            # ID 81
-    "skyscrapers/skyscraper_06",            # ID 82
-    "skyscrapers/skyscraper_07",            # ID 83
-    "skyscrapers/skyscraper_08",            # ID 84
+    "skyscrapers/skyscraper_01",             # ID 76-77
+    "skyscrapers/skyscraper_02",             # ID 78
+    "skyscrapers/skyscraper_03",             # ID 79
+    "skyscrapers/skyscraper_04",             # ID 80
+    "skyscrapers/skyscraper_05",             # ID 81
+    "skyscrapers/skyscraper_06",             # ID 82
+    "skyscrapers/skyscraper_07",             # ID 83
+    "skyscrapers/skyscraper_08",             # ID 84
 
     ### LANDMARKS ###
-    "landmarks/temple_01",                  # ID 66-69
-    "landmarks/temple_02",                  # ID 09-12
-    "landmarks/shiro_01",                   # ID 70-73
-    "landmarks/stadium_01",                 # ID 60-63
-    "landmarks/hospital_01",                # ID 40-43
+    "landmarks/temple_01",                   # ID 66-69
+    "landmarks/temple_02",                   # ID 09-12
+    "landmarks/shiro_01",                    # ID 70-73
+    "landmarks/stadium_01",                  # ID 60-63
+    "landmarks/hospital_01",                 # ID 40-43
 
     ]
 
