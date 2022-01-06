@@ -72,11 +72,12 @@ houses = [
     ### SHOPS AND OFFICES | Class 2 ###
     
     ### Shops ###
+    "shops/shotengai_01",                    # ID 00
     "shops/shops_01",                        # ID 48
     "shops/shops_02",                        # ID 47
     "shops/petrol_station_01",               # ID 50-51
     "shops/restaurant_01",                   # ID 64
-    "shops/shops_small_01",                  # ID 7
+    "shops/shops_small_01",                  # ID 07
     
     ### Offices ###
     "offices/offices_01",                    # ID 36
