@@ -71,6 +71,14 @@ switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE
 
 
 // Only 1 sprites to be used in four directions
+template template_ground(x, y) {   
+	//left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		31,		-31,		01,	    NOCROP | ANIM]
+    sw: [ x+65,		y,		64,		31,		-31,		01,	    NOCROP | ANIM]
+    nw: [ x+130,	y,		64,		31,		-31,		01,	    NOCROP | ANIM]
+    ne: [ x+195,	y,		64,		31,		-31,		01,	    NOCROP | ANIM]
+}
+
 template template_house_con(x, y) {   
 	//left_x, upper_y, width, height, offset_x, offset_y
     se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
@@ -165,6 +173,14 @@ template template_house_128(x, y) {
     sw: [ x+65,		y,		64,		128,	-31,		-96,	NOCROP | ANIM]
     nw: [ x+130,	y,		64,		128,	-31,		-96,	NOCROP | ANIM]
     ne: [ x+195,	y,		64,		128,	-31,		-96,	NOCROP | ANIM]
+}
+
+template template_house_150_wide(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		76,		150,	-37,		-118,	NOCROP | ANIM]
+    sw: [ x+77,		y,		76,		150,	-37,		-118,	NOCROP | ANIM]  
+    nw: [ x+154,	y,		76,	    150,	-37,		-118,	NOCROP | ANIM]
+    ne: [ x+231,	y,		76,		150,	-37,		-118,	NOCROP | ANIM]
 }
 
 template template_house_200(x, y) {
@@ -4283,6 +4299,101 @@ item(FEAT_HOUSES, item_apartments_05, 32, HOUSE_SIZE_1X1){
 
 // End apartments_05
 
+// Begin apartments_06
+
+// Building Sprites
+spriteset (spr_apartments_06, 							"src/gfx/apartments/apartments_06/building.png") 					{template_house_150_wide(1,1)}
+spriteset (spr_apartments_06_snow, 						"src/gfx/apartments/apartments_06/building.png") 					{template_house_150_wide(1,152)}
+
+// Ground Tiles
+spriteset (spr_apartments_06_ground, 					"src/gfx/apartments/apartments_06/ground.png") 						{template_ground(1,1)}
+spriteset (spr_apartments_06_ground_snow, 				"src/gfx/apartments/apartments_06/ground.png") 						{template_ground(1,33)}
+
+// Normal Sprites
+spritelayout sprlay_apartments_06_norm {
+	ground {
+		sprite: spr_apartments_06_ground(construction_state);
+	}
+	building {
+		sprite: spr_apartments_06(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_apartments_06_snow {
+	ground {
+		sprite: spr_apartments_06_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_apartments_06_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_apartments_06_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_apartments_06_snow;
+	sprlay_apartments_06_norm;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_06)
+	{
+		//1: PALETTE_CC_RED;			// too in your face
+		2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;			// too silly
+		1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;			// nah
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_apartments_06_con_check, 	
+	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+) {return;}	
+
+item(FEAT_HOUSES, item_apartments_06, 33, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_06);
+		population: 				200;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1999];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(						// Taller than other Apartments so limited to TOWNZONE_CENTRE
+										TOWNZONE_CENTRE				// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				4;		
+		}
+	graphics {
+		default: 					switch_apartments_06_snow;
+		construction_check: 		switch_apartments_06_con_check;
+		cargo_production: 			func_produce(13,4);
+		colour: 					rand_recolor_apartments_06;
+	}
+}
+
+// End apartments_06
+
 // Begin shotengai_01
 
 // Ground Sprites
@@ -4729,7 +4840,7 @@ item(FEAT_HOUSES, item_shotengai_01_old, 00, HOUSE_SIZE_1X1){
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
 									)];
-		//building_class:				0;									// Since all under one ID, no need for class
+		building_class:				7;									// Since all under one ID, no need for class
 		
 		}
 	graphics {
@@ -4762,7 +4873,7 @@ item(FEAT_HOUSES, item_shotengai_01_new, 26, HOUSE_SIZE_1X1){
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
 									)];
-		//building_class:				0;									// Since all under one ID, no need for class
+		building_class:				7;									// Since all under one ID, no need for class
 		
 		}
 	graphics {
@@ -5374,7 +5485,7 @@ item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 		removal_cost_multiplier: 	80;
 		probability: 				5;
 		years_available: 			[1945,0xFFFF];
-		minimum_lifetime: 			5;
+		minimum_lifetime: 			8;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
@@ -5458,7 +5569,7 @@ item(FEAT_HOUSES, item_offices_02, 37, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				5;
+		probability: 				8;
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
@@ -5546,7 +5657,7 @@ item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 		removal_cost_multiplier: 	80;
 		probability: 				5;
 		years_available: 			[1970,0xFFFF];
-		minimum_lifetime: 			5;
+		minimum_lifetime: 			8;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
@@ -5632,7 +5743,7 @@ item(FEAT_HOUSES, item_offices_04, 58, HOUSE_SIZE_1X1){
 		removal_cost_multiplier: 	80;
 		probability: 				5;
 		years_available: 			[1945,1979];
-		minimum_lifetime: 			5;
+		minimum_lifetime: 			8;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
@@ -5718,7 +5829,7 @@ item(FEAT_HOUSES, item_offices_05, 59, HOUSE_SIZE_1X1){
 		removal_cost_multiplier: 	80;
 		probability: 				5;
 		years_available: 			[1950,1989];
-		minimum_lifetime: 			5;
+		minimum_lifetime: 			8;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
@@ -7444,3 +7555,149 @@ item(FEAT_HOUSES, item_hospital_01, 40, HOUSE_SIZE_2X2){
 }
 
 // End hospital_01
+
+// Begin farm_01
+
+// Sprites
+spriteset (spr_build_farm_01, 						"src/gfx/rural/farm_01/building.png") 					{template_house_80(1,1)}
+spriteset (spr_build_farm_01_snow, 					"src/gfx/rural/farm_01/building.png") 					{template_house_80(1,82)}
+
+spriteset (spr_ground_farm_01, 						"src/gfx/rural/farm_01/ground.png") 					{template_house_80(1,1)}
+spriteset (spr_ground_farm_01_snow, 				"src/gfx/rural/farm_01/ground.png") 					{template_house_80(1,82)}
+
+// Normal Sprites
+spritelayout sprlay_farm_01_north {
+	ground {
+		sprite: spr_ground_farm_01(0);
+	}
+	building {
+		sprite: spr_build_farm_01(0);
+	}
+}
+
+spritelayout sprlay_farm_01_west {
+	ground {
+		sprite: spr_ground_farm_01(1);
+	}
+	building {
+		sprite: spr_build_farm_01(1);
+	}
+}
+
+spritelayout sprlay_farm_01_east {
+	ground {
+		sprite: spr_ground_farm_01(2);
+	}
+	building {
+		sprite: spr_build_farm_01(2);
+	}
+}
+
+spritelayout sprlay_farm_01_south {
+	ground {
+		sprite: spr_ground_farm_01(3);
+	}
+	building {
+		sprite: spr_build_farm_01(3);
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_farm_01_snow_north {
+	ground {
+		sprite: spr_ground_farm_01_snow(0);
+	}
+	building {
+		sprite: spr_build_farm_01_snow(0);
+	}
+}
+
+spritelayout sprlay_farm_01_snow_east {
+	ground {
+		sprite: spr_ground_farm_01_snow(2);
+	}
+	building {
+		sprite: spr_build_farm_01_snow(2);
+	}
+}
+
+spritelayout sprlay_farm_01_snow_west {
+	ground {
+		sprite: spr_ground_farm_01_snow(1);
+	}
+	building {
+		sprite: spr_build_farm_01_snow(1);
+	}
+}
+
+spritelayout sprlay_farm_01_snow_south {
+	ground {
+		sprite: spr_ground_farm_01_snow(3);
+	}
+	building {
+		sprite: spr_build_farm_01_snow(3);
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_farm_01_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_snow_north;
+	sprlay_farm_01_north;
+}
+switch(FEAT_HOUSES, SELF, switch_farm_01_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_snow_east;
+	sprlay_farm_01_east;
+}
+switch(FEAT_HOUSES, SELF, switch_farm_01_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_snow_west;
+	sprlay_farm_01_west;
+}
+switch(FEAT_HOUSES, SELF, switch_farm_01_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_snow_south;
+	sprlay_farm_01_south;
+}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_farm_01_con_check, 
+	!IsCity() && 					// Cannot appear in Cities
+	!PopOver10k()					// Population criteria
+	) {return;}	
+
+item(FEAT_HOUSES, item_farm_01, 52, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20; 								//Stadium since 2x2
+		name: 						string(NAME_FARM_01);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				15;
+		accepted_cargos: 			[[PASS, 1],[MAIL, 1],[FOOD, 1]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		//building_class:			#;	
+		}
+	graphics {
+		graphics_north: 			switch_farm_01_north;
+		graphics_east: 				switch_farm_01_east;
+		graphics_west: 				switch_farm_01_west;
+		graphics_south: 			switch_farm_01_south;
+		construction_check:			switch_farm_01_con_check;
+		//protection:				switch_farm_01_pro_check;	
+		cargo_production: 			func_produce(10,2);
+		//colour: 					rand_recolor_farm_01;
+	}
+}
+
+// End farm_01

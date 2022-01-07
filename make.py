@@ -68,6 +68,7 @@ houses = [
     "apartments/apartments_03",              # ID 31
     "apartments/apartments_04",              # ID 56
     "apartments/apartments_05",              # ID 32
+    "apartments/apartments_06",              # ID 33
     
     ### SHOPS AND OFFICES | Class 2 ###
     
@@ -104,6 +105,9 @@ houses = [
     "landmarks/shiro_01",                    # ID 70-73
     "landmarks/stadium_01",                  # ID 60-63
     "landmarks/hospital_01",                 # ID 40-43
+
+    ### RURAL ###
+    "rural/farm_01",                         # ID 52-55
 
     ]
 
