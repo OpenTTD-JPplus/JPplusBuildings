@@ -32,10 +32,6 @@ header_stuff = [
 # HOUSES
 houses = [  
     ### RESIDENTIAL | Class 0 ###
-    
-    ### Townhouses ###
-    "townhouses/townhouses_01",              # ID 06
-    "townhouses/townhouses_02",              # ID 05
 
     ### Houses ###
     "houses/naganuma_house",                 # ID 19-20
@@ -56,6 +52,9 @@ houses = [
     "houses_old/large_wooden_house_02",      # ID 24
     "houses_old/large_wooden_farmhouse_01",  # ID 25
         
+    ### TOWNHOUSES | CLASS 1 ###
+    "houses/townhouses",                     # ID 05-06
+
     ### Small Apartments ###
     "small_apartments/small_apartments_01",  # ID 02
     "small_apartments/small_apartments_02",  # ID 44
