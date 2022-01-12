@@ -88,6 +88,7 @@ houses = [
     "offices/offices_05",                    # ID 59
     "offices/offices_06",                    # ID 38
     "offices/offices_07",                    # ID 39
+    "offices/offices_08",                    # ID 65
     "offices/hotel_01",                      # ID 74-75
     
     ### SKYSCRAPERS | Class 5 ###
