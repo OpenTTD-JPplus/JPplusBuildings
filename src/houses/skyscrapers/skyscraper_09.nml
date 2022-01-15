@@ -1,0 +1,92 @@
+// Begin skyscraper_09
+
+// Building Sprites
+spriteset (spr_build_skyscraper_09, 			"src/gfx/skyscrapers/skyscraper_09/building.png") 				{template_house_200(1,1)}
+spriteset (spr_build_skyscraper_09_snow, 		"src/gfx/skyscrapers/skyscraper_09/building.png") 				{template_house_200(1,202)}
+
+// Ground Sprites
+spriteset (spr_ground_skyscraper_09, 			"src/gfx/skyscrapers/skyscraper_09/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_09_snow, 		"src/gfx/skyscrapers/skyscraper_09/ground.png") 				{template_ground(1,33)}
+
+// Normal Sprites
+spritelayout sprlay_skyscraper_09 {
+	ground {
+		sprite: spr_ground_skyscraper_09 (construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_09 (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_skyscraper_09_snow {
+	ground {
+		sprite: spr_ground_skyscraper_09_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_skyscraper_09_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_skyscraper_09,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_09_snow;
+	sprlay_skyscraper_09;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_09)
+	{
+		1: PALETTE_CC_RED;			
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;			
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_skyscraper_09_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	IsCity() && 					// Can only appear in cities
+	IsUniqueHouse() &&				// Only one in city
+	PopOver10k() &&					// Population of city check
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}	
+
+item(FEAT_HOUSES, item_skyscraper_09, 86, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				4; 													
+		name: 						string(NAME_SKYSCRAPER_09);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				220;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1980,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				5;	
+		}
+	graphics {
+		default: 					switch_skyscraper_09;
+		construction_check:			switch_skyscraper_09_con_check;
+		cargo_production: 			func_produce(16,6);
+		colour: 					rand_recolor_skyscraper_09; 
+	}
+}
+
+// End skyscraper_09
