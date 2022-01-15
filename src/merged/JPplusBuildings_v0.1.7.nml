@@ -469,11 +469,177 @@ switch (FEAT_HOUSES, SELF, AcrossAnAvenue,
 /* Begin Across Tracks */
 
 switch (FEAT_HOUSES, SELF, AcrossTracks, 
-	nearby_tile_class( 0,-1) == TILE_CLASS_RAIL || 
-	nearby_tile_class( 0, 1) == TILE_CLASS_RAIL || 
-	nearby_tile_class(-1, 0) == TILE_CLASS_RAIL || 
-	nearby_tile_class( 1, 0) == TILE_CLASS_RAIL
-	) {return;}
+		// Direction 1
+	(	
+		(
+			(	
+			nearby_tile_class( 0,-1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0,-2) == TILE_CLASS_RAIL 
+			) 
+			&& 
+			(	
+			nearby_tile_house_class ( 0,-3) == 258 || 
+			nearby_tile_house_class ( 0,-3) == 261
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 0,-1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0,-2) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0,-3) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 0,-4) == 258 || 
+			nearby_tile_house_class ( 0,-4) == 261 
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 0,-1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0,-2) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0,-3) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0,-4) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 0,-5) == 258 || 
+			nearby_tile_house_class ( 0,-5) == 261 
+			)
+		)
+	) 
+	
+	||	// Direction 2 
+
+	(	
+		(
+			(	
+			nearby_tile_class( 0, 1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0, 2) == TILE_CLASS_RAIL 
+			) 
+			&& 
+			(	
+			nearby_tile_house_class ( 0, 3) == 258 || 
+			nearby_tile_house_class ( 0, 3) == 261
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 0, 1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0, 2) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0, 3) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 0, 4) == 258 || 
+			nearby_tile_house_class ( 0, 4) == 261 
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 0, 1) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 0, 2) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0, 3) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 0, 4) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 0, 5) == 258 || 
+			nearby_tile_house_class ( 0, 5) == 261 
+			)
+		)
+	) 
+	
+	|| 	// Direction 3
+
+	(	
+		(
+			(	
+			nearby_tile_class(-1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class(-2, 0) == TILE_CLASS_RAIL 
+			) 
+			&& 
+			(	
+			nearby_tile_house_class (-3, 0) == 258 || 
+			nearby_tile_house_class (-3, 0) == 261
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class(-1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class(-2, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class(-3, 0) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class (-4, 0) == 258 || 
+			nearby_tile_house_class (-4, 0) == 261 
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class(-1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class(-2, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class(-3, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class(-4, 0) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class (-5, 0) == 258 || 
+			nearby_tile_house_class (-5, 0) == 261 
+			)
+		)
+	) 
+		
+	||	// Direction 4
+
+	(	
+		(
+			(	
+			nearby_tile_class( 1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 2, 0) == TILE_CLASS_RAIL 
+			) 
+			&& 
+			(	
+			nearby_tile_house_class ( 3, 0) == 258 || 
+			nearby_tile_house_class ( 3, 0) == 261
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 2, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 3, 0) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 4, 0) == 258 || 
+			nearby_tile_house_class ( 4, 0) == 261 
+			)
+		)
+		||
+		(
+			(
+			nearby_tile_class( 1, 0) == TILE_CLASS_RAIL && 
+			nearby_tile_class( 2, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 3, 0) == TILE_CLASS_RAIL &&
+			nearby_tile_class( 4, 0) == TILE_CLASS_RAIL
+			)
+			&&
+			(
+			nearby_tile_house_class ( 5, 0) == 258 || 
+			nearby_tile_house_class ( 5, 0) == 261 
+			)
+		)
+	) 
+) {return;}
 
 /* End Across Tracks */
 
@@ -530,8 +696,8 @@ switch (FEAT_HOUSES, SELF, RandomBitsFour, random_bits % 4 == 0) {return;}
 switch (FEAT_HOUSES, SELF, TwentyTileGap, nearest_house_matching_criterion(20, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
 switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
 
-switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
-switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 || same_class_count_town == 0 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 ) {return;}
+switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 ) {return;}
 
 /* Check for road (and stations) in adjacent tiles functions */
 //switch (FEAT_HOUSES, SELF, HasRoadAdjacentNW, nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION) {return;}
@@ -6397,7 +6563,7 @@ item(FEAT_HOUSES, item_hotel_01, 74, HOUSE_SIZE_1X2){
 		name: 						string(NAME_HOTEL_01);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
 		population: 				200;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 4]];
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 8],[BEER, 8]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				10;
@@ -6416,6 +6582,133 @@ item(FEAT_HOUSES, item_hotel_01, 74, HOUSE_SIZE_1X2){
 }
 
 // End hotel_01
+
+// Begin hotel_02
+
+// Building Sprites
+spriteset (spr_build_hotel_02_north, 							"src/gfx/offices/hotel_02/building.png") 					{template_house_200(1,1)}
+spriteset (spr_build_hotel_02_east, 							"src/gfx/offices/hotel_02/building.png") 					{template_house_200(261,1)}
+
+spriteset (spr_build_hotel_02_north_snow, 						"src/gfx/offices/hotel_02/building.png") 					{template_house_200(1,202)}
+spriteset (spr_build_hotel_02_east_snow, 						"src/gfx/offices/hotel_02/building.png") 					{template_house_200(261,202)}
+
+// Ground Sprites
+spriteset (spr_ground_hotel_02_north, 							"src/gfx/offices/hotel_02/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_hotel_02_east, 							"src/gfx/offices/hotel_02/ground.png") 						{template_ground(261,1)}
+
+spriteset (spr_ground_hotel_02_north_snow, 						"src/gfx/offices/hotel_02/ground.png") 						{template_ground(1,33)}
+spriteset (spr_ground_hotel_02_east_snow, 						"src/gfx/offices/hotel_02/ground.png") 						{template_ground(261,33)}
+
+// Normal Sprites
+spritelayout sprlay_hotel_02_north {
+	ground {
+		sprite: spr_ground_hotel_02_north (construction_state);
+	}
+	building {
+		sprite: spr_build_hotel_02_north (construction_state);
+		xoffset:  7;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_hotel_02_east {
+	ground {
+		sprite: spr_ground_hotel_02_east (construction_state);
+	}
+	building {
+		sprite: spr_build_hotel_02_east (construction_state);
+		yoffset:  3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_hotel_02_snow_north {
+	ground {
+		sprite: spr_ground_hotel_02_north_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_hotel_02_north_snow (construction_state);
+		xoffset:  7;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_hotel_02_snow_east {
+	ground {
+		sprite: spr_ground_hotel_02_east_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_hotel_02_east_snow (construction_state);
+		yoffset:  3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_hotel_02_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_02_snow_north;
+	sprlay_hotel_02_north;
+}
+switch(FEAT_HOUSES, SELF, switch_hotel_02_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_02_snow_east;
+	sprlay_hotel_02_east;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_02)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_hotel_02_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	PopOver10k()					// Population requirement !!! TBU !!!
+) {return;}		
+ 
+
+item(FEAT_HOUSES, item_hotel_02, 28, HOUSE_SIZE_1X2){
+	property {
+		substitute: 				7; 													
+		name: 						string(NAME_HOTEL_02);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				200;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1980,0xFFFF];
+		minimum_lifetime: 			20;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				2;	
+		}
+	graphics {
+		graphics_north: 			switch_hotel_02_north;
+		graphics_east: 				switch_hotel_02_east;
+		construction_check:			switch_hotel_02_con_check;
+		cargo_production: 			func_produce(24,10);
+		colour: 					rand_recolor_hotel_02;
+	}
+}
+
+// End hotel_02
 
 // Begin skyscraper_01
 

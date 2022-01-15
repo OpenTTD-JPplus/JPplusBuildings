@@ -50,10 +50,10 @@
 ### 5) Final Products
 | 5) | Code | Name of Cargo | Accepted | Where its accepted |
 | --- | --- | --- | --- | --- |
-| 🍺 | BEER | Alcohol  | ✅ | Stadium|
+| 🍺 | BEER | Alcohol  | ✅ | Hotel, Stadium |
 | 🧱 | BDMT | Building Mats | | |
 | 🔌 | COPR | Copper | | |
-| 🍲 | FOOD | Food | ✅ | Various |
+| 🍲 | FOOD | Food | ✅ | Various, Hotel, Stadium |
 | 📦 | GOOD | Goods| ✅ | Commercial Buildings |
 
 
