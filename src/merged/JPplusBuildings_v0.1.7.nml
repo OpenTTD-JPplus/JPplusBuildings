@@ -5059,6 +5059,7 @@ random_switch (FEAT_HOUSES, SELF, switch_shotengai_01_sprites) {
 	1: switch_shotengai_01_l;
 }
 
+// Construction Check
 switch (FEAT_HOUSES, SELF, switch_shotengai_01_con_check, 
 	FuncServicePASS() &&			// Must have PASS service
 	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
@@ -5750,7 +5751,7 @@ item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 
 // Building Sprites
 spriteset (spr_offices_02, 							"src/gfx/offices/offices_02/building.png") 						{template_house_128(1,1)}
-spriteset (spr_offices_02_snow, 						"src/gfx/offices/offices_02/building.png") 						{template_house_128(1,130)}
+spriteset (spr_offices_02_snow, 					"src/gfx/offices/offices_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
 spriteset (spr_offices_02_ground, 					"src/gfx/offices/offices_02/ground.png") 						{template_house_128(1,1)}
@@ -6261,6 +6262,131 @@ item(FEAT_HOUSES, item_offices_07, 39, HOUSE_SIZE_1X1){
 }
 
 // End offices_07
+
+// Begin offices_08
+
+// Building Sprites
+spriteset (spr_offices_08_a, 						"src/gfx/offices/offices_08/building_a.png") 					{template_house_128(1,1)}
+spriteset (spr_offices_08_a_snow, 					"src/gfx/offices/offices_08/building_a.png") 					{template_house_128(1,130)}
+
+spriteset (spr_offices_08_b, 						"src/gfx/offices/offices_08/building_b.png") 					{template_house_128(1,1)}
+spriteset (spr_offices_08_b_snow, 					"src/gfx/offices/offices_08/building_b.png") 					{template_house_128(1,130)}
+
+// Ground Tiles
+spriteset (spr_offices_08_ground, 					"src/gfx/offices/offices_08/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_08_ground_snow, 				"src/gfx/offices/offices_08/ground.png") 						{template_ground(1,33)}
+
+// Spritelayouts
+spritelayout sprlay_offices_08_a_norm {
+	ground {
+		sprite: spr_offices_08_ground (construction_state);
+	}
+	building {
+		sprite: spr_offices_08_a (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_offices_08_a_snow {
+	ground {
+		sprite: spr_offices_08_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_offices_08_a_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_offices_08_b_norm {
+	ground {
+		sprite: spr_offices_08_ground (construction_state);
+	}
+	building {
+		sprite: spr_offices_08_b (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_offices_08_b_snow {
+	ground {
+		sprite: spr_offices_08_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_offices_08_b_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_offices_08_a_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_08_a_snow;
+	sprlay_offices_08_a_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_offices_08_b_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_08_b_snow;
+	sprlay_offices_08_b_norm;
+}
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_offices_08_sprites) {
+	1: switch_offices_08_a_sprites;
+	1: switch_offices_08_b_sprites;
+}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_08)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_offices_08_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
+
+item(FEAT_HOUSES, item_offices_08, 88, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_OFFICES_08);
+		population: 				120;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1955,1969];
+		minimum_lifetime: 			8;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class: 			2;
+		}
+	graphics {
+		default: 					switch_offices_08_sprites;
+		construction_check: 		switch_offices_08_con_check; 	
+		cargo_production: 			func_produce(13,4);
+		//colour: 					rand_recolor_offices_08;
+	}
+}
+
+// End offices_08
 
 // Begin offices_09
 
