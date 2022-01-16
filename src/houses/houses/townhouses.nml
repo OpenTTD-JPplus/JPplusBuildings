@@ -92,8 +92,14 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_01_a)
 		4: PALETTE_CC_WHITE;
 	}
 
-switch (FEAT_HOUSES, SELF, switch_townhouses_01_con_check, 
+// Construction Checks
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_old_con_check, 
 	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_new_con_check, 
+	HouseOfficeGap() && 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	!FuncServicePASS() 				// Builds where there is no Passenger service
 ) {return;}	
 
 item(FEAT_HOUSES, item_townhouses_old, 05, HOUSE_SIZE_1X1){
@@ -123,7 +129,7 @@ item(FEAT_HOUSES, item_townhouses_old, 05, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_townhouses_01_sprites;
-		construction_check: 		switch_townhouses_01_con_check;
+		construction_check: 		switch_townhouses_01_old_con_check;
 		cargo_production: 			func_produce(2,1);
 		colour: 					rand_recolor_townhouses_01_a;
 	}
@@ -141,11 +147,11 @@ item(FEAT_HOUSES, item_townhouses_new, 06, HOUSE_SIZE_1X1){
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			2;
 		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
 									), bitmask(
 										CLIMATE_TEMPERATE,
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
@@ -156,7 +162,7 @@ item(FEAT_HOUSES, item_townhouses_new, 06, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_townhouses_01_sprites;
-		construction_check: 		switch_townhouses_01_con_check;
+		construction_check: 		switch_townhouses_01_new_con_check;
 		cargo_production: 			func_produce(4,1);
 		colour: 					rand_recolor_townhouses_01_a;
 	}

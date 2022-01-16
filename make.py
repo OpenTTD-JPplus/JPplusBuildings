@@ -88,7 +88,6 @@ houses = [
     "offices/offices_05",                    # ID 59
     "offices/offices_06",                    # ID 38
     "offices/offices_07",                    # ID 39
-    "offices/offices_08",                    # ID 65
     "offices/offices_09",                    # ID 85
     "offices/hotel_01",                      # ID 74-75
     "offices/hotel_02",                      # ID 28-29
@@ -105,6 +104,7 @@ houses = [
     "skyscrapers/skyscraper_07",             # ID 83
     "skyscrapers/skyscraper_08",             # ID 84
     "skyscrapers/skyscraper_09",             # ID 86
+    "skyscrapers/skyscraper_10",             # ID 87
 
     ### LANDMARKS ###
     "landmarks/temple_01",                   # ID 66-69
