@@ -69,8 +69,8 @@ switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE
 
 // Begin Sprite Templates
 
+// Ground Tile Template
 
-// Only 1 sprites to be used in four directions
 template template_ground(x, y) {   
 	//left_x, upper_y, width, height, offset_x, offset_y
     se: [ x,		y,		64,		31,		-31,		01,	    NOCROP | ANIM]
@@ -79,13 +79,7 @@ template template_ground(x, y) {
     ne: [ x+195,	y,		64,		31,		-31,		01,	    NOCROP | ANIM]
 }
 
-template template_house_80_1dir(x, y) {
-    //left_x, upper_y, width, height, offset_x, offset_y
-    se: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
-    sw: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
-    nw: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
-    ne: [ x,		y,		64,		80,		-31,		-48,	NOCROP | ANIM]
-}
+// House Templates
 
 template template_house_80_2dir(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
@@ -159,6 +153,14 @@ template template_house_128(x, y) {
     ne: [ x+195,	y,		64,		128,	-31,		-96,	NOCROP | ANIM]
 }
 
+template template_house_128_wide(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		76,		128,	-37,		-96,	NOCROP | ANIM]
+    sw: [ x+77,		y,		76,		128,	-37,		-96,	NOCROP | ANIM]
+    nw: [ x+154,	y,		76,		128,	-37,		-96,	NOCROP | ANIM]
+    ne: [ x+231,	y,		76,		128,	-37,		-96,	NOCROP | ANIM]
+}
+
 template template_house_150(x, y) {
     //left_x, upper_y, width, height, offset_x, offset_y
     se: [ x,		y,		64,		150,	-31,		-118,	NOCROP | ANIM]
@@ -205,15 +207,6 @@ template template_house_250_wide(x, y) {
     sw: [ x+77,		y,		76,		250,	-37,		-218,	NOCROP | ANIM]  
     nw: [ x+154,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
     ne: [ x+231,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
-}
-
-
-template template_house_2dir(x, y) {
-    //left_x, upper_y, width, height, offset_x, offset_y
-    se: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
-    sw: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
-    nw: [ x,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
-    ne: [ x+65,		y,		64,		78,		-31,		-46,	NOCROP | ANIM]
 }
 
 /* Rotation checks for buildings to face roads */
@@ -5439,6 +5432,197 @@ item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	}
 }
 // End shops_02
+
+// Begin shops_03
+
+// Building Sprites
+spriteset (spr_shops_03_a, 							"src/gfx/shops/shops_03/building_a.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_a_snow, 					"src/gfx/shops/shops_03/building_a.png") 					{template_house_128_wide(1,130)}
+
+spriteset (spr_shops_03_b, 							"src/gfx/shops/shops_03/building_b.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_b_snow, 					"src/gfx/shops/shops_03/building_b.png") 					{template_house_128_wide(1,130)}
+
+spriteset (spr_shops_03_c, 							"src/gfx/shops/shops_03/building_c.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_c_snow, 					"src/gfx/shops/shops_03/building_c.png") 					{template_house_128_wide(1,130)}
+
+spriteset (spr_shops_03_d, 							"src/gfx/shops/shops_03/building_d.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_d_snow, 					"src/gfx/shops/shops_03/building_d.png") 					{template_house_128_wide(1,130)}
+
+// Ground Tiles
+spriteset (spr_shops_03_ground, 					"src/gfx/shops/shops_03/ground.png") 						{template_ground(1,1)}
+spriteset (spr_shops_03_ground_snow, 				"src/gfx/shops/shops_03/ground.png") 						{template_ground(1,33)}
+
+// Spritelayouts
+spritelayout sprlay_shops_03_a_norm {
+	ground {
+		sprite: spr_shops_03_ground (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_a (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_a_snow {
+	ground {
+		sprite: spr_shops_03_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_a_snow (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_b_norm {
+	ground {
+		sprite: spr_shops_03_ground (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_b (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_b_snow {
+	ground {
+		sprite: spr_shops_03_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_b_snow (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_c_norm {
+	ground {
+		sprite: spr_shops_03_ground (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_c (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_c_snow {
+	ground {
+		sprite: spr_shops_03_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_c_snow (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_d_norm {
+	ground {
+		sprite: spr_shops_03_ground (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_d (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_shops_03_d_snow {
+	ground {
+		sprite: spr_shops_03_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shops_03_d_snow (construction_state);
+		xoffset: 2;
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_shops_03_a_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_a_snow;
+	sprlay_shops_03_a_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shops_03_b_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_b_snow;
+	sprlay_shops_03_b_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shops_03_c_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_c_snow;
+	sprlay_shops_03_c_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shops_03_d_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_d_snow;
+	sprlay_shops_03_d_norm;
+}
+
+// Random Switch
+random_switch (FEAT_HOUSES, SELF, switch_shops_03_sprites) {
+	1: switch_shops_03_a_sprites;				
+	1: switch_shops_03_b_sprites;
+	1: switch_shops_03_c_sprites;
+	1: switch_shops_03_d_sprites;				
+}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_shops_03_con_check, 
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	HasRoadAdjacentSW() && 
+	HasRoadAdjacentSE() && 
+	ModernOfficePopCheck() &&		// Is there population to allow another
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
+) {return;}	
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_03) {
+	1:	return PALETTE_CC_DARK_BLUE;
+	1:	return PALETTE_CC_GREY;
+	1:	return PALETTE_CC_BROWN;
+	1:	return PALETTE_CC_MAUVE;
+	1:	return PALETTE_CC_WHITE;
+	1:	return PALETTE_CC_DARK_GREEN;
+}
+*/
+
+item(FEAT_HOUSES, item_shops_03, 65, HOUSE_SIZE_1X1) {
+	property {
+		substitute: 				30;
+		name: 						string(NAME_SHOPS_03);
+		population: 				160;
+		mail_multiplier: 			75;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 8]];
+		local_authority_impact: 	180;
+		removal_cost_multiplier: 	155;
+		probability: 				5;
+		years_available: 			[1970,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	// JPSet Zones 4,3
+		building_class: 			2;
+	}
+	graphics {
+		default: 					switch_shops_03_sprites;
+		construction_check: 		switch_shops_03_con_check;
+		//colour: 					random_recolour_shops_03;
+		cargo_production: 			func_produce(24,10);
+	}
+}
+// End shops_03
 
 // Begin petrol_station_01
 
