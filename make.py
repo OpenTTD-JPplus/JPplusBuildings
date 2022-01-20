@@ -70,6 +70,7 @@ houses = [
     "apartments/apartments_05",              # ID 32
     "apartments/apartments_06",              # ID 33
     "apartments/apartments_07",              # ID 34
+    "apartments/apartments_08",              # ID 92
     
     ### SHOPS AND OFFICES | Class 2 ###
     
