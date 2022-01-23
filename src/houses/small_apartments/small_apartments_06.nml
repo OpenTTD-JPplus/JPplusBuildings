@@ -1,0 +1,128 @@
+// Begin small_apartments_06
+
+// Building Sprites
+spriteset (spr_small_apartments_06_a, 					"src/gfx/small_apartments/small_apartments_06/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_small_apartments_06_a_snow, 				"src/gfx/small_apartments/small_apartments_06/building_a.png") 			{template_house_80(1,82)}
+
+spriteset (spr_small_apartments_06_b, 					"src/gfx/small_apartments/small_apartments_06/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_small_apartments_06_b_snow, 				"src/gfx/small_apartments/small_apartments_06/building_b.png") 			{template_house_80(1,82)}
+
+// Ground Tiles
+spriteset (spr_small_apartments_06_a_ground, 			"src/gfx/small_apartments/small_apartments_06/ground.png") 				{template_ground(1,1)}
+spriteset (spr_small_apartments_06_a_ground_snow, 		"src/gfx/small_apartments/small_apartments_06/ground.png") 				{template_ground(1,33)}
+
+spriteset (spr_small_apartments_06_b_ground, 			"src/gfx/small_apartments/small_apartments_06/ground.png") 				{template_ground(1,1)}
+spriteset (spr_small_apartments_06_b_ground_snow, 		"src/gfx/small_apartments/small_apartments_06/ground.png") 				{template_ground(1,33)}
+
+// Spritelayouts
+spritelayout sprlay_small_apartments_06_a_norm {
+	ground {
+		sprite: spr_small_apartments_06_a_ground (construction_state);
+	}
+	building {
+		sprite: spr_small_apartments_06_a (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_small_apartments_06_a_snow {
+	ground {
+		sprite: spr_small_apartments_06_a_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_small_apartments_06_a_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_small_apartments_06_b_norm {
+	ground {
+		sprite: spr_small_apartments_06_b_ground (construction_state);
+	}
+	building {
+		sprite: spr_small_apartments_06_b (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_small_apartments_06_b_snow {
+	ground {
+		sprite: spr_small_apartments_06_b_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_small_apartments_06_b_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_small_apartments_06_a_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_small_apartments_06_a_snow;
+	sprlay_small_apartments_06_a_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_small_apartments_06_b_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_small_apartments_06_b_snow;
+	sprlay_small_apartments_06_b_norm;
+}
+
+// Random selection of sprites
+
+random_switch (FEAT_HOUSES, SELF, switch_small_apartments_06_sprites) {
+	1: switch_small_apartments_06_a_sprites;				
+	1: switch_small_apartments_06_b_sprites;				
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_small_apartments_06)
+	{
+		//1: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_small_apartments_06_con_check, 
+	SmallApartmentsCheck() 				// Small Apartments can't build next to Modern Office Building unless there no passenger service
+) {return;}	
+
+item(FEAT_HOUSES, item_small_apartments_06, 94, HOUSE_SIZE_1X1){
+	property {
+		substitute: 					27;
+		name: 							string(NAME_SMALL_APARTMENTS_06);
+		population: 					60;
+		accepted_cargos: 				[[PASS, 4],[MAIL, 2],[FOOD, 2]];
+		local_authority_impact: 		80;
+		removal_cost_multiplier: 		80;
+		probability: 					1;
+		years_available: 				[1950,1969];
+		minimum_lifetime: 				5;
+		availability_mask: 				[bitmask(
+											//TOWNZONE_CENTRE,			// 4
+											TOWNZONE_INNER_SUBURB,		// 3
+											TOWNZONE_OUTER_SUBURB		// 2
+											//TOWNZONE_OUTSKIRT,		// 1
+											//TOWNZONE_EDGE				// 0
+										), 
+										bitmask(
+											CLIMATE_TEMPERATE, 
+											CLIMATE_ARCTIC, ABOVE_SNOWLINE
+										)];
+		building_class:					3;		
+		}
+	graphics {
+		default: 						switch_small_apartments_06_sprites;
+		construction_check: 			switch_small_apartments_06_con_check;
+		cargo_production: 				func_produce(6,2);
+		colour: 						rand_recolor_small_apartments_06;
+	}
+}
+
+// End small_apartments_06
