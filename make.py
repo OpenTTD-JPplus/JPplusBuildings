@@ -76,6 +76,7 @@ houses = [
     ### SHOPS AND OFFICES | Class 2 ###
     
     ### Shops ###
+    "shops/convini_01",                      # ID 95
     "shops/onsen_01",                        # ID 93
     "shops/shotengai_01",                    # ID 00
     "shops/shops_01",                        # ID 48
