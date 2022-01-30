@@ -1,0 +1,131 @@
+// Begin apartments_10
+
+// Building Sprites
+spriteset (spr_build_apartments_10_north, 						"src/gfx/apartments/apartments_10/building.png") 					{template_house_128(1,1)}
+spriteset (spr_build_apartments_10_east, 						"src/gfx/apartments/apartments_10/building.png") 					{template_house_128_wide(261,1)}
+
+spriteset (spr_build_apartments_10_north_snow, 					"src/gfx/apartments/apartments_10/building.png") 					{template_house_128(1,130)}
+spriteset (spr_build_apartments_10_east_snow, 					"src/gfx/apartments/apartments_10/building.png") 					{template_house_128_wide(261,130)}
+
+// Ground Sprites
+spriteset (spr_ground_apartments_10_north, 						"src/gfx/apartments/apartments_10/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_apartments_10_north_snow, 				"src/gfx/apartments/apartments_10/ground.png") 						{template_ground(1,33)}
+
+spriteset (spr_ground_apartments_10_east, 						"src/gfx/apartments/apartments_10/ground.png") 						{template_ground(261,1)}
+spriteset (spr_ground_apartments_10_east_snow, 					"src/gfx/apartments/apartments_10/ground.png") 						{template_ground(261,33)}
+
+// Normal Sprites
+spritelayout sprlay_apartments_10_north {
+	ground {
+		sprite: spr_ground_apartments_10_north (construction_state);
+	}
+	building {
+		sprite: spr_build_apartments_10_north (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_apartments_10_east {
+	ground {
+		sprite: spr_ground_apartments_10_east (construction_state);
+	}
+	building {
+		sprite: spr_build_apartments_10_east (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_apartments_10_snow_north {
+	ground {
+		sprite: spr_ground_apartments_10_north_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_apartments_10_north_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_apartments_10_snow_east {
+	ground {
+		sprite: spr_ground_apartments_10_east_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_apartments_10_east_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_apartments_10_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_apartments_10_snow_north;
+	sprlay_apartments_10_north;
+}
+switch(FEAT_HOUSES, SELF, switch_apartments_10_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_apartments_10_snow_east;
+	sprlay_apartments_10_east;
+}
+
+// Recolouring
+/*
+random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_10)
+	{
+		1: PALETTE_CC_RED;			
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;			
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+*/
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_apartments_10_con_check, 	
+	FuncServicePASS() &&																				// Passenger Check
+	( (HasRoadAdjacentNE() && HasRoadAdjacentE() ) || (HasRoadAdjacentSW() && HasRoadAdjacentS() ) )	// Road Adjacency			
+) {return;}	
+
+item(FEAT_HOUSES, item_apartments_10, 99, HOUSE_SIZE_1X2){
+	property {
+		substitute: 				7; 													
+		name: 						string(NAME_APARTMENTS_10);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				220;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1970,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(							// JPS Zones = 4 & 3, ITL = All Zones
+										TOWNZONE_CENTRE				// 4
+										//TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				4;	
+		}
+	graphics {
+		graphics_north: 			switch_apartments_10_north;
+		graphics_east: 				switch_apartments_10_east;
+		construction_check: 		switch_apartments_10_con_check; 	
+		cargo_production: 			func_produce(22,4);
+		//colour: 					rand_recolor_apartments_10;
+	} 					
+}
+
+// End apartments_10
