@@ -102,6 +102,7 @@ houses = [
     "offices/offices_09",                    # ID 85
     "offices/offices_10",                    # ID 90
     "offices/offices_11",                    # ID 91
+    "offices/offices_12",                    # ID 104
     "offices/hotel_01",                      # ID 74-75
     "offices/hotel_02",                      # ID 28-29
     
