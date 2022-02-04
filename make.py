@@ -87,6 +87,7 @@ houses = [
     "shops/shops_04",                        # ID 101
     "shops/petrol_station_01",               # ID 50-51
     "shops/petrol_station_02",               # ID 109
+    "shops/petrol_station_03",               # ID 110-111
     "shops/restaurant_01",                   # ID 64
     "shops/restaurant_02",                   # ID 96
     "shops/shops_small_01",                  # ID 07
