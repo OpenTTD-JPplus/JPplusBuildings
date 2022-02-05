@@ -135,6 +135,7 @@ houses = [
     "landmarks/stadium_01",                  # ID 60-63
     "landmarks/hospital_01",                 # ID 40-43
     "landmarks/shrine_01",                   # ID 113
+    "landmarks/shrine_02",                   # ID 114
 
     ### RURAL ###
     "rural/farm_01",                         # ID 52-55

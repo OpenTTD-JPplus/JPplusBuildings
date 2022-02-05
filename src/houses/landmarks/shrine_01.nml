@@ -15,8 +15,8 @@ spritelayout sprlay_shrine_01 {
 	}
 	building {
 		sprite: spr_shrine_01 (3);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -26,13 +26,10 @@ spritelayout sprlay_shrine_01_snow {
 	}
 	building {
 		sprite: spr_shrine_01_snow (3);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
-
-
-
 
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_shrine_01_sprites,terrain_type) {
@@ -40,28 +37,43 @@ switch(FEAT_HOUSES, SELF, switch_shrine_01_sprites,terrain_type) {
 	sprlay_shrine_01;
 }
 
+// Random recolour
+random_switch (FEAT_HOUSES, SELF, rand_recolor_shrine_01)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_shrine_01_con_check, 
-	IsCity() &&						// Can only build in a city
-	IsUniqueHouse() &&				// Only one per town
-	OnGenerationOnly()				// Doesn't build during gamereplay, only upon map generation
+	IsCity() &&							// Can only build in a city
+	IsUniqueHouse() &&					// Only one per town
+	OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
 ) {return;}	
 
-if (param_prohibition_shrine == 1) {
+if (param_prohibition_shrine == 1) {	// Only appears if parameter is turned on (default: off)
 
 	item(FEAT_HOUSES, item_shrine_01, 113, HOUSE_SIZE_1X1){
 		property {
 			substitute: 				06;
 			name: 						string(NAME_SHRINE_01);
 			building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED, HOUSE_FLAG_PROTECTED);
-			population: 				40;										// Agreed to JPS
+			population: 				40;									// Agreed to JPS
 			accepted_cargos: 			[[PASS, 4]];
-			local_authority_impact: 	80;
-			removal_cost_multiplier: 	80;
-			probability: 				15;
+			local_authority_impact: 	0;
+			removal_cost_multiplier: 	0;
+			probability: 				15;									// High to make sure it spawns
 			years_available: 			[0,0xFFFF];							// Agreed to JPS
 			minimum_lifetime: 			2;										
-			availability_mask: 			[bitmask(								// Agreed to JPS
+			availability_mask: 			[bitmask(							// Agreed to JPS, also, all zones to give more opportunity to appear
 											TOWNZONE_CENTRE,			// 4
 											TOWNZONE_INNER_SUBURB,		// 3
 											TOWNZONE_OUTER_SUBURB,		// 2
@@ -78,8 +90,8 @@ if (param_prohibition_shrine == 1) {
 		graphics {
 			default: 					switch_shrine_01_sprites;
 			construction_check: 		switch_shrine_01_con_check;
-			cargo_production: 			func_produce(1,1);						// 
-			//colour: 					rand_recolor_wooden_townhouses;
+			cargo_production: 			func_produce(1,1);			
+			colour: 					rand_recolor_shrine_01;
 		}
 	}
 }
