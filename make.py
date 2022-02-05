@@ -51,6 +51,7 @@ houses = [
     "houses_old/large_wooden_house_01",      # ID 23
     "houses_old/large_wooden_house_02",      # ID 24
     "houses_old/large_wooden_farmhouse_01",  # ID 25
+    "houses_old/old_villa_01",               # ID 117
         
     ### TOWNHOUSES | CLASS 1 ###
     "houses/townhouses_01",                  # ID 05-06
