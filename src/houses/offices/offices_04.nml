@@ -2,11 +2,11 @@
 
 // Building Sprites
 spriteset (spr_offices_04, 							"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,1)}
-spriteset (spr_offices_04_snow, 						"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,102)}
+spriteset (spr_offices_04_snow, 					"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,102)}
 
 // Ground Tiles
-spriteset (spr_offices_04_ground, 					"src/gfx/offices/offices_04/ground.png") 						{template_house_100(1,1)}
-spriteset (spr_offices_04_ground_snow, 				"src/gfx/offices/offices_04/ground.png") 						{template_house_100(1,102)}
+spriteset (spr_offices_04_ground, 					"src/gfx/offices/offices_04/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_04_ground_snow, 				"src/gfx/offices/offices_04/ground.png") 						{template_ground(1,33)}
 
 spritelayout sprlay_offices_04_norm {
 	ground {
@@ -56,7 +56,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_04)
 switch (FEAT_HOUSES, SELF, switch_offices_04_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 

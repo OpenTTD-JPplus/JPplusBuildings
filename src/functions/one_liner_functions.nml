@@ -23,7 +23,7 @@ switch (FEAT_HOUSES, SELF, TwentyTileGap, nearest_house_matching_criterion(20, S
 switch (FEAT_HOUSES, SELF, ThirtyTileGap, nearest_house_matching_criterion(30, SEARCH_HOUSE_BY_TYPE) == 0 ) {return;}
 
 switch (FEAT_HOUSES, SELF, WithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 1 ) {return;}
-switch (FEAT_HOUSES, SELF, WithinThreeOfSameClass, nearest_house_matching_criterion(3, SEARCH_HOUSE_BY_CLASS) >= 1 ) {return;}
+switch (FEAT_HOUSES, SELF, TwoWithinTwoOfSameClass, nearest_house_matching_criterion(2, SEARCH_HOUSE_BY_CLASS) >= 2 ) {return;}
 
 /* Check for road (and stations) in adjacent tiles functions */
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentNE, nearby_tile_class(-1, 0) == TILE_CLASS_ROAD || nearby_tile_class(-1, 0) == TILE_CLASS_STATION) {return;}
@@ -42,5 +42,15 @@ switch (FEAT_HOUSES, SELF, HasRoadAdjacentNWSW, nearby_tile_class( 0,-1) == TILE
 
 switch (FEAT_HOUSES, SELF, HasRoadAdjacentSESW, nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION || 
 	nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION) {return;}
+
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialNE, nearby_tile_house_class(-1, 0) == 258 || nearby_tile_house_class(-1, 0) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialNW, nearby_tile_house_class( 0,-1) == 258 || nearby_tile_house_class( 0,-1) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialSE, nearby_tile_house_class( 0, 1) == 258 || nearby_tile_house_class( 0, 1) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialSW, nearby_tile_house_class( 1, 0) == 258 || nearby_tile_house_class( 1, 0) == 261 ) {return;}
+
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialN, nearby_tile_house_class(-1,-1) == 258 || nearby_tile_house_class(-1,-1) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialE, nearby_tile_house_class(-1, 1) == 258 || nearby_tile_house_class(-1, 1) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialS, nearby_tile_house_class( 1, 1) == 258 || nearby_tile_house_class( 1, 1) == 261 ) {return;}
+switch (FEAT_HOUSES, SELF, AdjacentToCommercialW, nearby_tile_house_class( 1,-1) == 258 || nearby_tile_house_class( 1,-1) == 261 ) {return;}
 
 /* End one_liners */

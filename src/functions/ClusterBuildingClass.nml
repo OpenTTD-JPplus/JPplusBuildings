@@ -1,11 +1,22 @@
 /* Begin Cluster Building Class */
 
-// Buildings after the first of the class must cluster near the same class
+/* Buildings after the first of the class must cluster near the same class */
+
 switch (FEAT_HOUSES, SELF, ClusterBuildingClass, 
-	same_class_count_town == 0 || 								// No building of same class in town OR
-	AcrossAnAvenue()  ||										// Allow buildings to cross an avenue ('wide' road) OR
-	(WithinThreeOfSameClass() && AcrossTracks() ) ||			// Same class within 3 and track beside new building OR
-	WithinTwoOfSameClass()										// Same class within 2
+	// If first of class and Town Zone Centre ("4"), then allow 
+	( same_class_count_town == 0 && town_zone == TOWNZONE_CENTRE ) || 								
+	
+	// Thereafter, must be adjacent to a Commercial building (Class 2 or Class 5)
+	AdjacentToCommercial() ||								
+
+	/* SPECIFIC EXCEPTIONS */
+
+	// Allow to build across roads of varying width (1, 2 and 3 tiles) from a Class 2 or Class 5 Building
+	AcrossRoads()  ||									
+	
+	// Allow building across tracks from a Class 2 or Class 5 
+	AcrossTracks()
+	
 	) {return;}
 
 /* End Cluster Building Class */

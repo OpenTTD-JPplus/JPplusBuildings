@@ -5,8 +5,8 @@ spriteset (spr_offices_02, 							"src/gfx/offices/offices_02/building.png") 			
 spriteset (spr_offices_02_snow, 					"src/gfx/offices/offices_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_offices_02_ground, 					"src/gfx/offices/offices_02/ground.png") 						{template_house_128(1,1)}
-spriteset (spr_offices_02_ground_snow, 				"src/gfx/offices/offices_02/ground.png") 						{template_house_128(1,130)}
+spriteset (spr_offices_02_ground, 					"src/gfx/offices/offices_02/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_02_ground_snow, 				"src/gfx/offices/offices_02/ground.png") 						{template_ground(1,33)}
 
 spritelayout sprlay_offices_02_norm {
 	ground {
@@ -56,14 +56,14 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_02)
 switch (FEAT_HOUSES, SELF, switch_offices_02_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	ModernOfficePopCheck() &&		// Residential population is sufficient for another modern office building class
+	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
 item(FEAT_HOUSES, item_offices_02, 37, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
+		name: 						string(NAME_OFFICES_02);
 		population: 				30;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;

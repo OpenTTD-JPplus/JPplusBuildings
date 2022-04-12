@@ -7,17 +7,10 @@ spriteset (spr_townhouses_01_a_snow, 				"src/gfx/houses/townhouses_01/building_
 spriteset (spr_townhouses_01_b, 					"src/gfx/houses/townhouses_01/building_b.png") 			{template_house_80(1,1)}
 spriteset (spr_townhouses_01_b_snow, 				"src/gfx/houses/townhouses_01/building_b.png") 			{template_house_80(1,82)}
 
-// Ground Tiles
-spriteset (spr_townhouses_01_a_ground, 				"src/gfx/houses/townhouses_01/ground_a.png") 			{template_ground(1,1)}
-spriteset (spr_townhouses_01_a_ground_snow, 		"src/gfx/houses/townhouses_01/ground_a.png") 			{template_ground(1,33)}
-
-spriteset (spr_townhouses_01_b_ground, 				"src/gfx/houses/townhouses_01/ground_b.png") 			{template_ground(1,1)}
-spriteset (spr_townhouses_01_b_ground_snow, 		"src/gfx/houses/townhouses_01/ground_b.png") 			{template_ground(1,33)}
-
 // Spritelayouts
 spritelayout sprlay_townhouses_01_a_norm {
 	ground {
-		sprite: spr_townhouses_01_a_ground (construction_state);
+		sprite: spr_ground_grass (construction_state);
 	}
 	building {
 		sprite: spr_townhouses_01_a (construction_state);
@@ -28,7 +21,7 @@ spritelayout sprlay_townhouses_01_a_norm {
 
 spritelayout sprlay_townhouses_01_a_snow {
 	ground {
-		sprite: spr_townhouses_01_a_ground_snow (construction_state);
+		sprite: spr_ground_snow (construction_state);
 	}
 	building {
 		sprite: spr_townhouses_01_a_snow (construction_state);
@@ -39,7 +32,7 @@ spritelayout sprlay_townhouses_01_a_snow {
 
 spritelayout sprlay_townhouses_01_b_norm {
 	ground {
-		sprite: spr_townhouses_01_b_ground (construction_state);
+		sprite: spr_ground_grass (construction_state);
 	}
 	building {
 		sprite: spr_townhouses_01_b (construction_state);
@@ -50,7 +43,7 @@ spritelayout sprlay_townhouses_01_b_norm {
 
 spritelayout sprlay_townhouses_01_b_snow {
 	ground {
-		sprite: spr_townhouses_01_b_ground_snow (construction_state);
+		sprite: spr_ground_snow (construction_state);
 	}
 	building {
 		sprite: spr_townhouses_01_b_snow (construction_state);
@@ -93,8 +86,9 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_townhouses_01_a)
 	}
 
 // Construction Checks
+
 switch (FEAT_HOUSES, SELF, switch_townhouses_01_old_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	HouseOfficeGap()
 ) {return;}	
 
 switch (FEAT_HOUSES, SELF, switch_townhouses_01_new_con_check, 
@@ -130,6 +124,7 @@ item(FEAT_HOUSES, item_townhouses_old, 05, HOUSE_SIZE_1X1){
 	graphics {
 		default: 					switch_townhouses_01_sprites;
 		construction_check: 		switch_townhouses_01_old_con_check;
+		destruction:				DestructionCheckHouses;
 		cargo_production: 			func_produce(2,1);
 		colour: 					rand_recolor_townhouses_01_a;
 	}

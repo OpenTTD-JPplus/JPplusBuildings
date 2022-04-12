@@ -1,15 +1,20 @@
-/* Begin HouseGap */
+/* Begin HouseOfficeGap */
 
 switch(FEAT_HOUSES, SELF, HouseOfficeGap,
 	
 	// MAIN CRITERIA - Houses and Townhouses cannot build within two tiles of Commercial Buildings (Classes 2 & 5)
-	!CommercialWithinTwoTiles()
+	!AdjacentToCommercial()
 
-	||
+	|| // OR
 
-	// EXCEPTION - Unless there is a commercial building two tiles away (but not adjacent i.e. 1 tile) AND NO passenger service
-	( CommercialWithinTwoTiles() && !CommercialWithinOneTile() && !FuncServicePASS() )
+	// EXCEPTION - Adjacent to Commercial AND there is NO passenger service - to prevent gaps on catchment area border
+	( AdjacentToCommercial() && !FuncServicePASS() )
+
+	|| // OR
+
+	// EXCEPTION - Not enough population to allow another commercial, so allow a residential instead
+	( AdjacentToCommercial() && !Class2PopCheck() )
 
 ){return;}
 
-/* End HouseGap */
+/* End HouseOfficeGap */

@@ -12,10 +12,11 @@ header_stuff = [
     "sprite_templates",
 
     ### Primary Functions (i.e. do not use any other Function)
-    "functions/ModernOfficePopCheckV2",
+    "functions/PopulationChecks",
+    "functions/AdjacentToCommercial",
     "functions/CommercialWithinTwoTiles",
     "functions/CommercialWithinOneTile",
-    "functions/AcrossAnAvenue",
+    "functions/AcrossRoads",
     "functions/AcrossTracks",
     "functions/CargoServiceChecks",
     "functions/one_liner_functions",
@@ -26,11 +27,16 @@ header_stuff = [
     "functions/SmallApartmentsCheck",
     "functions/ClusterBuildingClass",
     "functions/IfFirstSkyscraper",
-    "functions/CommercialCargoes",  
+    "functions/CommercialCargoes",
+    "functions/DestructionChecks",
+    "functions/ProtectClassTwo",
     ]
 
 # HOUSES
 houses = [  
+    ### Ground Sprites ###
+    "ground/ground",
+    
     ### RESIDENTIAL | Class 0 ###
 
     ### Houses ###
@@ -38,7 +44,7 @@ houses = [
     "houses/nishikawa_house",                # ID 21-22
 
     ### Old Houses ###              
-    "houses_old/wooden_farmhouse_01",        # ID 17
+    "houses_old/wooden_farmhouse_01",        # ID 17 
     "houses_old/wooden_house_01",            # ID 18
     "houses_old/dense_wooden",               # ID 13
     "houses_old/wooden_townhouses_01",       # ID 01
