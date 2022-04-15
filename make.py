@@ -102,12 +102,12 @@ houses = [
     
     ### Offices ###
     "offices/offices_01",                    # ID 36
-    "offices/offices_02",                    # ID 37
+    "offices/aoyama_office",                 # ID 37
     "offices/offices_03",                    # ID 49
     "offices/offices_04",                    # ID 58
     "offices/offices_05",                    # ID 59
-    "offices/offices_06",                    # ID 38
-    "offices/offices_07",                    # ID 39
+    "offices/obuilding",                     # ID 38
+    "offices/xbuilding",                     # ID 39
     "offices/offices_08",                    # ID 88
     "offices/offices_09",                    # ID 85
     "offices/offices_10",                    # ID 90

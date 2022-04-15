@@ -1,43 +1,43 @@
-// Begin offices_07
+// Begin X-Building
 
 // Building Sprites
-spriteset (spr_offices_07, 							"src/gfx/offices/offices_07/building.png") 						{template_house_128(1,1)}
-spriteset (spr_offices_07_snow, 					"src/gfx/offices/offices_07/building.png") 						{template_house_128(1,130)}
+spriteset (spr_xbuilding, 							"src/gfx/offices/xbuilding/building.png") 						{template_house_128(1,1)}
+spriteset (spr_xbuilding_snow, 					"src/gfx/offices/xbuilding/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_offices_07_ground, 					"src/gfx/offices/offices_07/ground.png") 						{template_ground(1,1)}
-spriteset (spr_offices_07_ground_snow, 				"src/gfx/offices/offices_07/ground.png") 						{template_ground(1,33)}
+spriteset (spr_xbuilding_ground, 					"src/gfx/offices/xbuilding/ground.png") 						{template_ground(1,1)}
+spriteset (spr_xbuilding_ground_snow, 				"src/gfx/offices/xbuilding/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_offices_07_norm {
+spritelayout sprlay_xbuilding_norm {
 	ground {
-		sprite: spr_offices_07_ground(3);
+		sprite: spr_xbuilding_ground(3);
 	}
 	building {
-		sprite: spr_offices_07(3);
+		sprite: spr_xbuilding(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_offices_07_snow {
+spritelayout sprlay_xbuilding_snow {
 	ground {
-		sprite: spr_offices_07_ground_snow(3);
+		sprite: spr_xbuilding_ground_snow(3);
 	}
 	building {
-		sprite: spr_offices_07_snow(3);
+		sprite: spr_xbuilding_snow(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_offices_07_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_offices_07_snow;
-	sprlay_offices_07_norm;
+switch(FEAT_HOUSES, SELF, switch_xbuilding_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_xbuilding_snow;
+	sprlay_xbuilding_norm;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_07)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_xbuilding)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -53,17 +53,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_07)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_offices_07_con_check, 
+switch (FEAT_HOUSES, SELF, switch_xbuilding_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_offices_07, 39, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_xbuilding, 39, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_OFFICES_07);
+		name: 						string(NAME_XBUILDING);
 		population: 				150;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 4],[GOOD, 2]];
 		local_authority_impact: 	80;
@@ -75,11 +75,11 @@ item(FEAT_HOUSES, item_offices_07, 39, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_offices_07_sprites;
-		construction_check: 		switch_offices_07_con_check; 	
+		default: 					switch_xbuilding_sprites;
+		construction_check: 		switch_xbuilding_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_offices_07;
+		colour: 					rand_recolor_xbuilding;
 	}
 }
 
-// End offices_07
+// End X-Building

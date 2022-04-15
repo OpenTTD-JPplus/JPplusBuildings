@@ -4,12 +4,23 @@
 
 // Purpose of this is to prevent the Class 2 cluster from splitting
 
-switch (FEAT_HOUSES, SELF, ProtectClassTwo, 
-	// If first of class and Town Zone Centre ("4"), then allow 
+switch (FEAT_HOUSES, SELF, ProtectClassTwoUntil1959, 
+	// Check if there is NOT sufficient population to build another Class 2
 	!Class2PopCheck() &&
 
     // Passenger service remains in place
-    FuncServicePASS()
+    FuncServicePASS() &&
+
+    current_year < 1960
+	
+	) {return;}
+
+switch (FEAT_HOUSES, SELF, ProtectClassTwo, 
+	// Check if there is NOT sufficient population to build another Class 2
+	!Class2PopCheck() &&
+
+    // Passenger service remains in place
+    FuncServicePASS() 
 	
 	) {return;}
 
