@@ -11,17 +11,15 @@ header_stuff = [
     "cargotable",
     "sprite_templates",
 
-    ### Primary Functions (i.e. do not use any other Function)
+### Primary Functions (i.e. do not use any other Function)
     "functions/PopulationChecks",
     "functions/AdjacentToCommercial",
-    "functions/CommercialWithinTwoTiles",
-    "functions/CommercialWithinOneTile",
     "functions/AcrossRoads",
     "functions/AcrossTracks",
     "functions/CargoServiceChecks",
     "functions/one_liner_functions",
 
-    ### Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
+### Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
     "functions/SpriteDirections",
     "functions/HouseGap",
     "functions/SmallApartmentsCheck",
