@@ -21,4 +21,4 @@ First of all, a big thanks to all those in the Credits, for your great work whic
 
 ### Improved Town Layouts
 
-* Thanks to 2TallTyler for this set. Not sure if this set will help explain or further confuse everyone about what ITL does, or does not do - i.e. modify the behavior of other House Sets.
+* Thanks to 2TallTyler for this set. This set, like ITL does, does not modify the behavior of other House Sets.

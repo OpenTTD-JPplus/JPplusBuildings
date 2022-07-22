@@ -4937,16 +4937,15 @@ item(FEAT_HOUSES, item_apartments_04, 56, HOUSE_SIZE_2X1){
 // Begin apartments_05
 
 // Building Sprites
-spriteset (spr_apartments_05, 					"src/gfx/apartments/apartments_05/building.png") 						{template_house_128(1,1)}
+spriteset (spr_apartments_05, 							"src/gfx/apartments/apartments_05/building.png") 						{template_house_128(1,1)}
 
-// Ground Sprites
-spriteset (spr_ground_apartments_05, 			"src/gfx/apartments/apartments_05/ground.png") 				{template_ground(1,1)}
-
+// Ground Tiles
+// Same as Skyscraper 04
 
 // Normal Sprites
 spritelayout sprlay_apartments_05_white {
 	ground {
-		sprite: spr_ground_apartments_05(0);
+		sprite: spr_ground_skyscraper_04(2);
 	}
 	building {
 		sprite: spr_apartments_05(0);
@@ -4957,7 +4956,7 @@ spritelayout sprlay_apartments_05_white {
 
 spritelayout sprlay_apartments_05_cream {
 	ground {
-		sprite: spr_ground_apartments_05(1);
+		sprite: spr_ground_skyscraper_04(2);
 	}
 	building {
 		sprite: spr_apartments_05(1);
@@ -4969,7 +4968,7 @@ spritelayout sprlay_apartments_05_cream {
 // Snow Sprites
 spritelayout sprlay_apartments_05_white_snow {
 	ground {
-		sprite: spr_ground_apartments_05(2);
+		sprite: spr_ground_skyscraper_04(3);
 	}
 	building {
 		sprite: spr_apartments_05(2);
@@ -4980,7 +4979,7 @@ spritelayout sprlay_apartments_05_white_snow {
 
 spritelayout sprlay_apartments_05_cream_snow {
 	ground {
-		sprite: spr_ground_apartments_05(3);
+		sprite: spr_ground_skyscraper_04(3);
 	}
 	building {
 		sprite: spr_apartments_05(3);
@@ -6739,48 +6738,48 @@ item(FEAT_HOUSES, item_shops_01, 48, HOUSE_SIZE_1X1) {
 }
 // End shops_01
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/yamada_electronics_centre.pnml" 1
-// Begin yamada_electronics_centre
+# 1 "src/houses/shops/shops_02.pnml" 1
+// Begin shops_02
 
 // Building Sprites
-spriteset (spr_yamada_electronics_centre, 							"src/gfx/shops/yamada_electronics_centre/building.png") 					{template_house_128(1,1)}
-spriteset (spr_yamada_electronics_centre_snow, 						"src/gfx/shops/yamada_electronics_centre/building.png") 					{template_house_128(1,130)}
+spriteset (spr_shops_02, 							"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,1)}
+spriteset (spr_shops_02_snow, 						"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_yamada_electronics_centre_ground, 					"src/gfx/shops/yamada_electronics_centre/ground.png") 						{template_house_128(1,1)}
-//spriteset (spr_yamada_electronics_centre_ground_snow, 			"src/gfx/shops/yamada_electronics_centre/ground.png") 						{template_house_128(1,1)}
+spriteset (spr_shops_02_ground, 					"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
+//spriteset (spr_shops_02_ground_snow, 				"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
 
-spritelayout sprlay_yamada_electronics_centre_norm {
+spritelayout sprlay_shops_02_norm {
 	ground {
-		sprite: spr_yamada_electronics_centre_ground(construction_state);
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_yamada_electronics_centre(construction_state);
+		sprite: spr_shops_02(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_yamada_electronics_centre_snow {
+spritelayout sprlay_shops_02_snow {
 	ground {
-		sprite: spr_yamada_electronics_centre_ground(construction_state);
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_yamada_electronics_centre_snow(construction_state);
+		sprite: spr_shops_02_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yamada_electronics_centre_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_yamada_electronics_centre_snow;
-	sprlay_yamada_electronics_centre_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_02_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_02_snow;
+	sprlay_shops_02_norm;
 }
 
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, random_recolour_yamada_electronics_centre) {
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
 	1:	return PALETTE_CC_DARK_BLUE;
 	1:	return PALETTE_CC_GREY;
 	1:	return PALETTE_CC_BROWN;
@@ -6790,17 +6789,17 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_yamada_electronics_centre) {
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yamada_electronics_centre_con_check, 
+switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_yamada_electronics_centre, 47, HOUSE_SIZE_1X1) {
+item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	property {
 		substitute: 				30;
-		name: 						string(NAME_YAMADA_ELECTRONICS_CENTRE);
+		name: 						string(NAME_SHOPS_02);
 		population: 				140;
 		mail_multiplier: 			75;
 		accepted_cargos: 			[[PASS, 8],[MAIL,8],[GOOD, 8]];
@@ -6813,125 +6812,125 @@ item(FEAT_HOUSES, item_yamada_electronics_centre, 47, HOUSE_SIZE_1X1) {
 		building_class: 			2;
 	}
 	graphics {
-		default: 					switch_yamada_electronics_centre_sprites;
-		construction_check: 		switch_yamada_electronics_centre_con_check;
-		colour: 					random_recolour_yamada_electronics_centre;
+		default: 					switch_shops_02_sprites;
+		construction_check: 		switch_shops_02_con_check;
+		colour: 					random_recolour_shops_02;
 		cargo_production: 			func_produce(24,10);
 	}
 }
-// End yamada_electronics_centre
+// End shops_02
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/tsuzumi_electronics_centre.pnml" 1
-// Begin tsuzumi_electronics_centre
+# 1 "src/houses/shops/shops_03.pnml" 1
+// Begin shops_03
 
 // Building Sprites
-spriteset (spr_tsuzumi_electronics_centre_a, 						"src/gfx/shops/tsuzumi_electronics_centre/building_a.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_a_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_a.png") 					{template_house_128_wide(1,130)}
+spriteset (spr_shops_03_a, 							"src/gfx/shops/shops_03/building_a.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_a_snow, 					"src/gfx/shops/shops_03/building_a.png") 					{template_house_128_wide(1,130)}
 
-spriteset (spr_tsuzumi_electronics_centre_b, 						"src/gfx/shops/tsuzumi_electronics_centre/building_b.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_b_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_b.png") 					{template_house_128_wide(1,130)}
+spriteset (spr_shops_03_b, 							"src/gfx/shops/shops_03/building_b.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_b_snow, 					"src/gfx/shops/shops_03/building_b.png") 					{template_house_128_wide(1,130)}
 
-spriteset (spr_tsuzumi_electronics_centre_c, 						"src/gfx/shops/tsuzumi_electronics_centre/building_c.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_c_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_c.png") 					{template_house_128_wide(1,130)}
+spriteset (spr_shops_03_c, 							"src/gfx/shops/shops_03/building_c.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_c_snow, 					"src/gfx/shops/shops_03/building_c.png") 					{template_house_128_wide(1,130)}
 
-spriteset (spr_tsuzumi_electronics_centre_d, 						"src/gfx/shops/tsuzumi_electronics_centre/building_d.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_d_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_d.png") 					{template_house_128_wide(1,130)}
+spriteset (spr_shops_03_d, 							"src/gfx/shops/shops_03/building_d.png") 					{template_house_128_wide(1,1)}
+spriteset (spr_shops_03_d_snow, 					"src/gfx/shops/shops_03/building_d.png") 					{template_house_128_wide(1,130)}
 
 // Ground Tiles
-spriteset (spr_tsuzumi_electronics_centre_ground, 					"src/gfx/shops/tsuzumi_electronics_centre/ground.png") 						{template_ground(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_ground_snow, 				"src/gfx/shops/tsuzumi_electronics_centre/ground.png") 						{template_ground(1,33)}
+spriteset (spr_shops_03_ground, 					"src/gfx/shops/shops_03/ground.png") 						{template_ground(1,1)}
+spriteset (spr_shops_03_ground_snow, 				"src/gfx/shops/shops_03/ground.png") 						{template_ground(1,33)}
 
 // Spritelayouts
-spritelayout sprlay_tsuzumi_electronics_centre_a_norm {
+spritelayout sprlay_shops_03_a_norm {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
+		sprite: spr_shops_03_ground (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_a (construction_state);
+		sprite: spr_shops_03_a (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_a_snow {
+spritelayout sprlay_shops_03_a_snow {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
+		sprite: spr_shops_03_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_a_snow (construction_state);
+		sprite: spr_shops_03_a_snow (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_b_norm {
+spritelayout sprlay_shops_03_b_norm {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
+		sprite: spr_shops_03_ground (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_b (construction_state);
+		sprite: spr_shops_03_b (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_b_snow {
+spritelayout sprlay_shops_03_b_snow {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
+		sprite: spr_shops_03_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_b_snow (construction_state);
+		sprite: spr_shops_03_b_snow (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_c_norm {
+spritelayout sprlay_shops_03_c_norm {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
+		sprite: spr_shops_03_ground (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_c (construction_state);
+		sprite: spr_shops_03_c (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_c_snow {
+spritelayout sprlay_shops_03_c_snow {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
+		sprite: spr_shops_03_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_c_snow (construction_state);
+		sprite: spr_shops_03_c_snow (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_d_norm {
+spritelayout sprlay_shops_03_d_norm {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
+		sprite: spr_shops_03_ground (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_d (construction_state);
+		sprite: spr_shops_03_d (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuzumi_electronics_centre_d_snow {
+spritelayout sprlay_shops_03_d_snow {
 	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
+		sprite: spr_shops_03_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_tsuzumi_electronics_centre_d_snow (construction_state);
+		sprite: spr_shops_03_d_snow (construction_state);
 		xoffset: 2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
@@ -6939,36 +6938,36 @@ spritelayout sprlay_tsuzumi_electronics_centre_d_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_a_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_a_snow;
-	sprlay_tsuzumi_electronics_centre_a_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_03_a_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_a_snow;
+	sprlay_shops_03_a_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_b_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_b_snow;
-	sprlay_tsuzumi_electronics_centre_b_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_03_b_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_b_snow;
+	sprlay_shops_03_b_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_c_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_c_snow;
-	sprlay_tsuzumi_electronics_centre_c_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_03_c_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_c_snow;
+	sprlay_shops_03_c_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_d_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_d_snow;
-	sprlay_tsuzumi_electronics_centre_d_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_03_d_sprites, terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_03_d_snow;
+	sprlay_shops_03_d_norm;
 }
 
 // Random Switch
-random_switch (FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_sprites) {
-	1: switch_tsuzumi_electronics_centre_a_sprites;				
-	1: switch_tsuzumi_electronics_centre_b_sprites;
-	1: switch_tsuzumi_electronics_centre_c_sprites;
-	1: switch_tsuzumi_electronics_centre_d_sprites;				
+random_switch (FEAT_HOUSES, SELF, switch_shops_03_sprites) {
+	1: switch_shops_03_a_sprites;				
+	1: switch_shops_03_b_sprites;
+	1: switch_shops_03_c_sprites;
+	1: switch_shops_03_d_sprites;				
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_con_check, 
+switch (FEAT_HOUSES, SELF, switch_shops_03_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	HasRoadAdjacentSW() && 
@@ -6979,7 +6978,7 @@ switch (FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_con_check,
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, random_recolour_tsuzumi_electronics_centre) {
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_03) {
 	1:	return PALETTE_CC_DARK_BLUE;
 	1:	return PALETTE_CC_GREY;
 	1:	return PALETTE_CC_BROWN;
@@ -6989,10 +6988,10 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_tsuzumi_electronics_centre) {
 }
 */
 
-item(FEAT_HOUSES, item_tsuzumi_electronics_centre, 65, HOUSE_SIZE_1X1) {
+item(FEAT_HOUSES, item_shops_03, 65, HOUSE_SIZE_1X1) {
 	property {
 		substitute: 				30;
-		name: 						string(NAME_TSUZUMI_ELECTRONICS_CENTRE);
+		name: 						string(NAME_SHOPS_03);
 		population: 				160;
 		mail_multiplier: 			75;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 8]];
@@ -7005,56 +7004,56 @@ item(FEAT_HOUSES, item_tsuzumi_electronics_centre, 65, HOUSE_SIZE_1X1) {
 		building_class: 			2;
 	}
 	graphics {
-		default: 					switch_tsuzumi_electronics_centre_sprites;
-		construction_check: 		switch_tsuzumi_electronics_centre_con_check;
-		//colour: 					random_recolour_tsuzumi_electronics_centre;
+		default: 					switch_shops_03_sprites;
+		construction_check: 		switch_shops_03_con_check;
+		//colour: 					random_recolour_shops_03;
 		cargo_production: 			func_produce(24,10);
 	}
 }
-// End tsuzumi_electronics_centre
+// End shops_03
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/cinema.pnml" 1
-// Begin cinema
+# 1 "src/houses/shops/shops_04.pnml" 1
+// Begin shops_04
 
 // Building Sprites
-spriteset (spr_cinema, 							"src/gfx/shops/cinema/building.png") 						{template_house_80(1,1)}
-spriteset (spr_cinema_snow, 						"src/gfx/shops/cinema/building.png") 						{template_house_80(1,82)}
+spriteset (spr_shops_04, 							"src/gfx/shops/shops_04/building.png") 						{template_house_80(1,1)}
+spriteset (spr_shops_04_snow, 						"src/gfx/shops/shops_04/building.png") 						{template_house_80(1,82)}
 
 // Ground Tiles
-spriteset (spr_cinema_ground, 					"src/gfx/shops/cinema/ground.png") 						{template_ground(1,1)}
-spriteset (spr_cinema_ground_snow, 				"src/gfx/shops/cinema/ground.png") 						{template_ground(1,33)}
+spriteset (spr_shops_04_ground, 					"src/gfx/shops/shops_04/ground.png") 						{template_ground(1,1)}
+spriteset (spr_shops_04_ground_snow, 				"src/gfx/shops/shops_04/ground.png") 						{template_ground(1,33)}
 
 // Spritelayouts
-spritelayout sprlay_cinema_norm {
+spritelayout sprlay_shops_04_norm {
 	ground {
-		sprite: spr_cinema_ground(construction_state);
+		sprite: spr_shops_04_ground(construction_state);
 	}
 	building {
-		sprite: spr_cinema(construction_state);
+		sprite: spr_shops_04(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_cinema_snow {
+spritelayout sprlay_shops_04_snow {
 	ground {
-		sprite: spr_cinema_ground(construction_state);
+		sprite: spr_shops_04_ground(construction_state);
 	}
 	building {
-		sprite: spr_cinema_snow(construction_state);
+		sprite: spr_shops_04_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_cinema_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_cinema_snow;
-	sprlay_cinema_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_04_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_04_snow;
+	sprlay_shops_04_norm;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, random_recolour_cinema) {
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_04) {
 	1:	return PALETTE_CC_DARK_BLUE;
 	1:	return PALETTE_CC_GREY;
 	1:	return PALETTE_CC_BROWN;
@@ -7064,17 +7063,17 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_cinema) {
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_cinema_con_check, 
+switch (FEAT_HOUSES, SELF, switch_shops_04_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_cinema, 101, HOUSE_SIZE_1X1) {
+item(FEAT_HOUSES, item_shops_04, 101, HOUSE_SIZE_1X1) {
 	property {
 		substitute: 				30;
-		name: 						string(NAME_CINEMA);
+		name: 						string(NAME_SHOPS_04);
 		population: 				60;
 		mail_multiplier: 			75;
 		accepted_cargos: 			[[PASS, 8],[MAIL,2],[FOOD, 2]];
@@ -7087,14 +7086,14 @@ item(FEAT_HOUSES, item_cinema, 101, HOUSE_SIZE_1X1) {
 		building_class: 			2;
 	}
 	graphics {
-		default: 					switch_cinema_sprites;
-		construction_check: 		switch_cinema_con_check;
-		colour: 					random_recolour_cinema;
+		default: 					switch_shops_04_sprites;
+		construction_check: 		switch_shops_04_con_check;
+		colour: 					random_recolour_shops_04;
 		cargo_production: 			func_produce(24,10);
 	}
 }
 
-// End cinema
+// End shops_04
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/shops/petrol_station_01.pnml" 1
 // Begin petrol_station_01
@@ -7474,50 +7473,50 @@ item(FEAT_HOUSES, item_petrol_station_03, 110, HOUSE_SIZE_2X1){
 
 // End petrol_station_03
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/yoshinoya_sushi_restaurant.pnml" 1
-// Begin yoshinoya_sushi_restaurant
+# 1 "src/houses/shops/restaurant_01.pnml" 1
+// Begin restaurant_01
 
 // Building Sprites
-spriteset (spr_build_yoshinoya_sushi_restaurant, 							"src/gfx/shops/yoshinoya_sushi_restaurant/building.png") 					{template_house_80(1,1)}
-spriteset (spr_build_yoshinoya_sushi_restaurant_snow, 						"src/gfx/shops/yoshinoya_sushi_restaurant/building.png") 					{template_house_80(1,82)}
+spriteset (spr_build_restaurant_01, 							"src/gfx/shops/restaurant_01/building.png") 					{template_house_80(1,1)}
+spriteset (spr_build_restaurant_01_snow, 						"src/gfx/shops/restaurant_01/building.png") 					{template_house_80(1,82)}
 
 // Ground Sprites
-spriteset (spr_ground_yoshinoya_sushi_restaurant, 							"src/gfx/shops/yoshinoya_sushi_restaurant/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_ground_yoshinoya_sushi_restaurant_snow, 						"src/gfx/shops/yoshinoya_sushi_restaurant/ground.png") 						{template_house_80(1,82)}
+spriteset (spr_ground_restaurant_01, 							"src/gfx/shops/restaurant_01/ground.png") 						{template_house_80(1,1)}
+spriteset (spr_ground_restaurant_01_snow, 						"src/gfx/shops/restaurant_01/ground.png") 						{template_house_80(1,82)}
 
 // Normal Sprites
-spritelayout sprlay_yoshinoya_sushi_restaurant {
+spritelayout sprlay_restaurant_01 {
 	ground {
-		sprite: spr_ground_yoshinoya_sushi_restaurant(construction_state);
+		sprite: spr_ground_restaurant_01(construction_state);
 	}
 	building {
-		sprite: spr_build_yoshinoya_sushi_restaurant(construction_state);
+		sprite: spr_build_restaurant_01(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_yoshinoya_sushi_restaurant_snow {
+spritelayout sprlay_restaurant_01_snow {
 	ground {
-		sprite: spr_ground_yoshinoya_sushi_restaurant_snow(construction_state);
+		sprite: spr_ground_restaurant_01_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_yoshinoya_sushi_restaurant_snow(construction_state);
+		sprite: spr_build_restaurant_01_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant,terrain_type) {
-	TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_snow;
-	sprlay_yoshinoya_sushi_restaurant;
+switch(FEAT_HOUSES, SELF, switch_restaurant_01,terrain_type) {
+	TILETYPE_SNOW: sprlay_restaurant_01_snow;
+	sprlay_restaurant_01;
 }
 
 // Recolouring
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_yoshinoya_sushi_restaurant)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_restaurant_01)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -7533,23 +7532,23 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yoshinoya_sushi_restaurant)
 
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_con_check, 
+switch (FEAT_HOUSES, SELF, switch_restaurant_01_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
 	ThirtyTileGap()				// Can't appear within 30 tiles of another
 ) {return;}	
 
 // Protection Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_pro_check, 
+switch (FEAT_HOUSES, SELF, switch_restaurant_01_pro_check, 
 	FuncServicePASS() 	&&		// Must have PASS delivered
 	(FuncServiceFOOD()	||		// Must have either FOOD delivered
 	FuncServiceEOIL()	||		// or Edible Oil
 	FuncServiceFISH()   )		// or Fish	
 	) {return;}	
 
-item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant, 64, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_restaurant_01, 64, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				29; 													
-		name: 						string(NAME_YOSHINOYA_SUSHI_RESTAURANT);
+		name: 						string(NAME_RESTAURANT_01);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);		// Want flat land
 		population: 				50;									// Agreed to JPS
 		accepted_cargos: 			[
@@ -7578,34 +7577,34 @@ item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant, 64, HOUSE_SIZE_1X1){
 		//building_class:			2;	
 		}
 	graphics {
-		default: 					switch_yoshinoya_sushi_restaurant;
-		construction_check:			switch_yoshinoya_sushi_restaurant_con_check;
-		protection:					switch_yoshinoya_sushi_restaurant_pro_check;
+		default: 					switch_restaurant_01;
+		construction_check:			switch_restaurant_01_con_check;
+		protection:					switch_restaurant_01_pro_check;
 		cargo_production: 			func_produce(20,5);
-		colour: 					rand_recolor_yoshinoya_sushi_restaurant;
+		colour: 					rand_recolor_restaurant_01;
 	}
 }
 
-// End yoshinoya_sushi_restaurant
+// End restaurant_01
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/yoshinoya_restaurant.pnml" 1
-// Begin yoshinoya_restaurant
+# 1 "src/houses/shops/restaurant_02.pnml" 1
+// Begin restaurant_02
 
 // Building Sprites
-spriteset (spr_build_yoshinoya_restaurant, 							"src/gfx/shops/yoshinoya_restaurant/building.png") 					{template_house_80_wide(1,1)}
-spriteset (spr_build_yoshinoya_restaurant_snow, 					"src/gfx/shops/yoshinoya_restaurant/building.png") 					{template_house_80_wide(1,82)}
+spriteset (spr_build_restaurant_02, 							"src/gfx/shops/restaurant_02/building.png") 					{template_house_80_wide(1,1)}
+spriteset (spr_build_restaurant_02_snow, 						"src/gfx/shops/restaurant_02/building.png") 					{template_house_80_wide(1,82)}
 
 // Ground Sprites
-spriteset (spr_ground_yoshinoya_restaurant, 						"src/gfx/shops/yoshinoya_restaurant/ground.png") 					{template_ground(1,1)}
-spriteset (spr_ground_yoshinoya_restaurant_snow, 					"src/gfx/shops/yoshinoya_restaurant/ground.png") 					{template_ground(1,33)}
+spriteset (spr_ground_restaurant_02, 							"src/gfx/shops/restaurant_02/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_restaurant_02_snow, 						"src/gfx/shops/restaurant_02/ground.png") 						{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_yoshinoya_restaurant {
+spritelayout sprlay_restaurant_02 {
 	ground {
-		sprite: spr_ground_yoshinoya_restaurant(construction_state);
+		sprite: spr_ground_restaurant_02(construction_state);
 	}
 	building {
-		sprite: spr_build_yoshinoya_restaurant(construction_state);
+		sprite: spr_build_restaurant_02(construction_state);
 		yoffset: 1;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -7613,12 +7612,12 @@ spritelayout sprlay_yoshinoya_restaurant {
 }
 
 // Snow Sprites
-spritelayout sprlay_yoshinoya_restaurant_snow {
+spritelayout sprlay_restaurant_02_snow {
 	ground {
-		sprite: spr_ground_yoshinoya_restaurant_snow(construction_state);
+		sprite: spr_ground_restaurant_02_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_yoshinoya_restaurant_snow(construction_state);
+		sprite: spr_build_restaurant_02_snow(construction_state);
 		yoffset: 1;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -7626,14 +7625,14 @@ spritelayout sprlay_yoshinoya_restaurant_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yoshinoya_restaurant,terrain_type) {
-	TILETYPE_SNOW: sprlay_yoshinoya_restaurant_snow;
-	sprlay_yoshinoya_restaurant;
+switch(FEAT_HOUSES, SELF, switch_restaurant_02,terrain_type) {
+	TILETYPE_SNOW: sprlay_restaurant_02_snow;
+	sprlay_restaurant_02;
 }
 
 // Recolouring
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_yoshinoya_restaurant)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_restaurant_02)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -7649,23 +7648,23 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yoshinoya_restaurant)
 
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_restaurant_con_check, 
+switch (FEAT_HOUSES, SELF, switch_restaurant_02_con_check, 
 	HasRoadAdjacentSW() &&		// Must have road to the SW
 	ThirtyTileGap()				// Can't appear within 30 tiles of another
 ) {return;}	
 
 // Protection Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_restaurant_pro_check, 
+switch (FEAT_HOUSES, SELF, switch_restaurant_02_pro_check, 
 	FuncServicePASS() 	&&		// Must have PASS delivered
 	(FuncServiceFOOD()	||		// Must have either FOOD delivered
 	FuncServiceEOIL()	||		// or Edible Oil
 	FuncServiceFISH()   )		// or Fish	
 	) {return;}	
 
-item(FEAT_HOUSES, item_yoshinoya_restaurant, 96, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_restaurant_02, 96, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				29; 													
-		name: 						string(NAME_YOSHINOYA_RESTAURANT);
+		name: 						string(NAME_RESTAURANT_02);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);		// Want flat land
 		population: 				60;									// Agreed to JPS
 		accepted_cargos: 			[
@@ -7694,15 +7693,15 @@ item(FEAT_HOUSES, item_yoshinoya_restaurant, 96, HOUSE_SIZE_1X1){
 		//building_class:			2;	
 		}
 	graphics {
-		default: 					switch_yoshinoya_restaurant;
-		construction_check:			switch_yoshinoya_restaurant_con_check;
-		protection:					switch_yoshinoya_restaurant_pro_check;
+		default: 					switch_restaurant_02;
+		construction_check:			switch_restaurant_02_con_check;
+		protection:					switch_restaurant_02_pro_check;
 		cargo_production: 			func_produce(20,5);
-		colour: 					rand_recolor_yoshinoya_restaurant;
+		colour: 					rand_recolor_restaurant_02;
 	}
 }
 
-// End yoshinoya_restaurant
+// End restaurant_02
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/shops/shops_small_01.pnml" 1
 // Begin shops_small_01
@@ -7822,48 +7821,48 @@ item(FEAT_HOUSES, item_shops_small_01, 7, HOUSE_SIZE_1X1){
 # 1 "JPplusBuildings.pnml" 4
 
 // OFFICES
-# 1 "src/houses/offices/yamaguchi_office.pnml" 1
-// Begin yamaguchi_office
+# 1 "src/houses/offices/offices_01.pnml" 1
+// Begin offices_01
 
 // Building Sprites
-spriteset (spr_yamaguchi_office, 							"src/gfx/offices/yamaguchi_office/building.png") 						{template_house_128_1dir(1,1)}
-spriteset (spr_yamaguchi_office_snow, 					"src/gfx/offices/yamaguchi_office/building.png") 						{template_house_128_1dir(1,130)}
+spriteset (spr_offices_01, 							"src/gfx/offices/offices_01/building.png") 						{template_house_128_1dir(1,1)}
+spriteset (spr_offices_01_snow, 					"src/gfx/offices/offices_01/building.png") 						{template_house_128_1dir(1,130)}
 
 // Ground Tiles
-spriteset (spr_yamaguchi_office_ground, 					"src/gfx/offices/yamaguchi_office/ground.png") 						{template_ground(1,1)}
-spriteset (spr_yamaguchi_office_ground_snow, 				"src/gfx/offices/yamaguchi_office/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_01_ground, 					"src/gfx/offices/offices_01/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_01_ground_snow, 				"src/gfx/offices/offices_01/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_yamaguchi_office_norm {
+spritelayout sprlay_offices_01_norm {
 	ground {
-		sprite: spr_yamaguchi_office_ground(3);
+		sprite: spr_offices_01_ground(3);
 	}
 	building {
-		sprite: spr_yamaguchi_office(3);
+		sprite: spr_offices_01(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_yamaguchi_office_snow {
+spritelayout sprlay_offices_01_snow {
 	ground {
-		sprite: spr_yamaguchi_office_ground_snow(3);
+		sprite: spr_offices_01_ground_snow(3);
 	}
 	building {
-		sprite: spr_yamaguchi_office_snow(3);
+		sprite: spr_offices_01_snow(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yamaguchi_office_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_yamaguchi_office_snow;
-	sprlay_yamaguchi_office_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_01_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_01_snow;
+	sprlay_offices_01_norm;
 }
 
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_yamaguchi_office)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_01)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -7879,7 +7878,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yamaguchi_office)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yamaguchi_office_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_01_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
@@ -7887,10 +7886,10 @@ switch (FEAT_HOUSES, SELF, switch_yamaguchi_office_con_check,
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_yamaguchi_office, 36, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_01, 36, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_YAMAGUCHI_OFFICE);
+		name: 						TTD_STR_TOWN_BUILDING_NAME_HOUSES_1;
 		population: 				30;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
@@ -7902,14 +7901,14 @@ item(FEAT_HOUSES, item_yamaguchi_office, 36, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_yamaguchi_office_sprites;
-		construction_check: 		switch_yamaguchi_office_con_check; 	
+		default: 					switch_offices_01_sprites;
+		construction_check: 		switch_offices_01_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_yamaguchi_office;
+		colour: 					rand_recolor_offices_01;
 	}
 }
 
-// End yamaguchi_office
+// End offices_01
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/offices/aoyama_office.pnml" 1
 // Begin Aoyama Office Building
@@ -7999,47 +7998,47 @@ item(FEAT_HOUSES, item_aoyama_office, 37, HOUSE_SIZE_1X1){
 
 // End Aoyama Office Building
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/aoki_office.pnml" 1
-// Begin aoki_office
+# 1 "src/houses/offices/offices_03.pnml" 1
+// Begin offices_03
 
 // Building Sprites
-spriteset (spr_aoki_office, 							"src/gfx/offices/aoki_office/building.png") 						{template_house_100(1,1)}
-spriteset (spr_aoki_office_snow, 						"src/gfx/offices/aoki_office/building.png") 						{template_house_100(1,102)}
+spriteset (spr_offices_03, 							"src/gfx/offices/offices_03/building.png") 						{template_house_100(1,1)}
+spriteset (spr_offices_03_snow, 						"src/gfx/offices/offices_03/building.png") 						{template_house_100(1,102)}
 
 // Ground Tiles
-spriteset (spr_aoki_office_ground, 					"src/gfx/offices/aoki_office/ground.png") 						{template_house_100(1,1)}
-spriteset (spr_aoki_office_ground_snow, 				"src/gfx/offices/aoki_office/ground.png") 						{template_house_100(1,102)}
+spriteset (spr_offices_03_ground, 					"src/gfx/offices/offices_03/ground.png") 						{template_house_100(1,1)}
+spriteset (spr_offices_03_ground_snow, 				"src/gfx/offices/offices_03/ground.png") 						{template_house_100(1,102)}
 
-spritelayout sprlay_aoki_office_norm {
+spritelayout sprlay_offices_03_norm {
 	ground {
-		sprite: spr_aoki_office_ground(construction_state);
+		sprite: spr_offices_03_ground(construction_state);
 	}
 	building {
-		sprite: spr_aoki_office(construction_state);
+		sprite: spr_offices_03(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_aoki_office_snow {
+spritelayout sprlay_offices_03_snow {
 	ground {
-		sprite: spr_aoki_office_ground_snow(construction_state);
+		sprite: spr_offices_03_ground_snow(construction_state);
 	}
 	building {
-		sprite: spr_aoki_office_snow(construction_state);
+		sprite: spr_offices_03_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_aoki_office_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_aoki_office_snow;
-	sprlay_aoki_office_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_03_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_03_snow;
+	sprlay_offices_03_norm;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_aoki_office)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_03)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8055,17 +8054,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_aoki_office)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_aoki_office_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_03_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_aoki_office, 49, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_03, 49, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_AOKI_OFFICE);
+		name: 						string(NAME_OFFICES_03);
 		population: 				30;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
@@ -8077,56 +8076,56 @@ item(FEAT_HOUSES, item_aoki_office, 49, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_aoki_office_sprites;
-		construction_check: 		switch_aoki_office_con_check; 	
+		default: 					switch_offices_03_sprites;
+		construction_check: 		switch_offices_03_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_aoki_office;
+		colour: 					rand_recolor_offices_03;
 	}
 }
 
-// End aoki_office
+// End offices_03
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/old_office_building.pnml" 1
-// Begin old_office_building
+# 1 "src/houses/offices/offices_04.pnml" 1
+// Begin offices_04
 
 // Building Sprites
-spriteset (spr_old_office_building, 							"src/gfx/offices/old_office_building/building.png") 						{template_house_100(1,1)}
-spriteset (spr_old_office_building_snow, 					"src/gfx/offices/old_office_building/building.png") 						{template_house_100(1,102)}
+spriteset (spr_offices_04, 							"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,1)}
+spriteset (spr_offices_04_snow, 					"src/gfx/offices/offices_04/building.png") 						{template_house_100(1,102)}
 
 // Ground Tiles
-spriteset (spr_old_office_building_ground, 					"src/gfx/offices/old_office_building/ground.png") 						{template_ground(1,1)}
-spriteset (spr_old_office_building_ground_snow, 				"src/gfx/offices/old_office_building/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_04_ground, 					"src/gfx/offices/offices_04/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_04_ground_snow, 				"src/gfx/offices/offices_04/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_old_office_building_norm {
+spritelayout sprlay_offices_04_norm {
 	ground {
-		sprite: spr_old_office_building_ground(construction_state);
+		sprite: spr_offices_04_ground(construction_state);
 	}
 	building {
-		sprite: spr_old_office_building(construction_state);
+		sprite: spr_offices_04(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_old_office_building_snow {
+spritelayout sprlay_offices_04_snow {
 	ground {
-		sprite: spr_old_office_building_ground_snow(construction_state);
+		sprite: spr_offices_04_ground_snow(construction_state);
 	}
 	building {
-		sprite: spr_old_office_building_snow(construction_state);
+		sprite: spr_offices_04_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_old_office_building_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_old_office_building_snow;
-	sprlay_old_office_building_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_04_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_04_snow;
+	sprlay_offices_04_norm;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_old_office_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_04)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8142,17 +8141,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_old_office_building)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_old_office_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_04_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_old_office_building, 58, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_04, 58, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_OLD_OFFICE_BUILDING);
+		name: 						string(NAME_OFFICES_04);
 		population: 				120;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
@@ -8164,56 +8163,56 @@ item(FEAT_HOUSES, item_old_office_building, 58, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_old_office_building_sprites;
-		construction_check: 		switch_old_office_building_con_check; 	
+		default: 					switch_offices_04_sprites;
+		construction_check: 		switch_offices_04_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_old_office_building;
+		colour: 					rand_recolor_offices_04;
 	}
 }
 
-// End old_office_building
+// End offices_04
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/small_commercial_building.pnml" 1
-// Begin small_commercial_building
+# 1 "src/houses/offices/offices_05.pnml" 1
+// Begin offices_05
 
 // Building Sprites
-spriteset (spr_small_commercial_building, 							"src/gfx/offices/small_commercial_building/building.png") 						{template_house_128(1,1)}
-spriteset (spr_small_commercial_building_snow, 						"src/gfx/offices/small_commercial_building/building.png") 						{template_house_128(1,130)}
+spriteset (spr_offices_05, 							"src/gfx/offices/offices_05/building.png") 						{template_house_128(1,1)}
+spriteset (spr_offices_05_snow, 					"src/gfx/offices/offices_05/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_small_commercial_building_ground, 					"src/gfx/offices/small_commercial_building/ground.png") 						{template_ground(1,1)}
-spriteset (spr_small_commercial_building_ground_snow, 				"src/gfx/offices/small_commercial_building/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_05_ground, 					"src/gfx/offices/offices_05/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_05_ground_snow, 				"src/gfx/offices/offices_05/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_small_commercial_building_norm {
+spritelayout sprlay_offices_05_norm {
 	ground {
-		sprite: spr_small_commercial_building_ground(3);
+		sprite: spr_offices_05_ground(3);
 	}
 	building {
-		sprite: spr_small_commercial_building(3);
+		sprite: spr_offices_05(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_small_commercial_building_snow {
+spritelayout sprlay_offices_05_snow {
 	ground {
-		sprite: spr_small_commercial_building_ground_snow(3);
+		sprite: spr_offices_05_ground_snow(3);
 	}
 	building {
-		sprite: spr_small_commercial_building_snow(3);
+		sprite: spr_offices_05_snow(3);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_small_commercial_building_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_small_commercial_building_snow;
-	sprlay_small_commercial_building_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_05_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_05_snow;
+	sprlay_offices_05_norm;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_small_commercial_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_05)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8229,17 +8228,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_commercial_building)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_small_commercial_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_05_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_small_commercial_building, 59, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_05, 59, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_SMALL_COMMERCIAL_BUILDING);
+		name: 						string(NAME_OFFICES_05);
 		population: 				120;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2],[GOOD, 2]];
 		local_authority_impact: 	80;
@@ -8251,14 +8250,14 @@ item(FEAT_HOUSES, item_small_commercial_building, 59, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_small_commercial_building_sprites;
-		construction_check: 		switch_small_commercial_building_con_check; 	
+		default: 					switch_offices_05_sprites;
+		construction_check: 		switch_offices_05_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_small_commercial_building;
+		colour: 					rand_recolor_offices_05;
 	}
 }
 
-// End small_commercial_building
+// End offices_05
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/offices/obuilding.pnml" 1
 // Begin O-Building
@@ -8437,85 +8436,85 @@ item(FEAT_HOUSES, item_xbuilding, 39, HOUSE_SIZE_1X1){
 
 // End X-Building
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/small_office_tower.pnml" 1
-// Begin small_office_tower
+# 1 "src/houses/offices/offices_08.pnml" 1
+// Begin offices_08
 
 // Building Sprites
-spriteset (spr_small_office_tower_a, 						"src/gfx/offices/small_office_tower/building_a.png") 					{template_house_128(1,1)}
-spriteset (spr_small_office_tower_a_snow, 					"src/gfx/offices/small_office_tower/building_a.png") 					{template_house_128(1,130)}
+spriteset (spr_offices_08_a, 						"src/gfx/offices/offices_08/building_a.png") 					{template_house_128(1,1)}
+spriteset (spr_offices_08_a_snow, 					"src/gfx/offices/offices_08/building_a.png") 					{template_house_128(1,130)}
 
-spriteset (spr_small_office_tower_b, 						"src/gfx/offices/small_office_tower/building_b.png") 					{template_house_128(1,1)}
-spriteset (spr_small_office_tower_b_snow, 					"src/gfx/offices/small_office_tower/building_b.png") 					{template_house_128(1,130)}
+spriteset (spr_offices_08_b, 						"src/gfx/offices/offices_08/building_b.png") 					{template_house_128(1,1)}
+spriteset (spr_offices_08_b_snow, 					"src/gfx/offices/offices_08/building_b.png") 					{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_small_office_tower_ground, 					"src/gfx/offices/small_office_tower/ground.png") 						{template_ground(1,1)}
-spriteset (spr_small_office_tower_ground_snow, 				"src/gfx/offices/small_office_tower/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_08_ground, 					"src/gfx/offices/offices_08/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_08_ground_snow, 				"src/gfx/offices/offices_08/ground.png") 						{template_ground(1,33)}
 
 // Spritelayouts
-spritelayout sprlay_small_office_tower_a_norm {
+spritelayout sprlay_offices_08_a_norm {
 	ground {
-		sprite: spr_small_office_tower_ground (construction_state);
+		sprite: spr_offices_08_ground (construction_state);
 	}
 	building {
-		sprite: spr_small_office_tower_a (construction_state);
+		sprite: spr_offices_08_a (construction_state);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_small_office_tower_a_snow {
+spritelayout sprlay_offices_08_a_snow {
 	ground {
-		sprite: spr_small_office_tower_ground_snow (construction_state);
+		sprite: spr_offices_08_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_small_office_tower_a_snow (construction_state);
+		sprite: spr_offices_08_a_snow (construction_state);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_small_office_tower_b_norm {
+spritelayout sprlay_offices_08_b_norm {
 	ground {
-		sprite: spr_small_office_tower_ground (construction_state);
+		sprite: spr_offices_08_ground (construction_state);
 	}
 	building {
-		sprite: spr_small_office_tower_b (construction_state);
+		sprite: spr_offices_08_b (construction_state);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_small_office_tower_b_snow {
+spritelayout sprlay_offices_08_b_snow {
 	ground {
-		sprite: spr_small_office_tower_ground_snow (construction_state);
+		sprite: spr_offices_08_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_small_office_tower_b_snow (construction_state);
+		sprite: spr_offices_08_b_snow (construction_state);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_small_office_tower_a_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_small_office_tower_a_snow;
-	sprlay_small_office_tower_a_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_08_a_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_08_a_snow;
+	sprlay_offices_08_a_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_small_office_tower_b_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_small_office_tower_b_snow;
-	sprlay_small_office_tower_b_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_08_b_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_08_b_snow;
+	sprlay_offices_08_b_norm;
 }
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_small_office_tower_sprites) {
-	1: switch_small_office_tower_a_sprites;
-	1: switch_small_office_tower_b_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_offices_08_sprites) {
+	1: switch_offices_08_a_sprites;
+	1: switch_offices_08_b_sprites;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_small_office_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_08)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8532,17 +8531,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_small_office_tower)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_small_office_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_08_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_small_office_tower, 88, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_08, 88, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_SMALL_OFFICE_TOWER);
+		name: 						string(NAME_OFFICES_08);
 		population: 				120;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
 		local_authority_impact: 	80;
@@ -8554,57 +8553,57 @@ item(FEAT_HOUSES, item_small_office_tower, 88, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_small_office_tower_sprites;
-		construction_check: 		switch_small_office_tower_con_check; 	
+		default: 					switch_offices_08_sprites;
+		construction_check: 		switch_offices_08_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_small_office_tower;
+		//colour: 					rand_recolor_offices_08;
 	}
 }
 
-// End small_office_tower
+// End offices_08
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/tbuilding.pnml" 1
-// Begin tbuilding
+# 1 "src/houses/offices/offices_09.pnml" 1
+// Begin offices_09
 
 // Building Sprites
-spriteset (spr_tbuilding, 							"src/gfx/offices/tbuilding/building.png") 						{template_house_150_wide(1,1)}
-spriteset (spr_tbuilding_snow, 						"src/gfx/offices/tbuilding/building.png") 						{template_house_150_wide(1,152)}
+spriteset (spr_offices_09, 							"src/gfx/offices/offices_09/building.png") 						{template_house_150_wide(1,1)}
+spriteset (spr_offices_09_snow, 					"src/gfx/offices/offices_09/building.png") 						{template_house_150_wide(1,152)}
 
 // Ground Tiles
-spriteset (spr_tbuilding_ground, 					"src/gfx/offices/tbuilding/ground.png") 						{template_ground(1,1)}
-spriteset (spr_tbuilding_ground_snow, 				"src/gfx/offices/tbuilding/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_09_ground, 					"src/gfx/offices/offices_09/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_09_ground_snow, 				"src/gfx/offices/offices_09/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_tbuilding_norm {
+spritelayout sprlay_offices_09_norm {
 	ground {
-		sprite: 		spr_tbuilding_ground(construction_state);
+		sprite: 		spr_offices_09_ground(construction_state);
 	}
 	building {
-		sprite: 		spr_tbuilding(construction_state);
+		sprite: 		spr_offices_09(construction_state);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tbuilding_snow {
+spritelayout sprlay_offices_09_snow {
 	ground {
-		sprite: 		spr_tbuilding_ground_snow(construction_state);
+		sprite: 		spr_offices_09_ground_snow(construction_state);
 	}
 	building {
-		sprite: 		spr_tbuilding_snow(construction_state);
+		sprite: 		spr_offices_09_snow(construction_state);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tbuilding_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_tbuilding_snow;
-	sprlay_tbuilding_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_09_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_09_snow;
+	sprlay_offices_09_norm;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tbuilding)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_09)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8620,17 +8619,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tbuilding)
 	}
 */
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tbuilding_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_09_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_tbuilding, 85, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_09, 85, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_TBUILDING);
+		name: 						string(NAME_OFFICES_09);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
 		local_authority_impact: 	80;
@@ -8652,44 +8651,44 @@ item(FEAT_HOUSES, item_tbuilding, 85, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_tbuilding_sprites;
-		construction_check: 		switch_tbuilding_con_check; 	
+		default: 					switch_offices_09_sprites;
+		construction_check: 		switch_offices_09_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_tbuilding;
+		//colour: 					rand_recolor_offices_09;
 	}
 }
 
-// End tbuilding
+// End offices_09
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/ybuilding.pnml" 1
-// Begin ybuilding
+# 1 "src/houses/offices/offices_10.pnml" 1
+// Begin offices_10
 
 // Building Sprites
-spriteset (spr_ybuilding, 							"src/gfx/offices/ybuilding/building.png") 						{template_house_150_wide(1,1)}
-spriteset (spr_ybuilding_snow, 						"src/gfx/offices/ybuilding/building.png") 						{template_house_150_wide(1,152)}
+spriteset (spr_offices_10, 							"src/gfx/offices/offices_10/building.png") 						{template_house_150_wide(1,1)}
+spriteset (spr_offices_10_snow, 					"src/gfx/offices/offices_10/building.png") 						{template_house_150_wide(1,152)}
 
 // Ground Tiles
-spriteset (spr_ybuilding_ground, 					"src/gfx/offices/ybuilding/ground.png") 						{template_ground(1,1)}
-spriteset (spr_ybuilding_ground_snow, 				"src/gfx/offices/ybuilding/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_10_ground, 					"src/gfx/offices/offices_10/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_10_ground_snow, 				"src/gfx/offices/offices_10/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_ybuilding_norm {
+spritelayout sprlay_offices_10_norm {
 	ground {
-		sprite: 			spr_ybuilding_ground(construction_state);
+		sprite: 			spr_offices_10_ground(construction_state);
 	}
 	building {
-		sprite: 			spr_ybuilding(construction_state);
+		sprite: 			spr_offices_10(construction_state);
 		xoffset:			2;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 			PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_ybuilding_snow {
+spritelayout sprlay_offices_10_snow {
 	ground {
-		sprite: 			spr_ybuilding_ground_snow(construction_state);
+		sprite: 			spr_offices_10_ground_snow(construction_state);
 	}
 	building {
-		sprite: 			spr_ybuilding_snow(construction_state);
+		sprite: 			spr_offices_10_snow(construction_state);
 		xoffset:			2;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 			PALETTE_USE_DEFAULT;
@@ -8697,14 +8696,14 @@ spritelayout sprlay_ybuilding_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_ybuilding_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_ybuilding_snow;
-	sprlay_ybuilding_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_10_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_10_snow;
+	sprlay_offices_10_norm;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_ybuilding)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_10)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8720,17 +8719,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_ybuilding)
 	}
 */
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_ybuilding_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_10_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_ybuilding, 90, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_10, 90, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_YBUILDING);
+		name: 						string(NAME_OFFICES_10);
 		population: 				150;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 4],[GOOD, 2]];
 		local_authority_impact: 	80;
@@ -8752,58 +8751,58 @@ item(FEAT_HOUSES, item_ybuilding, 90, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_ybuilding_sprites;
-		construction_check: 		switch_ybuilding_con_check; 	
+		default: 					switch_offices_10_sprites;
+		construction_check: 		switch_offices_10_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_ybuilding;
+		//colour: 					rand_recolor_offices_10;
 	}
 }
 
-// End ybuilding
+// End offices_10
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/medium_office_tower.pnml" 1
-// Begin medium_office_tower
+# 1 "src/houses/offices/offices_11.pnml" 1
+// Begin offices_11
 
 // Building Sprites
-spriteset (spr_medium_office_tower, 							"src/gfx/offices/medium_office_tower/building.png") 					{template_house_150(1,1)}
-spriteset (spr_medium_office_tower_snow, 						"src/gfx/offices/medium_office_tower/building.png") 					{template_house_150(1,152)}
+spriteset (spr_offices_11, 							"src/gfx/offices/offices_11/building.png") 						{template_house_150(1,1)}
+spriteset (spr_offices_11_snow, 					"src/gfx/offices/offices_11/building.png") 						{template_house_150(1,152)}
 
 // Ground Tiles
-spriteset (spr_medium_office_tower_ground, 						"src/gfx/offices/medium_office_tower/ground.png") 						{template_ground(1,1)}
-spriteset (spr_medium_office_tower_ground_snow, 				"src/gfx/offices/medium_office_tower/ground.png") 						{template_ground(1,33)}
+spriteset (spr_offices_11_ground, 					"src/gfx/offices/offices_11/ground.png") 						{template_ground(1,1)}
+spriteset (spr_offices_11_ground_snow, 				"src/gfx/offices/offices_11/ground.png") 						{template_ground(1,33)}
 
 // Spritelayouts
-spritelayout sprlay_medium_office_tower_norm {
+spritelayout sprlay_offices_11_norm {
 	ground {
-		sprite: spr_medium_office_tower_ground(3);
+		sprite: spr_offices_11_ground(3);
 	}
 	building {
-		sprite: spr_medium_office_tower(3);
+		sprite: spr_offices_11(3);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_medium_office_tower_snow {
+spritelayout sprlay_offices_11_snow {
 	ground {
-		sprite: spr_medium_office_tower_ground_snow(3);
+		sprite: spr_offices_11_ground_snow(3);
 	}
 	building {
-		sprite: spr_medium_office_tower_snow(3);
+		sprite: spr_offices_11_snow(3);
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_medium_office_tower_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_medium_office_tower_snow;
-	sprlay_medium_office_tower_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_11_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_11_snow;
+	sprlay_offices_11_norm;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_medium_office_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_11)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8820,17 +8819,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_medium_office_tower)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_medium_office_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_11_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_medium_office_tower, 91, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_11, 91, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_MEDIUM_OFFICE_TOWER);
+		name: 						string(NAME_OFFICES_11);
 		population: 				150;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 4],[GOOD, 2]];
 		local_authority_impact: 	80;
@@ -8842,96 +8841,96 @@ item(FEAT_HOUSES, item_medium_office_tower, 91, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_medium_office_tower_sprites;
-		construction_check: 		switch_medium_office_tower_con_check; 	
+		default: 					switch_offices_11_sprites;
+		construction_check: 		switch_offices_11_con_check; 	
 		cargo_production: 			func_produce(15,4);
-		//colour: 					rand_recolor_medium_office_tower;
+		//colour: 					rand_recolor_offices_11;
 	}
 }
 
-// End medium_office_tower
+// End offices_11
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/hashimoto_office_tower.pnml" 1
-// Begin hashimoto_office_tower
+# 1 "src/houses/offices/offices_12.pnml" 1
+// Begin offices_12
 
 // Building Sprites
-spriteset (spr_hashimoto_office_tower_a, 						"src/gfx/offices/hashimoto_office_tower/building_a.png") 				{template_house_128(1,1)}
-spriteset (spr_hashimoto_office_tower_a_snow, 					"src/gfx/offices/hashimoto_office_tower/building_a.png") 				{template_house_128(1,130)}
+spriteset (spr_offices_12_a, 						"src/gfx/offices/offices_12/building_a.png") 				{template_house_128(1,1)}
+spriteset (spr_offices_12_a_snow, 					"src/gfx/offices/offices_12/building_a.png") 				{template_house_128(1,130)}
 
-spriteset (spr_hashimoto_office_tower_b, 						"src/gfx/offices/hashimoto_office_tower/building_b.png") 				{template_house_128(1,1)}
-spriteset (spr_hashimoto_office_tower_b_snow, 					"src/gfx/offices/hashimoto_office_tower/building_b.png") 				{template_house_128(1,130)}
+spriteset (spr_offices_12_b, 						"src/gfx/offices/offices_12/building_b.png") 				{template_house_128(1,1)}
+spriteset (spr_offices_12_b_snow, 					"src/gfx/offices/offices_12/building_b.png") 				{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_hashimoto_office_tower_ground, 					"src/gfx/offices/hashimoto_office_tower/ground.png") 					{template_ground(1,1)}
-spriteset (spr_hashimoto_office_tower_ground_snow, 				"src/gfx/offices/hashimoto_office_tower/ground.png") 					{template_ground(1,33)}
+spriteset (spr_offices_12_ground, 					"src/gfx/offices/offices_12/ground.png") 					{template_ground(1,1)}
+spriteset (spr_offices_12_ground_snow, 				"src/gfx/offices/offices_12/ground.png") 					{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_hashimoto_office_tower_a_norm {
+spritelayout sprlay_offices_12_a_norm {
 	ground {
-		sprite: spr_hashimoto_office_tower_ground (3);
+		sprite: spr_offices_12_ground (3);
 	}
 	building {
-		sprite: 		spr_hashimoto_office_tower_a (3);
+		sprite: 		spr_offices_12_a (3);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hashimoto_office_tower_b_norm {
+spritelayout sprlay_offices_12_b_norm {
 	ground {
-		sprite: spr_hashimoto_office_tower_ground (3);
+		sprite: spr_offices_12_ground (3);
 	}
 	building {
-		sprite: 		spr_hashimoto_office_tower_b (3);
+		sprite: 		spr_offices_12_b (3);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_hashimoto_office_tower_a_snow {
+spritelayout sprlay_offices_12_a_snow {
 	ground {
-		sprite: 		spr_hashimoto_office_tower_ground_snow(3);
+		sprite: 		spr_offices_12_ground_snow(3);
 	}
 	building {
-		sprite: 		spr_hashimoto_office_tower_a_snow(3);
+		sprite: 		spr_offices_12_a_snow(3);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hashimoto_office_tower_b_snow {
+spritelayout sprlay_offices_12_b_snow {
 	ground {
-		sprite: 		spr_hashimoto_office_tower_ground_snow(3);
+		sprite: 		spr_offices_12_ground_snow(3);
 	}
 	building {
-		sprite: 		spr_hashimoto_office_tower_b_snow(3);
+		sprite: 		spr_offices_12_b_snow(3);
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_hashimoto_office_tower_a_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_hashimoto_office_tower_a_snow;
-	sprlay_hashimoto_office_tower_a_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_12_a_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_12_a_snow;
+	sprlay_offices_12_a_norm;
 }
 
-switch(FEAT_HOUSES, SELF, switch_hashimoto_office_tower_b_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_hashimoto_office_tower_b_snow;
-	sprlay_hashimoto_office_tower_b_norm;
+switch(FEAT_HOUSES, SELF, switch_offices_12_b_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_offices_12_b_snow;
+	sprlay_offices_12_b_norm;
 }
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_hashimoto_office_tower_sprites) {
-	1: switch_hashimoto_office_tower_a_sprites;
-	1: switch_hashimoto_office_tower_b_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_offices_12_sprites) {
+	1: switch_offices_12_a_sprites;
+	1: switch_offices_12_b_sprites;
 }
 
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_hashimoto_office_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_offices_12)
 	{
 		//1: PALETTE_CC_RED;			// too in your face
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -8947,17 +8946,17 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_hashimoto_office_tower)
 	}
 */
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_hashimoto_office_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_offices_12_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_hashimoto_office_tower, 104, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_offices_12, 104, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_HASHIMOTO_OFFICE_TOWER);
+		name: 						string(NAME_OFFICES_12);
 		population: 				100;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 4],[GOOD, 2]];
 		local_authority_impact: 	80;
@@ -8979,39 +8978,39 @@ item(FEAT_HOUSES, item_hashimoto_office_tower, 104, HOUSE_SIZE_1X1){
 		building_class:				2;
 		}
 	graphics {
-		default: 					switch_hashimoto_office_tower_sprites;
-		construction_check: 		switch_hashimoto_office_tower_con_check;
+		default: 					switch_offices_12_sprites;
+		construction_check: 		switch_offices_12_con_check;
 		cargo_production: 			func_produce(15,4);
-		//colour: 					rand_recolor_hashimoto_office_tower;
+		//colour: 					rand_recolor_offices_12;
 	}
 }
 
-// End hashimoto_office_tower
+// End offices_12
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/hotel_grand.pnml" 1
-// Begin hotel_grand
+# 1 "src/houses/offices/hotel_01.pnml" 1
+// Begin hotel_01
 
 // Building Sprites
-spriteset (spr_build_hotel_grand_north, 							"src/gfx/offices/hotel_grand/building.png") 					{template_house_200(1,1)}
-spriteset (spr_build_hotel_grand_east, 							"src/gfx/offices/hotel_grand/building.png") 					{template_house_200(261,1)}
+spriteset (spr_build_hotel_01_north, 							"src/gfx/offices/hotel_01/building.png") 					{template_house_200(1,1)}
+spriteset (spr_build_hotel_01_east, 							"src/gfx/offices/hotel_01/building.png") 					{template_house_200(261,1)}
 
-spriteset (spr_build_hotel_grand_north_snow, 						"src/gfx/offices/hotel_grand/building.png") 					{template_house_200(1,202)}
-spriteset (spr_build_hotel_grand_east_snow, 						"src/gfx/offices/hotel_grand/building.png") 					{template_house_200(261,202)}
+spriteset (spr_build_hotel_01_north_snow, 						"src/gfx/offices/hotel_01/building.png") 					{template_house_200(1,202)}
+spriteset (spr_build_hotel_01_east_snow, 						"src/gfx/offices/hotel_01/building.png") 					{template_house_200(261,202)}
 
 // Ground Sprites
-spriteset (spr_ground_hotel_grand_north, 							"src/gfx/offices/hotel_grand/ground.png") 						{template_ground(1,1)}
-spriteset (spr_ground_hotel_grand_east, 							"src/gfx/offices/hotel_grand/ground.png") 						{template_ground(261,1)}
+spriteset (spr_ground_hotel_01_north, 							"src/gfx/offices/hotel_01/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_hotel_01_east, 							"src/gfx/offices/hotel_01/ground.png") 						{template_ground(261,1)}
 
-spriteset (spr_ground_hotel_grand_north_snow, 						"src/gfx/offices/hotel_grand/ground.png") 						{template_ground(1,33)}
-spriteset (spr_ground_hotel_grand_east_snow, 						"src/gfx/offices/hotel_grand/ground.png") 						{template_ground(261,33)}
+spriteset (spr_ground_hotel_01_north_snow, 						"src/gfx/offices/hotel_01/ground.png") 						{template_ground(1,33)}
+spriteset (spr_ground_hotel_01_east_snow, 						"src/gfx/offices/hotel_01/ground.png") 						{template_ground(261,33)}
 
 // Normal Sprites
-spritelayout sprlay_hotel_grand_north {
+spritelayout sprlay_hotel_01_north {
 	ground {
-		sprite: spr_ground_hotel_grand_north (construction_state);
+		sprite: spr_ground_hotel_01_north (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_grand_north (construction_state);
+		sprite: spr_build_hotel_01_north (construction_state);
 		xoffset:  3;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9019,12 +9018,12 @@ spritelayout sprlay_hotel_grand_north {
 	}
 }
 
-spritelayout sprlay_hotel_grand_east {
+spritelayout sprlay_hotel_01_east {
 	ground {
-		sprite: spr_ground_hotel_grand_east (construction_state);
+		sprite: spr_ground_hotel_01_east (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_grand_east (construction_state);
+		sprite: spr_build_hotel_01_east (construction_state);
 		xoffset:  3;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9033,12 +9032,12 @@ spritelayout sprlay_hotel_grand_east {
 }
 
 // Snow Sprites
-spritelayout sprlay_hotel_grand_snow_north {
+spritelayout sprlay_hotel_01_snow_north {
 	ground {
-		sprite: spr_ground_hotel_grand_north_snow (construction_state);
+		sprite: spr_ground_hotel_01_north_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_grand_north_snow (construction_state);
+		sprite: spr_build_hotel_01_north_snow (construction_state);
 		xoffset:  3;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9046,12 +9045,12 @@ spritelayout sprlay_hotel_grand_snow_north {
 	}
 }
 
-spritelayout sprlay_hotel_grand_snow_east {
+spritelayout sprlay_hotel_01_snow_east {
 	ground {
-		sprite: spr_ground_hotel_grand_east_snow (construction_state);
+		sprite: spr_ground_hotel_01_east_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_grand_east_snow (construction_state);
+		sprite: spr_build_hotel_01_east_snow (construction_state);
 		xoffset:  3;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9060,17 +9059,17 @@ spritelayout sprlay_hotel_grand_snow_east {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_hotel_grand_north,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_grand_snow_north;
-	sprlay_hotel_grand_north;
+switch(FEAT_HOUSES, SELF, switch_hotel_01_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_01_snow_north;
+	sprlay_hotel_01_north;
 }
-switch(FEAT_HOUSES, SELF, switch_hotel_grand_east,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_grand_snow_east;
-	sprlay_hotel_grand_east;
+switch(FEAT_HOUSES, SELF, switch_hotel_01_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_01_snow_east;
+	sprlay_hotel_01_east;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_grand)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_01)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9085,7 +9084,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_grand)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_hotel_grand_con_check, 
+switch (FEAT_HOUSES, SELF, switch_hotel_01_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2
@@ -9094,10 +9093,10 @@ switch (FEAT_HOUSES, SELF, switch_hotel_grand_con_check,
 ) {return;}		
  
 
-item(FEAT_HOUSES, item_hotel_grand, 74, HOUSE_SIZE_1X2){
+item(FEAT_HOUSES, item_hotel_01, 74, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
-		name: 						string(NAME_HOTEL_GRAND);
+		name: 						string(NAME_HOTEL_01);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 8],[BEER, 8]];
@@ -9110,52 +9109,52 @@ item(FEAT_HOUSES, item_hotel_grand, 74, HOUSE_SIZE_1X2){
 		building_class:				2;	
 		}
 	graphics {
-		graphics_north: 			switch_hotel_grand_north;
-		graphics_east: 				switch_hotel_grand_east;
-		construction_check:			switch_hotel_grand_con_check;
+		graphics_north: 			switch_hotel_01_north;
+		graphics_east: 				switch_hotel_01_east;
+		construction_check:			switch_hotel_01_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_hotel_grand;
+		colour: 					rand_recolor_hotel_01;
 	}
 }
 
-// End hotel_grand
+// End hotel_01
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/hotel.pnml" 1
-// Begin hotel
+# 1 "src/houses/offices/hotel_02.pnml" 1
+// Begin hotel_02
 
 // Building Sprites
-spriteset (spr_build_hotel_north, 							"src/gfx/offices/hotel/building.png") 					{template_house_200(1,1)}
-spriteset (spr_build_hotel_east, 							"src/gfx/offices/hotel/building.png") 					{template_house_200(261,1)}
+spriteset (spr_build_hotel_02_north, 							"src/gfx/offices/hotel_02/building.png") 					{template_house_200(1,1)}
+spriteset (spr_build_hotel_02_east, 							"src/gfx/offices/hotel_02/building.png") 					{template_house_200(261,1)}
 
-spriteset (spr_build_hotel_north_snow, 						"src/gfx/offices/hotel/building.png") 					{template_house_200(1,202)}
-spriteset (spr_build_hotel_east_snow, 						"src/gfx/offices/hotel/building.png") 					{template_house_200(261,202)}
+spriteset (spr_build_hotel_02_north_snow, 						"src/gfx/offices/hotel_02/building.png") 					{template_house_200(1,202)}
+spriteset (spr_build_hotel_02_east_snow, 						"src/gfx/offices/hotel_02/building.png") 					{template_house_200(261,202)}
 
 // Ground Sprites
-spriteset (spr_ground_hotel_north, 							"src/gfx/offices/hotel/ground.png") 						{template_ground(1,1)}
-spriteset (spr_ground_hotel_east, 							"src/gfx/offices/hotel/ground.png") 						{template_ground(261,1)}
+spriteset (spr_ground_hotel_02_north, 							"src/gfx/offices/hotel_02/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_hotel_02_east, 							"src/gfx/offices/hotel_02/ground.png") 						{template_ground(261,1)}
 
-spriteset (spr_ground_hotel_north_snow, 						"src/gfx/offices/hotel/ground.png") 						{template_ground(1,33)}
-spriteset (spr_ground_hotel_east_snow, 						"src/gfx/offices/hotel/ground.png") 						{template_ground(261,33)}
+spriteset (spr_ground_hotel_02_north_snow, 						"src/gfx/offices/hotel_02/ground.png") 						{template_ground(1,33)}
+spriteset (spr_ground_hotel_02_east_snow, 						"src/gfx/offices/hotel_02/ground.png") 						{template_ground(261,33)}
 
 // Normal Sprites
-spritelayout sprlay_hotel_north {
+spritelayout sprlay_hotel_02_north {
 	ground {
-		sprite: spr_ground_hotel_north (construction_state);
+		sprite: spr_ground_hotel_02_north (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_north (construction_state);
+		sprite: spr_build_hotel_02_north (construction_state);
 		xoffset:  7;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hotel_east {
+spritelayout sprlay_hotel_02_east {
 	ground {
-		sprite: spr_ground_hotel_east (construction_state);
+		sprite: spr_ground_hotel_02_east (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_east (construction_state);
+		sprite: spr_build_hotel_02_east (construction_state);
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -9163,24 +9162,24 @@ spritelayout sprlay_hotel_east {
 }
 
 // Snow Sprites
-spritelayout sprlay_hotel_snow_north {
+spritelayout sprlay_hotel_02_snow_north {
 	ground {
-		sprite: spr_ground_hotel_north_snow (construction_state);
+		sprite: spr_ground_hotel_02_north_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_north_snow (construction_state);
+		sprite: spr_build_hotel_02_north_snow (construction_state);
 		xoffset:  7;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hotel_snow_east {
+spritelayout sprlay_hotel_02_snow_east {
 	ground {
-		sprite: spr_ground_hotel_east_snow (construction_state);
+		sprite: spr_ground_hotel_02_east_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_east_snow (construction_state);
+		sprite: spr_build_hotel_02_east_snow (construction_state);
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -9188,17 +9187,17 @@ spritelayout sprlay_hotel_snow_east {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_hotel_north,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_snow_north;
-	sprlay_hotel_north;
+switch(FEAT_HOUSES, SELF, switch_hotel_02_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_02_snow_north;
+	sprlay_hotel_02_north;
 }
-switch(FEAT_HOUSES, SELF, switch_hotel_east,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_snow_east;
-	sprlay_hotel_east;
+switch(FEAT_HOUSES, SELF, switch_hotel_02_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_02_snow_east;
+	sprlay_hotel_02_east;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_02)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9213,7 +9212,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_hotel_con_check, 
+switch (FEAT_HOUSES, SELF, switch_hotel_02_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
@@ -9222,10 +9221,10 @@ switch (FEAT_HOUSES, SELF, switch_hotel_con_check,
 ) {return;}		
  
 
-item(FEAT_HOUSES, item_hotel, 28, HOUSE_SIZE_1X2){
+item(FEAT_HOUSES, item_hotel_02, 28, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
-		name: 						string(NAME_HOTEL);
+		name: 						string(NAME_HOTEL_02);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 8],[BEER, 8]];
@@ -9238,52 +9237,52 @@ item(FEAT_HOUSES, item_hotel, 28, HOUSE_SIZE_1X2){
 		building_class:				2;	
 		}
 	graphics {
-		graphics_north: 			switch_hotel_north;
-		graphics_east: 				switch_hotel_east;
-		construction_check:			switch_hotel_con_check;
+		graphics_north: 			switch_hotel_02_north;
+		graphics_east: 				switch_hotel_02_east;
+		construction_check:			switch_hotel_02_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_hotel;
+		colour: 					rand_recolor_hotel_02;
 	}
 }
 
-// End hotel
+// End hotel_02
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/offices/hotel_old.pnml" 1
-// Begin hotel_old
+# 1 "src/houses/offices/hotel_03.pnml" 1
+// Begin hotel_03
 
 // Building Sprites
-spriteset (spr_build_hotel_old_north, 							"src/gfx/offices/hotel_old/building.png") 					{template_house_128(1,1)}
-spriteset (spr_build_hotel_old_east, 							"src/gfx/offices/hotel_old/building.png") 					{template_house_128(261,1)}
+spriteset (spr_build_hotel_03_north, 							"src/gfx/offices/hotel_03/building.png") 					{template_house_128(1,1)}
+spriteset (spr_build_hotel_03_east, 							"src/gfx/offices/hotel_03/building.png") 					{template_house_128(261,1)}
 
-spriteset (spr_build_hotel_old_north_snow, 						"src/gfx/offices/hotel_old/building.png") 					{template_house_128(1,130)}
-spriteset (spr_build_hotel_old_east_snow, 						"src/gfx/offices/hotel_old/building.png") 					{template_house_128(261,130)}
+spriteset (spr_build_hotel_03_north_snow, 						"src/gfx/offices/hotel_03/building.png") 					{template_house_128(1,130)}
+spriteset (spr_build_hotel_03_east_snow, 						"src/gfx/offices/hotel_03/building.png") 					{template_house_128(261,130)}
 
 // Ground Sprites
-spriteset (spr_ground_hotel_old_north, 							"src/gfx/offices/hotel_old/ground.png") 					{template_ground(1,1)}
-spriteset (spr_ground_hotel_old_east, 							"src/gfx/offices/hotel_old/ground.png") 					{template_ground(261,1)}
+spriteset (spr_ground_hotel_03_north, 							"src/gfx/offices/hotel_03/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_hotel_03_east, 							"src/gfx/offices/hotel_03/ground.png") 						{template_ground(261,1)}
 
-spriteset (spr_ground_hotel_old_north_snow, 					"src/gfx/offices/hotel_old/ground.png") 					{template_ground(1,33)}
-spriteset (spr_ground_hotel_old_east_snow, 						"src/gfx/offices/hotel_old/ground.png") 					{template_ground(261,33)}
+spriteset (spr_ground_hotel_03_north_snow, 						"src/gfx/offices/hotel_03/ground.png") 						{template_ground(1,33)}
+spriteset (spr_ground_hotel_03_east_snow, 						"src/gfx/offices/hotel_03/ground.png") 						{template_ground(261,33)}
 
 // Normal Sprites
-spritelayout sprlay_hotel_old_north {
+spritelayout sprlay_hotel_03_north {
 	ground {
-		sprite: spr_ground_hotel_old_north (construction_state);
+		sprite: spr_ground_hotel_03_north (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_old_north (construction_state);
+		sprite: spr_build_hotel_03_north (construction_state);
 		xoffset:  5;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hotel_old_east {
+spritelayout sprlay_hotel_03_east {
 	ground {
-		sprite: spr_ground_hotel_old_east (construction_state);
+		sprite: spr_ground_hotel_03_east (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_old_east (construction_state);
+		sprite: spr_build_hotel_03_east (construction_state);
 		xoffset:  2;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -9291,24 +9290,24 @@ spritelayout sprlay_hotel_old_east {
 }
 
 // Snow Sprites
-spritelayout sprlay_hotel_old_snow_north {
+spritelayout sprlay_hotel_03_snow_north {
 	ground {
-		sprite: spr_ground_hotel_old_north_snow (construction_state);
+		sprite: spr_ground_hotel_03_north_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_old_north_snow (construction_state);
+		sprite: spr_build_hotel_03_north_snow (construction_state);
 		xoffset:  5;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_hotel_old_snow_east {
+spritelayout sprlay_hotel_03_snow_east {
 	ground {
-		sprite: spr_ground_hotel_old_east_snow (construction_state);
+		sprite: spr_ground_hotel_03_east_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_hotel_old_east_snow (construction_state);
+		sprite: spr_build_hotel_03_east_snow (construction_state);
 		xoffset:  2;
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
@@ -9316,17 +9315,17 @@ spritelayout sprlay_hotel_old_snow_east {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_hotel_old_north,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_old_snow_north;
-	sprlay_hotel_old_north;
+switch(FEAT_HOUSES, SELF, switch_hotel_03_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_03_snow_north;
+	sprlay_hotel_03_north;
 }
-switch(FEAT_HOUSES, SELF, switch_hotel_old_east,terrain_type) {
-	TILETYPE_SNOW: sprlay_hotel_old_snow_east;
-	sprlay_hotel_old_east;
+switch(FEAT_HOUSES, SELF, switch_hotel_03_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_hotel_03_snow_east;
+	sprlay_hotel_03_east;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_old)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_03)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9341,7 +9340,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_hotel_old)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_hotel_old_con_check, 
+switch (FEAT_HOUSES, SELF, switch_hotel_03_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Residential population is sufficient for another Skyscraper
@@ -9350,10 +9349,10 @@ switch (FEAT_HOUSES, SELF, switch_hotel_old_con_check,
 ) {return;}		
  
 
-item(FEAT_HOUSES, item_hotel_old, 115, HOUSE_SIZE_1X2){
+item(FEAT_HOUSES, item_hotel_03, 115, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
-		name: 						string(NAME_HOTEL_OLD);
+		name: 						string(NAME_HOTEL_03);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 8],[BEER, 8]];
@@ -9366,93 +9365,93 @@ item(FEAT_HOUSES, item_hotel_old, 115, HOUSE_SIZE_1X2){
 		building_class:				2;	
 		}
 	graphics {
-		graphics_north: 			switch_hotel_old_north;
-		graphics_east: 				switch_hotel_old_east;
-		construction_check:			switch_hotel_old_con_check;
+		graphics_north: 			switch_hotel_03_north;
+		graphics_east: 				switch_hotel_03_east;
+		construction_check:			switch_hotel_03_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_hotel_old;
+		colour: 					rand_recolor_hotel_03;
 	}
 }
 
-// End hotel_old
+// End hotel_03
 # 1 "JPplusBuildings.pnml" 4
 
 // SKYSCRAPERS
-# 1 "src/houses/skyscrapers/tsuno_building.pnml" 1
-// Begin tsuno_building
+# 1 "src/houses/skyscrapers/skyscraper_01.pnml" 1
+// Begin skyscraper_01
 
 // Building Sprites
-spriteset (spr_build_tsuno_building_north, 							"src/gfx/skyscrapers/tsuno_building/building.png") 						{template_house_250(261,1)}
-spriteset (spr_build_tsuno_building_east, 							"src/gfx/skyscrapers/tsuno_building/building.png") 						{template_house_250(1,1)}
+spriteset (spr_build_skyscraper_01_north, 							"src/gfx/skyscrapers/skyscraper_01/building.png") 						{template_house_250(261,1)}
+spriteset (spr_build_skyscraper_01_east, 							"src/gfx/skyscrapers/skyscraper_01/building.png") 						{template_house_250(1,1)}
 
-spriteset (spr_build_tsuno_building_north_snow, 					"src/gfx/skyscrapers/tsuno_building/building.png") 						{template_house_250(261,252)}
-spriteset (spr_build_tsuno_building_east_snow, 						"src/gfx/skyscrapers/tsuno_building/building.png") 						{template_house_250(1,252)}
+spriteset (spr_build_skyscraper_01_north_snow, 						"src/gfx/skyscrapers/skyscraper_01/building.png") 						{template_house_250(261,252)}
+spriteset (spr_build_skyscraper_01_east_snow, 						"src/gfx/skyscrapers/skyscraper_01/building.png") 						{template_house_250(1,252)}
 
 // Ground Sprites
-spriteset (spr_ground_tsuno_building_north, 						"src/gfx/skyscrapers/tsuno_building/ground.png") 						{template_house_250(261,1)}
-spriteset (spr_ground_tsuno_building_east, 							"src/gfx/skyscrapers/tsuno_building/ground.png") 						{template_house_250(1,1)}
+spriteset (spr_ground_skyscraper_01_north, 							"src/gfx/skyscrapers/skyscraper_01/ground.png") 						{template_house_250(261,1)}
+spriteset (spr_ground_skyscraper_01_east, 							"src/gfx/skyscrapers/skyscraper_01/ground.png") 						{template_house_250(1,1)}
 
-spriteset (spr_ground_tsuno_building_north_snow, 					"src/gfx/skyscrapers/tsuno_building/ground.png") 						{template_house_250(261,252)}
-spriteset (spr_ground_tsuno_building_east_snow, 					"src/gfx/skyscrapers/tsuno_building/ground.png") 						{template_house_250(1,252)}
+spriteset (spr_ground_skyscraper_01_north_snow, 					"src/gfx/skyscrapers/skyscraper_01/ground.png") 						{template_house_250(261,252)}
+spriteset (spr_ground_skyscraper_01_east_snow, 						"src/gfx/skyscrapers/skyscraper_01/ground.png") 						{template_house_250(1,252)}
 
 // Normal Sprites
-spritelayout sprlay_tsuno_building_north {
+spritelayout sprlay_skyscraper_01_north {
 	ground {
-		sprite: spr_ground_tsuno_building_north(construction_state);
+		sprite: spr_ground_skyscraper_01_north(construction_state);
 	}
 	building {
-		sprite: spr_build_tsuno_building_north(construction_state);
+		sprite: spr_build_skyscraper_01_north(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuno_building_east {
+spritelayout sprlay_skyscraper_01_east {
 	ground {
-		sprite: spr_ground_tsuno_building_east(construction_state);
+		sprite: spr_ground_skyscraper_01_east(construction_state);
 	}
 	building {
-		sprite: spr_build_tsuno_building_east(construction_state);
+		sprite: spr_build_skyscraper_01_east(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_tsuno_building_snow_north {
+spritelayout sprlay_skyscraper_01_snow_north {
 	ground {
-		sprite: spr_ground_tsuno_building_north_snow(construction_state);
+		sprite: spr_ground_skyscraper_01_north_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_tsuno_building_north_snow(construction_state);
+		sprite: spr_build_skyscraper_01_north_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tsuno_building_snow_east {
+spritelayout sprlay_skyscraper_01_snow_east {
 	ground {
-		sprite: spr_ground_tsuno_building_east_snow(construction_state);
+		sprite: spr_ground_skyscraper_01_east_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_tsuno_building_east_snow(construction_state);
+		sprite: spr_build_skyscraper_01_east_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tsuno_building_north,terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuno_building_snow_north;
-	sprlay_tsuno_building_north;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_01_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_01_snow_north;
+	sprlay_skyscraper_01_north;
 }
-switch(FEAT_HOUSES, SELF, switch_tsuno_building_east,terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuno_building_snow_east;
-	sprlay_tsuno_building_east;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_01_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_01_snow_east;
+	sprlay_skyscraper_01_east;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tsuno_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_01)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9467,7 +9466,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tsuno_building)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tsuno_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_01_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9478,10 +9477,10 @@ switch (FEAT_HOUSES, SELF, switch_tsuno_building_con_check,
 ) {return;}		
  
 
-item(FEAT_HOUSES, item_tsuno_building, 76, HOUSE_SIZE_1X2){
+item(FEAT_HOUSES, item_skyscraper_01, 76, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
-		name: 						string(NAME_TSUNO_BUILDING);
+		name: 						string(NAME_SKYSCRAPER_01);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				255;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -9494,59 +9493,59 @@ item(FEAT_HOUSES, item_tsuno_building, 76, HOUSE_SIZE_1X2){
 		building_class:				5;	
 		}
 	graphics {
-		graphics_north: 			switch_tsuno_building_north;
-		graphics_east: 				switch_tsuno_building_east;
-		construction_check:			switch_tsuno_building_con_check;
+		graphics_north: 			switch_skyscraper_01_north;
+		graphics_east: 				switch_skyscraper_01_east;
+		construction_check:			switch_skyscraper_01_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_tsuno_building;
+		colour: 					rand_recolor_skyscraper_01;
 	}
 }
 
-// End tsuno_building
+// End skyscraper_01
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/office_tower.pnml" 1
-// Begin office_tower
+# 1 "src/houses/skyscrapers/skyscraper_02.pnml" 1
+// Begin skyscraper_02
 
 // Building Sprites
-spriteset (spr_build_office_tower, 							"src/gfx/skyscrapers/office_tower/building.png") 					{template_house_250(1,1)}
-spriteset (spr_build_office_tower_snow, 					"src/gfx/skyscrapers/office_tower/building.png") 					{template_house_250(1,252)}
+spriteset (spr_build_skyscraper_02, 							"src/gfx/skyscrapers/skyscraper_02/building.png") 							{template_house_250(1,1)}
+spriteset (spr_build_skyscraper_02_snow, 						"src/gfx/skyscrapers/skyscraper_02/building.png") 						{template_house_250(1,252)}
 
 // Ground Sprites
-spriteset (spr_ground_office_tower, 						"src/gfx/skyscrapers/office_tower/ground.png") 						{template_house_250(1,1)}
-spriteset (spr_ground_office_tower_snow, 					"src/gfx/skyscrapers/office_tower/ground.png") 						{template_house_250(1,252)}
+spriteset (spr_ground_skyscraper_02, 							"src/gfx/skyscrapers/skyscraper_02/ground.png") 						{template_house_250(1,1)}
+spriteset (spr_ground_skyscraper_02_snow, 						"src/gfx/skyscrapers/skyscraper_02/ground.png") 						{template_house_250(1,252)}
 
 // Normal Sprites
-spritelayout sprlay_office_tower {
+spritelayout sprlay_skyscraper_02 {
 	ground {
-		sprite: spr_ground_office_tower(construction_state);
+		sprite: spr_ground_skyscraper_02(construction_state);
 	}
 	building {
-		sprite: spr_build_office_tower(construction_state);
+		sprite: spr_build_skyscraper_02(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_office_tower_snow {
+spritelayout sprlay_skyscraper_02_snow {
 	ground {
-		sprite: spr_ground_office_tower_snow(construction_state);
+		sprite: spr_ground_skyscraper_02_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_office_tower_snow(construction_state);
+		sprite: spr_build_skyscraper_02_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_office_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_office_tower_snow;
-	sprlay_office_tower;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_02,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_02_snow;
+	sprlay_skyscraper_02;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_office_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_02)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9562,7 +9561,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_office_tower)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_office_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_02_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9572,10 +9571,10 @@ switch (FEAT_HOUSES, SELF, switch_office_tower_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_office_tower, 78, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_02, 78, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_OFFICE_TOWER);
+		name: 						string(NAME_SKYSCRAPER_02);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -9588,33 +9587,33 @@ item(FEAT_HOUSES, item_office_tower, 78, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_office_tower;
-		construction_check:			switch_office_tower_con_check;
+		default: 					switch_skyscraper_02;
+		construction_check:			switch_skyscraper_02_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_office_tower; 						// No recolouring
+		colour: 					rand_recolor_skyscraper_02; 						// No recolouring
 	}
 }
 
-// End office_tower
+// End skyscraper_02
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/large_office_building.pnml" 1
-// Begin large_office_building
+# 1 "src/houses/skyscrapers/skyscraper_03.pnml" 1
+// Begin skyscraper_03
 
 // Building Sprites
-spriteset (spr_build_large_office_building, 							"src/gfx/skyscrapers/large_office_building/building.png") 						{template_house_250_wide(1,1)}
-spriteset (spr_build_large_office_building_snow, 						"src/gfx/skyscrapers/large_office_building/building.png") 						{template_house_250_wide(1,252)}
+spriteset (spr_build_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/building.png") 						{template_house_250_wide(1,1)}
+spriteset (spr_build_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/building.png") 						{template_house_250_wide(1,252)}
 
 // Ground Sprites
-spriteset (spr_ground_large_office_building, 							"src/gfx/skyscrapers/large_office_building/ground.png") 						{template_ground(1,1)}
-spriteset (spr_ground_large_office_building_snow, 						"src/gfx/skyscrapers/large_office_building/ground.png") 						{template_ground(1,33)}
+spriteset (spr_ground_skyscraper_03, 							"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_03_snow, 						"src/gfx/skyscrapers/skyscraper_03/ground.png") 						{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_large_office_building {
+spritelayout sprlay_skyscraper_03 {
 	ground {
-		sprite: spr_ground_large_office_building(construction_state);
+		sprite: spr_ground_skyscraper_03(construction_state);
 	}
 	building {
-		sprite: spr_build_large_office_building(construction_state);
+		sprite: spr_build_skyscraper_03(construction_state);
 		//xoffset: -1;
 		//yoffset: -2;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9623,26 +9622,26 @@ spritelayout sprlay_large_office_building {
 }
 
 // Snow Sprites
-spritelayout sprlay_large_office_building_snow {
+spritelayout sprlay_skyscraper_03_snow {
 	ground {
-		sprite: spr_ground_large_office_building_snow(construction_state);
+		sprite: spr_ground_skyscraper_03_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_large_office_building_snow(construction_state);
+		sprite: spr_build_skyscraper_03_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_large_office_building,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_office_building_snow;
-	sprlay_large_office_building;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_03,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_03_snow;
+	sprlay_skyscraper_03;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_large_office_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_03)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9659,7 +9658,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_large_office_building)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_large_office_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_03_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9669,10 +9668,10 @@ switch (FEAT_HOUSES, SELF, switch_large_office_building_con_check,
 	IfFirstSkyscraper()				// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_large_office_building, 79, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_03, 79, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_LARGE_OFFICE_TOWER);
+		name: 						string(NAME_SKYSCRAPER_03);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -9685,33 +9684,33 @@ item(FEAT_HOUSES, item_large_office_building, 79, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_large_office_building;
-		construction_check:			switch_large_office_building_con_check;
+		default: 					switch_skyscraper_03;
+		construction_check:			switch_skyscraper_03_con_check;
 		cargo_production: 			func_produce(24,10);
-		//colour: 					rand_recolor_large_office_building; 
+		//colour: 					rand_recolor_skyscraper_03; 
 	}
 }
 
-// End large_office_building
+// End skyscraper_03
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/multimedia_offices.pnml" 1
-// Begin multimedia_offices
+# 1 "src/houses/skyscrapers/skyscraper_04.pnml" 1
+// Begin skyscraper_04
 
 // Building Sprites
-spriteset (spr_build_multimedia_offices, 			"src/gfx/skyscrapers/multimedia_offices/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_multimedia_offices_snow, 		"src/gfx/skyscrapers/multimedia_offices/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_04, 			"src/gfx/skyscrapers/skyscraper_04/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_04_snow, 		"src/gfx/skyscrapers/skyscraper_04/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_multimedia_offices, 			"src/gfx/skyscrapers/multimedia_offices/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_multimedia_offices_snow, 		"src/gfx/skyscrapers/multimedia_offices/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_skyscraper_04, 			"src/gfx/skyscrapers/skyscraper_04/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_04_snow, 		"src/gfx/skyscrapers/skyscraper_04/ground.png") 				{template_house_80(1,82)}
 
 // Normal Sprites
-spritelayout sprlay_multimedia_offices {
+spritelayout sprlay_skyscraper_04 {
 	ground {
-		sprite: spr_ground_multimedia_offices(construction_state);
+		sprite: spr_ground_skyscraper_04(construction_state);
 	}
 	building {
-		sprite: spr_build_multimedia_offices(construction_state);
+		sprite: spr_build_skyscraper_04(construction_state);
 		xoffset: 3;
 		yoffset: 0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9720,12 +9719,12 @@ spritelayout sprlay_multimedia_offices {
 }
 
 // Snow Sprites
-spritelayout sprlay_multimedia_offices_snow {
+spritelayout sprlay_skyscraper_04_snow {
 	ground {
-		sprite: spr_ground_multimedia_offices_snow(construction_state);
+		sprite: spr_ground_skyscraper_04_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_multimedia_offices_snow(construction_state);
+		sprite: spr_build_skyscraper_04_snow(construction_state);
 		xoffset: 3;
 		yoffset: 0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9734,14 +9733,14 @@ spritelayout sprlay_multimedia_offices_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_multimedia_offices,terrain_type) {
-	TILETYPE_SNOW: sprlay_multimedia_offices_snow;
-	sprlay_multimedia_offices;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_04,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_04_snow;
+	sprlay_skyscraper_04;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_multimedia_offices)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_04)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9758,7 +9757,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_multimedia_offices)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_multimedia_offices_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_04_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9768,10 +9767,10 @@ switch (FEAT_HOUSES, SELF, switch_multimedia_offices_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_multimedia_offices, 80, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_04, 80, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_MULTIMEDIA_OFFICES);
+		name: 						string(NAME_SKYSCRAPER_04);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -9784,33 +9783,33 @@ item(FEAT_HOUSES, item_multimedia_offices, 80, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_multimedia_offices;
-		construction_check:			switch_multimedia_offices_con_check;
+		default: 					switch_skyscraper_04;
+		construction_check:			switch_skyscraper_04_con_check;
 		cargo_production: 			func_produce(24,10);
-		//colour: 					rand_recolor_multimedia_offices; 
+		//colour: 					rand_recolor_skyscraper_04; 
 	}
 }
 
-// End multimedia_offices
+// End skyscraper_04
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/enterprise_tower.pnml" 1
-// Begin enterprise_tower
+# 1 "src/houses/skyscrapers/skyscraper_05.pnml" 1
+// Begin skyscraper_05
 
 // Building Sprites
-spriteset (spr_build_enterprise_tower, 			"src/gfx/skyscrapers/enterprise_tower/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_enterprise_tower_snow, 	"src/gfx/skyscrapers/enterprise_tower/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_05, 			"src/gfx/skyscrapers/skyscraper_05/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_05_snow, 		"src/gfx/skyscrapers/skyscraper_05/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_enterprise_tower, 		"src/gfx/skyscrapers/enterprise_tower/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_enterprise_tower_snow, 	"src/gfx/skyscrapers/enterprise_tower/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_skyscraper_05, 			"src/gfx/skyscrapers/skyscraper_05/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_05_snow, 		"src/gfx/skyscrapers/skyscraper_05/ground.png") 				{template_house_80(1,82)}
 
 // Normal Sprites
-spritelayout sprlay_enterprise_tower {
+spritelayout sprlay_skyscraper_05 {
 	ground {
-		sprite: spr_ground_enterprise_tower(construction_state);
+		sprite: spr_ground_skyscraper_05(construction_state);
 	}
 	building {
-		sprite: spr_build_enterprise_tower(construction_state);
+		sprite: spr_build_skyscraper_05(construction_state);
 		xoffset:  0;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9819,12 +9818,12 @@ spritelayout sprlay_enterprise_tower {
 }
 
 // Snow Sprites
-spritelayout sprlay_enterprise_tower_snow {
+spritelayout sprlay_skyscraper_05_snow {
 	ground {
-		sprite: spr_ground_enterprise_tower_snow(construction_state);
+		sprite: spr_ground_skyscraper_05_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_enterprise_tower_snow(construction_state);
+		sprite: spr_build_skyscraper_05_snow(construction_state);
 		xoffset:  0;
 		yoffset:  3;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9833,14 +9832,14 @@ spritelayout sprlay_enterprise_tower_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_enterprise_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_enterprise_tower_snow;
-	sprlay_enterprise_tower;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_05,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_05_snow;
+	sprlay_skyscraper_05;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_enterprise_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_05)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9857,7 +9856,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_enterprise_tower)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_enterprise_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_05_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9867,10 +9866,10 @@ switch (FEAT_HOUSES, SELF, switch_enterprise_tower_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_enterprise_tower, 81, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_05, 81, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_ENTERPRISE_TOWER);
+		name: 						string(NAME_SKYSCRAPER_05);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -9883,33 +9882,33 @@ item(FEAT_HOUSES, item_enterprise_tower, 81, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_enterprise_tower;
-		construction_check:			switch_enterprise_tower_con_check;
+		default: 					switch_skyscraper_05;
+		construction_check:			switch_skyscraper_05_con_check;
 		cargo_production: 			func_produce(24,10);
-		//colour: 					rand_recolor_enterprise_tower; 
+		//colour: 					rand_recolor_skyscraper_05; 
 	}
 }
 
-// End enterprise_tower
+// End skyscraper_05
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/insurance_tower.pnml" 1
-// Begin insurance_tower
+# 1 "src/houses/skyscrapers/skyscraper_06.pnml" 1
+// Begin skyscraper_06
 
 // Building Sprites
-spriteset (spr_build_insurance_tower, 			"src/gfx/skyscrapers/insurance_tower/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_insurance_tower_snow, 		"src/gfx/skyscrapers/insurance_tower/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_06, 			"src/gfx/skyscrapers/skyscraper_06/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_06_snow, 		"src/gfx/skyscrapers/skyscraper_06/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_insurance_tower, 			"src/gfx/skyscrapers/insurance_tower/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_insurance_tower_snow, 	"src/gfx/skyscrapers/insurance_tower/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_skyscraper_06, 			"src/gfx/skyscrapers/skyscraper_06/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_06_snow, 		"src/gfx/skyscrapers/skyscraper_06/ground.png") 				{template_house_80(1,82)}
 
 // Normal Sprites
-spritelayout sprlay_insurance_tower {
+spritelayout sprlay_skyscraper_06 {
 	ground {
-		sprite: spr_ground_insurance_tower(construction_state);
+		sprite: spr_ground_skyscraper_06(construction_state);
 	}
 	building {
-		sprite: spr_build_insurance_tower(construction_state);
+		sprite: spr_build_skyscraper_06(construction_state);
 		xoffset:  0;
 		yoffset:  2;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9918,12 +9917,12 @@ spritelayout sprlay_insurance_tower {
 }
 
 // Snow Sprites
-spritelayout sprlay_insurance_tower_snow {
+spritelayout sprlay_skyscraper_06_snow {
 	ground {
-		sprite: spr_ground_insurance_tower_snow(construction_state);
+		sprite: spr_ground_skyscraper_06_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_insurance_tower_snow(construction_state);
+		sprite: spr_build_skyscraper_06_snow(construction_state);
 		xoffset:  0;
 		yoffset:  2;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -9932,13 +9931,13 @@ spritelayout sprlay_insurance_tower_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_insurance_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_insurance_tower_snow;
-	sprlay_insurance_tower;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_06,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_06_snow;
+	sprlay_skyscraper_06;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_insurance_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_06)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -9954,7 +9953,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_insurance_tower)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_insurance_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_06_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -9964,10 +9963,10 @@ switch (FEAT_HOUSES, SELF, switch_insurance_tower_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_insurance_tower, 82, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_06, 82, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_INSURANCE_TOWER);
+		name: 						string(NAME_SKYSCRAPER_06);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -9985,33 +9984,33 @@ item(FEAT_HOUSES, item_insurance_tower, 82, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_insurance_tower;
-		construction_check:			switch_insurance_tower_con_check;
+		default: 					switch_skyscraper_06;
+		construction_check:			switch_skyscraper_06_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_insurance_tower; 
+		colour: 					rand_recolor_skyscraper_06; 
 	}
 }
 
-// End insurance_tower
+// End skyscraper_06
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/modern_office_tower.pnml" 1
-// Begin modern_office_tower
+# 1 "src/houses/skyscrapers/skyscraper_07.pnml" 1
+// Begin skyscraper_07
 
 // Building Sprites
-spriteset (spr_build_modern_office_tower, 			"src/gfx/skyscrapers/modern_office_tower/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_modern_office_tower_snow, 		"src/gfx/skyscrapers/modern_office_tower/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_07, 			"src/gfx/skyscrapers/skyscraper_07/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_07_snow, 		"src/gfx/skyscrapers/skyscraper_07/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_modern_office_tower, 			"src/gfx/skyscrapers/modern_office_tower/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_modern_office_tower_snow, 		"src/gfx/skyscrapers/modern_office_tower/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_skyscraper_07, 			"src/gfx/skyscrapers/skyscraper_07/ground.png") 				{template_house_80(1,1)}
+spriteset (spr_ground_skyscraper_07_snow, 		"src/gfx/skyscrapers/skyscraper_07/ground.png") 				{template_house_80(1,82)}
 
 // Normal Sprites
-spritelayout sprlay_modern_office_tower {
+spritelayout sprlay_skyscraper_07 {
 	ground {
-		sprite: spr_ground_modern_office_tower(construction_state);
+		sprite: spr_ground_skyscraper_07(construction_state);
 	}
 	building {
-		sprite: spr_build_modern_office_tower(construction_state);
+		sprite: spr_build_skyscraper_07(construction_state);
 		xoffset:  2;
 		yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10020,12 +10019,12 @@ spritelayout sprlay_modern_office_tower {
 }
 
 // Snow Sprites
-spritelayout sprlay_modern_office_tower_snow {
+spritelayout sprlay_skyscraper_07_snow {
 	ground {
-		sprite: spr_ground_modern_office_tower_snow(construction_state);
+		sprite: spr_ground_skyscraper_07_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_modern_office_tower_snow(construction_state);
+		sprite: spr_build_skyscraper_07_snow(construction_state);
 		xoffset:  2;
 		yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10034,14 +10033,14 @@ spritelayout sprlay_modern_office_tower_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_modern_office_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_modern_office_tower_snow;
-	sprlay_modern_office_tower;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_07,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_07_snow;
+	sprlay_skyscraper_07;
 }
 
 // Recolouring
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_modern_office_tower)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_07)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10058,7 +10057,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_modern_office_tower)
 
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_modern_office_tower_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_07_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10068,10 +10067,10 @@ switch (FEAT_HOUSES, SELF, switch_modern_office_tower_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_modern_office_tower, 83, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_07, 83, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_MODERN_OFFICE_TOWER);
+		name: 						string(NAME_SKYSCRAPER_07);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -10084,33 +10083,33 @@ item(FEAT_HOUSES, item_modern_office_tower, 83, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_modern_office_tower;
-		construction_check:			switch_modern_office_tower_con_check;
+		default: 					switch_skyscraper_07;
+		construction_check:			switch_skyscraper_07_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_modern_office_tower; 
+		colour: 					rand_recolor_skyscraper_07; 
 	}
 }
 
-// End modern_office_tower
+// End skyscraper_07
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/sato_building.pnml" 1
-// Begin sato_building
+# 1 "src/houses/skyscrapers/skyscraper_08.pnml" 1
+// Begin skyscraper_08
 
 // Building Sprites
-spriteset (spr_build_sato_building, 			"src/gfx/skyscrapers/sato_building/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_sato_building_snow, 		"src/gfx/skyscrapers/sato_building/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_08, 			"src/gfx/skyscrapers/skyscraper_08/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_08_snow, 		"src/gfx/skyscrapers/skyscraper_08/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_sato_building, 			"src/gfx/skyscrapers/sato_building/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_sato_building_snow, 		"src/gfx/skyscrapers/sato_building/ground.png") 				{template_ground(1,33)}
+spriteset (spr_ground_skyscraper_08, 			"src/gfx/skyscrapers/skyscraper_08/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_08_snow, 		"src/gfx/skyscrapers/skyscraper_08/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_sato_building {
+spritelayout sprlay_skyscraper_08 {
 	ground {
-		sprite: spr_ground_sato_building (construction_state);
+		sprite: spr_ground_skyscraper_08 (construction_state);
 	}
 	building {
-		sprite: spr_build_sato_building (construction_state);
+		sprite: spr_build_skyscraper_08 (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10119,12 +10118,12 @@ spritelayout sprlay_sato_building {
 }
 
 // Snow Sprites
-spritelayout sprlay_sato_building_snow {
+spritelayout sprlay_skyscraper_08_snow {
 	ground {
-		sprite: spr_ground_sato_building_snow (construction_state);
+		sprite: spr_ground_skyscraper_08_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_sato_building_snow (construction_state);
+		sprite: spr_build_skyscraper_08_snow (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10133,14 +10132,14 @@ spritelayout sprlay_sato_building_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_sato_building,terrain_type) {
-	TILETYPE_SNOW: sprlay_sato_building_snow;
-	sprlay_sato_building;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_08,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_08_snow;
+	sprlay_skyscraper_08;
 }
 
 // Recolouring
 
-random_switch (FEAT_HOUSES, SELF, rand_recolor_sato_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_08)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10157,7 +10156,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_sato_building)
 
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_sato_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_08_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10167,10 +10166,10 @@ switch (FEAT_HOUSES, SELF, switch_sato_building_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_sato_building, 84, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_08, 84, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_SATO_BUILDING);
+		name: 						string(NAME_SKYSCRAPER_08);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -10183,58 +10182,58 @@ item(FEAT_HOUSES, item_sato_building, 84, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_sato_building;
-		construction_check:			switch_sato_building_con_check;
+		default: 					switch_skyscraper_08;
+		construction_check:			switch_skyscraper_08_con_check;
 		cargo_production: 			func_produce(16,6);
-		colour: 					rand_recolor_sato_building; 
+		colour: 					rand_recolor_skyscraper_08; 
 	}
 }
 
-// End sato_building
+// End skyscraper_08
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/bank_building.pnml" 1
-// Begin bank_building
+# 1 "src/houses/skyscrapers/skyscraper_09.pnml" 1
+// Begin skyscraper_09
 
 // Building Sprites
-spriteset (spr_build_bank_building, 			"src/gfx/skyscrapers/bank_building/building.png") 				{template_house_200(1,1)}
-spriteset (spr_build_bank_building_snow, 		"src/gfx/skyscrapers/bank_building/building.png") 				{template_house_200(1,202)}
+spriteset (spr_build_skyscraper_09, 			"src/gfx/skyscrapers/skyscraper_09/building.png") 				{template_house_200(1,1)}
+spriteset (spr_build_skyscraper_09_snow, 		"src/gfx/skyscrapers/skyscraper_09/building.png") 				{template_house_200(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_bank_building, 			"src/gfx/skyscrapers/bank_building/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_bank_building_snow, 		"src/gfx/skyscrapers/bank_building/ground.png") 				{template_ground(1,33)}
+spriteset (spr_ground_skyscraper_09, 			"src/gfx/skyscrapers/skyscraper_09/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_09_snow, 		"src/gfx/skyscrapers/skyscraper_09/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_bank_building {
+spritelayout sprlay_skyscraper_09 {
 	ground {
-		sprite: spr_ground_bank_building (construction_state);
+		sprite: spr_ground_skyscraper_09 (construction_state);
 	}
 	building {
-		sprite: spr_build_bank_building (construction_state);
+		sprite: spr_build_skyscraper_09 (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_bank_building_snow {
+spritelayout sprlay_skyscraper_09_snow {
 	ground {
-		sprite: spr_ground_bank_building_snow (construction_state);
+		sprite: spr_ground_skyscraper_09_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_bank_building_snow (construction_state);
+		sprite: spr_build_skyscraper_09_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_bank_building,terrain_type) {
-	TILETYPE_SNOW: sprlay_bank_building_snow;
-	sprlay_bank_building;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_09,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_09_snow;
+	sprlay_skyscraper_09;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_bank_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_09)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10251,7 +10250,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_bank_building)
 
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_bank_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_09_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10261,10 +10260,10 @@ switch (FEAT_HOUSES, SELF, switch_bank_building_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_09, 86, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_BANK_BUILDING);
+		name: 						string(NAME_SKYSCRAPER_09);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				220;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -10277,44 +10276,44 @@ item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_bank_building;
-		construction_check:			switch_bank_building_con_check;
+		default: 					switch_skyscraper_09;
+		construction_check:			switch_skyscraper_09_con_check;
 		cargo_production: 			func_produce(16,6);
-		colour: 					rand_recolor_bank_building; 
+		colour: 					rand_recolor_skyscraper_09; 
 	}
 }
 
-// End bank_building
+// End skyscraper_09
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/tall_office_building.pnml" 1
-// Begin tall_office_building
+# 1 "src/houses/skyscrapers/skyscraper_10.pnml" 1
+// Begin skyscraper_10
 
 // Building Sprites
-spriteset (spr_tall_office_building, 						"src/gfx/skyscrapers/tall_office_building/building.png") 						{template_house_150_wide(1,1)}
-spriteset (spr_tall_office_building_snow, 					"src/gfx/skyscrapers/tall_office_building/building.png") 						{template_house_150_wide(1,152)}
+spriteset (spr_skyscraper_10, 						"src/gfx/skyscrapers/skyscraper_10/building.png") 						{template_house_150_wide(1,1)}
+spriteset (spr_skyscraper_10_snow, 					"src/gfx/skyscrapers/skyscraper_10/building.png") 						{template_house_150_wide(1,152)}
 
 // Ground Tiles
-spriteset (spr_tall_office_building_ground, 				"src/gfx/skyscrapers/tall_office_building/ground.png") 						{template_ground(1,1)}
-spriteset (spr_tall_office_building_ground_snow, 			"src/gfx/skyscrapers/tall_office_building/ground.png") 						{template_ground(1,33)}
+spriteset (spr_skyscraper_10_ground, 				"src/gfx/skyscrapers/skyscraper_10/ground.png") 						{template_ground(1,1)}
+spriteset (spr_skyscraper_10_ground_snow, 			"src/gfx/skyscrapers/skyscraper_10/ground.png") 						{template_ground(1,33)}
 
-spritelayout sprlay_tall_office_building_norm {
+spritelayout sprlay_skyscraper_10_norm {
 	ground {
-		sprite: 		spr_tall_office_building_ground(3);
+		sprite: 		spr_skyscraper_10_ground(3);
 	}
 	building {
-		sprite: 		spr_tall_office_building(3);
+		sprite: 		spr_skyscraper_10(3);
 		yoffset:  		-1;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tall_office_building_snow {
+spritelayout sprlay_skyscraper_10_snow {
 	ground {
-		sprite: 		spr_tall_office_building_ground_snow(3);
+		sprite: 		spr_skyscraper_10_ground_snow(3);
 	}
 	building {
-		sprite: 		spr_tall_office_building_snow(3);
+		sprite: 		spr_skyscraper_10_snow(3);
 		yoffset:  		-1;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
@@ -10322,14 +10321,14 @@ spritelayout sprlay_tall_office_building_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tall_office_building_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_tall_office_building_snow;
-	sprlay_tall_office_building_norm;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_10_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_10_snow;
+	sprlay_skyscraper_10_norm;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_10)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10345,7 +10344,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_building)
 	}
 */
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tall_office_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_10_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10356,10 +10355,10 @@ switch (FEAT_HOUSES, SELF, switch_tall_office_building_con_check,
 ) {return;}	
 
 
-item(FEAT_HOUSES, item_tall_office_building, 87, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_10, 87, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_TALL_OFFICE_BUILDING);
+		name: 						string(NAME_SKYSCRAPER_10);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
 		local_authority_impact: 	80;
@@ -10381,33 +10380,33 @@ item(FEAT_HOUSES, item_tall_office_building, 87, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_tall_office_building_sprites;
-		construction_check: 		switch_tall_office_building_con_check; 	
+		default: 					switch_skyscraper_10_sprites;
+		construction_check: 		switch_skyscraper_10_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_tall_office_building;
+		//colour: 					rand_recolor_skyscraper_10;
 	}
 }
 
-// End tall_office_building
+// End skyscraper_10
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/tall_office_block.pnml" 1
-// Begin tall_office_block
+# 1 "src/houses/skyscrapers/skyscraper_11.pnml" 1
+// Begin skyscraper_11
 
 // Building Sprites
-spriteset (spr_build_tall_office_block, 			"src/gfx/skyscrapers/tall_office_block/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_tall_office_block_snow, 		"src/gfx/skyscrapers/tall_office_block/building.png") 				{template_house_200_wide(1,202)}
+spriteset (spr_build_skyscraper_11, 			"src/gfx/skyscrapers/skyscraper_11/building.png") 				{template_house_200_wide(1,1)}
+spriteset (spr_build_skyscraper_11_snow, 		"src/gfx/skyscrapers/skyscraper_11/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_tall_office_block, 			"src/gfx/skyscrapers/tall_office_block/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_tall_office_block_snow, 		"src/gfx/skyscrapers/tall_office_block/ground.png") 				{template_ground(1,33)}
+spriteset (spr_ground_skyscraper_11, 			"src/gfx/skyscrapers/skyscraper_11/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_11_snow, 		"src/gfx/skyscrapers/skyscraper_11/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_tall_office_block {
+spritelayout sprlay_skyscraper_11 {
 	ground {
-		sprite: spr_ground_tall_office_block (construction_state);
+		sprite: spr_ground_skyscraper_11 (construction_state);
 	}
 	building {
-		sprite: spr_build_tall_office_block (construction_state);
+		sprite: spr_build_skyscraper_11 (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10416,12 +10415,12 @@ spritelayout sprlay_tall_office_block {
 }
 
 // Snow Sprites
-spritelayout sprlay_tall_office_block_snow {
+spritelayout sprlay_skyscraper_11_snow {
 	ground {
-		sprite: spr_ground_tall_office_block_snow (construction_state);
+		sprite: spr_ground_skyscraper_11_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_tall_office_block_snow (construction_state);
+		sprite: spr_build_skyscraper_11_snow (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10430,14 +10429,14 @@ spritelayout sprlay_tall_office_block_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tall_office_block,terrain_type) {
-	TILETYPE_SNOW: sprlay_tall_office_block_snow;
-	sprlay_tall_office_block;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_11,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_11_snow;
+	sprlay_skyscraper_11;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_block)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_11)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10454,7 +10453,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_block)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tall_office_block_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_11_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10464,10 +10463,10 @@ switch (FEAT_HOUSES, SELF, switch_tall_office_block_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_tall_office_block, 89, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_skyscraper_11, 89, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_TALL_OFFICE_BLOCK);
+		name: 						string(NAME_SKYSCRAPER_11);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -10480,39 +10479,39 @@ item(FEAT_HOUSES, item_tall_office_block, 89, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_tall_office_block;
-		construction_check:			switch_tall_office_block_con_check;
+		default: 					switch_skyscraper_11;
+		construction_check:			switch_skyscraper_11_con_check;
 		cargo_production: 			func_produce(16,6);
-		//colour: 					rand_recolor_tall_office_block; 
+		//colour: 					rand_recolor_skyscraper_11; 
 	}
 }
 
-// End tall_office_block
+// End skyscraper_11
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/yamashiro_office_building.pnml" 1
-// Begin yamashiro_office_building
+# 1 "src/houses/skyscrapers/skyscraper_12.pnml" 1
+// Begin skyscraper_12
 
 // Building Sprites
-spriteset (spr_build_yamashiro_office_building_north, 				"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(1,1)}
-spriteset (spr_build_yamashiro_office_building_east, 				"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(261,1)}
+spriteset (spr_build_skyscraper_12_north, 				"src/gfx/skyscrapers/skyscraper_12/building.png") 			{template_house_200(1,1)}
+spriteset (spr_build_skyscraper_12_east, 				"src/gfx/skyscrapers/skyscraper_12/building.png") 			{template_house_200(261,1)}
 
-spriteset (spr_build_yamashiro_office_building_north_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(1,202)}
-spriteset (spr_build_yamashiro_office_building_east_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(261,202)}
+spriteset (spr_build_skyscraper_12_north_snow, 			"src/gfx/skyscrapers/skyscraper_12/building.png") 			{template_house_200(1,202)}
+spriteset (spr_build_skyscraper_12_east_snow, 			"src/gfx/skyscrapers/skyscraper_12/building.png") 			{template_house_200(261,202)}
 
 // Ground Sprites
-spriteset (spr_ground_yamashiro_office_building_north, 				"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(1,1)}
-spriteset (spr_ground_yamashiro_office_building_east, 				"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(261,1)}
+spriteset (spr_ground_skyscraper_12_north, 				"src/gfx/skyscrapers/skyscraper_12/ground.png") 			{template_ground(1,1)}
+spriteset (spr_ground_skyscraper_12_east, 				"src/gfx/skyscrapers/skyscraper_12/ground.png") 			{template_ground(261,1)}
 
-spriteset (spr_ground_yamashiro_office_building_north_snow, 		"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(1,33)}
-spriteset (spr_ground_yamashiro_office_building_east_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(261,33)}
+spriteset (spr_ground_skyscraper_12_north_snow, 		"src/gfx/skyscrapers/skyscraper_12/ground.png") 			{template_ground(1,33)}
+spriteset (spr_ground_skyscraper_12_east_snow, 			"src/gfx/skyscrapers/skyscraper_12/ground.png") 			{template_ground(261,33)}
 
 // Normal Sprites
-spritelayout sprlay_yamashiro_office_building_north {
+spritelayout sprlay_skyscraper_12_north {
 	ground {
-		sprite: spr_ground_yamashiro_office_building_north(construction_state);
+		sprite: spr_ground_skyscraper_12_north(construction_state);
 	}
 	building {
-		sprite: spr_build_yamashiro_office_building_north(construction_state);
+		sprite: spr_build_skyscraper_12_north(construction_state);
 		xoffset: 2;
 		yoffset: 2;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10520,24 +10519,24 @@ spritelayout sprlay_yamashiro_office_building_north {
 	}
 }
 
-spritelayout sprlay_yamashiro_office_building_east {
+spritelayout sprlay_skyscraper_12_east {
 	ground {
-		sprite: spr_ground_yamashiro_office_building_east(construction_state);
+		sprite: spr_ground_skyscraper_12_east(construction_state);
 	}
 	building {
-		sprite: spr_build_yamashiro_office_building_east(construction_state);
+		sprite: spr_build_skyscraper_12_east(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_yamashiro_office_building_snow_north {
+spritelayout sprlay_skyscraper_12_snow_north {
 	ground {
-		sprite: spr_ground_yamashiro_office_building_north_snow(construction_state);
+		sprite: spr_ground_skyscraper_12_north_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_yamashiro_office_building_north_snow(construction_state);
+		sprite: spr_build_skyscraper_12_north_snow(construction_state);
 		xoffset: 2;
 		yoffset: 2;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -10545,29 +10544,29 @@ spritelayout sprlay_yamashiro_office_building_snow_north {
 	}
 }
 
-spritelayout sprlay_yamashiro_office_building_snow_east {
+spritelayout sprlay_skyscraper_12_snow_east {
 	ground {
-		sprite: spr_ground_yamashiro_office_building_east_snow(construction_state);
+		sprite: spr_ground_skyscraper_12_east_snow(construction_state);
 	}
 	building {
-		sprite: spr_build_yamashiro_office_building_east_snow(construction_state);
+		sprite: spr_build_skyscraper_12_east_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yamashiro_office_building_north,terrain_type) {
-	TILETYPE_SNOW: sprlay_yamashiro_office_building_snow_north;
-	sprlay_yamashiro_office_building_north;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_12_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_12_snow_north;
+	sprlay_skyscraper_12_north;
 }
-switch(FEAT_HOUSES, SELF, switch_yamashiro_office_building_east,terrain_type) {
-	TILETYPE_SNOW: sprlay_yamashiro_office_building_snow_east;
-	sprlay_yamashiro_office_building_east;
+switch(FEAT_HOUSES, SELF, switch_skyscraper_12_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_skyscraper_12_snow_east;
+	sprlay_skyscraper_12_east;
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_yamashiro_office_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_skyscraper_12)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -10582,7 +10581,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yamashiro_office_building)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yamashiro_office_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_skyscraper_12_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -10593,10 +10592,10 @@ switch (FEAT_HOUSES, SELF, switch_yamashiro_office_building_con_check,
 ) {return;}		
  
 
-item(FEAT_HOUSES, item_yamashiro_office_building, 102, HOUSE_SIZE_1X2){
+item(FEAT_HOUSES, item_skyscraper_12, 102, HOUSE_SIZE_1X2){
 	property {
 		substitute: 				7; 													
-		name: 						string(NAME_YAMASHIRO_OFFICE_BUILDING);
+		name: 						string(NAME_SKYSCRAPER_12);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				255;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -10609,15 +10608,15 @@ item(FEAT_HOUSES, item_yamashiro_office_building, 102, HOUSE_SIZE_1X2){
 		building_class:				5;	
 		}
 	graphics {
-		graphics_north: 			switch_yamashiro_office_building_north;
-		graphics_east: 				switch_yamashiro_office_building_east;
-		construction_check:			switch_yamashiro_office_building_con_check;
+		graphics_north: 			switch_skyscraper_12_north;
+		graphics_east: 				switch_skyscraper_12_east;
+		construction_check:			switch_skyscraper_12_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_yamashiro_office_building;
+		colour: 					rand_recolor_skyscraper_12;
 	}
 }
 
-// End yamashiro_office_building
+// End skyscraper_12
 # 1 "JPplusBuildings.pnml" 4
 
 // LANDMARKS

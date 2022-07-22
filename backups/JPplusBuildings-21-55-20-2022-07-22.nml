@@ -6739,48 +6739,48 @@ item(FEAT_HOUSES, item_shops_01, 48, HOUSE_SIZE_1X1) {
 }
 // End shops_01
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/yamada_electronics_centre.pnml" 1
-// Begin yamada_electronics_centre
+# 1 "src/houses/shops/shops_02.pnml" 1
+// Begin shops_02
 
 // Building Sprites
-spriteset (spr_yamada_electronics_centre, 							"src/gfx/shops/yamada_electronics_centre/building.png") 					{template_house_128(1,1)}
-spriteset (spr_yamada_electronics_centre_snow, 						"src/gfx/shops/yamada_electronics_centre/building.png") 					{template_house_128(1,130)}
+spriteset (spr_shops_02, 							"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,1)}
+spriteset (spr_shops_02_snow, 						"src/gfx/shops/shops_02/building.png") 						{template_house_128(1,130)}
 
 // Ground Tiles
-spriteset (spr_yamada_electronics_centre_ground, 					"src/gfx/shops/yamada_electronics_centre/ground.png") 						{template_house_128(1,1)}
-//spriteset (spr_yamada_electronics_centre_ground_snow, 			"src/gfx/shops/yamada_electronics_centre/ground.png") 						{template_house_128(1,1)}
+spriteset (spr_shops_02_ground, 					"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
+//spriteset (spr_shops_02_ground_snow, 				"src/gfx/shops/shops_02/ground.png") 						{template_house_128(1,1)}
 
-spritelayout sprlay_yamada_electronics_centre_norm {
+spritelayout sprlay_shops_02_norm {
 	ground {
-		sprite: spr_yamada_electronics_centre_ground(construction_state);
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_yamada_electronics_centre(construction_state);
+		sprite: spr_shops_02(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_yamada_electronics_centre_snow {
+spritelayout sprlay_shops_02_snow {
 	ground {
-		sprite: spr_yamada_electronics_centre_ground(construction_state);
+		sprite: spr_shops_02_ground(construction_state);
 	}
 	building {
-		sprite: spr_yamada_electronics_centre_snow(construction_state);
+		sprite: spr_shops_02_snow(construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yamada_electronics_centre_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_yamada_electronics_centre_snow;
-	sprlay_yamada_electronics_centre_norm;
+switch(FEAT_HOUSES, SELF, switch_shops_02_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_shops_02_snow;
+	sprlay_shops_02_norm;
 }
 
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, random_recolour_yamada_electronics_centre) {
+random_switch (FEAT_HOUSES, SELF, random_recolour_shops_02) {
 	1:	return PALETTE_CC_DARK_BLUE;
 	1:	return PALETTE_CC_GREY;
 	1:	return PALETTE_CC_BROWN;
@@ -6790,17 +6790,17 @@ random_switch (FEAT_HOUSES, SELF, random_recolour_yamada_electronics_centre) {
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_yamada_electronics_centre_con_check, 
+switch (FEAT_HOUSES, SELF, switch_shops_02_con_check, 
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_yamada_electronics_centre, 47, HOUSE_SIZE_1X1) {
+item(FEAT_HOUSES, item_shops_02, 47, HOUSE_SIZE_1X1) {
 	property {
 		substitute: 				30;
-		name: 						string(NAME_YAMADA_ELECTRONICS_CENTRE);
+		name: 						string(NAME_SHOPS_02);
 		population: 				140;
 		mail_multiplier: 			75;
 		accepted_cargos: 			[[PASS, 8],[MAIL,8],[GOOD, 8]];
@@ -6813,205 +6813,15 @@ item(FEAT_HOUSES, item_yamada_electronics_centre, 47, HOUSE_SIZE_1X1) {
 		building_class: 			2;
 	}
 	graphics {
-		default: 					switch_yamada_electronics_centre_sprites;
-		construction_check: 		switch_yamada_electronics_centre_con_check;
-		colour: 					random_recolour_yamada_electronics_centre;
+		default: 					switch_shops_02_sprites;
+		construction_check: 		switch_shops_02_con_check;
+		colour: 					random_recolour_shops_02;
 		cargo_production: 			func_produce(24,10);
 	}
 }
-// End yamada_electronics_centre
+// End shops_02
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/tsuzumi_electronics_centre.pnml" 1
-// Begin tsuzumi_electronics_centre
-
-// Building Sprites
-spriteset (spr_tsuzumi_electronics_centre_a, 						"src/gfx/shops/tsuzumi_electronics_centre/building_a.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_a_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_a.png") 					{template_house_128_wide(1,130)}
-
-spriteset (spr_tsuzumi_electronics_centre_b, 						"src/gfx/shops/tsuzumi_electronics_centre/building_b.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_b_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_b.png") 					{template_house_128_wide(1,130)}
-
-spriteset (spr_tsuzumi_electronics_centre_c, 						"src/gfx/shops/tsuzumi_electronics_centre/building_c.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_c_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_c.png") 					{template_house_128_wide(1,130)}
-
-spriteset (spr_tsuzumi_electronics_centre_d, 						"src/gfx/shops/tsuzumi_electronics_centre/building_d.png") 					{template_house_128_wide(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_d_snow, 					"src/gfx/shops/tsuzumi_electronics_centre/building_d.png") 					{template_house_128_wide(1,130)}
-
-// Ground Tiles
-spriteset (spr_tsuzumi_electronics_centre_ground, 					"src/gfx/shops/tsuzumi_electronics_centre/ground.png") 						{template_ground(1,1)}
-spriteset (spr_tsuzumi_electronics_centre_ground_snow, 				"src/gfx/shops/tsuzumi_electronics_centre/ground.png") 						{template_ground(1,33)}
-
-// Spritelayouts
-spritelayout sprlay_tsuzumi_electronics_centre_a_norm {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_a (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_a_snow {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_a_snow (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_b_norm {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_b (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_b_snow {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_b_snow (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_c_norm {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_c (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_c_snow {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_c_snow (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_d_norm {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_d (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_tsuzumi_electronics_centre_d_snow {
-	ground {
-		sprite: spr_tsuzumi_electronics_centre_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_tsuzumi_electronics_centre_d_snow (construction_state);
-		xoffset: 2;
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_a_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_a_snow;
-	sprlay_tsuzumi_electronics_centre_a_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_b_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_b_snow;
-	sprlay_tsuzumi_electronics_centre_b_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_c_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_c_snow;
-	sprlay_tsuzumi_electronics_centre_c_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_d_sprites, terrain_type) {
-	TILETYPE_SNOW: sprlay_tsuzumi_electronics_centre_d_snow;
-	sprlay_tsuzumi_electronics_centre_d_norm;
-}
-
-// Random Switch
-random_switch (FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_sprites) {
-	1: switch_tsuzumi_electronics_centre_a_sprites;				
-	1: switch_tsuzumi_electronics_centre_b_sprites;
-	1: switch_tsuzumi_electronics_centre_c_sprites;
-	1: switch_tsuzumi_electronics_centre_d_sprites;				
-}
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_tsuzumi_electronics_centre_con_check, 
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	HasRoadAdjacentSW() && 
-	HasRoadAdjacentSE() && 
-	Class2PopCheck() &&				// Is there population to allow another Class 2
-	ClusterBuildingClass()			// Must be within two tiles of the same building class
-) {return;}	
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, random_recolour_tsuzumi_electronics_centre) {
-	1:	return PALETTE_CC_DARK_BLUE;
-	1:	return PALETTE_CC_GREY;
-	1:	return PALETTE_CC_BROWN;
-	1:	return PALETTE_CC_MAUVE;
-	1:	return PALETTE_CC_WHITE;
-	1:	return PALETTE_CC_DARK_GREEN;
-}
-*/
-
-item(FEAT_HOUSES, item_tsuzumi_electronics_centre, 65, HOUSE_SIZE_1X1) {
-	property {
-		substitute: 				30;
-		name: 						string(NAME_TSUZUMI_ELECTRONICS_CENTRE);
-		population: 				160;
-		mail_multiplier: 			75;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 8]];
-		local_authority_impact: 	180;
-		removal_cost_multiplier: 	155;
-		probability: 				5;
-		years_available: 			[1970,0xFFFF];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];	// JPSet Zones 4,3
-		building_class: 			2;
-	}
-	graphics {
-		default: 					switch_tsuzumi_electronics_centre_sprites;
-		construction_check: 		switch_tsuzumi_electronics_centre_con_check;
-		//colour: 					random_recolour_tsuzumi_electronics_centre;
-		cargo_production: 			func_produce(24,10);
-	}
-}
-// End tsuzumi_electronics_centre
+# 1 "src/houses/shops/tsuzumi_electronics_center.pnml" 1
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/shops/cinema.pnml" 1
 // Begin cinema

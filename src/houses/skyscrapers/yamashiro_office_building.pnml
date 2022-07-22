@@ -1,0 +1,128 @@
+// Begin yamashiro_office_building
+
+// Building Sprites
+spriteset (spr_build_yamashiro_office_building_north, 				"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(1,1)}
+spriteset (spr_build_yamashiro_office_building_east, 				"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(261,1)}
+
+spriteset (spr_build_yamashiro_office_building_north_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(1,202)}
+spriteset (spr_build_yamashiro_office_building_east_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/building.png") 			{template_house_200(261,202)}
+
+// Ground Sprites
+spriteset (spr_ground_yamashiro_office_building_north, 				"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(1,1)}
+spriteset (spr_ground_yamashiro_office_building_east, 				"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(261,1)}
+
+spriteset (spr_ground_yamashiro_office_building_north_snow, 		"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(1,33)}
+spriteset (spr_ground_yamashiro_office_building_east_snow, 			"src/gfx/skyscrapers/yamashiro_office_building/ground.png") 			{template_ground(261,33)}
+
+// Normal Sprites
+spritelayout sprlay_yamashiro_office_building_north {
+	ground {
+		sprite: spr_ground_yamashiro_office_building_north(construction_state);
+	}
+	building {
+		sprite: spr_build_yamashiro_office_building_north(construction_state);
+		xoffset: 2;
+		yoffset: 2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_yamashiro_office_building_east {
+	ground {
+		sprite: spr_ground_yamashiro_office_building_east(construction_state);
+	}
+	building {
+		sprite: spr_build_yamashiro_office_building_east(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yamashiro_office_building_snow_north {
+	ground {
+		sprite: spr_ground_yamashiro_office_building_north_snow(construction_state);
+	}
+	building {
+		sprite: spr_build_yamashiro_office_building_north_snow(construction_state);
+		xoffset: 2;
+		yoffset: 2;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_yamashiro_office_building_snow_east {
+	ground {
+		sprite: spr_ground_yamashiro_office_building_east_snow(construction_state);
+	}
+	building {
+		sprite: spr_build_yamashiro_office_building_east_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_yamashiro_office_building_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_yamashiro_office_building_snow_north;
+	sprlay_yamashiro_office_building_north;
+}
+switch(FEAT_HOUSES, SELF, switch_yamashiro_office_building_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_yamashiro_office_building_snow_east;
+	sprlay_yamashiro_office_building_east;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_yamashiro_office_building)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_yamashiro_office_building_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	IsCity() && 					// Can only appear in cities
+	IsUniqueHouse() &&				// Only one in city
+	PopOver50k() &&					// Population of city check
+	Class5PopCheck() &&				// Residential population is sufficient for another Skyscraper
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+) {return;}		
+ 
+
+item(FEAT_HOUSES, item_yamashiro_office_building, 102, HOUSE_SIZE_1X2){
+	property {
+		substitute: 				7; 													
+		name: 						string(NAME_YAMASHIRO_OFFICE_BUILDING);
+		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				255;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1990,0xFFFF];
+		minimum_lifetime: 			20;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				5;	
+		}
+	graphics {
+		graphics_north: 			switch_yamashiro_office_building_north;
+		graphics_east: 				switch_yamashiro_office_building_east;
+		construction_check:			switch_yamashiro_office_building_con_check;
+		cargo_production: 			func_produce(24,10);
+		colour: 					rand_recolor_yamashiro_office_building;
+	}
+}
+
+// End yamashiro_office_building
