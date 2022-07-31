@@ -1,0 +1,39 @@
+// Spritesets
+
+spriteset (spr_shibata_norm, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,1)}
+spriteset (spr_shibata_snow, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,82)}
+
+spriteset (spr_shibata_ground, 				"src/houses/apartments/shibata/ground.png") 			{template_ground(1,1)}
+spriteset (spr_shibata_ground_snow, 		"src/houses/apartments/shibata/ground.png") 			{template_ground(1,33)}
+
+// Spritelayouts
+
+// Normal Sprites
+spritelayout sprlay_shibata_norm {
+	ground {
+		sprite: spr_shibata_ground(3);
+	}
+	building {
+		sprite: 		spr_shibata_norm(3);
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_shibata_snow {
+	ground {
+		sprite: 		spr_shibata_ground_snow(3);
+	}
+	building {
+		sprite: 		spr_shibata_snow(3);
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_shibata_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_snow;
+	sprlay_shibata_norm;
+}

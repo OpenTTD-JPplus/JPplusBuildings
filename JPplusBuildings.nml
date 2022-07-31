@@ -4546,50 +4546,29 @@ item(FEAT_HOUSES, item_small_apartments_06, 94, HOUSE_SIZE_1X1){
 # 1 "JPplusBuildings.pnml" 4
 
 // APARTMENTS
-# 1 "src/houses/apartments/1945/1945.pnml" 1
-// Begin apartments_1945
+# 1 "src/houses/apartments/apartments_1945.pnml" 1
+// Begin Apartments_1945
 
-# 1 "src/houses/apartments/1945/1945_spritesets.pnml" 1
-// Begin 1945_apartments
+# 1 "src/houses/apartments/haraku/haraku.pnml" 1
+// Spritesets
 
-// Building Sprites
-spriteset (spr_haraku_6L, 						"src/gfx/apartments/haraku/building.png") 						{template_house_128(1,1)}
-spriteset (spr_haraku_6L_snow, 					"src/gfx/apartments/haraku/building.png") 						{template_house_128(400,1)}
+spriteset (spr_haraku_6L, 						"src/houses/apartments/haraku/building.png") 					{template_house_128(1,1)}
+spriteset (spr_haraku_6L_snow, 					"src/houses/apartments/haraku/building.png") 					{template_house_128(400,1)}
 
-spriteset (spr_haraku_7L, 						"src/gfx/apartments/haraku/building.png") 						{template_house_128(1,130)}
-spriteset (spr_haraku_7L_snow, 					"src/gfx/apartments/haraku/building.png") 						{template_house_128(400,130)}
+spriteset (spr_haraku_7L, 						"src/houses/apartments/haraku/building.png") 					{template_house_128(1,130)}
+spriteset (spr_haraku_7L_snow, 					"src/houses/apartments/haraku/building.png") 					{template_house_128(400,130)}
 
-spriteset (spr_haraku_8L, 						"src/gfx/apartments/haraku/building.png") 						{template_house_128(1,259)}
-spriteset (spr_haraku_8L_snow, 					"src/gfx/apartments/haraku/building.png") 						{template_house_128(400,259)}
+spriteset (spr_haraku_8L, 						"src/houses/apartments/haraku/building.png") 					{template_house_128(1,259)}
+spriteset (spr_haraku_8L_snow, 					"src/houses/apartments/haraku/building.png") 					{template_house_128(400,259)}
 
-spriteset (spr_haraku_9L, 						"src/gfx/apartments/haraku/building.png") 						{template_house_128(1,388)}
-spriteset (spr_haraku_9L_snow, 					"src/gfx/apartments/haraku/building.png") 						{template_house_128(400,388)}
+spriteset (spr_haraku_9L, 						"src/houses/apartments/haraku/building.png") 					{template_house_128(1,388)}
+spriteset (spr_haraku_9L_snow, 					"src/houses/apartments/haraku/building.png") 					{template_house_128(400,388)}
 
-spriteset (spr_kono_6L, 						"src/gfx/apartments/kono/building.png") 						{template_house_128(1,1)}
-spriteset (spr_kono_6L_snow, 					"src/gfx/apartments/kono/building.png") 						{template_house_128(400,1)}
+spriteset (spr_haraku_ground, 					"src/houses/apartments/haraku/ground.png") 						{template_ground(1,1)}
+spriteset (spr_haraku_ground_snow, 				"src/houses/apartments/haraku/ground.png") 						{template_ground(1,33)}
 
-spriteset (spr_kono_7L, 						"src/gfx/apartments/kono/building.png") 						{template_house_128(1,130)}
-spriteset (spr_kono_7L_snow, 					"src/gfx/apartments/kono/building.png") 						{template_house_128(400,130)}
 
-spriteset (spr_kono_8L, 						"src/gfx/apartments/kono/building.png") 						{template_house_128(1,259)}
-spriteset (spr_kono_8L_snow, 					"src/gfx/apartments/kono/building.png") 						{template_house_128(400,259)}
-
-spriteset (spr_kono_9L, 						"src/gfx/apartments/kono/building.png") 						{template_house_128(1,388)}
-spriteset (spr_kono_9L_snow, 					"src/gfx/apartments/kono/building.png") 						{template_house_128(400,388)}
-
-// Ground Tiles
-spriteset (spr_haraku_ground, 					"src/gfx/apartments/haraku/ground.png") 						{template_ground(1,1)}
-spriteset (spr_haraku_ground_snow, 				"src/gfx/apartments/haraku/ground.png") 						{template_ground(1,33)}
-
-spriteset (spr_kono_ground, 					"src/gfx/apartments/kono/ground.png") 							{template_ground(1,1)}
-spriteset (spr_kono_ground_snow, 				"src/gfx/apartments/kono/ground.png") 							{template_ground(1,33)}
-
-// Kono Inspiration
-// 1 Chome-18-6 Mori, Koto City, Tokyo 135-0001, Japan
-
-# 1 "src/houses/apartments/1945/1945.pnml" 3
-# 1 "src/houses/apartments/1945/1945_spritelayouts.pnml" 1
-// Begin 1945_spritelayouts
+// Spritelayouts
 
 // Haraku 6 Storey
 
@@ -4695,6 +4674,52 @@ spritelayout sprlay_haraku_9L_snow {
 	}
 }
 
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_haraku_6L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_haraku_6L_snow;
+	sprlay_haraku_6L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_haraku_7L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_haraku_7L_snow;
+	sprlay_haraku_7L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_haraku_8L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_haraku_8L_snow;
+	sprlay_haraku_8L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_haraku_9L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_haraku_9L_snow;
+	sprlay_haraku_9L_norm;
+}
+# 1 "src/houses/apartments/apartments_1945.pnml" 3
+# 1 "src/houses/apartments/kono/kono.pnml" 1
+
+// Kono Inspiration
+// 1 Chome-18-6 Mori, Koto City, Tokyo 135-0001, Japan
+
+// Spritesets
+
+spriteset (spr_kono_6L, 						"src/houses/apartments/kono/building.png") 						{template_house_128(1,1)}
+spriteset (spr_kono_6L_snow, 					"src/houses/apartments/kono/building.png") 						{template_house_128(400,1)}
+
+spriteset (spr_kono_7L, 						"src/houses/apartments/kono/building.png") 						{template_house_128(1,130)}
+spriteset (spr_kono_7L_snow, 					"src/houses/apartments/kono/building.png") 						{template_house_128(400,130)}
+
+spriteset (spr_kono_8L, 						"src/houses/apartments/kono/building.png") 						{template_house_128(1,259)}
+spriteset (spr_kono_8L_snow, 					"src/houses/apartments/kono/building.png") 						{template_house_128(400,259)}
+
+spriteset (spr_kono_9L, 						"src/houses/apartments/kono/building.png") 						{template_house_128(1,388)}
+spriteset (spr_kono_9L_snow, 					"src/houses/apartments/kono/building.png") 						{template_house_128(400,388)}
+
+spriteset (spr_kono_ground, 					"src/houses/apartments/kono/ground.png") 						{template_ground(1,1)}
+spriteset (spr_kono_ground_snow, 				"src/houses/apartments/kono/ground.png") 						{template_ground(1,33)}
+
+
+// Spritelayouts
+
 // Kono 6 Storey
 
 // Normal Sprites
@@ -4799,28 +4824,7 @@ spritelayout sprlay_kono_9L_snow {
 	}
 }
 
-
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_haraku_6L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_haraku_6L_snow;
-	sprlay_haraku_6L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_haraku_7L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_haraku_7L_snow;
-	sprlay_haraku_7L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_haraku_8L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_haraku_8L_snow;
-	sprlay_haraku_8L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_haraku_9L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_haraku_9L_snow;
-	sprlay_haraku_9L_norm;
-}
-
 switch(FEAT_HOUSES, SELF, switch_kono_6L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_kono_6L_snow;
 	sprlay_kono_6L_norm;
@@ -4840,7 +4844,193 @@ switch(FEAT_HOUSES, SELF, switch_kono_9L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_kono_9L_snow;
 	sprlay_kono_9L_norm;
 }
-# 1 "src/houses/apartments/1945/1945.pnml" 3
+# 1 "src/houses/apartments/apartments_1945.pnml" 3
+# 1 "src/houses/apartments/shibata/shibata.pnml" 1
+// Spritesets
+
+spriteset (spr_shibata_norm, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,1)}
+spriteset (spr_shibata_snow, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,82)}
+
+spriteset (spr_shibata_ground, 				"src/houses/apartments/shibata/ground.png") 			{template_ground(1,1)}
+spriteset (spr_shibata_ground_snow, 		"src/houses/apartments/shibata/ground.png") 			{template_ground(1,33)}
+
+// Spritelayouts
+
+// Normal Sprites
+spritelayout sprlay_shibata_norm {
+	ground {
+		sprite: spr_shibata_ground(3);
+	}
+	building {
+		sprite: 		spr_shibata_norm(3);
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_shibata_snow {
+	ground {
+		sprite: 		spr_shibata_ground_snow(3);
+	}
+	building {
+		sprite: 		spr_shibata_snow(3);
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_shibata_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_snow;
+	sprlay_shibata_norm;
+}
+# 1 "src/houses/apartments/apartments_1945.pnml" 3
+# 1 "src/houses/apartments/toki/toki.pnml" 1
+// Spritesets
+
+spriteset (spr_toki_5L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,1)}
+spriteset (spr_toki_5L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,1)}
+
+spriteset (spr_toki_6L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,130)}
+spriteset (spr_toki_6L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,130)}
+
+spriteset (spr_toki_7L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,259)}
+spriteset (spr_toki_7L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,259)}
+
+spriteset (spr_toki_8L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,388)}
+spriteset (spr_toki_8L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,388)}
+
+spriteset (spr_toki_ground, 					"src/houses/apartments/toki/ground.png") 						{template_ground(1,1)}
+spriteset (spr_toki_ground_snow, 				"src/houses/apartments/toki/ground.png") 						{template_ground(1,33)}
+
+// Spritelayouts
+
+// Toki 5 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_5L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_5L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_5L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_5L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 6 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_6L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_6L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_6L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_6L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 7 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_7L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_7L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_7L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_7L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 8 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_8L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_8L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_8L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_8L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_toki_5L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_5L_snow;
+	sprlay_toki_5L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_6L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_6L_snow;
+	sprlay_toki_6L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_7L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_7L_snow;
+	sprlay_toki_7L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_8L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_8L_snow;
+	sprlay_toki_8L_norm;
+}
+# 1 "src/houses/apartments/apartments_1945.pnml" 3
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all) {
@@ -4852,17 +5042,53 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all) {
 	1: switch_kono_7L_snow;
 	1: switch_kono_8L_snow;
 	1: switch_kono_9L_snow;
+	1: switch_toki_5L_snow;
+	1: switch_toki_6L_snow;
+	1: switch_toki_7L_snow;
+	1: switch_toki_8L_snow;
+	1: switch_shibata_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all_name) {
+	dependent: switch_apartments_1945_all;
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_SHIBATA);
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_outer) {
 	1: switch_haraku_6L_snow;
 	1: switch_kono_6L_snow;
+	1: switch_toki_5L_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_outer_name) {
+	dependent: switch_apartments_1945_outer;
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_TOKI);
 }
 
 switch(FEAT_HOUSES, SELF, switch_apartments_1945_sprites, town_zone) {
 	TOWNZONE_CENTRE: 		switch_apartments_1945_all;
 	TOWNZONE_INNER_SUBURB:  switch_apartments_1945_all;
 	switch_apartments_1945_outer;
+}
+
+switch(FEAT_HOUSES, SELF, switch_apartments_1945_name, town_zone) {
+	TOWNZONE_CENTRE: 		switch_apartments_1945_all_name;
+	TOWNZONE_INNER_SUBURB:  switch_apartments_1945_all_name;
+	switch_apartments_1945_outer_name;
 }
 
 // Recolouring
@@ -4901,6 +5127,7 @@ item(FEAT_HOUSES, item_apartments_1945, 30, HOUSE_SIZE_1X1){
 		building_class:				4;		
 		}
 	graphics {
+		name:						switch_apartments_1945_name;
 		default: 					switch_apartments_1945_sprites;
 		construction_check: 		switch_apartments_1945_con_check;
 		cargo_production: 			func_produce(13,4);
@@ -4910,181 +5137,28 @@ item(FEAT_HOUSES, item_apartments_1945, 30, HOUSE_SIZE_1X1){
 
 // End apartments_1945
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/apartments/1960/1960.pnml" 1
+# 1 "src/houses/apartments/apartments_1960.pnml" 1
 // Begin apartments_1960
 
-# 1 "src/houses/apartments/1960/1960_spritesets.pnml" 1
-// Begin apartments_01
+# 1 "src/houses/apartments/tetsui/tetsui.pnml" 1
+// Spritesets
 
-// Building Sprites
-spriteset (spr_yano, 							"src/gfx/apartments/yano/building.png") 				{template_house_80(1,1)}
-spriteset (spr_yano_snow, 						"src/gfx/apartments/yano/building.png") 				{template_house_80(1,82)}
+spriteset (spr_tetsui_5L_norm, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(1,1)}
+spriteset (spr_tetsui_5L_snow, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(400,1)}
 
-spriteset (spr_yanagi_5L_norm, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(1,1)}
-spriteset (spr_yanagi_5L_snow, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(400,1)}
+spriteset (spr_tetsui_6L_norm, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(1,82)}
+spriteset (spr_tetsui_6L_snow, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(400,82)}
 
-spriteset (spr_yanagi_6L_norm, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(1,82)}
-spriteset (spr_yanagi_6L_snow, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(400,82)}
+spriteset (spr_tetsui_7L_norm, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(1,163)}
+spriteset (spr_tetsui_7L_snow, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(400,163)}
 
-spriteset (spr_yanagi_7L_norm, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(1,163)}
-spriteset (spr_yanagi_7L_snow, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(400,163)}
+spriteset (spr_tetsui_8L_norm, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(1,244)}
+spriteset (spr_tetsui_8L_snow, 					"src/houses/apartments/tetsui/building.png") 				{template_house_80(400,244)}
 
-spriteset (spr_yanagi_8L_norm, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(1,244)}
-spriteset (spr_yanagi_8L_snow, 					"src/gfx/apartments/yanagi/building.png") 				{template_house_80(400,244)}
+spriteset (spr_tetsui_ground, 					"src/houses/apartments/tetsui/ground.png") 					{template_ground(1,1)}
+spriteset (spr_tetsui_ground_snow, 				"src/houses/apartments/tetsui/ground.png") 					{template_ground(1,33)}
 
-spriteset (spr_tetsui_5L_norm, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(1,1)}
-spriteset (spr_tetsui_5L_snow, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(400,1)}
-
-spriteset (spr_tetsui_6L_norm, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(1,82)}
-spriteset (spr_tetsui_6L_snow, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(400,82)}
-
-spriteset (spr_tetsui_7L_norm, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(1,163)}
-spriteset (spr_tetsui_7L_snow, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(400,163)}
-
-spriteset (spr_tetsui_8L_norm, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(1,244)}
-spriteset (spr_tetsui_8L_snow, 					"src/gfx/apartments/tetsui/building.png") 				{template_house_80(400,244)}
-
-
-// Ground Tiles
-spriteset (spr_yano_ground, 					"src/gfx/apartments/yano/ground.png") 					{template_ground(1,1)}
-spriteset (spr_yano_ground_snow, 				"src/gfx/apartments/yano/ground.png") 					{template_ground(1,33)}
-
-spriteset (spr_yanagi_ground, 					"src/gfx/apartments/yanagi/ground.png") 				{template_ground(1,1)}
-spriteset (spr_yanagi_ground_snow, 				"src/gfx/apartments/yanagi/ground.png") 				{template_ground(1,33)}
-
-spriteset (spr_tetsui_ground, 					"src/gfx/apartments/tetsui/ground.png") 				{template_ground(1,1)}
-spriteset (spr_tetsui_ground_snow, 				"src/gfx/apartments/tetsui/ground.png") 				{template_ground(1,33)}
-# 1 "src/houses/apartments/1960/1960.pnml" 3
-# 1 "src/houses/apartments/1960/1960_spritelayouts.pnml" 1
-// YANO
-
-// Normal Sprites
-spritelayout sprlay_yano_norm {
-	ground {
-		sprite: spr_yano_ground (construction_state);
-	}
-	building {
-		sprite: spr_yano (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_yano_snow {
-	ground {
-		sprite: spr_yano_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_yano_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// YANAGI
-
-// 5-story
-// Norm Sprites
-spritelayout sprlay_yanagi_5L_norm {
-	ground {
-		sprite: spr_yanagi_ground (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_5L_norm (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_yanagi_5L_snow {
-	ground {
-		sprite: spr_yanagi_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_5L_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// 6-story
-// Norm Sprites
-spritelayout sprlay_yanagi_6L_norm {
-	ground {
-		sprite: spr_yanagi_ground (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_6L_norm (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_yanagi_6L_snow {
-	ground {
-		sprite: spr_yanagi_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_6L_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// 7-story
-// Norm Sprites
-spritelayout sprlay_yanagi_7L_norm {
-	ground {
-		sprite: spr_yanagi_ground (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_7L_norm (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_yanagi_7L_snow {
-	ground {
-		sprite: spr_yanagi_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_7L_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// 8-story
-// Norm Sprites
-spritelayout sprlay_yanagi_8L_norm {
-	ground {
-		sprite: spr_yanagi_ground (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_8L_norm (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_yanagi_8L_snow {
-	ground {
-		sprite: spr_yanagi_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_yanagi_8L_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// TETSUI
+// Spritelayouts
 
 // 5-story
 // Norm Sprites
@@ -5186,11 +5260,189 @@ spritelayout sprlay_tetsui_8L_snow {
 	}
 }
 
+// Choose between Norm or Snow
+switch(FEAT_HOUSES, SELF, switch_tetsui_5L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_tetsui_5L_snow;
+	sprlay_tetsui_5L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_tetsui_6L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_tetsui_6L_snow;
+	sprlay_tetsui_6L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_tetsui_7L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_tetsui_7L_snow;
+	sprlay_tetsui_7L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_tetsui_8L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_tetsui_8L_snow;
+	sprlay_tetsui_8L_norm;
+}
+# 1 "src/houses/apartments/apartments_1960.pnml" 3
+# 1 "src/houses/apartments/yano/yano.pnml" 1
+// Spritesets
+
+spriteset (spr_yano_norm, 						"src/houses/apartments/yano/building.png") 					{template_house_80(1,1)}
+spriteset (spr_yano_snow, 						"src/houses/apartments/yano/building.png") 					{template_house_80(1,82)}
+
+spriteset (spr_yano_ground, 					"src/houses/apartments/yano/ground.png") 					{template_ground(1,1)}
+spriteset (spr_yano_ground_snow, 				"src/houses/apartments/yano/ground.png") 					{template_ground(1,33)}
+
+// Spritelayouts
+
+// Normal Sprites
+spritelayout sprlay_yano_norm {
+	ground {
+		sprite: spr_yano_ground (construction_state);
+	}
+	building {
+		sprite: spr_yano_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yano_snow {
+	ground {
+		sprite: spr_yano_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_yano_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_yano_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_yano_snow;
 	sprlay_yano_norm;
 }
+# 1 "src/houses/apartments/apartments_1960.pnml" 3
+# 1 "src/houses/apartments/yanagi/yanagi.pnml" 1
+// Spritesets
+
+spriteset (spr_yanagi_5L_norm, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(1,1)}
+spriteset (spr_yanagi_5L_snow, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(400,1)}
+
+spriteset (spr_yanagi_6L_norm, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(1,82)}
+spriteset (spr_yanagi_6L_snow, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(400,82)}
+
+spriteset (spr_yanagi_7L_norm, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(1,163)}
+spriteset (spr_yanagi_7L_snow, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(400,163)}
+
+spriteset (spr_yanagi_8L_norm, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(1,244)}
+spriteset (spr_yanagi_8L_snow, 					"src/houses/apartments/yanagi/building.png") 				{template_house_80(400,244)}
+
+spriteset (spr_yanagi_ground, 					"src/houses/apartments/yanagi/ground.png") 					{template_ground(1,1)}
+spriteset (spr_yanagi_ground_snow, 				"src/houses/apartments/yanagi/ground.png") 					{template_ground(1,33)}
+
+// Spritelayouts
+
+// 5-story
+// Norm Sprites
+spritelayout sprlay_yanagi_5L_norm {
+	ground {
+		sprite: spr_yanagi_ground (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_5L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yanagi_5L_snow {
+	ground {
+		sprite: spr_yanagi_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_5L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// 6-story
+// Norm Sprites
+spritelayout sprlay_yanagi_6L_norm {
+	ground {
+		sprite: spr_yanagi_ground (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_6L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yanagi_6L_snow {
+	ground {
+		sprite: spr_yanagi_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_6L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// 7-story
+// Norm Sprites
+spritelayout sprlay_yanagi_7L_norm {
+	ground {
+		sprite: spr_yanagi_ground (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_7L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yanagi_7L_snow {
+	ground {
+		sprite: spr_yanagi_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_7L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// 8-story
+// Norm Sprites
+spritelayout sprlay_yanagi_8L_norm {
+	ground {
+		sprite: spr_yanagi_ground (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_8L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_yanagi_8L_snow {
+	ground {
+		sprite: spr_yanagi_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_yanagi_8L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Norm or Snow
 
 switch(FEAT_HOUSES, SELF, switch_yanagi_5L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_yanagi_5L_snow;
@@ -5211,39 +5463,32 @@ switch(FEAT_HOUSES, SELF, switch_yanagi_8L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_yanagi_8L_snow;
 	sprlay_yanagi_8L_norm;
 }
-
-switch(FEAT_HOUSES, SELF, switch_tetsui_5L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_tetsui_5L_snow;
-	sprlay_tetsui_5L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tetsui_6L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_tetsui_6L_snow;
-	sprlay_tetsui_6L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tetsui_7L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_tetsui_7L_snow;
-	sprlay_tetsui_7L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_tetsui_8L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_tetsui_8L_snow;
-	sprlay_tetsui_8L_norm;
-}
-# 1 "src/houses/apartments/1960/1960.pnml" 3
+# 1 "src/houses/apartments/apartments_1960.pnml" 3
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_all) {
 	1: switch_yano_snow;
 	1: switch_yanagi_5L_snow;
 	1: switch_yanagi_6L_snow;
-	1: switch_tetsui_5L_snow;
-	1: switch_tetsui_6L_snow;
 	1: switch_yanagi_7L_snow;
 	1: switch_yanagi_8L_snow;
+	1: switch_tetsui_5L_snow;
+	1: switch_tetsui_6L_snow;
 	1: switch_tetsui_7L_snow;
 	1: switch_tetsui_8L_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_all_name) {
+	dependent: switch_apartments_1960_all;
+	1: string(NAME_APARTMENTS_YANO);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer) {
@@ -5254,10 +5499,25 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer) {
 	1: switch_tetsui_6L_snow;
 }
 
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer_name) {
+	dependent: switch_apartments_1960_outer;
+	1: string(NAME_APARTMENTS_YANO);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+}
+
 switch(FEAT_HOUSES, SELF, switch_apartments_1960_sprites, town_zone) {
 	TOWNZONE_CENTRE: 		switch_apartments_1960_all;
 	TOWNZONE_INNER_SUBURB:  switch_apartments_1960_all;
 	switch_apartments_1960_outer;
+}
+
+switch(FEAT_HOUSES, SELF, switch_apartments_1960_name, town_zone) {
+	TOWNZONE_CENTRE: 		switch_apartments_1960_all_name;
+	TOWNZONE_INNER_SUBURB:  switch_apartments_1960_all_name;
+	switch_apartments_1960_outer_name;
 }
 
 // Recolouring
@@ -5284,7 +5544,7 @@ switch (FEAT_HOUSES, SELF, switch_apartments_1960_con_check,
 item(FEAT_HOUSES, item_apartments_1960, 27, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_MODERN);
+		name: 						string(NAME_APARTMENTS_YANO);
 		population: 				150;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
@@ -5297,109 +5557,13 @@ item(FEAT_HOUSES, item_apartments_1960, 27, HOUSE_SIZE_1X1){
 				
 		}
 	graphics {
+		name:						switch_apartments_1960_name;
 		default: 					switch_apartments_1960_sprites;
 		construction_check: 		switch_apartments_1960_con_check;
 		cargo_production: 			func_produce(13,4);
 		colour: 					rand_switch_recolor_apartments_1960;
 	}
 }
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/apartments/apartments_03.pnml" 1
-// Begin apartments_03
-
-// Building Sprites
-spriteset (spr_apartments_03, 							"src/gfx/apartments/apartments_03/building.png") 						{template_house_80(1,1)}
-spriteset (spr_apartments_03_snow, 						"src/gfx/apartments/apartments_03/building.png") 						{template_house_80(1,82)}
-
-// Ground Tiles
-spriteset (spr_apartments_03_ground, 					"src/gfx/apartments/apartments_03/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_apartments_03_ground_snow, 				"src/gfx/apartments/apartments_03/ground.png") 						{template_house_80(1,82)}
-
-// Normal Sprites
-spritelayout sprlay_apartments_03_norm {
-	ground {
-		sprite: spr_apartments_03_ground(3);
-	}
-	building {
-		sprite: 		spr_apartments_03(3);
-		recolour_mode: 	RECOLOUR_REMAP; 
-		palette: 		PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_apartments_03_snow {
-	ground {
-		sprite: 		spr_apartments_03_ground_snow(3);
-	}
-	building {
-		sprite: 		spr_apartments_03_snow(3);
-		recolour_mode: 	RECOLOUR_REMAP; 
-		palette: 		PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_apartments_03_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_apartments_03_snow;
-	sprlay_apartments_03_norm;
-}
-
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_03)
-	{
-		//1: PALETTE_CC_RED;			// too in your face
-		2: PALETTE_CC_LIGHT_BLUE;
-		//1: PALETTE_CC_PINK;			// too silly
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;			// nah
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_apartments_03_con_check, 	
-	FuncServicePASS() 			// Only build within the catchment area of a station which received passengers this month or last month
-) {return;}	
-
-item(FEAT_HOUSES, item_apartments_03, 31, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_03);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[FOOD, 4]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1950,0xFFFF];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(					// JPS Zones = 3 & 2, ITL = All Zones
-										TOWNZONE_CENTRE,		// 4
-										TOWNZONE_INNER_SUBURB,	// 3
-										TOWNZONE_OUTER_SUBURB	// 2
-										//TOWNZONE_OUTSKIRT		// 1
-										//TOWNZONE_EDGE			// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				4;
-		}
-	graphics {
-		default: 					switch_apartments_03_snow;
-		construction_check: 		switch_apartments_03_con_check;
-		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_apartments_03;
-	}
-}
-
-// End apartments_03
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/apartments_04.pnml" 1
 // Begin apartments_04
@@ -5645,104 +5809,7 @@ item(FEAT_HOUSES, item_apartments_05, 32, HOUSE_SIZE_1X1){
 
 // End apartments_05
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/apartments/apartments_06.pnml" 1
-// Begin apartments_06
-
-// Building Sprites
-spriteset (spr_apartments_06, 							"src/gfx/apartments/apartments_06/building.png") 					{template_house_150_wide(1,1)}
-spriteset (spr_apartments_06_snow, 						"src/gfx/apartments/apartments_06/building.png") 					{template_house_150_wide(1,152)}
-
-// Ground Tiles
-spriteset (spr_apartments_06_ground, 					"src/gfx/apartments/apartments_06/ground.png") 						{template_ground(1,1)}
-spriteset (spr_apartments_06_ground_snow, 				"src/gfx/apartments/apartments_06/ground.png") 						{template_ground(1,33)}
-
-// Normal Sprites
-spritelayout sprlay_apartments_06_norm {
-	ground {
-		sprite: spr_apartments_06_ground (construction_state);
-	}
-	building {
-		sprite: spr_apartments_06 (construction_state);
-		yoffset:  2;
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_apartments_06_snow {
-	ground {
-		sprite: spr_apartments_06_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_apartments_06_snow (construction_state);
-		yoffset:  2;
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_apartments_06_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_apartments_06_snow;
-	sprlay_apartments_06_norm;
-}
-
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_06)
-	{
-		//1: PALETTE_CC_RED;			// too in your face
-		2: PALETTE_CC_LIGHT_BLUE;
-		//1: PALETTE_CC_PINK;			// too silly
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;			// nah
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_apartments_06_con_check, 	
-	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
-) {return;}	
-
-item(FEAT_HOUSES, item_apartments_06, 33, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_06);
-		population: 				200;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 8]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,1999];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(						// Taller than other Apartments so limited to TOWNZONE_CENTRE
-										TOWNZONE_CENTRE				// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT			// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				4;		
-		}
-	graphics {
-		default: 					switch_apartments_06_snow;
-		construction_check: 		switch_apartments_06_con_check;
-		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_apartments_06;
-	}
-}
-
-// End apartments_06
-# 1 "JPplusBuildings.pnml" 4
+//#include "src/houses/apartments/apartments_06.pnml"
 # 1 "src/houses/apartments/apartments_07.pnml" 1
 // Begin apartments_07
 

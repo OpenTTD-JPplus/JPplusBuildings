@@ -1,0 +1,143 @@
+// Spritesets
+
+spriteset (spr_toki_5L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,1)}
+spriteset (spr_toki_5L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,1)}
+
+spriteset (spr_toki_6L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,130)}
+spriteset (spr_toki_6L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,130)}
+
+spriteset (spr_toki_7L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,259)}
+spriteset (spr_toki_7L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,259)}
+
+spriteset (spr_toki_8L, 						"src/houses/apartments/toki/building.png") 						{template_house_128(1,388)}
+spriteset (spr_toki_8L_snow, 					"src/houses/apartments/toki/building.png") 						{template_house_128(400,388)}
+
+spriteset (spr_toki_ground, 					"src/houses/apartments/toki/ground.png") 						{template_ground(1,1)}
+spriteset (spr_toki_ground_snow, 				"src/houses/apartments/toki/ground.png") 						{template_ground(1,33)}
+
+// Spritelayouts
+
+// Toki 5 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_5L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_5L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_5L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_5L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 6 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_6L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_6L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_6L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_6L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 7 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_7L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_7L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_7L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_7L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Toki 8 Storey
+
+// Normal Sprites
+spritelayout sprlay_toki_8L_norm {
+	ground {
+		sprite: spr_toki_ground(construction_state);
+	}
+	building {
+		sprite: spr_toki_8L (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_toki_8L_snow {
+	ground {
+		sprite: spr_toki_ground_snow(construction_state);
+	}
+	building {
+		sprite: spr_toki_8L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_toki_5L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_5L_snow;
+	sprlay_toki_5L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_6L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_6L_snow;
+	sprlay_toki_6L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_7L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_7L_snow;
+	sprlay_toki_7L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_toki_8L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_toki_8L_snow;
+	sprlay_toki_8L_norm;
+}

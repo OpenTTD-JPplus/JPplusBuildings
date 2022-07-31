@@ -1,7 +1,9 @@
-// Begin apartments_1945
+// Begin Apartments_1945
 
-#include "src/houses/apartments/1945/1945_spritesets.pnml"
-#include "src/houses/apartments/1945/1945_spritelayouts.pnml"
+#include "src/houses/apartments/haraku/haraku.pnml"
+#include "src/houses/apartments/kono/kono.pnml"
+#include "src/houses/apartments/shibata/shibata.pnml"
+#include "src/houses/apartments/toki/toki.pnml"
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all) {
@@ -13,17 +15,53 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all) {
 	1: switch_kono_7L_snow;
 	1: switch_kono_8L_snow;
 	1: switch_kono_9L_snow;
+	1: switch_toki_5L_snow;
+	1: switch_toki_6L_snow;
+	1: switch_toki_7L_snow;
+	1: switch_toki_8L_snow;
+	1: switch_shibata_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_all_name) {
+	dependent: switch_apartments_1945_all;
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_TOKI);
+	1: string(NAME_APARTMENTS_SHIBATA);
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_outer) {
 	1: switch_haraku_6L_snow;
 	1: switch_kono_6L_snow;
+	1: switch_toki_5L_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1945_outer_name) {
+	dependent: switch_apartments_1945_outer;
+	1: string(NAME_APARTMENTS_HARAKU);
+	1: string(NAME_APARTMENTS_KONO);
+	1: string(NAME_APARTMENTS_TOKI);
 }
 
 switch(FEAT_HOUSES, SELF, switch_apartments_1945_sprites, town_zone) {
 	TOWNZONE_CENTRE: 		switch_apartments_1945_all;
 	TOWNZONE_INNER_SUBURB:  switch_apartments_1945_all;
 	switch_apartments_1945_outer;
+}
+
+switch(FEAT_HOUSES, SELF, switch_apartments_1945_name, town_zone) {
+	TOWNZONE_CENTRE: 		switch_apartments_1945_all_name;
+	TOWNZONE_INNER_SUBURB:  switch_apartments_1945_all_name;
+	switch_apartments_1945_outer_name;
 }
 
 // Recolouring
@@ -62,6 +100,7 @@ item(FEAT_HOUSES, item_apartments_1945, 30, HOUSE_SIZE_1X1){
 		building_class:				4;		
 		}
 	graphics {
+		name:						switch_apartments_1945_name;
 		default: 					switch_apartments_1945_sprites;
 		construction_check: 		switch_apartments_1945_con_check;
 		cargo_production: 			func_produce(13,4);

@@ -1,19 +1,33 @@
 // Begin apartments_1960
 
-#include "src/houses/apartments/1960/1960_spritesets.pnml"
-#include "src/houses/apartments/1960/1960_spritelayouts.pnml"
+#include "src/houses/apartments/tetsui/tetsui.pnml"
+#include "src/houses/apartments/yano/yano.pnml"
+#include "src/houses/apartments/yanagi/yanagi.pnml"
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_all) {
 	1: switch_yano_snow;
 	1: switch_yanagi_5L_snow;
 	1: switch_yanagi_6L_snow;
-	1: switch_tetsui_5L_snow;
-	1: switch_tetsui_6L_snow;
 	1: switch_yanagi_7L_snow;
 	1: switch_yanagi_8L_snow;
+	1: switch_tetsui_5L_snow;
+	1: switch_tetsui_6L_snow;
 	1: switch_tetsui_7L_snow;
 	1: switch_tetsui_8L_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_all_name) {
+	dependent: switch_apartments_1960_all;
+	1: string(NAME_APARTMENTS_YANO);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer) {
@@ -24,10 +38,25 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer) {
 	1: switch_tetsui_6L_snow;
 }
 
+random_switch (FEAT_HOUSES, SELF, switch_apartments_1960_outer_name) {
+	dependent: switch_apartments_1960_outer;
+	1: string(NAME_APARTMENTS_YANO);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_YANAGI);
+	1: string(NAME_APARTMENTS_TETSUI);
+	1: string(NAME_APARTMENTS_TETSUI);
+}
+
 switch(FEAT_HOUSES, SELF, switch_apartments_1960_sprites, town_zone) {
 	TOWNZONE_CENTRE: 		switch_apartments_1960_all;
 	TOWNZONE_INNER_SUBURB:  switch_apartments_1960_all;
 	switch_apartments_1960_outer;
+}
+
+switch(FEAT_HOUSES, SELF, switch_apartments_1960_name, town_zone) {
+	TOWNZONE_CENTRE: 		switch_apartments_1960_all_name;
+	TOWNZONE_INNER_SUBURB:  switch_apartments_1960_all_name;
+	switch_apartments_1960_outer_name;
 }
 
 // Recolouring
@@ -54,7 +83,7 @@ switch (FEAT_HOUSES, SELF, switch_apartments_1960_con_check,
 item(FEAT_HOUSES, item_apartments_1960, 27, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_MODERN);
+		name: 						string(NAME_APARTMENTS_YANO);
 		population: 				150;
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
@@ -67,6 +96,7 @@ item(FEAT_HOUSES, item_apartments_1960, 27, HOUSE_SIZE_1X1){
 				
 		}
 	graphics {
+		name:						switch_apartments_1960_name;
 		default: 					switch_apartments_1960_sprites;
 		construction_check: 		switch_apartments_1960_con_check;
 		cargo_production: 			func_produce(13,4);
