@@ -1,39 +1,139 @@
 // Spritesets
 
-spriteset (spr_shibata_norm, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,1)}
-spriteset (spr_shibata_snow, 				"src/houses/apartments/shibata/building.png") 			{template_house_80(1,82)}
+spriteset (spr_shibata_5L_norm, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(1,1)}
+spriteset (spr_shibata_5L_snow, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(400,1)}
 
-spriteset (spr_shibata_ground, 				"src/houses/apartments/shibata/ground.png") 			{template_ground(1,1)}
-spriteset (spr_shibata_ground_snow, 		"src/houses/apartments/shibata/ground.png") 			{template_ground(1,33)}
+spriteset (spr_shibata_6L_norm, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(1,82)}
+spriteset (spr_shibata_6L_snow, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(400,82)}
+
+spriteset (spr_shibata_7L_norm, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(1,163)}
+spriteset (spr_shibata_7L_snow, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(400,163)}
+
+spriteset (spr_shibata_8L_norm, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(1,244)}
+spriteset (spr_shibata_8L_snow, 					"src/houses/apartments/shibata/building.png") 				{template_house_80(400,244)}
+
+spriteset (spr_shibata_ground, 						"src/houses/apartments/shibata/ground.png") 					{template_ground(1,1)}
+spriteset (spr_shibata_ground_snow, 				"src/houses/apartments/shibata/ground.png") 					{template_ground(1,33)}
 
 // Spritelayouts
 
-// Normal Sprites
-spritelayout sprlay_shibata_norm {
+// 5-story
+// Norm Sprites
+spritelayout sprlay_shibata_5L_norm {
 	ground {
-		sprite: spr_shibata_ground(3);
+		sprite: spr_shibata_ground (construction_state);
 	}
 	building {
-		sprite: 		spr_shibata_norm(3);
-		recolour_mode: 	RECOLOUR_REMAP; 
-		palette: 		PALETTE_USE_DEFAULT;
+		sprite: spr_shibata_5L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
 // Snow Sprites
-spritelayout sprlay_shibata_snow {
+spritelayout sprlay_shibata_5L_snow {
 	ground {
-		sprite: 		spr_shibata_ground_snow(3);
+		sprite: spr_shibata_ground_snow (construction_state);
 	}
 	building {
-		sprite: 		spr_shibata_snow(3);
-		recolour_mode: 	RECOLOUR_REMAP; 
-		palette: 		PALETTE_USE_DEFAULT;
+		sprite: spr_shibata_5L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_shibata_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_shibata_snow;
-	sprlay_shibata_norm;
+// 6-story
+// Norm Sprites
+spritelayout sprlay_shibata_6L_norm {
+	ground {
+		sprite: spr_shibata_ground (construction_state);
+	}
+	building {
+		sprite: spr_shibata_6L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_shibata_6L_snow {
+	ground {
+		sprite: spr_shibata_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shibata_6L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// 7-story
+// Norm Sprites
+spritelayout sprlay_shibata_7L_norm {
+	ground {
+		sprite: spr_shibata_ground (construction_state);
+	}
+	building {
+		sprite: spr_shibata_7L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_shibata_7L_snow {
+	ground {
+		sprite: spr_shibata_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shibata_7L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// 8-story
+// Norm Sprites
+spritelayout sprlay_shibata_8L_norm {
+	ground {
+		sprite: spr_shibata_ground (construction_state);
+	}
+	building {
+		sprite: spr_shibata_8L_norm (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_shibata_8L_snow {
+	ground {
+		sprite: spr_shibata_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_shibata_8L_snow(construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Norm or Snow
+switch(FEAT_HOUSES, SELF, switch_shibata_5L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_5L_snow;
+	sprlay_shibata_5L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shibata_6L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_6L_snow;
+	sprlay_shibata_6L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shibata_7L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_7L_snow;
+	sprlay_shibata_7L_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_shibata_8L_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_shibata_8L_snow;
+	sprlay_shibata_8L_norm;
 }
