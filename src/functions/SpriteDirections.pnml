@@ -5,9 +5,21 @@
 When using Sprite Directions, list out the outcomes desired with the following results the switch in the nml file for the House
 
 0 
-1 SE Only
-2 SW Only
-3 SE && SW
+1  SE Only
+2  SW Only
+3  SE && SW
+4  NW Only
+5  NW && SE
+6  NW && SW
+7  NW, SE, SW
+8  NE Only
+9  NE && SE
+10 NE && SW
+11 NE, SE, SW
+12 NE && NW
+13 NE, NW, SE
+14 NE, NW, SW
+15 All
 
 */
 
@@ -19,9 +31,19 @@ switch (FEAT_HOUSES, SELF, switch_SE_facing, HasRoadAdjacentSE() )
 switch (FEAT_HOUSES, SELF, switch_SW_facing, HasRoadAdjacentSW() )
 	{1: return 2; return 0;}
 
+// Road to the NW
+switch (FEAT_HOUSES, SELF, switch_NW_facing, HasRoadAdjacentNW() )
+	{1: return 4; return 0;}
+
+// Road to the NE
+switch (FEAT_HOUSES, SELF, switch_NE_facing, HasRoadAdjacentNE() )
+	{1: return 8; return 0;}
+
 switch (FEAT_HOUSES, SELF, SpriteDirections, 
 	switch_SE_facing() + 	// 0 or 1
-	switch_SW_facing()		// 0 or 2
+	switch_SW_facing() +	// 0 or 2
+	switch_NW_facing() +	// 0 or 4
+	switch_NE_facing()		// 0 or 8
 ){return;}
 
 

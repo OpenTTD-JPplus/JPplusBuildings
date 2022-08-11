@@ -140,28 +140,4 @@ template template_house_250_wide(x, y) {
     ne: [ x+231,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
 }
 
-/* Rotation checks for buildings to face roads */
-
-// Bus stops are TILE_CLASS_STATION, not TILE_CLASS_ROAD. If the building is not adjacent to a road (below) it may be adacent to a bus stop which it should face.
-// Note: This will make buildings truly not adjacent to a road, but adjacent to a station (of any type) face the station.
-switch (FEAT_HOUSES, SELF, switch_station_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_STATION)
-	{1: return 3; return 0;}
-switch (FEAT_HOUSES, SELF, switch_station_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_STATION)
-	{1: return 2; switch_station_adj_ne;}
-switch (FEAT_HOUSES, SELF, switch_station_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_STATION)
-	{1: return 1; switch_station_adj_nw;}
-switch (FEAT_HOUSES, SELF, switch_station_adj_se, nearby_tile_class(0,1) == TILE_CLASS_STATION)
-	{1: return 0; switch_station_adj_sw;}
-// Check for roads first
-switch (FEAT_HOUSES, SELF, switch_road_adj_ne, nearby_tile_class(-1,0) == TILE_CLASS_ROAD)
-	{1: return 3; switch_station_adj_se;}
-switch (FEAT_HOUSES, SELF, switch_road_adj_nw, nearby_tile_class(0,-1) == TILE_CLASS_ROAD)
-	{1: return 2; switch_road_adj_ne;}
-switch (FEAT_HOUSES, SELF, switch_road_adj_sw, nearby_tile_class(1,0) == TILE_CLASS_ROAD)
-	{1: return 1; switch_road_adj_nw;}
-switch (FEAT_HOUSES, SELF, switch_road_adj_se, nearby_tile_class(0,1) == TILE_CLASS_ROAD)
-	{1: return 0; switch_road_adj_sw;}
-
-switch (FEAT_HOUSES,SELF, switch_road_adjacency, 1) {switch_road_adj_se;}
-
 // End Sprite Templates
