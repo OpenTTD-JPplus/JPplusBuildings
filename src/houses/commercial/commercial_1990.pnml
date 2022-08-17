@@ -1,27 +1,19 @@
-// Begin Commercial_1970
+// Begin Commercial_1990
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_commercial_1970_sprites) {
-	1: switch_tbuilding_sprites;
-	1: switch_xbuilding_sprites;
-	1: switch_yamada_11L_snow;
-	1: switch_yamada_12L_snow;
-	1: switch_yamada_13L_snow;
-	1: switch_yamada_14L_snow;
+random_switch (FEAT_HOUSES, SELF, switch_commercial_1990_sprites) {
+	1: switch_takada_snow;
+	1: switch_ybuilding_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_commercial_1970_name) {
-	dependent: switch_commercial_1970_sprites;
-	1: string(NAME_TBUILDING);
-	1: string(NAME_XBUILDING);
-	1: string(NAME_YAMADA);
-	1: string(NAME_YAMADA);
-	1: string(NAME_YAMADA);
-	1: string(NAME_YAMADA);
+random_switch (FEAT_HOUSES, SELF, switch_commercial_1990_name) {
+	dependent: switch_commercial_1990_sprites;
+	1: string(NAME_TAKADA);
+	1: string(NAME_YBUILDING);
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1970)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1990)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -37,14 +29,14 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1970)
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_commercial_1970_con_check, 
+switch (FEAT_HOUSES, SELF, switch_commercial_1990_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
-item(FEAT_HOUSES, item_commercial_1970, 39, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_commercial_1990, 90, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_XBUILDING);
@@ -53,17 +45,17 @@ item(FEAT_HOUSES, item_commercial_1970, 39, HOUSE_SIZE_1X1){
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				5;
-		years_available: 			[1970,1989];
+		years_available: 			[1990,1999];
 		minimum_lifetime: 			8;
 		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
 	graphics {
-		name:						switch_commercial_1970_name;
-		default: 					switch_commercial_1970_sprites;
-		construction_check: 		switch_commercial_1970_con_check; 	
+		name:						switch_commercial_1990_name;
+		default: 					switch_commercial_1990_sprites;
+		construction_check: 		switch_commercial_1990_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_commercial_1970;
+		colour: 					rand_recolor_commercial_1990;
 	}
 }
 
