@@ -1,0 +1,123 @@
+// Begin temple_02
+
+// Sprites
+spriteset (spr_temple_02, 							"src/houses/landmarks/temple/temple_02.png") 						{template_house_128(1,1)}
+spriteset (spr_temple_02_snow, 						"src/houses/landmarks/temple/temple_02.png") 						{template_house_128(1,130)}
+
+// Normal Sprites
+spritelayout sprlay_temple_02_north {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_east {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(2);
+		xoffset: 1;
+		yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_west {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(0);
+		xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_south {
+	ground {
+		sprite: spr_temple_02(3);
+	}
+	building {
+		sprite: spr_temple_02(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_temple_02_snow_north {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_east {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(2);
+		xoffset: 1;
+		yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_west {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(0);
+		xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_temple_02_snow_south {
+	ground {
+		sprite: spr_temple_02_snow(3);
+	}
+	building {
+		sprite: spr_temple_02_snow(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_temple_02_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_north;
+	sprlay_temple_02_north;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_east;
+	sprlay_temple_02_east;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_west;
+	sprlay_temple_02_west;
+}
+switch(FEAT_HOUSES, SELF, switch_temple_02_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_temple_02_snow_south;
+	sprlay_temple_02_south;
+}
+
+// End temple_02

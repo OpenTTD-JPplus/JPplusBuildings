@@ -2,18 +2,46 @@
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_commercial_1960_sprites) {
+	1: switch_aoki_office_10L_snow;
+	1: switch_aoki_office_8L_snow;
+	1: switch_aoyama_office_8L_snow;
+	1: switch_aoyama_office_7L_snow;
+	1: switch_hashimoto_office_tower_11L_snow;
+	1: switch_hashimoto_office_tower_9L_snow;
+	1: switch_ishida_commercial_building_13L_snow;
+	1: switch_ishida_commercial_building_11L_snow;
+	1: switch_ishii_office_tower_13L_snow;
+	1: switch_ishii_office_tower_11L_snow;
+	2: switch_okada_office_tower_10L_snow;
+	2: switch_okada_office_tower_8L_snow;
+	1: switch_old_office_building_8L_snow;
+	1: switch_old_office_building_7L_snow;
 	1: switch_takagi_10L_snow;
 	1: switch_takagi_11L_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_commercial_1960_name) {
 	dependent: switch_commercial_1960_sprites;
+	1: string(NAME_AOKI_OFFICE);
+	1: string(NAME_AOKI_OFFICE);
+	1: string(NAME_AOYAMA_OFFICE);
+	1: string(NAME_AOYAMA_OFFICE);
+	1: string(NAME_HASHIMOTO_OFFICE_TOWER);
+	1: string(NAME_HASHIMOTO_OFFICE_TOWER);
+	1: string(NAME_ISHIDA_COMMERCIAL_BUILDING);
+	1: string(NAME_ISHIDA_COMMERCIAL_BUILDING);
+	1: string(NAME_ISHII_OFFICE_TOWER);
+	1: string(NAME_ISHII_OFFICE_TOWER);
+	2: string(NAME_OKADA_OFFICE_TOWER);
+	2: string(NAME_OKADA_OFFICE_TOWER);
+	1: string(NAME_OLD_OFFICE_BUILDING);
+	1: string(NAME_OLD_OFFICE_BUILDING);
 	1: string(NAME_TAKAGI);
 	1: string(NAME_TAKAGI);
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1960)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1960_placeholder)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -27,6 +55,27 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_commercial_1960)
 		4: PALETTE_CC_GREY;
 		4: PALETTE_CC_WHITE;
 	}
+
+random_switch (FEAT_HOUSES, SELF, switch_commercial_1960_colors)
+	{
+	dependent: switch_commercial_1960_sprites;
+	1: switch_aoki_office_colors;
+	1: switch_aoki_office_colors;
+	1: switch_aoyama_office_colors;
+	1: switch_aoyama_office_colors;
+	1: switch_hashimoto_office_tower_colors;
+	1: switch_hashimoto_office_tower_colors;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	2: rand_recolor_commercial_1960_placeholder;
+	2: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+	1: rand_recolor_commercial_1960_placeholder;
+}
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_commercial_1960_con_check, 
@@ -45,7 +94,7 @@ item(FEAT_HOUSES, item_commercial_1960, 92, HOUSE_SIZE_1X1){
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				5;
-		years_available: 			[1960,1989];
+		years_available: 			[1960,1969];
 		minimum_lifetime: 			8;
 		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
@@ -53,9 +102,10 @@ item(FEAT_HOUSES, item_commercial_1960, 92, HOUSE_SIZE_1X1){
 	graphics {
 		name:						switch_commercial_1960_name;
 		default: 					switch_commercial_1960_sprites;
-		construction_check: 		switch_commercial_1960_con_check; 	
+		construction_check: 		switch_commercial_1960_con_check;
+		protection:					ProtectClassTwo(); 	 	
 		cargo_production: 			func_produce(13,4);
-		colour: 					rand_recolor_commercial_1960;
+		colour: 					switch_commercial_1960_colors;
 	}
 }
 

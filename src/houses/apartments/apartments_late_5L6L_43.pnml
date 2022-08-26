@@ -1,0 +1,95 @@
+// Begin apartments_late_5L6L_43
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_43_sprites) {
+	1: switch_hayashi_6L_snow;
+	1: switch_hayashi_5L_snow;
+	1: switch_haraku_6L_snow;
+	1: switch_hirata_6L_snow;
+	1: switch_hirata_5L_snow;
+	1: switch_kimura_6L_snow;
+	1: switch_kimura_5L_snow;
+	1: switch_kono_6L_snow;
+	1: switch_murakami_6L_snow;
+	1: switch_murakami_5L_snow;
+	1: switch_shibata_6L_snow;
+	1: switch_shibata_5L_snow;
+	1: switch_tetsui_6L_snow;
+	1: switch_tetsui_5L_snow;
+	1: switch_toki_6L_snow;
+	1: switch_toki_5L_snow;
+	1: switch_tokyosaka_snow;
+	1: switch_yanagi_6L_snow;
+	1: switch_yanagi_5L_snow;
+	1: switch_yano_snow;	
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_43_name) {
+	dependent: switch_apartments_late_5L6L_43_sprites;
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKYO),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANO),string(PERIOD_LATE));
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_late_5L6L_43)
+	{
+		//1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_43_con_check, 	
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	!PopOver10k()					// Town / Small cities only
+	) {return;}	
+
+item(FEAT_HOUSES, item_apartments_late_5L6L_43, 88, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_YANO);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1979];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		name:						switch_apartments_late_5L6L_43_name;
+		default: 					switch_apartments_late_5L6L_43_sprites;
+		construction_check: 		switch_apartments_late_5L6L_43_con_check;
+		cargo_production: 			func_produce(10,4);
+		colour: 					rand_switch_recolor_apartments_late_5L6L_43;
+	}
+}

@@ -1,0 +1,76 @@
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_sprites) {
+	1: switch_dense_wooden_a;
+	1: switch_dense_wooden_b;
+	1: switch_dense_wooden_c;
+	1: switch_dense_wooden_d;
+	1: switch_dense_wooden_e;
+	1: switch_dense_wooden_f;
+	1: switch_dense_wooden_g;
+	1: switch_dense_wooden_h;
+	1: switch_dense_wooden_i;
+	1: switch_dense_wooden_j;
+	1: switch_dense_wooden_k;
+	1: switch_dense_wooden_l;
+	1: switch_dense_wooden_m;
+	1: switch_dense_wooden_n;
+	1: switch_dense_wooden_o;
+	1: switch_dense_wooden_p;
+}
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_dense_wooden)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Checks
+switch (FEAT_HOUSES, SELF, switch_dense_wooden_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
+
+item(FEAT_HOUSES, item_dense_wooden, 13, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_DENSE_WOODEN);
+		population: 				60;										// Agreed to JPS
+		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1950];							// Agreed to JPS
+		minimum_lifetime: 			2;										
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				1;										// Reallcoated to BC1 since more like townhouse (and higher popn factor)
+		
+		}
+	graphics {
+		default: 					switch_dense_wooden_sprites;
+		construction_check: 		switch_dense_wooden_con_check;
+		destruction:				DestructionCheckHouses;
+		cargo_production: 			func_produce(2,1);						// 
+		colour: 					rand_recolor_dense_wooden;
+	}
+}
+
+// End dense_wooden

@@ -1,0 +1,99 @@
+// Begin house_1945_dense
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_central_sprites) {
+	1: switch_townhouses_01_a_snow;
+	1: switch_townhouses_01_b_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_central_name) {
+	dependent: switch_house_1945_dense_central_sprites;
+	1: string(STR_CONCAT_2, string(NAME_TOWNHOUSES_01),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_2, string(NAME_TOWNHOUSES_01),string(PERIOD_MODERN));
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_other_sprites) {
+	4: switch_townhouses_01_a_snow;
+	4: switch_townhouses_01_b_snow;
+	1: switch_townhouses_02_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_other_name) {
+	dependent: switch_house_1945_dense_other_sprites;
+	4: string(STR_CONCAT_2, string(NAME_TOWNHOUSES_01),string(PERIOD_MODERN));
+	4: string(STR_CONCAT_2, string(NAME_TOWNHOUSES_01),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_2, string(NAME_TOWNHOUSES_02),string(PERIOD_MODERN));
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_1945_dense_sprites, town_zone) {
+	TOWNZONE_CENTRE:			switch_house_1945_dense_central_sprites;
+	TOWNZONE_INNER_SUBURB:		switch_house_1945_dense_central_sprites;
+	switch_house_1945_dense_other_sprites;
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_1945_dense_name, town_zone) {
+	TOWNZONE_CENTRE:			switch_house_1945_dense_central_name;
+	TOWNZONE_INNER_SUBURB:		switch_house_1945_dense_central_name;
+	switch_house_1945_dense_other_name;
+}
+
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_house_1945_dense)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+// Construction Checks
+
+switch (FEAT_HOUSES, SELF, switch_house_1945_dense_con_check, 
+	HouseOfficeGap() && 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	!FuncServicePASS() 				// Builds where there is no Passenger service
+) {return;}	
+
+
+item(FEAT_HOUSES, item_house_1945_dense, 06, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_TOWNHOUSES_01);
+		population: 				40;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1945,0xFFFF];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				1;
+		
+		}
+	graphics {
+		default: 					switch_house_1945_dense_sprites;
+		name:						switch_house_1945_dense_name;
+		construction_check: 		switch_house_1945_dense_con_check;
+		cargo_production: 			func_produce(4,1);
+		colour: 					rand_recolor_house_1945_dense;
+	}
+}
+
+// End townhouses

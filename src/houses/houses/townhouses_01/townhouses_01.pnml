@@ -1,0 +1,64 @@
+// Begin townhouses
+
+// Building Sprites
+spriteset (spr_townhouses_01_a, 					"src/houses/houses/townhouses_01/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_townhouses_01_a_snow, 				"src/houses/houses/townhouses_01/building_a.png") 			{template_house_80(1,82)}
+
+spriteset (spr_townhouses_01_b, 					"src/houses/houses/townhouses_01/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_townhouses_01_b_snow, 				"src/houses/houses/townhouses_01/building_b.png") 			{template_house_80(1,82)}
+
+// Spritelayouts
+spritelayout sprlay_townhouses_01_a_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_townhouses_01_a (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_townhouses_01_a_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_townhouses_01_a_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_townhouses_01_b_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_townhouses_01_b (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_townhouses_01_b_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_townhouses_01_b_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_townhouses_01_a_snow, terrain_type) {
+	TILETYPE_SNOW: sprlay_townhouses_01_a_snow;
+	sprlay_townhouses_01_a_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_townhouses_01_b_snow, terrain_type) {
+	TILETYPE_SNOW: sprlay_townhouses_01_b_snow;
+	sprlay_townhouses_01_b_norm;
+}

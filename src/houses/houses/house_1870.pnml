@@ -1,0 +1,94 @@
+// Begin house_1870
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_house_1870_other_sprites) {
+	1: switch_naganuma_house_snow;
+	1: switch_nishikawa_house_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1870_other_name) {
+	dependent: switch_house_1870_other_sprites;
+	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
+	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1870_edge_sprites) {
+	1: switch_naganuma_house_snow;
+	1: switch_nishikawa_house_snow;
+	1: switch_old_villa_01_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_1870_edge_name) {
+	dependent: switch_house_1870_edge_sprites;
+	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
+	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
+	1: string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_MEIJI));
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_1870_sprites, town_zone) {
+	TOWNZONE_EDGE:			switch_house_1870_edge_sprites;
+	switch_house_1870_other_sprites;
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_1870_name, town_zone) {
+	TOWNZONE_EDGE:			switch_house_1870_edge_name;
+	switch_house_1870_other_name;
+}
+
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_house_1870_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+	) {return;}	
+
+// Recolouring
+random_switch (FEAT_HOUSES, SELF, rand_recolor_house_1870)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
+
+item(FEAT_HOUSES, item_house_1870, 21, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				26;
+		name: 						string(NAME_NISHIKAWA_HOUSE);
+		population: 				20;	
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1870,1944];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class: 			0;
+		
+		}
+	graphics {
+		default: 					switch_house_1870_sprites;
+		name:						switch_house_1870_name;
+		construction_check: 		switch_house_1870_con_check;
+		cargo_production: 			func_produce(2,1);
+		colour: 					rand_recolor_house_1870;
+	}
+}
+
+// End house_1870

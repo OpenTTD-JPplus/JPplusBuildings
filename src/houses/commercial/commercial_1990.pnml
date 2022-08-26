@@ -2,12 +2,14 @@
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_commercial_1990_sprites) {
+	1: switch_obuilding_snow;
 	1: switch_takada_snow;
 	1: switch_ybuilding_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_commercial_1990_name) {
 	dependent: switch_commercial_1990_sprites;
+	1: string(NAME_OBUILDING);
 	1: string(NAME_TAKADA);
 	1: string(NAME_YBUILDING);
 }
@@ -53,7 +55,8 @@ item(FEAT_HOUSES, item_commercial_1990, 90, HOUSE_SIZE_1X1){
 	graphics {
 		name:						switch_commercial_1990_name;
 		default: 					switch_commercial_1990_sprites;
-		construction_check: 		switch_commercial_1990_con_check; 	
+		construction_check: 		switch_commercial_1990_con_check;
+		protection:					ProtectClassTwo(); 	 	
 		cargo_production: 			func_produce(13,4);
 		colour: 					rand_recolor_commercial_1990;
 	}

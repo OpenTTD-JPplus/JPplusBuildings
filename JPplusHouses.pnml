@@ -1,0 +1,177 @@
+/*---HEADER--*/
+
+// Define the GRF
+#include "src/header.pnml"
+#include "src/cargotable.pnml"
+#include "src/sprite_templates.pnml"
+
+// Primary Functions (i.e. do not use any other Function)
+#include "src/functions/PopulationChecks.pnml"
+#include "src/functions/AdjacentToCommercial.pnml"
+#include "src/functions/AcrossRoads.pnml"
+#include "src/functions/AcrossTracks.pnml"
+#include "src/functions/CargoServiceChecks.pnml"
+#include "src/functions/one_liner_functions.pnml"
+
+// Secondary Functions (i.e. those that use Primary Functions, therefore must appear later)
+#include "src/functions/SpriteDirections.pnml"
+#include "src/functions/HouseGap.pnml"
+//#include "src/functions/SmallApartmentsCheck.pnml"
+#include "src/functions/ClusterBuildingClass.pnml"
+#include "src/functions/IfFirstSkyscraper.pnml"
+#include "src/functions/CommercialCargoes.pnml"
+#include "src/functions/DestructionChecks.pnml"
+#include "src/functions/ProtectClassTwo.pnml"
+
+// GROUND
+#include "src/houses/ground/ground.pnml"
+
+// BUILDINGS
+
+// Houses
+#include "src/houses/houses/dense_wooden/dense_wooden.pnml"
+#include "src/houses/houses/nishikawa/nishikawa.pnml"
+#include "src/houses/houses/naganuma/naganuma.pnml"
+#include "src/houses/houses/old_villa_01/old_villa_01.pnml"
+#include "src/houses/houses/townhouses_01/townhouses_01.pnml"
+#include "src/houses/houses/townhouses_02/townhouses_02.pnml"
+
+// Apartments
+#include "src/houses/apartments/fukuda/fukuda.pnml"
+#include "src/houses/apartments/haraku/haraku.pnml"
+#include "src/houses/apartments/hayashi/hayashi.pnml"
+#include "src/houses/apartments/hirata/hirata.pnml"
+#include "src/houses/apartments/murakami/murakami.pnml"
+#include "src/houses/apartments/kaneko/kaneko.pnml"
+#include "src/houses/apartments/kimura/kimura.pnml"
+#include "src/houses/apartments/kono/kono.pnml"
+#include "src/houses/apartments/osaka/osaka.pnml"
+#include "src/houses/apartments/shibata/shibata.pnml"
+#include "src/houses/apartments/tetsui/tetsui.pnml"
+#include "src/houses/apartments/toki/toki.pnml"
+#include "src/houses/apartments/tokyo/tokyo.pnml"
+#include "src/houses/apartments/yano/yano.pnml"
+#include "src/houses/apartments/yanagi/yanagi.pnml"
+
+// Commerical
+#include "src/houses/commercial/aoki_office/aoki_office.pnml"
+#include "src/houses/commercial/aoyama_office/aoyama_office.pnml"
+#include "src/houses/commercial/ishida_commercial_building/ishida_commercial_building.pnml"
+//#include "src/houses/commercial/hotel_grand/hotel_grand.pnml"
+//#include "src/houses/commercial/hotel/hotel.pnml"
+//#include "src/houses/commercial/hotel_old/hotel_old.pnml"
+#include "src/houses/commercial/hashimoto_office_tower/hashimoto_office_tower.pnml"
+#include "src/houses/commercial/ishii_office_tower/ishii_office_tower.pnml"
+#include "src/houses/commercial/obuilding/obuilding.pnml"
+#include "src/houses/commercial/okada_office_tower/okada_office_tower.pnml"
+#include "src/houses/commercial/old_office_building/old_office_building.pnml"
+#include "src/houses/commercial/shotengai_01/shotengai_01.pnml"
+#include "src/houses/commercial/takada/takada.pnml"
+#include "src/houses/commercial/takagi/takagi.pnml"
+#include "src/houses/commercial/tbuilding/tbuilding.pnml"
+#include "src/houses/commercial/xbuilding/xbuilding.pnml"
+#include "src/houses/commercial/yamada/yamada.pnml"
+#include "src/houses/commercial/yamada_electronics_centre/yamada_electronics_centre.pnml"
+#include "src/houses/commercial/yamaguchi_office/yamaguchi_office.pnml"
+#include "src/houses/commercial/ybuilding/ybuilding.pnml"
+
+// OLD HOUSES
+#include "src/houses/houses_old/wooden_farmhouse_01.pnml"
+#include "src/houses/houses_old/wooden_house_01.pnml"
+#include "src/houses/houses_old/wooden_townhouses_01.pnml"
+#include "src/houses/houses_old/wooden_townhouses_02.pnml"
+#include "src/houses/houses_old/wooden_townhouses_03.pnml"
+#include "src/houses/houses_old/wooden_townhouses_04.pnml"
+#include "src/houses/houses_old/two_wooden_houses_01.pnml"
+#include "src/houses/houses_old/two_wooden_houses_02.pnml"
+#include "src/houses/houses_old/two_wooden_houses_03.pnml"
+#include "src/houses/houses_old/large_wooden_house_01.pnml"
+#include "src/houses/houses_old/large_wooden_house_02.pnml"
+#include "src/houses/houses_old/large_wooden_farmhouse_01.pnml"
+
+// HOUSE IDs
+
+// Houses
+#include "src/houses/houses/house_hist_dense.pnml"
+#include "src/houses/houses/house_1870_dense.pnml"
+#include "src/houses/houses/house_1870.pnml"
+#include "src/houses/houses/house_1945_dense.pnml"
+#include "src/houses/houses/house_1945.pnml"
+
+// Apartments
+
+// Postwar Apartments
+#include "src/houses/apartments/apartments_post_3L4L.pnml"
+#include "src/houses/apartments/apartments_post_5L6L.pnml"
+
+// Economic Boom Period Apartments
+#include "src/houses/apartments/apartments_boom_7L8L.pnml"
+#include "src/houses/apartments/apartments_boom_5L6L_43.pnml"
+#include "src/houses/apartments/apartments_boom_5L6L_21.pnml"
+#include "src/houses/apartments/apartments_boom_3L4L_43.pnml"
+#include "src/houses/apartments/apartments_boom_3L4L_210.pnml"
+
+// Late 20th Century Apartments
+#include "src/houses/apartments/apartments_late_9L10L.pnml"
+#include "src/houses/apartments/apartments_late_7L8L.pnml"
+#include "src/houses/apartments/apartments_late_5L6L_43.pnml"
+
+#include "src/houses/apartments/apartments_1980.pnml"
+#include "src/houses/apartments/apartments_1990.pnml"
+#include "src/houses/apartments/apartments_nakayama.pnml"
+
+// Commercial
+#include "src/houses/commercial/shotengai_01.pnml"
+#include "src/houses/commercial/post_5L6L.pnml"
+#include "src/houses/commercial/post_7L8L.pnml"
+#include "src/houses/commercial/commercial_1960.pnml"
+#include "src/houses/commercial/commercial_1970.pnml"
+#include "src/houses/commercial/commercial_1980.pnml"
+#include "src/houses/commercial/commercial_1990.pnml"
+
+// SHOPS AND OFFICES
+
+// SHOPS
+#include "src/houses/shops/convini_01.pnml"
+#include "src/houses/shops/onsen_01.pnml"
+#include "src/houses/shops/takemaru_shopping_centre.pnml"
+#include "src/houses/shops/tsuzumi_electronics_centre.pnml"
+//#include "src/houses/shops/cinema.pnml"
+#include "src/houses/shops/petrol_station_01.pnml"
+#include "src/houses/shops/petrol_station_02.pnml"
+#include "src/houses/shops/petrol_station_03.pnml"
+#include "src/houses/shops/yoshinoya_sushi_restaurant.pnml"
+#include "src/houses/shops/yoshinoya_restaurant.pnml"
+#include "src/houses/shops/shops_small_01.pnml"
+
+// SKYSCRAPERS
+#include "src/houses/skyscrapers/tsuno_building/tsuno_building.pnml"
+#include "src/houses/skyscrapers/office_tower/office_tower.pnml"
+#include "src/houses/skyscrapers/large_office_building/large_office_building.pnml"
+#include "src/houses/skyscrapers/multimedia_offices/multimedia_offices.pnml"
+#include "src/houses/skyscrapers/enterprise_tower/enterprise_tower.pnml"
+#include "src/houses/skyscrapers/insurance_tower/insurance_tower.pnml"
+#include "src/houses/skyscrapers/modern_office_tower/modern_office_tower.pnml"
+#include "src/houses/skyscrapers/sato_building/sato_building.pnml"
+#include "src/houses/skyscrapers/bank_building/bank_building.pnml"
+#include "src/houses/skyscrapers/tall_office_building/tall_office_building.pnml"
+#include "src/houses/skyscrapers/tall_office_block/tall_office_block.pnml"
+#include "src/houses/skyscrapers/yamashiro_office_building/yamashiro_office_building.pnml"
+
+// LANDMARKS
+// Buildings
+#include "src/houses/landmarks/temple/temple_01.pnml"
+#include "src/houses/landmarks/temple/temple_02.pnml"
+
+// House IDs
+#include "src/houses/landmarks/fire_station_01/fire_station_01.pnml"
+#include "src/houses/landmarks/police_station_01/police_station_01.pnml"
+#include "src/houses/landmarks/temple/temple.pnml"
+#include "src/houses/landmarks/shiro_01/shiro_01.pnml"
+#include "src/houses/landmarks/stadium_01/stadium_01.pnml"
+#include "src/houses/landmarks/hospital_01/hospital_01.pnml"
+#include "src/houses/landmarks/shrine_01/shrine_01.pnml"
+#include "src/houses/landmarks/shrine_02/shrine_02.pnml"
+
+// RURAL
+#include "src/houses/rural/farm_01/farm_01.pnml"
