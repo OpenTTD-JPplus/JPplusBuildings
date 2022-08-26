@@ -1,4 +1,4 @@
-# JPplusBuildings
+# JPplusHouses
 
 First of all, a big thanks to all those in the Credits, for your great work which made this possible. I take no credit for sprites in this set which belong to the great artists involved.
 
