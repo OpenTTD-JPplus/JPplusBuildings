@@ -4,37 +4,31 @@
 random_switch (FEAT_HOUSES, SELF, switch_apartments_late_9L10L_sprites) {
 	1: switch_fukuda_9L_snow;
 	1: switch_haraku_9L_snow;
+	1: switch_kono_9L_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_late_9L10L_name) {
 	dependent: switch_apartments_late_9L10L_sprites;
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L9));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE),string(L9));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L9));
 }
 
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_late_9L10L)
-	{
-		//1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
+// Colours
+random_switch (FEAT_HOUSES, SELF, switch_apartments_late_9L10L_colors) {
+	dependent: switch_apartments_late_9L10L_sprites;	
+	1: switch_fukuda_colors;
+	1: switch_haraku_colors;
+	1: switch_kono_colors;
 	}
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_late_9L10L_con_check, 	
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver10k()
+	PopOverLate20thThreshold()		// Cities only
 	) {return;}	
 
-item(FEAT_HOUSES, item_apartments_late_9L10L_21, 59, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_apartments_late_9L10L, 59, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_YANO);
@@ -54,6 +48,6 @@ item(FEAT_HOUSES, item_apartments_late_9L10L_21, 59, HOUSE_SIZE_1X1){
 		default: 					switch_apartments_late_9L10L_sprites;
 		construction_check: 		switch_apartments_late_9L10L_con_check;
 		cargo_production: 			func_produce(18,6);
-		colour: 					rand_switch_recolor_apartments_late_9L10L;
+		colour: 					switch_apartments_late_9L10L_colors;
 	}
 }

@@ -14,53 +14,54 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_sprites) {
 	1: switch_tetsui_7L_snow;
 	1: switch_toki_8L_snow;
 	1: switch_toki_7L_snow;
-	1: switch_tokyosaka_snow;
 	1: switch_yanagi_8L_snow;
 	1: switch_yanagi_7L_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_name) {
 	dependent: switch_apartments_late_7L8L_sprites;
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKYO),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARAKU),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE),string(L7));
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_late_7L8L_21)
-	{
-		//1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
+random_switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_colors) {
+		dependent: switch_apartments_late_7L8L_sprites;
+		1: switch_fukuda_colors;
+		1: switch_fukuda_colors;
+		1: switch_haraku_colors;
+		1: switch_haraku_colors;
+		1: switch_kono_colors;
+		1: switch_kono_colors;
+		1: switch_shibata_colors;
+		1: switch_shibata_colors;
+		1: switch_tetsui_colors;
+		1: switch_tetsui_colors;
+		1: switch_toki_colors;
+		1: switch_toki_colors;
+		1: switch_yanagi_colors;
+		1: switch_yanagi_colors;
 	}
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_con_check, 	
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver10k()
+	PopOverLate20thThreshold()		// Cities only
 	) {return;}	
 
-item(FEAT_HOUSES, item_apartments_late_7L8L_21, 46, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_apartments_late_7L8L, 46, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_YANO);
@@ -80,6 +81,6 @@ item(FEAT_HOUSES, item_apartments_late_7L8L_21, 46, HOUSE_SIZE_1X1){
 		default: 					switch_apartments_late_7L8L_sprites;
 		construction_check: 		switch_apartments_late_7L8L_con_check;
 		cargo_production: 			func_produce(14,5);
-		colour: 					rand_switch_recolor_apartments_late_7L8L_21;
+		colour: 					switch_apartments_late_7L8L_colors;
 	}
 }

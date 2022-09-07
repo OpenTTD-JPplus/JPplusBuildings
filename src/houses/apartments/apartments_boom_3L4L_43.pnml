@@ -14,14 +14,14 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_boom_3L4L_43_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_boom_3L4L_43_name) {
 	dependent: switch_apartments_boom_3L4L_43_sprites;
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_BOOM));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L3));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L4));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L3));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L4));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L3));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L4));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_BOOM),string(L3));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_BOOM),string(L4));
 }
 
 // Recolouring
@@ -42,7 +42,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_boom_3L4L_43)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_boom_3L4L_43_con_check, 	
-	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	PopOverBoomThreshold()			// Cities only
 ) {return;}	
 
 item(FEAT_HOUSES, item_apartments_boom_3L4L_43, 11, HOUSE_SIZE_1X1){

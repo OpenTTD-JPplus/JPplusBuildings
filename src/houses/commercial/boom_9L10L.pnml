@@ -1,0 +1,70 @@
+// Begin boom_9L10L
+
+// Sprites
+random_switch (FEAT_HOUSES, SELF, switch_boom_9L10L_sprites) {
+	1: switch_aoki_office_10L_snow;
+	1: switch_hashimoto_office_tower_9L_snow;
+	2: switch_okada_office_tower_10L_snow;
+	1: switch_takagi_10L_snow;
+	1: switch_yamada_electronics_centre_10L_snow;
+}
+
+// Names
+random_switch (FEAT_HOUSES, SELF, switch_boom_9L10L_name) {
+	dependent: switch_boom_9L10L_sprites;
+	1: string(STR_CONCAT_3, string(NAME_AOKI_OFFICE),string(PERIOD_BOOM),string(L10));
+	1: string(STR_CONCAT_3, string(NAME_HASHIMOTO_OFFICE_TOWER),string(PERIOD_BOOM),string(L9));
+	2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_BOOM),string(L10));
+	1: string(STR_CONCAT_3, string(NAME_TAKAGI),string(PERIOD_BOOM),string(L10));
+	1: string(STR_CONCAT_3, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(PERIOD_BOOM),string(L10));
+}
+
+// Colours
+random_switch (FEAT_HOUSES, SELF, switch_boom_9L10L_colors)
+	{
+	dependent: switch_boom_9L10L_sprites;
+	1: switch_aoki_office_colors;
+	1: switch_hashimoto_office_tower_colors;
+	2: switch_okada_office_tower_colors;
+	1: switch_takagi_colors;
+	1: switch_yamada_electronics_centre_colors;
+}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_boom_9L10L_con_check, 
+	FuncServicePASS() &&			// Must have passenger service
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	Class2PopCheck() &&				// Is there population to allow another Class 2?
+	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	PopOver30k()					// Population threshold to build this height of building
+) {return;}	
+
+item(FEAT_HOUSES, item_boom_9L10L, 92, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_XBUILDING);
+		population: 				150;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 4],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1960,1979];
+		minimum_lifetime: 			8;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class: 			2;
+		}
+	graphics {
+		name:						switch_boom_9L10L_name;
+		default: 					switch_boom_9L10L_sprites;
+		construction_check: 		switch_boom_9L10L_con_check;
+		protection:					ProtectClassTwo(); 	 	
+		cargo_production: 			func_produce(13,4);
+		colour: 					switch_boom_9L10L_colors;
+	}
+}
+
+// End X-Building

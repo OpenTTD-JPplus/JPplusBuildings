@@ -15,8 +15,8 @@ spritelayout sprlay_tbuilding_norm {
 	}
 	building {
 		sprite: 		spr_tbuilding_norm(construction_state);
-		//recolour_mode: 	RECOLOUR_REMAP; 
-		//palette: 		PALETTE_USE_DEFAULT;
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -26,13 +26,28 @@ spritelayout sprlay_tbuilding_snow {
 	}
 	building {
 		sprite: 		spr_tbuilding_snow(construction_state);
-		//recolour_mode: 	RECOLOUR_REMAP; 
-		//palette: 		PALETTE_USE_DEFAULT;
+		recolour_mode: 	RECOLOUR_REMAP; 
+		palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tbuilding_sprites,terrain_type) {
+switch(FEAT_HOUSES, SELF, switch_tbuilding_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_tbuilding_snow;
 	sprlay_tbuilding_norm;
 }
+
+random_switch (FEAT_HOUSES, SELF, switch_tbuilding_colors)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
