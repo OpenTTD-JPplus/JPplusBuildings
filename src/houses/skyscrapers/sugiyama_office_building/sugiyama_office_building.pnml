@@ -1,31 +1,31 @@
-// Begin tall_office_building
+// Begin sugiyama_office_building
 
 // Building Sprites
-spriteset (spr_tall_office_building, 						"src/houses/skyscrapers/tall_office_building/building.png") 				{template_house_150_wide(1,1)}
-spriteset (spr_tall_office_building_snow, 					"src/houses/skyscrapers/tall_office_building/building.png") 				{template_house_150_wide(1,152)}
+spriteset (spr_sugiyama_office_building, 						"src/houses/skyscrapers/sugiyama_office_building/building.png") 				{template_house_150_wide(1,1)}
+spriteset (spr_sugiyama_office_building_snow, 					"src/houses/skyscrapers/sugiyama_office_building/building.png") 				{template_house_150_wide(1,152)}
 
 // Ground Tiles
-spriteset (spr_tall_office_building_ground, 				"src/houses/skyscrapers/tall_office_building/ground.png") 					{template_ground(1,1)}
-spriteset (spr_tall_office_building_ground_snow, 			"src/houses/skyscrapers/tall_office_building/ground.png") 					{template_ground(1,33)}
+spriteset (spr_sugiyama_office_building_ground, 				"src/houses/skyscrapers/sugiyama_office_building/ground.png") 					{template_ground(1,1)}
+spriteset (spr_sugiyama_office_building_ground_snow, 			"src/houses/skyscrapers/sugiyama_office_building/ground.png") 					{template_ground(1,33)}
 
-spritelayout sprlay_tall_office_building_norm {
+spritelayout sprlay_sugiyama_office_building_norm {
 	ground {
-		sprite: 		spr_tall_office_building_ground(3);
+		sprite: 		spr_sugiyama_office_building_ground(3);
 	}
 	building {
-		sprite: 		spr_tall_office_building(3);
+		sprite: 		spr_sugiyama_office_building(3);
 		yoffset:  		-1;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
 	}
 }
 
-spritelayout sprlay_tall_office_building_snow {
+spritelayout sprlay_sugiyama_office_building_snow {
 	ground {
-		sprite: 		spr_tall_office_building_ground_snow(3);
+		sprite: 		spr_sugiyama_office_building_ground_snow(3);
 	}
 	building {
-		sprite: 		spr_tall_office_building_snow(3);
+		sprite: 		spr_sugiyama_office_building_snow(3);
 		yoffset:  		-1;
 		//recolour_mode: 	RECOLOUR_REMAP; 
 		//palette: 		PALETTE_USE_DEFAULT;
@@ -33,14 +33,14 @@ spritelayout sprlay_tall_office_building_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tall_office_building_sprites,terrain_type) {
-	TILETYPE_SNOW: sprlay_tall_office_building_snow;
-	sprlay_tall_office_building_norm;
+switch(FEAT_HOUSES, SELF, switch_sugiyama_office_building_sprites,terrain_type) {
+	TILETYPE_SNOW: sprlay_sugiyama_office_building_snow;
+	sprlay_sugiyama_office_building_norm;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_building)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_sugiyama_office_building)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -56,7 +56,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_building)
 	}
 */
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tall_office_building_con_check, 
+switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -67,10 +67,10 @@ switch (FEAT_HOUSES, SELF, switch_tall_office_building_con_check,
 ) {return;}	
 
 
-item(FEAT_HOUSES, item_tall_office_building, 87, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_sugiyama_office_building, 87, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
-		name: 						string(NAME_TALL_OFFICE_BUILDING);
+		name: 						string(NAME_SUGIYAMA_OFFICE_BUILDING);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
 		local_authority_impact: 	80;
@@ -92,11 +92,11 @@ item(FEAT_HOUSES, item_tall_office_building, 87, HOUSE_SIZE_1X1){
 		building_class: 			2;
 		}
 	graphics {
-		default: 					switch_tall_office_building_sprites;
-		construction_check: 		switch_tall_office_building_con_check; 	
+		default: 					switch_sugiyama_office_building_sprites;
+		construction_check: 		switch_sugiyama_office_building_con_check; 	
 		cargo_production: 			func_produce(13,4);
-		//colour: 					rand_recolor_tall_office_building;
+		//colour: 					rand_recolor_sugiyama_office_building;
 	}
 }
 
-// End tall_office_building
+// End sugiyama_office_building

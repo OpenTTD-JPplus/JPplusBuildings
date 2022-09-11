@@ -1,20 +1,20 @@
-// Begin tall_office_block
+// Begin ueda_office_block
 
 // Building Sprites
-spriteset (spr_build_tall_office_block, 			"src/houses/skyscrapers/tall_office_block/building.png") 			{template_house_200_wide(1,1)}
-spriteset (spr_build_tall_office_block_snow, 		"src/houses/skyscrapers/tall_office_block/building.png") 			{template_house_200_wide(1,202)}
+spriteset (spr_build_ueda_office_block, 			"src/houses/skyscrapers/ueda_office_block/building.png") 			{template_house_200_wide(1,1)}
+spriteset (spr_build_ueda_office_block_snow, 		"src/houses/skyscrapers/ueda_office_block/building.png") 			{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_tall_office_block, 			"src/houses/skyscrapers/tall_office_block/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_tall_office_block_snow, 		"src/houses/skyscrapers/tall_office_block/ground.png") 				{template_ground(1,33)}
+spriteset (spr_ground_ueda_office_block, 			"src/houses/skyscrapers/ueda_office_block/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_ueda_office_block_snow, 		"src/houses/skyscrapers/ueda_office_block/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
-spritelayout sprlay_tall_office_block {
+spritelayout sprlay_ueda_office_block {
 	ground {
-		sprite: spr_ground_tall_office_block (construction_state);
+		sprite: spr_ground_ueda_office_block (construction_state);
 	}
 	building {
-		sprite: spr_build_tall_office_block (construction_state);
+		sprite: spr_build_ueda_office_block (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -23,12 +23,12 @@ spritelayout sprlay_tall_office_block {
 }
 
 // Snow Sprites
-spritelayout sprlay_tall_office_block_snow {
+spritelayout sprlay_ueda_office_block_snow {
 	ground {
-		sprite: spr_ground_tall_office_block_snow (construction_state);
+		sprite: spr_ground_ueda_office_block_snow (construction_state);
 	}
 	building {
-		sprite: spr_build_tall_office_block_snow (construction_state);
+		sprite: spr_build_ueda_office_block_snow (construction_state);
 		//xoffset:  2;
 		//yoffset:  0;
 		recolour_mode: RECOLOUR_REMAP; 
@@ -37,14 +37,14 @@ spritelayout sprlay_tall_office_block_snow {
 }
 
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_tall_office_block,terrain_type) {
-	TILETYPE_SNOW: sprlay_tall_office_block_snow;
-	sprlay_tall_office_block;
+switch(FEAT_HOUSES, SELF, switch_ueda_office_block,terrain_type) {
+	TILETYPE_SNOW: sprlay_ueda_office_block_snow;
+	sprlay_ueda_office_block;
 }
 
 // Recolouring
 /*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_block)
+random_switch (FEAT_HOUSES, SELF, rand_recolor_ueda_office_block)
 	{
 		1: PALETTE_CC_RED;			
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -61,7 +61,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_tall_office_block)
 */
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_tall_office_block_con_check, 
+switch (FEAT_HOUSES, SELF, switch_ueda_office_block_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
 	IsCity() && 					// Can only appear in cities
 	IsUniqueHouse() &&				// Only one in city
@@ -71,10 +71,10 @@ switch (FEAT_HOUSES, SELF, switch_tall_office_block_con_check,
 	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_tall_office_block, 89, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_ueda_office_block, 89, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				4; 													
-		name: 						string(NAME_TALL_OFFICE_BLOCK);
+		name: 						string(NAME_UEDA_OFFICE_BLOCK);
 		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
@@ -87,11 +87,11 @@ item(FEAT_HOUSES, item_tall_office_block, 89, HOUSE_SIZE_1X1){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_tall_office_block;
-		construction_check:			switch_tall_office_block_con_check;
+		default: 					switch_ueda_office_block;
+		construction_check:			switch_ueda_office_block_con_check;
 		cargo_production: 			func_produce(16,6);
-		//colour: 					rand_recolor_tall_office_block; 
+		//colour: 					rand_recolor_ueda_office_block; 
 	}
 }
 
-// End tall_office_block
+// End ueda_office_block
