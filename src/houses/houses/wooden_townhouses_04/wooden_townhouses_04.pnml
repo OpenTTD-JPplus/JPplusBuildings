@@ -1,0 +1,40 @@
+// Begin wooden_townhouses_04
+
+// Ground Sprites
+
+// Leveraged from dense wooden
+
+// Buildings
+spriteset (spr_wooden_townhouses_04, 			"src/houses/houses/wooden_townhouses_04/building.png")  			{template_house_80(1,1)}
+spriteset (spr_wooden_townhouses_04_snow, 		"src/houses/houses/wooden_townhouses_04/building.png") 			{template_house_80(1,82)}
+
+// Spritelayouts
+spritelayout sprlay_wooden_townhouses_04 {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_04 (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_wooden_townhouses_04_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_wooden_townhouses_04_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_04_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_wooden_townhouses_04_snow;
+	sprlay_wooden_townhouses_04;
+}
+
+// End wooden_townhouses_04

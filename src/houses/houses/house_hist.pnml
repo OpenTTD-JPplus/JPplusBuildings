@@ -1,0 +1,140 @@
+// Begin house_hist
+
+// Townzone Inner Suburb
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_inner_sprites) {
+	1: switch_two_wooden_houses_01_snow;
+	1: switch_two_wooden_houses_02_snow;
+	1: switch_two_wooden_houses_03_snow;
+	1: switch_wooden_townhouses_01_snow;
+	1: switch_wooden_townhouses_02_snow;
+	1: switch_wooden_townhouses_03_snow;
+	1: switch_wooden_townhouses_04_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_inner_name) {
+	dependent: switch_house_hist_inner_sprites;
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+}
+
+// Townzone Outer Suburb
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_outer_sprites) {
+	1: switch_two_wooden_houses_01_snow;
+	1: switch_two_wooden_houses_02_snow;
+	1: switch_two_wooden_houses_03_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_outer_name) {
+	dependent: switch_house_hist_outer_sprites;
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+}
+
+// Townzone Outskirts
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_outskirt_sprites) {
+	1: switch_large_wooden_farmhouse_01_snow;
+	1: switch_large_wooden_house_01_snow;
+	1: switch_large_wooden_house_02_snow;
+	1: switch_wooden_farmhouse_01_snow;
+	1: switch_wooden_house_01_snow;
+	1: switch_wooden_townhouses_01_snow;
+	1: switch_wooden_townhouses_02_snow;
+	1: switch_wooden_townhouses_03_snow;
+	1: switch_wooden_townhouses_04_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_outskirt_name) {
+	dependent: switch_house_hist_outskirt_sprites;
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
+}
+
+// Townzone Edge
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_edge_sprites) {
+	1: switch_large_wooden_farmhouse_01_snow;
+	1: switch_large_wooden_house_01_snow;
+	1: switch_large_wooden_house_02_snow;
+	1: switch_old_villa_01_snow;
+	1: switch_wooden_farmhouse_01_snow;
+	1: switch_wooden_house_01_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_house_hist_edge_name) {
+	dependent: switch_house_hist_edge_sprites;
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_HIST));
+	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_HIST));
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_hist_sprites, town_zone) {
+	//TOWNZONE_CENTRE:		switch_house_hist_centre_sprites;
+	TOWNZONE_INNER_SUBURB:	switch_house_hist_inner_sprites;
+	TOWNZONE_OUTER_SUBURB:	switch_house_hist_outer_sprites;
+	TOWNZONE_OUTSKIRT:		switch_house_hist_outskirt_sprites;			
+	switch_house_hist_edge_sprites;
+}
+
+switch(FEAT_HOUSES, SELF, switch_house_hist_name, town_zone) {
+	//TOWNZONE_CENTRE:		switch_house_hist_centre_name;
+	TOWNZONE_INNER_SUBURB:	switch_house_hist_inner_name;
+	TOWNZONE_OUTER_SUBURB:	switch_house_hist_outer_name;
+	TOWNZONE_OUTSKIRT:		switch_house_hist_outskirt_name;			
+	switch_house_hist_edge_name;
+}
+
+// Construction Check
+switch (FEAT_HOUSES, SELF, switch_house_hist_con_check, 
+	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+) {return;}	
+
+item(FEAT_HOUSES, item_house_hist, 17, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_FARMHOUSE);
+		population: 				20;										// Agreed to JPS
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										// Increased due to only SE facing
+		years_available: 			[1700,1869];							// Agreed to JPS
+		minimum_lifetime: 			2;										
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_house_hist_sprites;
+		name:						switch_house_hist_name;
+		construction_check: 		switch_house_hist_con_check;
+		cargo_production: 			func_produce(1,1);						// 
+		//colour: 					rand_recolor_wooden_townhouses;
+	}
+}
+
+// End house_hist

@@ -1,23 +1,23 @@
 // Begin two_wooden_houses_02
 
 // Buildings
-spriteset (spr_two_wooden_houses_02a, 			"src/gfx/houses_old/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02a_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02a, 			"src/houses/houses/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02a_snow, 		"src/houses/houses/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02b, 			"src/gfx/houses_old/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02b_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02b, 			"src/houses/houses/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02b_snow, 		"src/houses/houses/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02c, 			"src/gfx/houses_old/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02c_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02c, 			"src/houses/houses/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02c_snow, 		"src/houses/houses/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02d, 			"src/gfx/houses_old/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02d_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02d, 			"src/houses/houses/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02d_snow, 		"src/houses/houses/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02e, 			"src/gfx/houses_old/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02e_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02e, 			"src/houses/houses/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02e_snow, 		"src/houses/houses/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02f, 			"src/gfx/houses_old/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02f_snow, 		"src/gfx/houses_old/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02f, 			"src/houses/houses/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02f_snow, 		"src/houses/houses/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_two_wooden_houses_02a {
@@ -184,50 +184,13 @@ switch(FEAT_HOUSES, SELF, switch_two_wooden_houses_02f,terrain_type) {
 }
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_02_sprites) {
+random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_02_snow) {
 	1: switch_two_wooden_houses_02a;
 	1: switch_two_wooden_houses_02b;
 	1: switch_two_wooden_houses_02c;
 	1: switch_two_wooden_houses_02d;
 	1: switch_two_wooden_houses_02e;
 	1: switch_two_wooden_houses_02f;
-}
-
-switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_02_con_check, 
-	HouseOfficeGap() 			// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-) {return;}	
-
-item(FEAT_HOUSES, item_two_wooden_houses_02, 15, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_TWO_WOODEN_TOWNHOUSES);
-		population: 				30;										// Agreed to JPS
-		accepted_cargos: 			[[PASS, 3],[MAIL, 1],[GOOD, 3]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1700,1950];							// Agreed to JPS
-		minimum_lifetime: 			2;										
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB		// 2
-										//TOWNZONE_OUTSKIRT,		// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_two_wooden_houses_02_sprites;
-		construction_check: 		switch_two_wooden_houses_02_con_check;
-		cargo_production: 			func_produce(2,1);						// 
-		//colour: 					rand_recolor_wooden_townhouses;
-	}
 }
 
 // End two_wooden_houses_02

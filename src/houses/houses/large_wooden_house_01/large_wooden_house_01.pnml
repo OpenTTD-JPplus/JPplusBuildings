@@ -1,0 +1,73 @@
+// Begin large_wooden_house_01
+
+// Buildings
+spriteset (spr_large_wooden_house_01a, 			"src/houses/houses/large_wooden_house_01/building_01a.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_house_01a_snow, 	"src/houses/houses/large_wooden_house_01/building_01a.png") 			{template_house_80(1,82)}
+
+spriteset (spr_large_wooden_house_01b, 			"src/houses/houses/large_wooden_house_01/building_01b.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_house_01b_snow, 	"src/houses/houses/large_wooden_house_01/building_01b.png") 			{template_house_80(1,82)}
+
+// Spritelayouts
+spritelayout sprlay_large_wooden_house_01a {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_large_wooden_house_01a (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_large_wooden_house_01a_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_large_wooden_house_01a_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_large_wooden_house_01b {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_large_wooden_house_01b (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_large_wooden_house_01b_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_large_wooden_house_01b_snow (construction_state);
+		//recolour_mode: RECOLOUR_REMAP; 
+		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_large_wooden_house_01a,terrain_type) {
+	TILETYPE_SNOW: sprlay_large_wooden_house_01a_snow;
+	sprlay_large_wooden_house_01a;
+}
+
+switch(FEAT_HOUSES, SELF, switch_large_wooden_house_01b,terrain_type) {
+	TILETYPE_SNOW: sprlay_large_wooden_house_01b_snow;
+	sprlay_large_wooden_house_01b;
+}
+
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_large_wooden_house_01_snow) {
+	1: switch_large_wooden_house_01a;		
+	1: switch_large_wooden_house_01b;		
+}
+
+// End large_wooden_house_01
