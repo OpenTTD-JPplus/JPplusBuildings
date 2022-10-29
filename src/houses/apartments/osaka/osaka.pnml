@@ -2,10 +2,14 @@
 
 // Building Sprites
 spriteset (spr_build_osaka_a, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,1)}
-spriteset (spr_build_osaka_b, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,130)}
-
 spriteset (spr_build_osaka_a_snow, 					"src/houses/apartments/osaka/building.png") 					{template_house_128(400,1)}
+
+spriteset (spr_build_osaka_b, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,130)}
 spriteset (spr_build_osaka_b_snow, 					"src/houses/apartments/osaka/building.png") 					{template_house_128(400,130)}
+
+// Japan, 〒273-0005 Chiba, Funabashi, Honcho, 6 Chome−6−1 北翔ビル ２階
+spriteset (spr_build_osaka_c, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,259)}
+spriteset (spr_build_osaka_c_snow, 					"src/houses/apartments/osaka/building.png") 					{template_house_128(400,259)}
 
 // Ground Sprites
 spriteset (spr_ground_osaka_a, 						"src/houses/apartments/osaka/ground.png") 						{template_ground(1,1)}
@@ -34,9 +38,19 @@ spritelayout sprlay_osaka_b {
 	}
 	building {
 		sprite: spr_build_osaka_b (construction_state);
-		yoffset:  2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_osaka_c {
+	ground {
+		sprite: spr_ground_osaka_b (construction_state);
+	}
+	building {
+		sprite: spr_build_osaka_c (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -58,9 +72,19 @@ spritelayout sprlay_osaka_b_snow {
 	}
 	building {
 		sprite: spr_build_osaka_b_snow (construction_state);
-		yoffset:  2;
 		//recolour_mode: RECOLOUR_REMAP; 
 		//palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_osaka_c_snow {
+	ground {
+		sprite: spr_ground_osaka_b_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_osaka_c_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -72,4 +96,8 @@ switch(FEAT_HOUSES, SELF, switch_osaka_a_snow,terrain_type) {
 switch(FEAT_HOUSES, SELF, switch_osaka_b_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_osaka_b_snow;
 	sprlay_osaka_b;
+}
+switch(FEAT_HOUSES, SELF, switch_osaka_c_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_osaka_c_snow;
+	sprlay_osaka_c;
 }
