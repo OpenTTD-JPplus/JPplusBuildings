@@ -21,25 +21,25 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_boom_7L8L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_boom_7L8L_name) {
 	dependent: switch_apartments_boom_7L8L_sprites;
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TETSUI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKI),string(PERIOD_BOOM));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_BOOM),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TETSUI),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TETSUI),string(PERIOD_BOOM),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_BOOM),string(L7));
 	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_TOKYO),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_BOOM));
-	1: string(STR_CONCAT_2, string(NAME_APARTMENTS_YANAGI),string(PERIOD_BOOM));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_BOOM),string(L7));
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_boom_7L8L_21)
+random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_boom_7L8L)
 	{
 		//1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -56,11 +56,11 @@ random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_boom_7L8L_21)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_boom_7L8L_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	PopOverBoomThreshold()			// Cities only
+	FuncServicePASS() &&				// Only build within the catchment area of a station which received passengers this month or last month
+	PopOver7L8LResidentialThreshold() 	// Only build if above population threshold
 	) {return;}	
 
-item(FEAT_HOUSES, item_apartments_boom_7L8L_21, 10, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_apartments_boom_7L8L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_YANO);
@@ -80,6 +80,6 @@ item(FEAT_HOUSES, item_apartments_boom_7L8L_21, 10, HOUSE_SIZE_1X1){
 		default: 					switch_apartments_boom_7L8L_sprites;
 		construction_check: 		switch_apartments_boom_7L8L_con_check;
 		cargo_production: 			func_produce(14,5);
-		colour: 					rand_switch_recolor_apartments_boom_7L8L_21;
+		colour: 					rand_switch_recolor_apartments_boom_7L8L;
 	}
 }

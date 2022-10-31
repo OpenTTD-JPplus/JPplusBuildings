@@ -42,10 +42,11 @@ switch (FEAT_HOUSES, SELF, switch_boom_7L8L_con_check,
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	PopOver10k()					// Population threshold to build this height of building
+	// Population threshold to build this height of building
+	(PopOver7L8LCommercialThreshold() && !PopOver11L12LCommercialThreshold())
 ) {return;}	
 
-item(FEAT_HOUSES, item_boom_7L8L, 47, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_commercial_boom_7L8L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_OLD_OFFICE_BUILDING);

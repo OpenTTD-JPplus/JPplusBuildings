@@ -1,7 +1,7 @@
-// Begin Apartments_y2kp_3L4L_0
+// Begin Apartments_y2kp_3L4L
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_sprites) {
+random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_sprites) {
 	1: switch_hayashi_3L_snow;
 	1: switch_hayashi_4L_snow;
 	1: switch_hirata_3L_snow;
@@ -12,8 +12,8 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_sprites) {
 	1: switch_murakami_4L_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_name) {
-	dependent: switch_apartments_y2kp_3L4L_0_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_name) {
+	dependent: switch_apartments_y2kp_3L4L_sprites;
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTY2K),string(L3));
@@ -25,8 +25,8 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_name) {
 }
 
 // Recolouring
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_colors) {
-	dependent: switch_apartments_y2kp_3L4L_0_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_colors) {
+	dependent: switch_apartments_y2kp_3L4L_sprites;
 	1: switch_hayashi_colors;
 	1: switch_hayashi_colors;
 	1: switch_hirata_colors;
@@ -38,11 +38,12 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_colors) {
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_0_con_check, 	
-	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_3L4L_con_check, 	
+	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	((PopOver5L6LResidentialThreshold() && town_zone == TOWNZONE_EDGE) || !PopOver5L6LResidentialThreshold())
 ) {return;}	
 
-item(FEAT_HOUSES, item_apartments_y2kp_3L4L_0, 48, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_apartments_y2kp_3L4L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_HARADA);
@@ -53,16 +54,16 @@ item(FEAT_HOUSES, item_apartments_y2kp_3L4L_0, 48, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[2000,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_EDGE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		building_class:				4;		
 		}
 	graphics {
-		name:						switch_apartments_y2kp_3L4L_0_name;
-		default: 					switch_apartments_y2kp_3L4L_0_sprites;
-		construction_check: 		switch_apartments_y2kp_3L4L_0_con_check;
+		name:						switch_apartments_y2kp_3L4L_name;
+		default: 					switch_apartments_y2kp_3L4L_sprites;
+		construction_check: 		switch_apartments_y2kp_3L4L_con_check;
 		cargo_production: 			func_produce(6,2);
-		colour: 					switch_apartments_y2kp_3L4L_0_colors;
+		colour: 					switch_apartments_y2kp_3L4L_colors;
 	}
 }
 
-// End apartments_y2kp_3L4L_0
+// End apartments_y2kp_3L4L

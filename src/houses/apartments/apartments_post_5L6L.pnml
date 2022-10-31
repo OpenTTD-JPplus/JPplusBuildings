@@ -19,15 +19,15 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_post_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_post_5L6L_name) {
 	dependent: switch_apartments_post_5L6L_sprites;
-	1: string(NAME_APARTMENTS_FUKUDA);
-	1: string(NAME_APARTMENTS_HAYASHI);
-	1: string(NAME_APARTMENTS_HAYASHI);
-	1: string(NAME_APARTMENTS_HIRATA);
-	1: string(NAME_APARTMENTS_HIRATA);
-	1: string(NAME_APARTMENTS_KIMURA);
-	1: string(NAME_APARTMENTS_KIMURA);
-	1: string(NAME_APARTMENTS_MURAKAMI);
-	1: string(NAME_APARTMENTS_MURAKAMI);
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_POSTWAR),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L5));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L5));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L5));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTWAR),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTWAR),string(L5));
 	//1: string(NAME_APARTMENTS_SHIBATA);
 	//1: string(NAME_APARTMENTS_TETSUI);
 	//1: string(NAME_APARTMENTS_TOKI);
@@ -52,11 +52,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_post_5L6L)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_post_5L6L_con_check, 	
-	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	PopOverPostwarThreshold()		// Towns / Small cities only
+	FuncServicePASS() &&				// Only build within the catchment area of a station which received passengers this month or last month
+	PopOver5L6LResidentialThreshold()	// Only build if above population threshold
 ) {return;}	
 
-item(FEAT_HOUSES, item_apartments_post_5L6L, 45, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_apartments_post_5L6L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_HARADA);

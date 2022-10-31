@@ -22,3 +22,14 @@ First of all, a big thanks to all those in the Credits, for your great work whic
 ### Improved Town Layouts
 
 * Thanks to 2TallTyler for this set. This set, like ITL does, does not modify the behavior of other House Sets.
+
+## Residential Height Thresholds
+
+| Height | Postwar | Boom  | Late 20th | Post Y2K | 
+| ---    | --- | --- | --- | --- | 
+| 9L-10L | | 2012 | 270 | 44t |
+| 7L-8L  | | N/A | 270 | 44t |
+| 5L-6L  | 5| ✅ |  ✅ | ✅ |
+| 3L-4L  | 0 | 0 |  0 | 0 |
+
+

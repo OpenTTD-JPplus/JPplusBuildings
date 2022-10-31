@@ -57,16 +57,16 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_bank_building)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_bank_building_con_check, 
-	FuncServicePASS() &&			// Must have passenger service
-	IsCity() && 					// Can only appear in cities
-	IsUniqueHouse() &&				// Only one in city
-	PopOverLate20thThreshold() &&	// Population of city check
-	Class5PopCheck() &&				// Residential population is sufficient for another Skyscraper
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	IfFirstSkyscraper() 			// If first skyscraper, it must build beside a Class 2
+	FuncServicePASS() &&					// Must have passenger service
+	IsCity() && 							// Can only appear in cities
+	IsUniqueHouse() &&						// Only one in city
+	PopOver11L12LCommercialThreshold() &&	// Population of city check
+	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
-item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_bank_building){
 	property {
 		substitute: 				4; 													
 		name: 						string(NAME_BANK_BUILDING);

@@ -31,13 +31,15 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_colors)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_con_check, 
-	FuncServicePASS() &&			// Must have passenger service
-	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	Class2PopCheck() &&				// Is there population to allow another Class 2?
-	ClusterBuildingClass()			// Must be within two tiles of the same building class
+	FuncServicePASS() &&					// Must have passenger service
+	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
+	Class2PopCheck() &&						// Is there population to allow another Class 2?
+	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	// Population threshold to build this height of building
+	(PopOver11L12LCommercialThreshold() && !PopOver15L16LCommercialThreshold())	
 ) {return;}	
 
-item(FEAT_HOUSES, item_y2kp_11L12L, 99, HOUSE_SIZE_1X1){
+item(FEAT_HOUSES, item_commercial_y2kp_11L12L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_XBUILDING);
