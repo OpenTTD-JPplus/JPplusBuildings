@@ -436,7 +436,7 @@ switch (FEAT_HOUSES, PARENT, PopOver15L16LCommercialThreshold, population >= par
 
 switch (FEAT_HOUSES, SELF, Class2PopCheck, 
 	(
-		((1 + same_class_count_town) * 60) 
+		(1 + other_class_count_town(02) * 60) 
 	)
 	
 	< 
@@ -450,7 +450,7 @@ switch (FEAT_HOUSES, SELF, Class2PopCheck,
 ) {return;}
 
 /* CLASS 5 */
-
+/*
 switch (FEAT_HOUSES, SELF, Class5PopCheck, 
 	(
 		((1 + same_class_count_town) * 50)	+ 
@@ -467,7 +467,7 @@ switch (FEAT_HOUSES, SELF, Class5PopCheck,
 	)
 
 ) {return;}
-
+*/
 
 /* End Population Checks */
 # 1 "JPplusHouses.pnml" 4
@@ -5391,6 +5391,7 @@ switch (FEAT_HOUSES, SELF, switch_kimura_3L_snow, SpriteDirections() ) {
 	4: switch_kimura_a_3L_snow;
 	5: switch_kimura_a_3L_snow;
 	6: switch_kimura_w_3L_snow;
+	7: switch_kimura_s_3L_snow;
 	8: switch_kimura_b_3L_snow;
 	9: switch_kimura_e_3L_snow;
 	10: switch_kimura_b_3L_snow;
@@ -5410,6 +5411,7 @@ switch (FEAT_HOUSES, SELF, switch_kimura_4L_snow, SpriteDirections() ) {
 	4: switch_kimura_a_4L_snow;
 	5: switch_kimura_a_4L_snow;
 	6: switch_kimura_w_4L_snow;
+	7: switch_kimura_s_4L_snow;
 	8: switch_kimura_b_4L_snow;
 	9: switch_kimura_e_4L_snow;
 	10: switch_kimura_b_4L_snow;
@@ -5429,6 +5431,7 @@ switch (FEAT_HOUSES, SELF, switch_kimura_5L_snow, SpriteDirections() ) {
 	4: switch_kimura_a_5L_snow;
 	5: switch_kimura_a_5L_snow;
 	6: switch_kimura_w_5L_snow;
+	7: switch_kimura_s_5L_snow;
 	8: switch_kimura_b_5L_snow;
 	9: switch_kimura_e_5L_snow;
 	10: switch_kimura_b_5L_snow;
@@ -5448,6 +5451,7 @@ switch (FEAT_HOUSES, SELF, switch_kimura_6L_snow, SpriteDirections() ) {
 	4: switch_kimura_a_6L_snow;
 	5: switch_kimura_a_6L_snow;
 	6: switch_kimura_w_6L_snow;
+	7: switch_kimura_s_6L_snow;
 	8: switch_kimura_b_6L_snow;
 	9: switch_kimura_e_6L_snow;
 	10: switch_kimura_b_6L_snow;
@@ -5649,12 +5653,19 @@ spriteset (spr_build_osaka_b_snow, 					"src/houses/apartments/osaka/building.pn
 spriteset (spr_build_osaka_c, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,259)}
 spriteset (spr_build_osaka_c_snow, 					"src/houses/apartments/osaka/building.png") 					{template_house_128(400,259)}
 
+// Shinkamagaya Otorhinolaryngology, 1 Chome-18-5 Shinkamagaya, Kamagaya, Chiba 273-0107, Japan
+spriteset (spr_build_osaka_d, 						"src/houses/apartments/osaka/building.png") 					{template_house_128(1,388)}
+spriteset (spr_build_osaka_d_snow, 					"src/houses/apartments/osaka/building.png") 					{template_house_128(400,388)}
+
 // Ground Sprites
 spriteset (spr_ground_osaka_a, 						"src/houses/apartments/osaka/ground.png") 						{template_ground(1,1)}
 spriteset (spr_ground_osaka_a_snow, 				"src/houses/apartments/osaka/ground.png") 						{template_ground(1,33)}
 
 spriteset (spr_ground_osaka_b, 						"src/houses/apartments/osaka/ground.png") 						{template_ground(261,1)}
 spriteset (spr_ground_osaka_b_snow, 				"src/houses/apartments/osaka/ground.png") 						{template_ground(261,33)}
+
+spriteset (spr_ground_osaka_d, 						"src/houses/apartments/osaka/ground_d.png") 					{template_ground(1,1)}
+spriteset (spr_ground_osaka_d_snow, 				"src/houses/apartments/osaka/ground_d.png") 					{template_ground(1,33)}
 
 // Spritelayouts
 
@@ -5687,6 +5698,17 @@ spritelayout sprlay_osaka_c {
 	}
 	building {
 		sprite: spr_build_osaka_c (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_osaka_d {
+	ground {
+		sprite: spr_ground_osaka_d (construction_state);
+	}
+	building {
+		sprite: spr_build_osaka_d (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -5726,6 +5748,17 @@ spritelayout sprlay_osaka_c_snow {
 	}
 }
 
+spritelayout sprlay_osaka_d_snow {
+	ground {
+		sprite: spr_ground_osaka_d_snow (construction_state);
+	}
+	building {
+		sprite: spr_build_osaka_d_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_osaka_a_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_osaka_a_snow;
@@ -5738,6 +5771,10 @@ switch(FEAT_HOUSES, SELF, switch_osaka_b_snow,terrain_type) {
 switch(FEAT_HOUSES, SELF, switch_osaka_c_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_osaka_c_snow;
 	sprlay_osaka_c;
+}
+switch(FEAT_HOUSES, SELF, switch_osaka_d_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_osaka_d_snow;
+	sprlay_osaka_d;
 }
 # 1 "JPplusHouses.pnml" 4
 # 1 "src/houses/apartments/shibata/shibata.pnml" 1
@@ -6300,12 +6337,12 @@ random_switch (FEAT_HOUSES, SELF, switch_osaka_snow) {
 	1: switch_osaka_a_snow;
 	1: switch_osaka_b_snow;
 	1: switch_osaka_c_snow;
+	1: switch_osaka_d_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_tokyosaka_random) {
-	1: switch_tokyo_snow;
-	1: switch_osaka_snow;
-	1: switch_osaka_c_snow;
+	3: switch_tokyo_snow;
+	4: switch_osaka_snow;
 }
 
 switch (FEAT_HOUSES, SELF, switch_tokyosaka_snow, SpriteDirections() ) {
@@ -11636,7 +11673,7 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_boom_3L4L)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_boom_3L4L_con_check, 	
 	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
-	((PopOver5L6LResidentialThreshold()	&& 	town_zone == (TOWNZONE_OUTER_SUBURB || TOWNZONE_OUTSKIRT || TOWNZONE_EDGE))
+	((PopOver5L6LResidentialThreshold()	&& 	(town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_EDGE))
 	|| // Above next threshold AND not in the central zones, OR, not above the next Threshold
 	!PopOver5L6LResidentialThreshold())
 ) {return;}	
@@ -11784,7 +11821,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_colors) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_late_7L8L_con_check, 	
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver9L10LResidentialThreshold()		// Cities only
+	PopOver7L8LResidentialThreshold()		// Cities only
 	) {return;}	
 
 item(FEAT_HOUSES, item_apartments_late_7L8L){
@@ -11795,7 +11832,7 @@ item(FEAT_HOUSES, item_apartments_late_7L8L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				2;
 		years_available: 			[1980,1999];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
@@ -11832,7 +11869,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_sprites) {
 	1: switch_tetsui_5L_snow;
 	1: switch_toki_6L_snow;
 	1: switch_toki_5L_snow;
-	3: switch_tokyosaka_snow;
+	5: switch_tokyosaka_snow;
 	1: switch_yanagi_6L_snow;
 	1: switch_yanagi_5L_snow;
 	1: switch_yano_snow;	
@@ -11856,7 +11893,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_name) {
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TETSUI),string(PERIOD_LATE),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_LATE),string(L5));
-	3: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKYO),string(PERIOD_LATE),string(L6));
+	5: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKYO),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_LATE),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANO),string(PERIOD_LATE),string(L6));
@@ -11881,7 +11918,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_colors) {
 	1: switch_tetsui_colors;
 	1: switch_toki_colors;
 	1: switch_toki_colors;
-	3: switch_tokyosaka_colors;
+	5: switch_tokyosaka_colors;
 	1: switch_yanagi_colors;
 	1: switch_yanagi_colors;
 	1: switch_yano_colors;
@@ -11890,9 +11927,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_colors) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_late_5L6L_con_check, 	
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	((PopOver5L6LResidentialThreshold()	&&	town_zone == (TOWNZONE_OUTER_SUBURB || TOWNZONE_OUTSKIRT))
-	||
-	(!PopOver5L6LResidentialThreshold()	&&	town_zone == (TOWNZONE_CENTRE || TOWNZONE_INNER_SUBURB)))
+	PopOver5L6LResidentialThreshold()	
 	) {return;}	
 
 item(FEAT_HOUSES, item_apartments_late_5L6L){
@@ -11903,7 +11938,7 @@ item(FEAT_HOUSES, item_apartments_late_5L6L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				3;
 		years_available: 			[1980,1999];
 		minimum_lifetime: 			5;
 		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
@@ -12123,7 +12158,7 @@ item(FEAT_HOUSES, item_apartments_y2kp_7L8L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				2;
 		years_available: 			[2000,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
@@ -12158,7 +12193,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_5L6L_sprites) {
 	1: switch_tetsui_5L_snow;
 	1: switch_toki_6L_snow;
 	1: switch_toki_5L_snow;
-	1: switch_tokyosaka_snow;
+	5: switch_tokyosaka_snow;
 	1: switch_yanagi_6L_snow;
 	1: switch_yanagi_5L_snow;
 	1: switch_yano_snow;
@@ -12180,7 +12215,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_5L6L_name) {
 	1: string(NAME_APARTMENTS_TETSUI);
 	1: string(NAME_APARTMENTS_TOKI);
 	1: string(NAME_APARTMENTS_TOKI);
-	1: string(NAME_APARTMENTS_TOKYO);
+	5: string(NAME_APARTMENTS_TOKYO);
 	1: string(NAME_APARTMENTS_YANAGI);
 	1: string(NAME_APARTMENTS_YANAGI);
 	1: string(NAME_APARTMENTS_YANO);
@@ -12204,7 +12239,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_5L6L_colors) {
 	1: switch_tetsui_colors;
 	1: switch_toki_colors;
 	1: switch_toki_colors;
-	1: switch_tokyosaka_colors;
+	5: switch_tokyosaka_colors;
 	1: switch_yanagi_colors;
 	1: switch_yanagi_colors;
 	1: switch_yano_colors;	
@@ -12213,9 +12248,7 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_5L6L_colors) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_5L6L_con_check, 	
 	FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
-	((PopOver5L6LResidentialThreshold()	&&	town_zone == (TOWNZONE_OUTER_SUBURB || TOWNZONE_OUTSKIRT))
-	||
-	(!PopOver5L6LResidentialThreshold()	&&	town_zone == (TOWNZONE_CENTRE || TOWNZONE_INNER_SUBURB)))
+	PopOver5L6LResidentialThreshold()	
 	) {return;}	
 
 item(FEAT_HOUSES, item_apartments_y2kp_5L6L){
@@ -12226,7 +12259,7 @@ item(FEAT_HOUSES, item_apartments_y2kp_5L6L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				1;
+		probability: 				3;
 		years_available: 			[2000,0xFFFF];
 		minimum_lifetime: 			5;
 		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
@@ -12299,7 +12332,7 @@ item(FEAT_HOUSES, item_apartments_y2kp_3L4L){
 		probability: 				1;
 		years_available: 			[2000,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		building_class:				4;		
 		}
 	graphics {
@@ -12739,7 +12772,7 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_9L10L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_boom_9L10L_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
+	//CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&						// Is there population to allow another Class 2?
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	PopOver9L10LCommercialThreshold()		// Population threshold to build this height of building
@@ -12817,10 +12850,10 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_boom_7L8L_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
-	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	//CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&				// Is there population to allow another Class 2?
 	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
-	// Population threshold to build this height of building
+	//Population threshold to build this height of building
 	(PopOver7L8LCommercialThreshold() && !PopOver11L12LCommercialThreshold())
 ) {return;}	
 
@@ -12892,7 +12925,7 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_boom_5L6L_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
+	//CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
 	Class2PopCheck() &&						// Is there population to allow another Class 2?
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	!PopOver9L10LCommercialThreshold()		// Population threshold to build this height of building
@@ -12907,7 +12940,7 @@ item(FEAT_HOUSES, item_commercial_boom_5L6L){
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				5;
-		years_available: 			[1945,1959];
+		years_available: 			[1960,1979];
 		minimum_lifetime: 			8;
 		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
@@ -14556,7 +14589,7 @@ switch (FEAT_HOUSES, SELF, switch_tsuno_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver13L14LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}		
@@ -14651,7 +14684,7 @@ switch (FEAT_HOUSES, SELF, switch_office_tower_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver13L14LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -14748,7 +14781,7 @@ switch (FEAT_HOUSES, SELF, switch_large_office_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver13L14LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper()						// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -14847,7 +14880,7 @@ switch (FEAT_HOUSES, SELF, switch_multimedia_offices_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -14946,7 +14979,7 @@ switch (FEAT_HOUSES, SELF, switch_enterprise_tower_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15043,7 +15076,7 @@ switch (FEAT_HOUSES, SELF, switch_insurance_tower_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15147,7 +15180,7 @@ switch (FEAT_HOUSES, SELF, switch_modern_office_tower_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver9L10LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15246,7 +15279,7 @@ switch (FEAT_HOUSES, SELF, switch_sato_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver7L8LCommercialThreshold() &&		// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15340,7 +15373,7 @@ switch (FEAT_HOUSES, SELF, switch_bank_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15434,7 +15467,7 @@ switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver7L8LCommercialThreshold() &&		// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15543,7 +15576,7 @@ switch (FEAT_HOUSES, SELF, switch_ueda_office_block_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver9L10LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
@@ -15671,7 +15704,7 @@ switch (FEAT_HOUSES, SELF, switch_yamashiro_office_building_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
+	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
 	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}		
