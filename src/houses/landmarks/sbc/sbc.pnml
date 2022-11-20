@@ -1,0 +1,123 @@
+// Begin sbc
+
+// Sprites
+spriteset (spr_sbc, 							"src/houses/landmarks/sbc/sbc.png") 						{template_house_128(1,1)}
+spriteset (spr_sbc_snow, 						"src/houses/landmarks/sbc/sbc.png") 						{template_house_128(1,1)}
+
+// Normal Sprites
+spritelayout sprlay_sbc_north {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_east {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_west {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(0);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_south {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_sbc_snow_north {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_east {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_west {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(0);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_south {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_sbc_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_north;
+	sprlay_sbc_north;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_east;
+	sprlay_sbc_east;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_west;
+	sprlay_sbc_west;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_south;
+	sprlay_sbc_south;
+}
+
+// End sbc

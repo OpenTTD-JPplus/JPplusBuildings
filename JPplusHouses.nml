@@ -14819,8 +14819,8 @@ spriteset (spr_build_multimedia_offices, 			"src/houses/skyscrapers/multimedia_o
 spriteset (spr_build_multimedia_offices_snow, 		"src/houses/skyscrapers/multimedia_offices/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_multimedia_offices, 			"src/houses/skyscrapers/multimedia_offices/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_multimedia_offices_snow, 		"src/houses/skyscrapers/multimedia_offices/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_multimedia_offices, 			"src/houses/skyscrapers/multimedia_offices/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_multimedia_offices_snow, 		"src/houses/skyscrapers/multimedia_offices/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
 spritelayout sprlay_multimedia_offices {
@@ -15119,8 +15119,8 @@ spriteset (spr_build_modern_office_tower, 			"src/houses/skyscrapers/modern_offi
 spriteset (spr_build_modern_office_tower_snow, 		"src/houses/skyscrapers/modern_office_tower/building.png") 				{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_modern_office_tower, 			"src/houses/skyscrapers/modern_office_tower/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_ground_modern_office_tower_snow, 	"src/houses/skyscrapers/modern_office_tower/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_ground_modern_office_tower, 			"src/houses/skyscrapers/modern_office_tower/ground.png") 				{template_ground(1,1)}
+spriteset (spr_ground_modern_office_tower_snow, 	"src/houses/skyscrapers/modern_office_tower/ground.png") 				{template_ground(1,33)}
 
 // Normal Sprites
 spritelayout sprlay_modern_office_tower {
@@ -15989,6 +15989,131 @@ switch(FEAT_HOUSES, SELF, switch_temple_02_south,terrain_type) {
 
 // End temple_02
 # 1 "JPplusHouses.pnml" 4
+# 1 "src/houses/landmarks/sbc/sbc.pnml" 1
+// Begin sbc
+
+// Sprites
+spriteset (spr_sbc, 							"src/houses/landmarks/sbc/sbc.png") 						{template_house_128(1,1)}
+spriteset (spr_sbc_snow, 						"src/houses/landmarks/sbc/sbc.png") 						{template_house_128(1,1)}
+
+// Normal Sprites
+spritelayout sprlay_sbc_north {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_east {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_west {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(0);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_south {
+	ground {
+		sprite: spr_sbc(3);
+	}
+	building {
+		sprite: spr_sbc(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Snow Sprites
+spritelayout sprlay_sbc_snow_north {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(2);
+		hide_sprite: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_east {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(2);
+		//xoffset: 1;
+		//yoffset: 3;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_west {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(0);
+		//xoffset: 1;
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_sbc_snow_south {
+	ground {
+		sprite: spr_sbc_snow(3);
+	}
+	building {
+		sprite: spr_sbc_snow(1);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+// Choose between Normal Sprites and Snow Sprites
+switch(FEAT_HOUSES, SELF, switch_sbc_north,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_north;
+	sprlay_sbc_north;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_east,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_east;
+	sprlay_sbc_east;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_west,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_west;
+	sprlay_sbc_west;
+}
+switch(FEAT_HOUSES, SELF, switch_sbc_south,terrain_type) {
+	TILETYPE_SNOW: sprlay_sbc_snow_south;
+	sprlay_sbc_south;
+}
+
+// End sbc
+# 1 "JPplusHouses.pnml" 4
 
 // House IDs
 # 1 "src/houses/landmarks/fire_station_01/fire_station_01.pnml" 1
@@ -16464,30 +16589,35 @@ item(FEAT_HOUSES, item_police_station_01, 105, HOUSE_SIZE_1X2){
 random_switch (FEAT_HOUSES, SELF, switch_temple_north_sprites) {
 	1: switch_temple_01_north;
 	1: switch_temple_02_north;
+	10: switch_sbc_north;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_east_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_east;
 	1: switch_temple_02_east;
+	10: switch_sbc_east;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_west_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_west;
 	1: switch_temple_02_west;
+	10: switch_sbc_west;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_south_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_south;
 	1: switch_temple_02_south;
+	10: switch_sbc_south;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_name) {
 	dependent: switch_temple_north_sprites;
 	1: string(NAME_TEMPLE_01);
 	1: string(NAME_TEMPLE_02);
+	10: string(NAME_TEMPLE_02);
 }
 
 
