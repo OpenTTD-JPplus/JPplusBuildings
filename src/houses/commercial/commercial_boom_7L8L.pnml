@@ -5,7 +5,7 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_sprites) {
 	1: switch_aoki_office_8L_snow;
 	1: switch_aoyama_office_8L_snow;
 	1: switch_aoyama_office_7L_snow;
-	2: switch_okada_office_tower_8L_snow;
+	1: switch_okada_office_tower_8L_snow;
 	1: switch_old_office_building_7L_snow;
 	1: switch_old_office_building_8L_snow;
 	1: switch_yamada_electronics_centre_8L_snow;
@@ -17,7 +17,7 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_name) {
 	1: string(STR_CONCAT_3, string(NAME_AOKI_OFFICE),string(PERIOD_BOOM),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_AOYAMA_OFFICE),string(PERIOD_BOOM),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_AOYAMA_OFFICE),string(PERIOD_BOOM),string(L7));
-	2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_BOOM),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_BOOM),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_BOOM),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_BOOM),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(PERIOD_BOOM),string(L8));
@@ -30,7 +30,7 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_colors)
 	1: switch_aoki_office_colors;
 	1: switch_aoyama_office_colors;
 	1: switch_aoyama_office_colors;
-	2: switch_okada_office_tower_colors;
+	1: switch_okada_office_tower_colors;
 	1: switch_old_office_building_colors;
 	1: switch_old_office_building_colors;
 	1: switch_yamada_electronics_centre_colors;
@@ -39,11 +39,11 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_boom_7L8L_con_check, 
 	FuncServicePASS() &&			// Must have passenger service
-	//CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	Class2PopCheck() &&				// Is there population to allow another Class 2?
-	ClusterBuildingClass() &&		// Must be within two tiles of the same building class
+	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
+	//Class2PopCheck() &&				// Is there population to allow another Class 2?
+	//ClusterBuildingClass() &&		// Must be within two tiles of the same building class
 	//Population threshold to build this height of building
-	(PopOver7L8LCommercialThreshold() && !PopOver11L12LCommercialThreshold())
+	PopOver7L8LCommercialThreshold()
 ) {return;}	
 
 item(FEAT_HOUSES, item_commercial_boom_7L8L){
@@ -54,10 +54,14 @@ item(FEAT_HOUSES, item_commercial_boom_7L8L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				5;
+		probability: 				3;
 		years_available: 			[1960,1979];
 		minimum_lifetime: 			8;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class: 			2;
 		}
 	graphics {
