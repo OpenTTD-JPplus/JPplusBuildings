@@ -140,8 +140,8 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_shiro_01)
 switch (FEAT_HOUSES, SELF, switch_shiro_01_con_check, 
 	IsCity() && 				// Can only appear in Cities
 	IsUniqueHouse() && 			// Only one Shiro per city
-	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
-	RandomBitsFour()			// Think this makes the probability abouty a quarter
+	TownIndex() % 4 == 0 && 	// Proportion of cities
+	OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
 	) {return;}	
 
 item(FEAT_HOUSES, item_shiro_01, 70, HOUSE_SIZE_2X2){

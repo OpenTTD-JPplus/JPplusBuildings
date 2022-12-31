@@ -4,40 +4,56 @@
 random_switch (FEAT_HOUSES, SELF, switch_apartments_post_3L4L_sprites) {
 	1: switch_hayashi_3L_snow;
 	1: switch_hayashi_4L_snow;
+	10: switch_hirano_3L_snow;
+	10: switch_hirano_4L_snow;
 	1: switch_hirata_3L_snow;
 	1: switch_hirata_4L_snow;
 	1: switch_kimura_3L_snow;
 	1: switch_kimura_4L_snow;
+	10: switch_mori_3L_snow;
+	10: switch_mori_4L_snow;
 	1: switch_murakami_3L_snow;
 	1: switch_murakami_4L_snow;
+	10: switch_nakamura_3L_snow;
+	10: switch_nakamura_4L_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_apartments_post_3L4L_name) {
 	dependent: switch_apartments_post_3L4L_sprites;
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L4));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L3));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L4));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTWAR),string(L3));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTWAR),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTWAR),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTWAR),string(L4));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTWAR),string(L3));
+	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTWAR),string(L4));
 }
 
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_apartments_post_3L4L)
-	{
-		//1: PALETTE_CC_RED;			// too in your face
-		2: PALETTE_CC_LIGHT_BLUE;
-		//1: PALETTE_CC_PINK;			// too silly
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;			// nah
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
+// Colours
+random_switch (FEAT_HOUSES, SELF, switch_apartments_post_3L4L_colors) {
+	dependent: switch_apartments_post_3L4L_sprites;	
+	
+	1: switch_hayashi_colors;
+	1: switch_hayashi_colors;
+	10: switch_hirano_colors;
+	10: switch_hirano_colors;
+	1: switch_hirata_colors;
+	1: switch_hirata_colors;
+	1: switch_kimura_colors;
+	1: switch_kimura_colors;
+	10: switch_mori_colors;
+	10: switch_mori_colors;
+	1: switch_murakami_colors;
+	1: switch_murakami_colors;
+	10: switch_nakamura_colors;
+	10: switch_nakamura_colors;
 	}
 
 // Construction Check
@@ -53,7 +69,7 @@ item(FEAT_HOUSES, item_apartments_post_3L4L){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				9;
+		probability: 				1;
 		years_available: 			[1945,1959];
 		minimum_lifetime: 			5;
 		availability_mask: 			[ALL_TOWNZONES, ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
@@ -64,7 +80,7 @@ item(FEAT_HOUSES, item_apartments_post_3L4L){
 		default: 					switch_apartments_post_3L4L_sprites;
 		construction_check: 		switch_apartments_post_3L4L_con_check;
 		cargo_production: 			func_produce(6,2);
-		colour: 					rand_recolor_apartments_post_3L4L;
+		colour: 					switch_apartments_post_3L4L_colors;
 	}
 }
 

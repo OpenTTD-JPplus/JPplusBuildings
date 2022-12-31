@@ -4,8 +4,8 @@
 switch (FEAT_HOUSES, SELF, switch_shotengai_01_con_check, 
 	FuncServicePASS() &&			// Must have PASS service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
-	Class2PopCheck() &&				// Residential population is sufficient for another Skyscraper
-	ClusterBuildingClass()			// Build beside a commercial building
+	CommercialPopCheck() &&			// Is there population to allow another Commercial?
+	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
 
 item(FEAT_HOUSES, item_shotengai_01){
@@ -30,13 +30,13 @@ item(FEAT_HOUSES, item_shotengai_01){
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
 									)];
-		building_class:				2;									
+		building_class:				10;									
 		
 		}
 	graphics {
 		default: 					switch_shotengai_01_commercial_sprites;
 		construction_check: 		switch_shotengai_01_con_check;
-		protection:					ProtectClassTwoUntil1945();
+		protection:					ProtectCommercial(); 
 		cargo_production: 			func_produce(2,1);						// 
 		//colour: 					rand_recolor_shotengai_01;
 	}

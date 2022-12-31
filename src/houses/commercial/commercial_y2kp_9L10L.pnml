@@ -37,8 +37,8 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_9L10L_colors)
 switch (FEAT_HOUSES, SELF, switch_y2kp_9L10L_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
 	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
-	//Class2PopCheck() &&					// Is there population to allow another Class 2?
-	//ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	CommercialPopCheck() &&					// Is there population to allow another Commercial?
+	ClusterBuildingClass()	&&				// Must be within two tiles of the same building class
 	// Population threshold to build this height of building
 	PopOver9L10LCommercialThreshold() 
 ) {return;}	
@@ -59,13 +59,13 @@ item(FEAT_HOUSES, item_commercial_y2kp_9L10L){
 										TOWNZONE_INNER_SUBURB,
 										TOWNZONE_OUTER_SUBURB), 
 									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class: 			2;
+		building_class: 			10;
 		}
 	graphics {
 		name:						switch_y2kp_9L10L_name;
 		default: 					switch_y2kp_9L10L_sprites;
 		construction_check: 		switch_y2kp_9L10L_con_check;
-		protection:					ProtectClassTwo(); 	 	
+		protection:					ProtectCommercial(); 	 	
 		cargo_production: 			func_produce(13,4);
 		colour: 					switch_y2kp_9L10L_colors;
 	}

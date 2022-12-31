@@ -3,35 +3,35 @@
 random_switch (FEAT_HOUSES, SELF, switch_temple_north_sprites) {
 	1: switch_temple_01_north;
 	1: switch_temple_02_north;
-	10: switch_sbc_north;
+	//10: switch_sbc_north;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_east_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_east;
 	1: switch_temple_02_east;
-	10: switch_sbc_east;
+	//10: switch_sbc_east;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_west_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_west;
 	1: switch_temple_02_west;
-	10: switch_sbc_west;
+	//10: switch_sbc_west;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_south_sprites) {
 	dependent: switch_temple_north_sprites;
 	1: switch_temple_01_south;
 	1: switch_temple_02_south;
-	10: switch_sbc_south;
+	//10: switch_sbc_south;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_name) {
 	dependent: switch_temple_north_sprites;
 	1: string(NAME_TEMPLE_01);
 	1: string(NAME_TEMPLE_02);
-	10: string(NAME_TEMPLE_02);
+	//10: string(NAME_TEMPLE_02);
 }
 
 
@@ -55,8 +55,8 @@ switch (FEAT_HOUSES, SELF, switch_temple_con_check,
 	IsCity() && 				// Can only appear in Cities
 	IsUniqueHouse() && 			// Only one Temple per city
 	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
-	HasRoadAdjacentSE2x2() &&	// Requires a road to the SE, due to sticking out entrance
-	RandomBitsFour()) {return;}	// Think this makes the probability abouty a quarter
+	nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
+	) {return;}	
 
 item(FEAT_HOUSES, item_temple, 66, HOUSE_SIZE_2X2){
 	property {

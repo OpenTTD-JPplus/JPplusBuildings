@@ -51,8 +51,8 @@ random_switch (FEAT_HOUSES, SELF, switch_late_11L12L_colors)
 switch (FEAT_HOUSES, SELF, switch_late_11L12L_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
 	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
-	Class2PopCheck() &&						// Is there population to allow another Class 2?
-	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	CommercialPopCheck() &&					// Is there population to allow another Commercial?
+	ClusterBuildingClass()	&&				// Must be within two tiles of the same building class
 	// Population threshold to build this height of building
 	PopOver11L12LCommercialThreshold() 		
 ) {return;}	
@@ -72,13 +72,13 @@ item(FEAT_HOUSES, item_commercial_late_11L12L){
 										TOWNZONE_CENTRE,
 										TOWNZONE_INNER_SUBURB), 
 									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class: 			2;
+		building_class: 			10;
 		}
 	graphics {
 		name:						switch_late_11L12L_name;
 		default: 					switch_late_11L12L_sprites;
 		construction_check: 		switch_late_11L12L_con_check;
-		protection:					ProtectClassTwo(); 	 	
+		protection:					ProtectCommercial(); 	 	
 		cargo_production: 			func_produce(13,4);
 		colour: 					switch_late_11L12L_colors;
 	}
