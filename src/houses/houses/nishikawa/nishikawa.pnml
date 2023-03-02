@@ -8,6 +8,23 @@ spriteset (spr_nishikawa_house_a_snow, 				"src/houses/houses/nishikawa/building
 spriteset (spr_nishikawa_house_b, 					"src/houses/houses/nishikawa/building_b.png") 						{template_house_80(1,1)}
 spriteset (spr_nishikawa_house_b_snow, 				"src/houses/houses/nishikawa/building_b.png") 						{template_house_80(1,82)}
 
+// C
+spriteset (spr_nishikawa_house_c, 					"src/houses/houses/nishikawa/building_c.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_c_snow, 				"src/houses/houses/nishikawa/building_c.png") 						{template_house_80(1,82)}
+
+// D
+spriteset (spr_nishikawa_house_d, 					"src/houses/houses/nishikawa/building_d.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_d_snow, 				"src/houses/houses/nishikawa/building_d.png") 						{template_house_80(1,82)}
+
+// E
+spriteset (spr_nishikawa_house_e, 					"src/houses/houses/nishikawa/building_e.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_e_snow, 				"src/houses/houses/nishikawa/building_e.png") 						{template_house_80(1,82)}
+
+// F
+spriteset (spr_nishikawa_house_f, 					"src/houses/houses/nishikawa/building_f.png") 						{template_house_80(1,1)}
+spriteset (spr_nishikawa_house_f_snow, 				"src/houses/houses/nishikawa/building_f.png") 						{template_house_80(1,82)}
+
+
 // Spritelayouts
 spritelayout sprlay_nishikawa_house_a_norm {
 	ground {
@@ -53,6 +70,94 @@ spritelayout sprlay_nishikawa_house_b_snow {
 	}
 }
 
+spritelayout sprlay_nishikawa_house_c_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_c (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_c_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_c_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_d_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_d (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_d_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_d_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_e_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_e (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_e_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_e_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_f_norm {
+	ground {
+		sprite: spr_ground_grass (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_f (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
+spritelayout sprlay_nishikawa_house_f_snow {
+	ground {
+		sprite: spr_ground_snow (construction_state);
+	}
+	building {
+		sprite: spr_nishikawa_house_f_snow (construction_state);
+		recolour_mode: RECOLOUR_REMAP; 
+		palette: PALETTE_USE_DEFAULT;
+	}
+}
+
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_nishikawa_house_a_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_nishikawa_house_a_snow;
@@ -64,20 +169,50 @@ switch(FEAT_HOUSES, SELF, switch_nishikawa_house_b_snow,terrain_type) {
 	sprlay_nishikawa_house_b_norm;
 }
 
-// Selection of Sprites based in relation to where roads are
-random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_random) {
-	1: switch_nishikawa_house_a_snow;
-	1: switch_nishikawa_house_b_snow;
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_c_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_c_snow;
+	sprlay_nishikawa_house_c_norm;
 }
 
-switch (FEAT_HOUSES, SELF, switch_nishikawa_house_snow, SpriteDirections() ) {
-	1: switch_nishikawa_house_a_snow;
-	2: switch_nishikawa_house_b_snow;
-	4: switch_nishikawa_house_a_snow;
-	5: switch_nishikawa_house_a_snow;
-	8: switch_nishikawa_house_b_snow;
-	10: switch_nishikawa_house_b_snow;
-	switch_nishikawa_house_random;
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_d_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_d_snow;
+	sprlay_nishikawa_house_d_norm;
 }
+
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_e_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_e_snow;
+	sprlay_nishikawa_house_e_norm;
+}
+
+switch(FEAT_HOUSES, SELF, switch_nishikawa_house_f_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_nishikawa_house_f_snow;
+	sprlay_nishikawa_house_f_norm;
+}
+
+
+// Selection of Sprites based in relation to where roads are
+random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_snow) {
+	1: switch_nishikawa_house_a_snow;
+	1: switch_nishikawa_house_b_snow;
+	1: switch_nishikawa_house_c_snow;
+	1: switch_nishikawa_house_d_snow;
+	2: switch_nishikawa_house_e_snow;
+	1: switch_nishikawa_house_f_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors)
+	{
+		1: PALETTE_CC_RED;
+		2: PALETTE_CC_LIGHT_BLUE;
+		1: PALETTE_CC_PINK;
+		1: PALETTE_CC_DARK_BLUE;
+		1: PALETTE_CC_GREEN;
+		2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
 
 // End nishikawa_house

@@ -11,10 +11,10 @@ spriteset (spr_townhouses_02_ground_snow, 		"src/houses/houses/townhouses_02/gro
 // Spritelayouts
 spritelayout sprlay_townhouses_02_norm {
 	ground {
-		sprite: spr_townhouses_02_ground (3);
+		sprite: spr_townhouses_02_ground (construction_state);
 	}
 	building {
-		sprite: spr_townhouses_02 (3);
+		sprite: spr_townhouses_02 (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -22,10 +22,10 @@ spritelayout sprlay_townhouses_02_norm {
 
 spritelayout sprlay_townhouses_02_snow {
 	ground {
-		sprite: spr_townhouses_02_ground_snow (3);
+		sprite: spr_townhouses_02_ground_snow (construction_state);
 	}
 	building {
-		sprite: spr_townhouses_02_snow (3);
+		sprite: spr_townhouses_02_snow (construction_state);
 		recolour_mode: RECOLOUR_REMAP; 
 		palette: PALETTE_USE_DEFAULT;
 	}
@@ -36,5 +36,20 @@ switch(FEAT_HOUSES, SELF, switch_townhouses_02_snow, terrain_type) {
 	TILETYPE_SNOW: sprlay_townhouses_02_snow;
 	sprlay_townhouses_02_norm;
 }
+
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_02_colors)
+	{
+		//1: PALETTE_CC_RED;
+		//2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;
+		//2: PALETTE_CC_DARK_GREEN;
+		1: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		1: PALETTE_CC_BROWN;
+		1: PALETTE_CC_GREY;
+		1: PALETTE_CC_WHITE;
+	}
 
 // End townhouses

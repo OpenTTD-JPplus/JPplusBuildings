@@ -58,7 +58,11 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_post_3L4L_colors) {
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_post_3L4L_con_check, 	
-	FuncServicePASS() 				// Only build within the catchment area of a station which received passengers this month or last month
+	(FuncServicePASS() &&			// Only build within the catchment area of a station which received passengers this month or last month
+	(!PopOver7L8LResidentialThreshold() ||
+	(PopOver7L8LResidentialThreshold() && !WideRoads() ) ) )
+	|| 
+	(PopOver7L8LResidentialThreshold() && town_zone == TOWNZONE_CENTRE)
 ) {return;}	
 
 item(FEAT_HOUSES, item_apartments_post_3L4L){

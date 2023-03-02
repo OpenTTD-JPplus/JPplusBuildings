@@ -1,37 +1,37 @@
-// Begin house_1945
+// Begin nishikawa_house
 
 // Random selection of sprites
 
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_sprites) {
+// EDGE OF CITY
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_0_sprites) {
 	10: switch_naganuma_house_snow;
 	10: switch_nishikawa_house_snow;
 	2:  switch_townhouses_02_snow;
-	1:  switch_shotengai_01_new_sprites;
+	1:  switch_old_villa_01_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_name) {
-	dependent: switch_house_1945_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_0_name) {
+	dependent: switch_house_1945_0_sprites;
 	10: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MODERN));
 	10: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MODERN));
 	2:  string(STR_CONCAT_2, string(NAME_TOWNHOUSES_02),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_2, string(NAME_SHOTENGAI_01),string(PERIOD_MODERN));
+	1:  string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_MODERN));
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_colors) {
-	dependent: switch_house_1945_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_house_1945_0_colors) {
+	dependent: switch_house_1945_0_sprites;
 	10: switch_naganuma_house_colors;
 	10: switch_nishikawa_house_colors;
 	2:  switch_townhouses_02_colors;
-	1:  switch_standard_colors;
+	1:  switch_old_villa_01_colors;
 }
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_house_1945_con_check, 
-	HouseOfficeGap() &&				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
+switch (FEAT_HOUSES, SELF, switch_house_1945_0_con_check, 
 	!FuncServicePASS() 
 	) {return;}	
 
-item(FEAT_HOUSES, item_house_1945){
+item(FEAT_HOUSES, item_house_1945_0){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_NISHIKAWA_HOUSE);
@@ -42,12 +42,12 @@ item(FEAT_HOUSES, item_house_1945){
 		probability: 				10;
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
+		availability_mask: 			[bitmask(						
 										//TOWNZONE_CENTRE,			// 4
 										//TOWNZONE_INNER_SUBURB,	// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										//TOWNZONE_EDGE				// 0
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										TOWNZONE_EDGE				// 0
 									), bitmask(
 										CLIMATE_TEMPERATE,
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
@@ -57,12 +57,12 @@ item(FEAT_HOUSES, item_house_1945){
 		
 		}
 	graphics {
-		default: 					switch_house_1945_sprites;
-		name:						switch_house_1945_name;
-		construction_check: 		switch_house_1945_con_check;
+		default: 					switch_house_1945_0_sprites;
+		name:						switch_house_1945_0_name;
+		construction_check: 		switch_house_1945_0_con_check;
 		cargo_production: 			func_produce(2,1);
-		colour: 					switch_house_1945_colors;
+		colour: 					switch_house_1945_0_colors;
 	}
 }
 
-// End house_1945
+// End nishikawa_house

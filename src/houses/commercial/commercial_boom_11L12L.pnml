@@ -42,10 +42,11 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_11L12L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_boom_11L12L_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
-	CommercialPopCheck() &&					// Is there population to allow another Commercial?
-	ClusterBuildingClass()	&&				// Must be within two tiles of the same building class
-	PopOver11L12LCommercialThreshold()		// Population threshold to build this height of building
+	CommercialCargoes() &&					// Commerical Cargo Requirement per parameter
+	CommercialPopCheck() &&					// Is the City population sufficient to allow another Commercial?
+	ClusterBuildingClass()	&&				// Must be adjacent to another commercial building
+	PopOver11L12LCommercialThreshold() &&	// City has population above relevant threshold
+	AcrossRoads()							// Can only build beside a wider road 	
 ) {return;}	
 
 item(FEAT_HOUSES, item_commercial_boom_11L12L){

@@ -56,8 +56,9 @@ random_switch (FEAT_HOUSES, SELF, rand_switch_recolor_apartments_boom_7L8L)
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_apartments_boom_7L8L_con_check, 	
-	FuncServicePASS() &&				// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver7L8LResidentialThreshold() 	// Only build if above population threshold
+	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
+	PopOver7L8LResidentialThreshold() &&	// Only build if above population threshold
+	WideRoads()								// Can only build beside a wider road
 	) {return;}	
 
 item(FEAT_HOUSES, item_apartments_boom_7L8L){
@@ -71,7 +72,10 @@ item(FEAT_HOUSES, item_apartments_boom_7L8L){
 		probability: 				1;
 		years_available: 			[1960,1979];
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE
+										//TOWNZONE_INNER_SUBURB
+										), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
