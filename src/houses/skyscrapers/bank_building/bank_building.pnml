@@ -38,31 +38,13 @@ switch(FEAT_HOUSES, SELF, switch_bank_building,terrain_type) {
 	sprlay_bank_building;
 }
 
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_bank_building)
-	{
-		1: PALETTE_CC_RED;			
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;			
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-
-
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_bank_building_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
-	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 
@@ -85,7 +67,7 @@ item(FEAT_HOUSES, item_bank_building){
 		default: 					switch_bank_building;
 		construction_check:			switch_bank_building_con_check;
 		cargo_production: 			func_produce(16,6);
-		colour: 					rand_recolor_bank_building; 
+		colour: 					switch_standard_colors; 
 	}
 }
 

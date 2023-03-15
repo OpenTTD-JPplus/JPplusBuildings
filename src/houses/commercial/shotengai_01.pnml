@@ -1,13 +1,14 @@
 // Begin shotengai_01
 
 // Construction Check
+/*
 switch (FEAT_HOUSES, SELF, switch_shotengai_01_con_check, 
 	FuncServicePASS() &&			// Must have PASS service
 	CommercialCargoes() &&			// Commerical Cargo Requirement as per parameter
 	CommercialPopCheck() &&			// Is there population to allow another Commercial?
 	ClusterBuildingClass()			// Must be within two tiles of the same building class
 ) {return;}	
-
+*/
 item(FEAT_HOUSES, item_shotengai_01){
 	property {
 		substitute: 				06;
@@ -35,8 +36,8 @@ item(FEAT_HOUSES, item_shotengai_01){
 		}
 	graphics {
 		default: 					switch_shotengai_01_commercial_sprites;
-		construction_check: 		switch_shotengai_01_con_check;
-		protection:					ProtectCommercial(); 
+		construction_check: 		FuncServicePASS();
+		//protection:					ProtectCommercial(); 
 		cargo_production: 			func_produce(2,1);						// 
 		//colour: 					rand_recolor_shotengai_01;
 	}

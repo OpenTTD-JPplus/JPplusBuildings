@@ -1,26 +1,48 @@
 /* Begin WideRoads */
 
-// Purpose of this function is to allow Class 2 and Class 5 to build across roads (and station tiles).
+// Purpose of this function is to allow taller buildings appear on 'wide' roads, i.e. 2 or 3 road tile wide
 
 /* NORTHWEST */
 
-/* Two tile wide road */
+	/* Two tile wide road */
 
 switch (FEAT_HOUSES, SELF, WideRoadNWTwoTiles, 
-	// Tiles both one and two tiles away are Road tiles
+	
 	(	
+		// Tiles both one and two tiles away are Road tiles
 		( nearby_tile_class( 0,-1) == TILE_CLASS_ROAD  || nearby_tile_class( 0,-1) == TILE_CLASS_STATION ) && 
 		( nearby_tile_class( 0,-2) == TILE_CLASS_ROAD  || nearby_tile_class( 0,-2) == TILE_CLASS_STATION ) 
 	) 
 			
-&& // AND
+	&& // AND
 			
-	// Tile three tiles away is a house, industry or object
-	(nearby_tile_class ( 0,-3) == TILE_CLASS_HOUSE || nearby_tile_class ( 0,-3) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0,-3) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	(	
+		(	
+			// Tile three tiles away is a house, industry or object
+			( nearby_tile_class ( 0,-3) == TILE_CLASS_HOUSE || nearby_tile_class ( 0,-3) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0,-3) == TILE_CLASS_OBJECTS)	
+		)
 
-// Three tile wide road
+		||	// OR
+
+		(
+			// Offset +1
+			( nearby_tile_class( 1,-1) == TILE_CLASS_ROAD  || nearby_tile_class( 1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 1,-2) == TILE_CLASS_ROAD  || nearby_tile_class( 1,-2) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 1,-3) == TILE_CLASS_HOUSE || nearby_tile_class( 1,-3) == TILE_CLASS_INDUSTRY || nearby_tile_class( 1,-3) == TILE_CLASS_OBJECTS)	
+		)
+
+		|| // OR
+
+		(
+			// Offset -1
+			( nearby_tile_class(-1,-1) == TILE_CLASS_ROAD  || nearby_tile_class(-1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-1,-2) == TILE_CLASS_ROAD  || nearby_tile_class(-1,-2) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-1,-3) == TILE_CLASS_HOUSE || nearby_tile_class(-1,-3) == TILE_CLASS_INDUSTRY || nearby_tile_class(-1,-3) == TILE_CLASS_OBJECTS)	
+		)
+	)
+	) {return;}
+
+	// Three tile wide road
 switch (FEAT_HOUSES, SELF, WideRoadNWThreeTiles, 
 	// Tiles one, two and three tiles away are all Road tiles
 	(		
@@ -29,15 +51,38 @@ switch (FEAT_HOUSES, SELF, WideRoadNWThreeTiles,
 		( nearby_tile_class( 0,-3) == TILE_CLASS_ROAD || nearby_tile_class( 0,-3) == TILE_CLASS_STATION )
 	)
 
-&& // AND
+	&& // AND
 	
-	// Tile four tiles away is a house, industry or object
-	(nearby_tile_class ( 0,-4) == TILE_CLASS_HOUSE || nearby_tile_class ( 0,-4) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0,-4) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	(
+		(
+			// Tile four tiles away is a house, industry or object
+			(nearby_tile_class ( 0,-4) == TILE_CLASS_HOUSE || nearby_tile_class ( 0,-4) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0,-4) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			// +1 Offset
+			( nearby_tile_class( 1,-1) == TILE_CLASS_ROAD || nearby_tile_class( 1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 1,-2) == TILE_CLASS_ROAD || nearby_tile_class( 1,-2) == TILE_CLASS_STATION || nearby_tile_class( 1,-2) == TILE_CLASS_OBJECTS) && 
+			( nearby_tile_class( 1,-3) == TILE_CLASS_ROAD || nearby_tile_class( 1,-3) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 1,-4) == TILE_CLASS_HOUSE || nearby_tile_class( 1,-4) == TILE_CLASS_INDUSTRY || nearby_tile_class( 1,-4) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			// -1 Offset
+			( nearby_tile_class(-1,-1) == TILE_CLASS_ROAD || nearby_tile_class(-1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-1,-2) == TILE_CLASS_ROAD || nearby_tile_class(-1,-2) == TILE_CLASS_STATION || nearby_tile_class(-1,-2) == TILE_CLASS_OBJECTS) && 
+			( nearby_tile_class(-1,-3) == TILE_CLASS_ROAD || nearby_tile_class(-1,-3) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-1,-4) == TILE_CLASS_HOUSE || nearby_tile_class(-1,-4) == TILE_CLASS_INDUSTRY || nearby_tile_class(-1,-4) == TILE_CLASS_OBJECTS)	
+		)
+	)	
+	) {return;}
 
 
-// Giving for NORTHWEST 
+	// Giving for NORTHWEST 
 switch (FEAT_HOUSES, SELF, WideRoadNW, WideRoadNWTwoTiles() || WideRoadNWThreeTiles() ) {return;}
 
 /* SOUTHEAST */
@@ -45,20 +90,42 @@ switch (FEAT_HOUSES, SELF, WideRoadNW, WideRoadNWTwoTiles() || WideRoadNWThreeTi
 /* Two tile wide road */
 
 switch (FEAT_HOUSES, SELF, WideRoadSETwoTiles, 
-	// Tiles both one and two tiles away are Road tiles
+	
 	(	
+		// Tiles both one and two tiles away are Road tiles
 		( nearby_tile_class( 0, 1) == TILE_CLASS_ROAD  || nearby_tile_class( 0, 1) == TILE_CLASS_STATION ) && 
 		( nearby_tile_class( 0, 2) == TILE_CLASS_ROAD  || nearby_tile_class( 0, 2) == TILE_CLASS_STATION ) 
 	) 
 			
-&& // AND
-			
-	// Tile three tiles away is a house, industry or object
-	(nearby_tile_class ( 0, 3) == TILE_CLASS_HOUSE || nearby_tile_class ( 0, 3) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0, 3) == TILE_CLASS_OBJECTS)		
-		
-) {return;}
+	&& // AND
 
-// Three tile wide road
+	(	
+		(	
+			// Tile three tiles away is a house, industry or object
+			(nearby_tile_class ( 0, 3) == TILE_CLASS_HOUSE || nearby_tile_class ( 0, 3) == TILE_CLASS_INDUSTRY || nearby_tile_class( 0, 3) == TILE_CLASS_OBJECTS)		
+		)
+
+		||	// OR
+
+		(
+			// Offset 1 
+			( nearby_tile_class( 1, 1) == TILE_CLASS_ROAD  || nearby_tile_class( 1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 1, 2) == TILE_CLASS_ROAD  || nearby_tile_class( 1, 2) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 1, 3) == TILE_CLASS_HOUSE || nearby_tile_class( 1, 3) == TILE_CLASS_INDUSTRY || nearby_tile_class( 1, 3) == TILE_CLASS_OBJECTS)	
+		) 
+
+		||	// OR
+
+		(	
+			// Offset -1
+			( nearby_tile_class(-1, 1) == TILE_CLASS_ROAD  || nearby_tile_class(-1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-1, 2) == TILE_CLASS_ROAD  || nearby_tile_class(-1, 2) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-1, 3) == TILE_CLASS_HOUSE || nearby_tile_class(-1, 3) == TILE_CLASS_INDUSTRY || nearby_tile_class(-1, 3) == TILE_CLASS_OBJECTS)
+		)	
+	)
+	) {return;}
+
+	// Three tile wide road
 switch (FEAT_HOUSES, SELF, WideRoadSEThreeTiles, 
 	// Tiles one, two and three tiles away are all Road tiles
 	(		
@@ -67,15 +134,38 @@ switch (FEAT_HOUSES, SELF, WideRoadSEThreeTiles,
 		( nearby_tile_class( 0, 3) == TILE_CLASS_ROAD || nearby_tile_class( 0, 3) == TILE_CLASS_STATION )
 	)
 
-&& // AND
+		&& // AND
 	
-	// Tile four tiles away is a house, industry or object
-	(nearby_tile_class ( 0, 4) == TILE_CLASS_HOUSE || nearby_tile_class ( 0, 4) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 0, 4) == TILE_CLASS_OBJECTS)		
-		
-) {return;}
+	(
+		(
+			// Tile four tiles away is a house, industry or object
+			( nearby_tile_class( 0, 4) == TILE_CLASS_HOUSE || nearby_tile_class( 0, 4) == TILE_CLASS_INDUSTRY || nearby_tile_class( 0, 4) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			// Offset +1
+			( nearby_tile_class( 1, 1) == TILE_CLASS_ROAD || nearby_tile_class( 1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 1, 2) == TILE_CLASS_ROAD || nearby_tile_class( 1, 2) == TILE_CLASS_STATION || nearby_tile_class( 1, 2) == TILE_CLASS_OBJECTS ) && 
+			( nearby_tile_class( 1, 3) == TILE_CLASS_ROAD || nearby_tile_class( 1, 3) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 1, 4) == TILE_CLASS_HOUSE || nearby_tile_class( 1, 4) == TILE_CLASS_INDUSTRY || nearby_tile_class( 1, 4) == TILE_CLASS_OBJECTS)
+		)
+
+		||
+
+		(
+			// Offset -1
+			( nearby_tile_class(-1, 1) == TILE_CLASS_ROAD || nearby_tile_class(-1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-1, 2) == TILE_CLASS_ROAD || nearby_tile_class(-1, 2) == TILE_CLASS_STATION || nearby_tile_class(-1, 2) == TILE_CLASS_OBJECTS ) && 
+			( nearby_tile_class(-1, 3) == TILE_CLASS_ROAD || nearby_tile_class(-1, 3) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-1, 4) == TILE_CLASS_HOUSE || nearby_tile_class(-1, 4) == TILE_CLASS_INDUSTRY || nearby_tile_class(-1, 4) == TILE_CLASS_OBJECTS)
+		)
+	)
+	) {return;}
 
 
-// Giving for SOUTHEAST
+	// Giving for SOUTHEAST
 switch (FEAT_HOUSES, SELF, WideRoadSE, WideRoadSETwoTiles() || WideRoadSEThreeTiles() ) {return;}
 
 
@@ -90,14 +180,33 @@ switch (FEAT_HOUSES, SELF, WideRoadNETwoTiles,
 		( nearby_tile_class(-2, 0) == TILE_CLASS_ROAD  || nearby_tile_class(-2, 0) == TILE_CLASS_STATION ) 
 	) 
 			
-&& // AND
-			
-	// Three tiles away is a house, industry or object
-	(nearby_tile_class (-3, 0) == TILE_CLASS_HOUSE || nearby_tile_class (-3, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class (-3, 0) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	&& // AND
 
-// Three tile wide road
+	(		
+		// Three tiles away is a house, industry or object
+		(nearby_tile_class (-3, 0) == TILE_CLASS_HOUSE || nearby_tile_class (-3, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class (-3, 0) == TILE_CLASS_OBJECTS)	
+	
+		||	// OR
+
+		(
+			// Offset +1
+			( nearby_tile_class(-1, 1) == TILE_CLASS_ROAD  || nearby_tile_class(-1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-2, 1) == TILE_CLASS_ROAD  || nearby_tile_class(-2, 1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-3, 1) == TILE_CLASS_HOUSE || nearby_tile_class(-3, 1) == TILE_CLASS_INDUSTRY || nearby_tile_class(-3, 1) == TILE_CLASS_OBJECTS)	
+		)
+
+		||	// OR
+
+		(
+			// Offset -1
+			( nearby_tile_class(-1,-1) == TILE_CLASS_ROAD  || nearby_tile_class(-1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-2,-1) == TILE_CLASS_ROAD  || nearby_tile_class(-2,-1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-3,-1) == TILE_CLASS_HOUSE || nearby_tile_class(-3,-1) == TILE_CLASS_INDUSTRY || nearby_tile_class(-3,-1) == TILE_CLASS_OBJECTS)	
+		)
+	)	
+	) {return;}
+
+	// Three tile wide road
 switch (FEAT_HOUSES, SELF, WideRoadNEThreeTiles, 
 	// Tiles one, two and three tiles away are all Road tiles
 	(		
@@ -106,15 +215,37 @@ switch (FEAT_HOUSES, SELF, WideRoadNEThreeTiles,
 		( nearby_tile_class(-3, 0) == TILE_CLASS_ROAD || nearby_tile_class(-3, 0) == TILE_CLASS_STATION )
 	)
 
-&& // AND
+		&& // AND
 	
-	// Four tiles away is a house, industry or object
-	(nearby_tile_class (-4, 0) == TILE_CLASS_HOUSE || nearby_tile_class (-4, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class (-4, 0) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	(
+		(
+			// Four tiles away is a house, industry or object
+			(nearby_tile_class(-4, 0) == TILE_CLASS_HOUSE || nearby_tile_class(-4, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class(-4, 0) == TILE_CLASS_OBJECTS)	
+		)
 
+		||
 
-// Giving for NORTHEAST
+		(
+			// Offset +1
+			( nearby_tile_class(-1, 1) == TILE_CLASS_ROAD || nearby_tile_class(-1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-2, 1) == TILE_CLASS_ROAD || nearby_tile_class(-2, 1) == TILE_CLASS_STATION || nearby_tile_class(-2, 1) == TILE_CLASS_OBJECTS) && 
+			( nearby_tile_class(-3, 1) == TILE_CLASS_ROAD || nearby_tile_class(-3, 1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-4, 1) == TILE_CLASS_HOUSE || nearby_tile_class(-4, 1) == TILE_CLASS_INDUSTRY || nearby_tile_class(-4, 1) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			// Offset -1
+			( nearby_tile_class(-1,-1) == TILE_CLASS_ROAD || nearby_tile_class(-1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class(-2,-1) == TILE_CLASS_ROAD || nearby_tile_class(-2,-1) == TILE_CLASS_STATION || nearby_tile_class(-2,-1) == TILE_CLASS_OBJECTS) && 
+			( nearby_tile_class(-3,-1) == TILE_CLASS_ROAD || nearby_tile_class(-3,-1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class(-4,-1) == TILE_CLASS_HOUSE || nearby_tile_class(-4,-1) == TILE_CLASS_INDUSTRY || nearby_tile_class(-4,-1) == TILE_CLASS_OBJECTS)	
+		)
+	)	
+	) {return;}
+
+	// Giving for NORTHEAST
 switch (FEAT_HOUSES, SELF, WideRoadNE, WideRoadNETwoTiles() || WideRoadNEThreeTiles() ) {return;}
 
 
@@ -129,12 +260,33 @@ switch (FEAT_HOUSES, SELF, WideRoadSWTwoTiles,
 		( nearby_tile_class( 2, 0) == TILE_CLASS_ROAD  || nearby_tile_class( 2, 0) == TILE_CLASS_STATION ) 
 	) 
 			
-&& // AND
-			
-	// Three tiles away is a house, industry or object
-	(nearby_tile_class ( 3, 0) == TILE_CLASS_HOUSE || nearby_tile_class ( 3, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 3, 0) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	&& // AND
+
+	(
+		(
+			// Three tiles away is a house, industry or object
+			(nearby_tile_class( 3, 0) == TILE_CLASS_HOUSE || nearby_tile_class ( 3, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 3, 0) == TILE_CLASS_OBJECTS)
+		)		
+
+		|| // OR	
+
+		(
+			// Offset +1
+			( nearby_tile_class( 1, 1) == TILE_CLASS_ROAD  || nearby_tile_class( 1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 2, 1) == TILE_CLASS_ROAD  || nearby_tile_class( 2, 1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 3, 1) == TILE_CLASS_HOUSE || nearby_tile_class( 3, 1) == TILE_CLASS_INDUSTRY || nearby_tile_class( 3, 1) == TILE_CLASS_OBJECTS)
+		)
+
+		||	//OR
+
+		(
+			// Offset -1
+			( nearby_tile_class( 1,-1) == TILE_CLASS_ROAD  || nearby_tile_class( 1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 2,-1) == TILE_CLASS_ROAD  || nearby_tile_class( 2,-1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 3,-1) == TILE_CLASS_HOUSE || nearby_tile_class( 3,-1) == TILE_CLASS_INDUSTRY || nearby_tile_class( 3,-1) == TILE_CLASS_OBJECTS)
+		)
+	)
+	) {return;}
 
 // Three tile wide road
 switch (FEAT_HOUSES, SELF, WideRoadSWThreeTiles, 
@@ -145,19 +297,42 @@ switch (FEAT_HOUSES, SELF, WideRoadSWThreeTiles,
 		( nearby_tile_class( 3, 0) == TILE_CLASS_ROAD || nearby_tile_class( 3, 0) == TILE_CLASS_STATION )
 	)
 
-&& // AND
+	&& // AND
 	
-	// Four tiles away is a house, industry or object
-	(nearby_tile_class ( 4, 0) == TILE_CLASS_HOUSE || nearby_tile_class ( 4, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 4, 0) == TILE_CLASS_OBJECTS)	
-		
-) {return;}
+	(
+		(
+			// Four tiles away is a house, industry or object
+			(nearby_tile_class ( 4, 0) == TILE_CLASS_HOUSE || nearby_tile_class ( 4, 0) == TILE_CLASS_INDUSTRY || nearby_tile_class ( 4, 0) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			//  Offset +1
+			( nearby_tile_class( 1, 1) == TILE_CLASS_ROAD || nearby_tile_class( 1, 1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 2, 1) == TILE_CLASS_ROAD || nearby_tile_class( 2, 1) == TILE_CLASS_STATION || nearby_tile_class( 2, 1) == TILE_CLASS_OBJECTS ) && 
+			( nearby_tile_class( 3, 1) == TILE_CLASS_ROAD || nearby_tile_class( 3, 1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 4, 1) == TILE_CLASS_HOUSE || nearby_tile_class( 4, 1) == TILE_CLASS_INDUSTRY || nearby_tile_class( 4, 1) == TILE_CLASS_OBJECTS)	
+		)
+
+		||
+
+		(
+			//  Offset -1
+			( nearby_tile_class( 1,-1) == TILE_CLASS_ROAD || nearby_tile_class( 1,-1) == TILE_CLASS_STATION ) && 
+			( nearby_tile_class( 2,-1) == TILE_CLASS_ROAD || nearby_tile_class( 2,-1) == TILE_CLASS_STATION || nearby_tile_class( 2,-1) == TILE_CLASS_OBJECTS ) && 
+			( nearby_tile_class( 3,-1) == TILE_CLASS_ROAD || nearby_tile_class( 3,-1) == TILE_CLASS_STATION ) &&
+			( nearby_tile_class( 4,-1) == TILE_CLASS_HOUSE || nearby_tile_class( 4,-1) == TILE_CLASS_INDUSTRY || nearby_tile_class( 4,-1) == TILE_CLASS_OBJECTS)	
+		)
+	)	
+	) {return;}
 
 
-// Giving for SOUTHWEST
+	// Giving for SOUTHWEST
 switch (FEAT_HOUSES, SELF, WideRoadSW, WideRoadSWTwoTiles() || WideRoadSWThreeTiles() ) {return;}
 
 
-// Combining All four
+	// Combining All four
 switch (FEAT_HOUSES, SELF, WideRoads, WideRoadSE() || WideRoadSW() || WideRoadNE() || WideRoadNW() ) {return;}
  
 /* End WideRoads */

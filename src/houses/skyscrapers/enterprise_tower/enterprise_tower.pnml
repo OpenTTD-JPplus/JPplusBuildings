@@ -66,8 +66,7 @@ switch (FEAT_HOUSES, SELF, switch_enterprise_tower_con_check,
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	PopOver11L12LCommercialThreshold() &&	// Population of city check
-	//Class5PopCheck() &&						// Residential population is sufficient for another Skyscraper
-	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
 ) {return;}	
 

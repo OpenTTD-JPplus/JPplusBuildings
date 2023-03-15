@@ -1,5 +1,5 @@
 # Name of NewGRF, as it appears in file names
-newgrf_name = "JPplusHouses" + ".grf"
+newgrf_name = "JPplusBuildings" + ".grf"
 
 # Do you want to copy the completed NewGRF to your OpenTTD folder? (True/False)
 copy_bool = True

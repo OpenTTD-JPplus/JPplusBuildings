@@ -56,10 +56,9 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yamaguchi_office)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_yamaguchi_office_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	CommercialCargoes() &&					// Commerical Cargo Requirement as per parameter
 	PopOver9L10LCommercialThreshold() &&	// Population of city check
 	IsUniqueHouse()	&&						// Only one per city
-	ClusterBuildingClass() &&				// Must be within two tiles of the same building class
+	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 10
 ) {return;}	
 
