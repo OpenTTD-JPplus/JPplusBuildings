@@ -1,12 +1,12 @@
-# JPplusHouses
+# JPplusBuildings
 
-Welcome to 🇯🇵🏠 **JP+ Houses** 🏠🇯🇵
+Welcome to 🇯🇵🏠 **JP+ Buildings** 🏠🇯🇵
 
 ## What is this set?
 
 * Japanese themed buildings
-* Passenger Service requirement for building greater than two storeys
-* Larger cities allow for even taller buildings
+* Passenger Service requirement for buildings greater than two storeys
+* Larger cities and wider roads allow for even taller buildings
 
 ## Credits
 
@@ -20,3 +20,11 @@ Welcome to 🇯🇵🏠 **JP+ Houses** 🏠🇯🇵
 ### ITL Houses
 
 * Some of the inspiration for this set came from ITL Houses. Thanks to 2TallTyler for this set. 
+
+### JP+ Team
+
+* Thanks all for the inputs and ideas. Special credit to Yozora for inspiration for 'Wide Roads' mechanic inspiration.
+
+### New Sprites
+
+*By KeepinItRail and Simozzz
