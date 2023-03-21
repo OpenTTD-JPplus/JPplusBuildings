@@ -27,6 +27,7 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
 	2: switch_okada_office_tower_6L_snow;
 	1: switch_old_office_building_5L_snow;
 	1: switch_old_office_building_6L_snow;
+	1: switch_ota_6L_snow;
 	1: switch_yamada_electronics_centre_6L_snow;
 }
 
@@ -57,6 +58,7 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_name) {
 	2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_BOOM),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_BOOM),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_BOOM),string(L6));
+	1: string(STR_CONCAT_3, string(NAME_OTA),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(PERIOD_BOOM),string(L6));
 }
 
@@ -89,14 +91,15 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_colors) {
 	2: switch_okada_office_tower_colors;
 	1: switch_old_office_building_colors;
 	1: switch_old_office_building_colors;
+	1: switch_ota_colors;
 	1: switch_yamada_electronics_centre_colors;
 	}
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_con_check, 	
 	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
-	(PopOver5L6LResidentialThreshold() && !PopOver7L8LResidentialThreshold() ) ||
-	(PopOver7L8LResidentialThreshold() && 
+	(PopOver5L6LThreshold() && !PopOver7L8LThreshold() ) ||
+	(PopOver7L8LThreshold() && 
 		(!WideRoads() || (WideRoads() && (town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_OUTER_SUBURB)))
 	)	
 	) {return;}	

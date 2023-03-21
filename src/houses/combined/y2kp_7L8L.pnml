@@ -1,7 +1,7 @@
-// Begin apartments_y2kp_7L8L
+// Begin y2kp_7L8L
 
 // Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_sprites) {
+random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_sprites) {
 	1: switch_harada_8L_snow;
 	1: switch_harada_7L_snow;
 	1: switch_kaneko_8L_snow;
@@ -16,10 +16,19 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_sprites) {
 	1: switch_toki_7L_snow;
 	1: switch_yanagi_8L_snow;
 	1: switch_yanagi_7L_snow;
+
+	1: switch_aoki_office_8L_snow;
+	1: switch_aoyama_office_8L_snow;
+	1: switch_aoyama_office_7L_snow;
+	2: switch_okada_office_tower_8L_snow;
+	1: switch_old_office_building_7L_snow;
+	1: switch_old_office_building_8L_snow;
+	1: switch_takemaru_shopping_centre_7L_snow;
+	1: switch_yamada_electronics_centre_8L_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_name) {
-	dependent: switch_apartments_y2kp_7L8L_sprites;
+random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_name) {
+	dependent: switch_y2kp_7L8L_sprites;
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_POSTY2K),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_POSTY2K),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KANEKO),string(PERIOD_POSTY2K),string(L8));
@@ -34,12 +43,21 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_name) {
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_TOKI),string(PERIOD_POSTY2K),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_POSTY2K),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_YANAGI),string(PERIOD_POSTY2K),string(L7));
+
+	1: string(STR_CONCAT_3, string(NAME_AOKI_OFFICE),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_AOYAMA_OFFICE),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_AOYAMA_OFFICE),string(PERIOD_LATE),string(L7));
+	2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_OLD_OFFICE_BUILDING),string(PERIOD_LATE),string(L8));
+	1: string(STR_CONCAT_3, string(NAME_TAKEMARU_SHOPPING_CENTRE),string(PERIOD_LATE),string(L7));
+	1: string(STR_CONCAT_3, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(PERIOD_LATE),string(L8));
 }
 
 // Colours
-random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_colors)
+random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_colors)
 	{
-	dependent: switch_apartments_y2kp_7L8L_sprites;	
+	dependent: switch_y2kp_7L8L_sprites;	
 	1: switch_harada_colors;
 	1: switch_harada_colors;
 	1: switch_kaneko_colors;
@@ -53,17 +71,27 @@ random_switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_colors)
 	1: switch_toki_colors;
 	1: switch_toki_colors;
 	1: switch_yanagi_colors;
-	1: switch_yanagi_colors;	
+	1: switch_yanagi_colors;
+
+	1: switch_aoki_office_colors;
+	1: switch_aoyama_office_colors;
+	1: switch_aoyama_office_colors;
+	2: switch_okada_office_tower_colors;
+	1: switch_old_office_building_colors;
+	1: switch_old_office_building_colors;
+	1: switch_takemaru_shopping_centre_colors;
+	1: switch_yamada_electronics_centre_colors;
 	}
 
 // Construction Check
-switch (FEAT_HOUSES, SELF, switch_apartments_y2kp_7L8L_con_check, 	
-	FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver7L8LResidentialThreshold() &&		// Cities only
-	WideRoads()									// Can only build beside a wider road
+switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_con_check, 	
+	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
+	(PopOver7L8LThreshold() && !PopOver9L10LThreshold() ) ||
+	(PopOver9L10LThreshold() && 
+		(!WideRoads() || (WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)))
 	) {return;}	
 
-item(FEAT_HOUSES, item_apartments_y2kp_7L8L){
+item(FEAT_HOUSES, item_y2kp_7L8L){
 	property {
 		substitute: 				27;
 		name: 						string(NAME_APARTMENTS_YANO);
@@ -74,15 +102,15 @@ item(FEAT_HOUSES, item_apartments_y2kp_7L8L){
 		probability: 				3;
 		years_available: 			[2000,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
 	graphics {
-		name:						switch_apartments_y2kp_7L8L_name;
-		default: 					switch_apartments_y2kp_7L8L_sprites;
-		construction_check: 		switch_apartments_y2kp_7L8L_con_check;
+		name:						switch_y2kp_7L8L_name;
+		default: 					switch_y2kp_7L8L_sprites;
+		construction_check: 		switch_y2kp_7L8L_con_check;
 		cargo_production: 			func_produce(13,4);
-		colour: 					switch_apartments_y2kp_7L8L_colors;
+		colour: 					switch_y2kp_7L8L_colors;
 	}
 }

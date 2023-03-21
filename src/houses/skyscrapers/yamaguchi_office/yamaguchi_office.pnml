@@ -56,10 +56,11 @@ random_switch (FEAT_HOUSES, SELF, rand_recolor_yamaguchi_office)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_yamaguchi_office_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	PopOver9L10LCommercialThreshold() &&	// Population of city check
+	PopOver9L10LThreshold() &&				// Population of city check
 	IsUniqueHouse()	&&						// Only one per city
-	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
-	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 10
+	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
 
 item(FEAT_HOUSES, item_yamaguchi_office){

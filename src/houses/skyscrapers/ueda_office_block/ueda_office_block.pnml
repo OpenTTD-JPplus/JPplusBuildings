@@ -65,9 +65,10 @@ switch (FEAT_HOUSES, SELF, switch_ueda_office_block_con_check,
 	FuncServicePASS() &&					// Must have passenger service
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
-	PopOver9L10LCommercialThreshold() &&	// Population of city check
-	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
-	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 10
+	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	PopOver9L10LThreshold() &&				// Population of city check
+	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
 
 item(FEAT_HOUSES, item_ueda_office_block){

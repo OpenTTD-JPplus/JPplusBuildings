@@ -60,9 +60,10 @@ switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_con_check,
 	FuncServicePASS() &&					// Must have passenger service
 	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
-	PopOver7L8LCommercialThreshold() &&		// Population of city check
-	!TileGapByClass(5) &&					// There is another skyscraper within n tiles
-	IfFirstSkyscraper() 					// If first skyscraper, it must build beside a Class 2
+	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	PopOver7L8LThreshold() &&				// Population of city check
+	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
 
 
@@ -88,7 +89,7 @@ item(FEAT_HOUSES, item_sugiyama_office_building){
 										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
 										CLIMATE_TROPIC
 									)];
-		building_class: 			2;
+		building_class: 			5;
 		}
 	graphics {
 		default: 					switch_sugiyama_office_building_sprites;

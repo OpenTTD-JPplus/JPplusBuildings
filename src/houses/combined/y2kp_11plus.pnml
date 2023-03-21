@@ -4,8 +4,10 @@
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_sprites) {
 	1: switch_aoki_office_12L_snow;
 	1: switch_obuilding_snow;
-	2: switch_okada_office_tower_12L_snow;
+	1: switch_ota_12L_snow;
+	//2: switch_okada_office_tower_12L_snow;
 	1: switch_takagi_11L_snow;
+	1: switch_tanaguchi_11L_snow;
 	1: switch_ybuilding_snow;
 
 	1: switch_hashimoto_office_tower_13L_snow;
@@ -30,8 +32,10 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_name) {
 	dependent: switch_y2kp_11L12L_sprites;
 	1: string(STR_CONCAT_3, string(NAME_AOKI_OFFICE),string(PERIOD_POSTY2K),string(L12));
 	1: string(STR_CONCAT_3, string(NAME_OBUILDING),string(PERIOD_POSTY2K),string(L12));
-	2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_POSTY2K),string(L12));
+	1: string(STR_CONCAT_3, string(NAME_OTA),string(PERIOD_POSTY2K),string(L12));
+	//2: string(STR_CONCAT_3, string(NAME_OKADA_OFFICE_TOWER),string(PERIOD_POSTY2K),string(L12));
 	1: string(STR_CONCAT_3, string(NAME_TAKAGI),string(PERIOD_POSTY2K),string(L11));
+	1: string(STR_CONCAT_3, string(NAME_TANAGUCHI),string(PERIOD_POSTY2K),string(L11));
 	1: string(STR_CONCAT_3, string(NAME_YBUILDING),string(PERIOD_POSTY2K),string(L12));
 
 	1: string(STR_CONCAT_3, string(NAME_HASHIMOTO_OFFICE_TOWER),string(PERIOD_POSTY2K),string(L13));
@@ -57,8 +61,10 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_colors)
 	dependent: switch_y2kp_11L12L_sprites;
 	1: switch_aoki_office_colors;
 	1: switch_obuilding_colors;
-	2: switch_okada_office_tower_colors;
+	1: switch_ota_colors;
+	//2: switch_okada_office_tower_colors;
 	1: switch_takagi_colors;
+	1: switch_tanaguchi_colors;
 	1: switch_ybuilding_colors;
 
 	1: switch_hashimoto_office_tower_colors;
@@ -81,7 +87,7 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_colors)
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_con_check, 
 	FuncServicePASS() &&						// Must have passenger service
-	PopOver11L12LCommercialThreshold() &&		// City has population above relevant threshold
+	PopOver11L12LThreshold() &&					// City has population above relevant threshold
 	WideRoads()									// Can only build beside a wider road
 ) {return;}	
 
@@ -105,8 +111,7 @@ item(FEAT_HOUSES, item_y2kp_11L12L){
 	graphics {
 		name:						switch_y2kp_11L12L_name;
 		default: 					switch_y2kp_11L12L_sprites;
-		construction_check: 		switch_y2kp_11L12L_con_check;
-		protection:					ProtectCommercial(); 	 	
+		construction_check: 		switch_y2kp_11L12L_con_check;	 	
 		cargo_production: 			func_produce(13,4);
 		colour: 					switch_y2kp_11L12L_colors;
 	}
