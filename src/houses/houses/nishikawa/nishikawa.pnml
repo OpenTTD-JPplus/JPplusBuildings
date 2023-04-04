@@ -200,7 +200,22 @@ random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_snow) {
 	1: switch_nishikawa_house_f_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors)
+random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors_basic)
+	{
+		//1: PALETTE_CC_RED;
+		//2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;
+		//2: PALETTE_CC_DARK_GREEN;
+		//3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		//4: PALETTE_CC_WHITE;
+	}
+
+	random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors_modern)
 	{
 		1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -215,4 +230,13 @@ random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors)
 		4: PALETTE_CC_WHITE;
 	}
 
-// End nishikawa_house
+switch (FEAT_HOUSES, SELF, switch_nishikawa_house_colors_era_check, current_year - age) {
+	0..1959: switch_nishikawa_house_colors_basic;
+	switch_nishikawa_house_colors_modern;
+}
+
+switch (FEAT_HOUSES, PARENT, switch_nishikawa_house_colors, population_uncapped >= 1000 ) {
+	1: switch_nishikawa_house_colors_era_check;
+	switch_nishikawa_house_colors_basic;
+}
+

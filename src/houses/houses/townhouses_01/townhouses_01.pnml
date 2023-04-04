@@ -184,8 +184,23 @@ switch(FEAT_HOUSES, SELF, switch_townhouses_01_f_snow, terrain_type) {
 	sprlay_townhouses_01_f_norm;
 }
 
+// Colours
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_colors_basic)
+	{
+		//1: PALETTE_CC_RED;
+		//2: PALETTE_CC_LIGHT_BLUE;
+		//1: PALETTE_CC_PINK;
+		//1: PALETTE_CC_DARK_BLUE;
+		//1: PALETTE_CC_GREEN;
+		//2: PALETTE_CC_DARK_GREEN;
+		3: PALETTE_CC_CREAM;
+		1: PALETTE_CC_MAUVE;
+		4: PALETTE_CC_BROWN;
+		4: PALETTE_CC_GREY;
+		4: PALETTE_CC_WHITE;
+	}
 
-random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_colors)
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_colors_modern)
 	{
 		//1: PALETTE_CC_RED;
 		2: PALETTE_CC_LIGHT_BLUE;
@@ -199,3 +214,75 @@ random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_colors)
 		4: PALETTE_CC_GREY;
 		4: PALETTE_CC_WHITE;
 	}
+
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_colors_era_check, current_year - age) {
+	0..1959: switch_townhouses_01_colors_basic;
+	switch_townhouses_01_colors_modern;
+}
+
+switch (FEAT_HOUSES, PARENT, switch_townhouses_01_colors, population_uncapped >= 1000 ) {
+	1: switch_townhouses_01_colors_era_check;
+	switch_townhouses_01_colors_basic;
+}
+
+// Sprite Selection
+
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_sprites_basic) {
+	//1: switch_townhouses_01_a_snow;	// Green and Red roof
+	//1: switch_townhouses_01_b_snow;	// Green buildings
+	1: switch_townhouses_01_c_snow;
+	1: switch_townhouses_01_d_snow;
+	1: switch_townhouses_01_e_snow;
+	1: switch_townhouses_01_f_snow;
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_sprites_modern) {
+	1: switch_townhouses_01_a_snow;
+	1: switch_townhouses_01_b_snow;
+	1: switch_townhouses_01_c_snow;
+	1: switch_townhouses_01_d_snow;
+	1: switch_townhouses_01_e_snow;
+	1: switch_townhouses_01_f_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_sprites_era_check, current_year - age) {
+	0..1959: switch_townhouses_01_sprites_basic;
+	switch_townhouses_01_sprites_modern;
+}
+
+switch (FEAT_HOUSES, PARENT, switch_townhouses_01_sprites, population_uncapped >= 1000 ) {
+	1: switch_townhouses_01_sprites_era_check;
+	switch_townhouses_01_sprites_basic;
+}
+
+// Name Selection
+
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_name_basic) {
+	dependent: switch_townhouses_01_sprites_basic;
+	//1: string(STR_CONCAT_3, string(NAME_TOWNHOUSES_01),string(DENSE),string(PERIOD_MODERN));
+	//1: string(STR_CONCAT_3, string(NAME_TOWNHOUSES_01),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(C),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(D),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(E),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(F),string(DENSE),string(PERIOD_MODERN));
+}
+
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_name_modern) {
+	dependent: switch_townhouses_01_sprites_modern;
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(A),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(B),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(C),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(D),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(E),string(DENSE),string(PERIOD_MODERN));
+	1: string(STR_CONCAT_4,string(NAME_TOWNHOUSES_01),string(F),string(DENSE),string(PERIOD_MODERN));
+}
+
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_name_era_check, current_year - age) {
+	0..1959: switch_townhouses_01_name_basic;
+	switch_townhouses_01_name_modern;
+}
+
+switch (FEAT_HOUSES, PARENT, switch_townhouses_01_name, population_uncapped >= 1000 ) {
+	1: switch_townhouses_01_name_era_check;
+	switch_townhouses_01_name_basic;
+}

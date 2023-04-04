@@ -27,4 +27,4 @@ Welcome to 🇯🇵🏠 **JP+ Buildings** 🏠🇯🇵
 
 ### New Sprites
 
-*By KeepinItRail and Simozzz
+* By KeepinItRail and Simozzz
