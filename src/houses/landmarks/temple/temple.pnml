@@ -1,54 +1,55 @@
-// Begin temple
+
+#include "src/houses/landmarks/temple/temple_sprites.pnml"
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_north_sprites) {
-	1: switch_temple_01_north;
-	1: switch_temple_02_north;
+	1: switch_temple_01_black_north;
+	1: switch_temple_01_grey_north;
+	1: switch_temple_01_brown_north;
+	1: switch_temple_02_black_north;
+	1: switch_temple_02_grey_north;
+	1: switch_temple_02_brown_north;
 	//10: switch_sbc_north;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_east_sprites) {
 	dependent: switch_temple_north_sprites;
-	1: switch_temple_01_east;
-	1: switch_temple_02_east;
-	//10: switch_sbc_east;
+	1: switch_temple_01_black_east;
+	1: switch_temple_01_grey_east;
+	1: switch_temple_01_brown_east;
+	1: switch_temple_02_black_east;
+	1: switch_temple_02_grey_east;
+	1: switch_temple_02_brown_east;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_west_sprites) {
 	dependent: switch_temple_north_sprites;
-	1: switch_temple_01_west;
-	1: switch_temple_02_west;
-	//10: switch_sbc_west;
+	1: switch_temple_01_black_west;
+	1: switch_temple_01_grey_west;
+	1: switch_temple_01_brown_west;
+	1: switch_temple_02_black_west;
+	1: switch_temple_02_grey_west;
+	1: switch_temple_02_brown_west;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_south_sprites) {
 	dependent: switch_temple_north_sprites;
-	1: switch_temple_01_south;
-	1: switch_temple_02_south;
-	//10: switch_sbc_south;
+	1: switch_temple_01_black_south;
+	1: switch_temple_01_grey_south;
+	1: switch_temple_01_brown_south;
+	1: switch_temple_02_black_south;
+	1: switch_temple_02_grey_south;
+	1: switch_temple_02_brown_south;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_temple_name) {
 	dependent: switch_temple_north_sprites;
 	1: string(NAME_TEMPLE_01);
+	1: string(NAME_TEMPLE_01);
+	1: string(NAME_TEMPLE_01);
 	1: string(NAME_TEMPLE_02);
-	//10: string(NAME_TEMPLE_02);
+	1: string(NAME_TEMPLE_02);
+	1: string(NAME_TEMPLE_02);
 }
-
-
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_temple)
-	{
-		//1: PALETTE_CC_RED;			Nah
-		2: PALETTE_CC_LIGHT_BLUE;
-		//1: PALETTE_CC_PINK;			Nah
-		1: PALETTE_CC_DARK_BLUE;
-		//1: PALETTE_CC_GREEN;			Nah
-		2: PALETTE_CC_DARK_GREEN;
-		//3: PALETTE_CC_CREAM;
-		//1: PALETTE_CC_MAUVE;			Nah
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-	}
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
@@ -81,8 +82,5 @@ item(FEAT_HOUSES, item_temple, 66, HOUSE_SIZE_2X2){
 		graphics_south: 			switch_temple_south_sprites;
 		construction_check:			switch_temple_con_check;	
 		cargo_production: 			func_produce(10,2);
-		colour: 					rand_recolor_temple;
 	}
 }
-
-// End temple
