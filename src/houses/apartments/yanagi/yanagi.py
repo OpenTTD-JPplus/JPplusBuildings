@@ -2,11 +2,13 @@
 # Yanagi
 
 coloursdict = {
-"white": 	"0",
-"grey": 	"1",
-"brown1": 	"2",
-"brown2": 	"3",
-"mauve":	"4"
+"white": 		"0",
+"grey": 		"1",
+"brown1": 		"2",
+"brown2": 		"3",
+"mauve":		"4",
+"dark_green":	"5",
+"peach":		"6"
 }
 
 building_name = "yanagi"

@@ -1,19 +1,25 @@
 
-# Yanagi
+# Kimura
 
 coloursdict = {
-"white": 	"0",
-"grey": 	"1",
-"brown1": 	"2",
-"brown2": 	"3",
-"mauve":	"4"
+"white": 		"0",
+"grey": 		"1",
+"brown1": 		"2",
+"brown2": 		"3",
+"mauve":		"4",
+"dark_green":	"5",
+"peach":		"6"
 }
 
-building_name = "yanagi"
-colours = ["white", "grey", "mauve", "brown1"]
-levels = ["5L", "6L", "7L", "8L"]
+building_name = "kimura"
+colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach"]
+levels = ["3L", "4L", "5L", "6L"]
 variants = {
     "a" : {
+		"xoffset" : "0",
+		"yoffset" : "0"
+	},
+	"b" : {
 		"xoffset" : "0",
 		"yoffset" : "0"
 	}
