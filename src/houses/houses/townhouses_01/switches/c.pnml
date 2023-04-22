@@ -1,0 +1,30 @@
+// Basic Colors
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_c_xL_basic_colors) {
+	1: switch_townhouses_01_c_xL_mauve_snow;
+	2: switch_townhouses_01_c_xL_brown2_snow;
+	2: switch_townhouses_01_c_xL_brown1_snow;
+	2: switch_townhouses_01_c_xL_grey_snow;
+	2: switch_townhouses_01_c_xL_black_snow;
+}
+
+// Modern Colors
+random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_c_xL_modern_colors) {
+	1: switch_townhouses_01_c_xL_mauve_snow;
+	1: switch_townhouses_01_c_xL_brown2_snow;
+	1: switch_townhouses_01_c_xL_brown1_snow;
+	1: switch_townhouses_01_c_xL_grey_snow;
+	1: switch_townhouses_01_c_xL_black_snow;
+	1: switch_townhouses_01_c_xL_peach_snow;
+	1: switch_townhouses_01_c_xL_red_brown_snow;
+}
+
+// Which Period?
+switch (FEAT_HOUSES, SELF, switch_townhouses_01_c_xL_colors_era_check, current_year - age) {
+	0..1959: switch_townhouses_01_c_xL_basic_colors;
+	switch_townhouses_01_c_xL_modern_colors;
+}
+
+switch (FEAT_HOUSES, PARENT, switch_townhouses_01_c_xL_snow, population_uncapped >= 1000 ) {
+	1: switch_townhouses_01_c_xL_colors_era_check;
+	switch_townhouses_01_c_xL_basic_colors;
+}

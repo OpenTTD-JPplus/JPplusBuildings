@@ -1,23 +1,16 @@
 // Begin house_1945_dense
 
 random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_sprites) {
-	15: switch_townhouses_01_sprites;
-	1: switch_townhouses_02_snow;
+	15: switch_townhouses_01_2L_snow;
+	1: switch_townhouses_02_a_2L_snow;
 	5: switch_shotengai_01_sprites;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_name) {
 	dependent: switch_house_1945_dense_sprites;
-	15: switch_townhouses_01_name;
+	15: string(STR_CONCAT_3,string(NAME_TOWNHOUSES_01),string(DENSE),string(PERIOD_MODERN));
 	1: string(STR_CONCAT_3,string(NAME_TOWNHOUSES_02),string(DENSE),string(PERIOD_MODERN));
 	5:  switch_shotengai_01_name;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_colors) {
-	dependent: switch_house_1945_dense_sprites;
-	15: switch_townhouses_01_colors;
-	1: switch_townhouses_02_colors;
-	5: switch_standard_colors;
 }
 
 // Construction Checks
@@ -57,8 +50,5 @@ item(FEAT_HOUSES, item_house_1945_dense){
 		name:						switch_house_1945_dense_name;
 		construction_check: 		switch_house_1945_dense_con_check;
 		cargo_production: 			func_produce(4,1);
-		colour: 					switch_house_1945_dense_colors;
 	}
 }
-
-// End townhouses

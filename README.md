@@ -19,11 +19,11 @@ Welcome to 🇯🇵🏠 **JP+ Buildings** 🏠🇯🇵
 
 ### ITL Houses
 
-* Some of the inspiration for this set came from ITL Houses. Thanks to 2TallTyler for this set. 
+* Thanks to 2TallTyler for this set, both for inspiration and as an example NML set. 
 
 ### JP+ Team
 
-* Thanks all for the inputs and ideas. Special credit to Yozora for inspiration for 'Wide Roads' mechanic inspiration.
+* Thanks all for all the input and ideas. 
 
 ### New Sprites
 
