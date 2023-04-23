@@ -10,8 +10,8 @@ random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_sprites) {
 	1: switch_kono_a_7L_snow;
 	1: switch_shibata_8L_snow;
 	1: switch_shibata_7L_snow;
-	1: switch_tetsui_8L_snow;
-	1: switch_tetsui_7L_snow;
+	1: switch_tetsui_a_8L_snow;
+	1: switch_tetsui_a_7L_snow;
 	1: switch_toki_8L_snow;
 	1: switch_toki_7L_snow;
 	1: switch_yanagi_a_8L_snow;
@@ -84,10 +84,10 @@ random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_colors) {
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_late_7L8L_con_check, 	
-	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
-	(PopOver7L8LThreshold() && !PopOver9L10LThreshold() ) ||
+	FuncServicePASS() &&					
+	(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) ||
 	(PopOver9L10LThreshold() && 
-		(!WideRoads() || (WideRoads() && town_zone == TOWNZONE_OUTER_SUBURB)))
+		(!WideRoads() || (WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)))
 	) {return;}	
 
 item(FEAT_HOUSES, item_late_7L8L){
@@ -101,7 +101,7 @@ item(FEAT_HOUSES, item_late_7L8L){
 		probability: 				1;
 		years_available: 			[1980,1999];
 		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB,TOWNZONE_OUTER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE,TOWNZONE_INNER_SUBURB), ALL_CLIMATES | bitmask(ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}

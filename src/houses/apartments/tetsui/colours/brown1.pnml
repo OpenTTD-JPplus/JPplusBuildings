@@ -1,0 +1,34 @@
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_tetsui_v_xL_brown1_norm {
+        ground {
+            sprite: spr_tetsui_v_ground (construction_state);
+        }
+        building {
+            sprite: spr_tetsui_v_xL_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tetsui_v_xL_brown1_snow {
+        ground {
+            sprite: spr_tetsui_v_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_tetsui_v_xL_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tetsui_v_xL_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tetsui_v_xL_brown1_snow;
+	    sprlay_tetsui_v_xL_brown1_norm;
+    }
