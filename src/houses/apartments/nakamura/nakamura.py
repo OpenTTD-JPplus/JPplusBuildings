@@ -15,11 +15,13 @@ coloursdict = {
 "light_green":	"10",
 "black":		"11",
 "gold":			"12",
-"red_brown":	"13"
+"red_brown":	"13",
+"red":			"14",
+"midgrey":		"15"
 }
 
 building_name = "nakamura"
-colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "light_blue", "red_brown", "black"]
+colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "light_blue", "red_brown", "black", "midgrey"]
 levels = ["3L", "4L", "5L", "6L"]
 variants = {
     "a" : {
