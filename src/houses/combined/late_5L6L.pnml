@@ -23,9 +23,9 @@ random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_sprites) {
 	1: switch_yanagi_a_5L_snow;
 	1: switch_yano_a_6L_snow;
 
-	1: switch_aoki_office_6L_snow;
-	1: switch_aoyama_office_5L_snow;
-	1: switch_aoyama_office_6L_snow;
+	1: switch_aoki_office_a_6L_snow;
+	1: switch_aoyama_office_a_5L_snow;
+	1: switch_aoyama_office_a_6L_snow;
 	2: switch_okada_office_tower_6L_snow;
 	1: switch_old_office_building_5L_snow;
 	1: switch_old_office_building_6L_snow;
@@ -100,10 +100,20 @@ random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_colors) {
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_late_5L6L_con_check, 	
 	FuncServicePASS() &&					// Only build within the catchment area of a station which received passengers this month or last month
-	(PopOver5L6LThreshold() && !PopOver7L8LThreshold() ) ||
-	(PopOver7L8LThreshold() && 
-		(!WideRoads() || (WideRoads() && town_zone == TOWNZONE_OUTSKIRT ))
-	)	
+		(
+			(
+				PopOver5L6LThreshold() && !PopOver7L8LThreshold() 
+			) 
+				||
+			(
+				PopOver7L8LThreshold() && 
+				(
+					!WideRoads() 
+					|| 
+					(WideRoads() && (town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_OUTER_SUBURB))
+				)
+			)
+		)	
 	) {return;}	
 
 item(FEAT_HOUSES, item_late_5L6L){
