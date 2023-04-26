@@ -84,10 +84,18 @@ random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_colors) {
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_late_7L8L_con_check, 	
-	FuncServicePASS() &&					
-	(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) ||
-	(PopOver9L10LThreshold() && 
-		(!WideRoads() || (WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)))
+	FuncServicePASS() &&		
+		(			
+			(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) 
+				||
+			(PopOver9L10LThreshold() && 
+				(
+					(!WideRoads() && town_zone == TOWNZONE_CENTRE)
+						|| 
+					(WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)
+				)
+			)
+		)
 	) {return;}	
 
 item(FEAT_HOUSES, item_late_7L8L){
