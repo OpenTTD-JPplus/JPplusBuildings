@@ -49294,80 +49294,17 @@ switch (FEAT_HOUSES, SELF, switch_old_office_building_a_8L_snow, random_bits % 9
 # 1 "src/houses/commercial/old_office_building/old_office_building.pnml" 2
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/commercial/ota/ota.pnml" 1
-// Spritesets
 
-spriteset (spr_ota_12L, 						"src/houses/commercial/ota/building.png") 					{template_house_128(1,1)}
-spriteset (spr_ota_12L_snow, 					"src/houses/commercial/ota/building.png") 					{template_house_128(400,1)}
+# 1 "src/houses/commercial/ota/gfx/ota_sprites.pnml" 1
 
-spriteset (spr_ota_6L, 							"src/houses/commercial/ota/building.png") 					{template_house_128(1,130)}
-spriteset (spr_ota_6L_snow, 					"src/houses/commercial/ota/building.png") 					{template_house_128(400,130)}
+spriteset (spr_ota_a_12L_norm, 					"src/houses/commercial/ota/gfx/building.png") 					{template_house_128(1,1)}
+spriteset (spr_ota_a_12L_snow, 					"src/houses/commercial/ota/gfx/building.png") 					{template_house_128(400,1)}
 
+spriteset (spr_ota_a_6L_norm, 					"src/houses/commercial/ota/gfx/building.png") 					{template_house_128(1,130)}
+spriteset (spr_ota_a_6L_snow, 					"src/houses/commercial/ota/gfx/building.png") 					{template_house_128(400,130)}
 
-spriteset (spr_ota_ground, 						"src/houses/commercial/ota/ground.png") 					{template_ground(1,1)}
-spriteset (spr_ota_ground_snow, 				"src/houses/commercial/ota/ground.png") 					{template_ground(1,33)}
-
-
-// Spritelayouts
-
-// Normal Sprites
-spritelayout sprlay_ota_12L_norm {
-	ground {
-		sprite: spr_ota_ground(3);
-	}
-	building {
-		sprite: spr_ota_12L (3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_ota_12L_snow {
-	ground {
-		sprite: spr_ota_ground_snow(3);
-	}
-	building {
-		sprite: spr_ota_12L_snow(3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Normal Sprites
-spritelayout sprlay_ota_6L_norm {
-	ground {
-		sprite: spr_ota_ground(3);
-	}
-	building {
-		sprite: spr_ota_6L (3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_ota_6L_snow {
-	ground {
-		sprite: spr_ota_ground_snow(3);
-	}
-	building {
-		sprite: spr_ota_6L_snow(3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_ota_12L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_ota_12L_snow;
-	sprlay_ota_12L_norm;
-}
-
-switch(FEAT_HOUSES, SELF, switch_ota_6L_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_ota_6L_snow;
-	sprlay_ota_6L_norm;
-}
+spriteset (spr_ota_a_ground, 					"src/houses/commercial/ota/gfx/ground.png") 					{template_ground(1,1)}
+spriteset (spr_ota_a_ground_snow, 				"src/houses/commercial/ota/gfx/ground.png") 					{template_ground(1,33)}
 
 random_switch (FEAT_HOUSES, SELF, switch_ota_colors)
 	{
@@ -49383,6 +49320,439 @@ random_switch (FEAT_HOUSES, SELF, switch_ota_colors)
 		4: PALETTE_CC_GREY;
 		4: PALETTE_CC_WHITE;
 	}
+# 1 "src/houses/commercial/ota/ota.pnml" 2
+# 1 "src/houses/commercial/ota/levels/6L.pnml" 1
+
+// _gold_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_gold_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_gold_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_gold_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_gold_snow;
+	    sprlay_ota_a_6L_gold_norm;
+    }
+
+// _light_green_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_light_green_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_light_green_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_light_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_light_green_snow;
+	    sprlay_ota_a_6L_light_green_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_light_blue_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_light_blue_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_light_blue_snow;
+	    sprlay_ota_a_6L_light_blue_norm;
+    }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_white_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_white_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_white_snow;
+	    sprlay_ota_a_6L_white_norm;
+    }
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_red_brown_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_red_brown_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_red_brown_snow;
+	    sprlay_ota_a_6L_red_brown_norm;
+    }
+
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_6L_red_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_6L_red_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_6L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_6L_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_6L_red_snow;
+	    sprlay_ota_a_6L_red_norm;
+    }
+# 1 "src/houses/commercial/ota/ota.pnml" 2
+# 1 "src/houses/commercial/ota/levels/12L.pnml" 1
+
+// _gold_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_gold_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_gold_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_gold_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_gold_snow;
+	    sprlay_ota_a_12L_gold_norm;
+    }
+
+// _light_green_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_light_green_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_light_green_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_light_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_light_green_snow;
+	    sprlay_ota_a_12L_light_green_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_light_blue_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_light_blue_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_light_blue_snow;
+	    sprlay_ota_a_12L_light_blue_norm;
+    }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_white_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_white_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_white_snow;
+	    sprlay_ota_a_12L_white_norm;
+    }
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_red_brown_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_red_brown_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_red_brown_snow;
+	    sprlay_ota_a_12L_red_brown_norm;
+    }
+
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_ota_a_12L_red_norm {
+        ground {
+            sprite: spr_ota_a_ground (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_ota_a_12L_red_snow {
+        ground {
+            sprite: spr_ota_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_ota_a_12L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_ota_a_12L_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_ota_a_12L_red_snow;
+	    sprlay_ota_a_12L_red_norm;
+    }
+# 1 "src/houses/commercial/ota/ota.pnml" 2
+# 1 "src/houses/commercial/ota/switches/combined_rs.pnml" 1
+
+switch (FEAT_HOUSES, SELF, switch_ota_a_6L_snow, random_bits % 6 ) {
+	0: switch_ota_a_6L_gold_snow;
+	1: switch_ota_a_6L_light_green_snow;
+	2: switch_ota_a_6L_light_blue_snow;
+	3: switch_ota_a_6L_white_snow;
+	4: switch_ota_a_6L_red_brown_snow;
+	5: switch_ota_a_6L_red_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_ota_a_12L_snow, random_bits % 6 ) {
+	0: switch_ota_a_12L_gold_snow;
+	1: switch_ota_a_12L_light_green_snow;
+	2: switch_ota_a_12L_light_blue_snow;
+	3: switch_ota_a_12L_white_snow;
+	4: switch_ota_a_12L_red_brown_snow;
+	5: switch_ota_a_12L_red_snow;
+}
+# 1 "src/houses/commercial/ota/ota.pnml" 2
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/commercial/takada/takada.pnml" 1
 // Spritesets
@@ -53205,7 +53575,7 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
 	2: switch_okada_office_tower_6L_snow;
 	1: switch_old_office_building_a_5L_snow;
 	1: switch_old_office_building_a_6L_snow;
-	1: switch_ota_6L_snow;
+	1: switch_ota_a_6L_snow;
 	1: switch_yamada_electronics_centre_6L_snow;
 }
 
@@ -53531,7 +53901,7 @@ item(FEAT_HOUSES, item_y2kp_9L10L){
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_11L12L_sprites) {
 	1: switch_aoki_office_a_12L_snow;
 	1: switch_obuilding_snow;
-	1: switch_ota_12L_snow;
+	1: switch_ota_a_12L_snow;
 	//2: switch_okada_office_tower_12L_snow;
 	1: switch_takagi_11L_snow;
 	1: switch_tanaguchi_a_11L_snow;
