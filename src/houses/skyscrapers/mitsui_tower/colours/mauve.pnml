@@ -1,0 +1,34 @@
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_mitsui_tower_mauve_norm {
+        ground {
+            sprite: spr_mitsui_tower_ground (3);
+        }
+        building {
+            sprite: spr_mitsui_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_mitsui_tower_mauve_snow {
+        ground {
+            sprite: spr_mitsui_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_mitsui_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_mitsui_tower_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_mitsui_tower_mauve_snow;
+	    sprlay_mitsui_tower_mauve_norm;
+    }
