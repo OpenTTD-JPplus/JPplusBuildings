@@ -1,69 +1,14 @@
-// Begin insurance_tower
 
-// Building Sprites
-spriteset (spr_build_insurance_tower, 			"src/houses/skyscrapers/insurance_tower/building.png") 				{template_house_200_wide(1,1)}
-spriteset (spr_build_insurance_tower_snow, 		"src/houses/skyscrapers/insurance_tower/building.png") 				{template_house_200_wide(1,202)}
-
-// Ground Sprites
-spriteset (spr_ground_insurance_tower, 			"src/houses/skyscrapers/insurance_tower/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_insurance_tower_snow, 	"src/houses/skyscrapers/insurance_tower/ground.png") 				{template_ground(1,33)}
-
-// Normal Sprites
-spritelayout sprlay_insurance_tower {
-	ground {
-		sprite: spr_ground_insurance_tower(construction_state);
-	}
-	building {
-		sprite: spr_build_insurance_tower(construction_state);
-		xoffset:  0;
-		yoffset:  2;
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_insurance_tower_snow {
-	ground {
-		sprite: spr_ground_insurance_tower_snow(construction_state);
-	}
-	building {
-		sprite: spr_build_insurance_tower_snow(construction_state);
-		xoffset:  0;
-		yoffset:  2;
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_insurance_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_insurance_tower_snow;
-	sprlay_insurance_tower;
-}
-
-// Recolouring
-random_switch (FEAT_HOUSES, SELF, rand_recolor_insurance_tower)
-	{
-		1: PALETTE_CC_RED;			
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;			
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
+#include "src/houses/skyscrapers/insurance_tower/gfx/insurance_tower_sprites.pnml"
+#include "src/houses/skyscrapers/insurance_tower/levels/L.pnml"
+#include "src/houses/skyscrapers/insurance_tower/switches/combined_rs.pnml"
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_insurance_tower_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
 	PopOver11L12LThreshold() &&				// Population of city check
 	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
@@ -90,11 +35,8 @@ item(FEAT_HOUSES, item_insurance_tower){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_insurance_tower;
+		default: 					switch_insurance_tower_snow;
 		construction_check:			switch_insurance_tower_con_check;
 		cargo_production: 			func_produce(24,10);
-		colour: 					rand_recolor_insurance_tower; 
 	}
 }
-
-// End insurance_tower

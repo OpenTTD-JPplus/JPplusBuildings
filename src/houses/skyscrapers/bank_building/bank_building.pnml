@@ -1,49 +1,14 @@
-// Begin bank_building
 
-// Building Sprites
-spriteset (spr_build_bank_building, 			"src/houses/skyscrapers/bank_building/building.png") 			{template_house_200(1,1)}
-spriteset (spr_build_bank_building_snow, 		"src/houses/skyscrapers/bank_building/building.png") 			{template_house_200(1,202)}
-
-// Ground Sprites
-spriteset (spr_ground_bank_building, 			"src/houses/skyscrapers/bank_building/ground.png") 				{template_ground(1,1)}
-spriteset (spr_ground_bank_building_snow, 		"src/houses/skyscrapers/bank_building/ground.png") 				{template_ground(1,33)}
-
-// Normal Sprites
-spritelayout sprlay_bank_building {
-	ground {
-		sprite: spr_ground_bank_building (construction_state);
-	}
-	building {
-		sprite: spr_build_bank_building (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Snow Sprites
-spritelayout sprlay_bank_building_snow {
-	ground {
-		sprite: spr_ground_bank_building_snow (construction_state);
-	}
-	building {
-		sprite: spr_build_bank_building_snow (construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_bank_building,terrain_type) {
-	TILETYPE_SNOW: sprlay_bank_building_snow;
-	sprlay_bank_building;
-}
+#include "src/houses/skyscrapers/bank_building/gfx/bank_building_sprites.pnml"
+#include "src/houses/skyscrapers/bank_building/levels/L.pnml"
+#include "src/houses/skyscrapers/bank_building/switches/combined_rs.pnml"
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_bank_building_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
 	PopOver11L12LThreshold() &&				// Population of city check
 	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
@@ -65,11 +30,8 @@ item(FEAT_HOUSES, item_bank_building){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_bank_building;
+		default: 					switch_bank_building_snow;
 		construction_check:			switch_bank_building_con_check;
 		cargo_production: 			func_produce(16,6);
-		colour: 					switch_standard_colors; 
 	}
 }
-
-// End bank_building

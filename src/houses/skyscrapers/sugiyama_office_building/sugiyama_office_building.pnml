@@ -38,29 +38,12 @@ switch(FEAT_HOUSES, SELF, switch_sugiyama_office_building_sprites,terrain_type) 
 	sprlay_sugiyama_office_building_norm;
 }
 
-// Recolouring
-/*
-random_switch (FEAT_HOUSES, SELF, rand_recolor_sugiyama_office_building)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-		4: PALETTE_CC_WHITE;
-	}
-*/
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_con_check, 
 	FuncServicePASS() &&					// Must have passenger service
-	IsCity() && 							// Can only appear in cities
 	IsUniqueHouse() &&						// Only one in city
 	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
 	PopOver7L8LThreshold() &&				// Population of city check
 	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
