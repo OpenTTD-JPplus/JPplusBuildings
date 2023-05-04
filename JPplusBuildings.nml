@@ -1199,45 +1199,269 @@ spriteset (spr_ground_shiro, 							"src/houses/ground/shiro.png") 					{templat
 // BUILDINGS
 
 # 1 "src/houses/skyscrapers/kuroi_tower/kuroi_tower.pnml" 1
-// Begin kuroi_tower
+
+# 1 "src/houses/skyscrapers/kuroi_tower/gfx/kuroi_tower_sprites.pnml" 1
 
 // Building Sprites
-spriteset (spr_build_kuroi_tower, 				"src/houses/skyscrapers/kuroi_tower/building.png") 			{template_house_200(1,1)}
-spriteset (spr_build_kuroi_tower_snow, 			"src/houses/skyscrapers/kuroi_tower/building.png") 			{template_house_200(1,202)}
+spriteset (spr_kuroi_tower_norm, 			"src/houses/skyscrapers/kuroi_tower/gfx/building.png") 			{template_house_200(1,1)}
+spriteset (spr_kuroi_tower_snow, 			"src/houses/skyscrapers/kuroi_tower/gfx/building.png") 			{template_house_200(1,202)}
 
 // Ground Sprites
-spriteset (spr_ground_kuroi_tower, 				"src/houses/skyscrapers/kuroi_tower/ground.png") 			{template_ground(1,1)}
-spriteset (spr_ground_kuroi_tower_snow, 		"src/houses/skyscrapers/kuroi_tower/ground.png") 			{template_ground(1,33)}
+spriteset (spr_kuroi_tower_ground, 			"src/houses/skyscrapers/kuroi_tower/gfx/ground.png") 			{template_ground(1,1)}
+spriteset (spr_kuroi_tower_ground_snow, 	"src/houses/skyscrapers/kuroi_tower/gfx/ground.png") 			{template_ground(1,33)}
+# 1 "src/houses/skyscrapers/kuroi_tower/kuroi_tower.pnml" 2
+# 1 "src/houses/skyscrapers/kuroi_tower/levels/L.pnml" 1
 
-// Normal Sprites
-spritelayout sprlay_kuroi_tower {
-	ground {
-		sprite: spr_ground_kuroi_tower (3);
-	}
-	building {
-		sprite: spr_build_kuroi_tower (3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_red_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
 
-// Snow Sprites
-spritelayout sprlay_kuroi_tower_snow {
-	ground {
-		sprite: spr_ground_kuroi_tower_snow (3);
-	}
-	building {
-		sprite: spr_build_kuroi_tower_snow (3);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_red_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
 
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_kuroi_tower,terrain_type) {
-	TILETYPE_SNOW: sprlay_kuroi_tower_snow;
-	sprlay_kuroi_tower;
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_red_snow;
+	    sprlay_kuroi_tower_red_norm;
+    }
+
+// _light_green_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_light_green_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_light_green_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 10;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_light_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_light_green_snow;
+	    sprlay_kuroi_tower_light_green_norm;
+    }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_white_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_white_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_white_snow;
+	    sprlay_kuroi_tower_white_norm;
+    }
+
+// _gold_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_gold_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_gold_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 12;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_gold_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_gold_snow;
+	    sprlay_kuroi_tower_gold_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_light_blue_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_light_blue_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_light_blue_snow;
+	    sprlay_kuroi_tower_light_blue_norm;
+    }
+
+// _dark_green_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_dark_green_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_dark_green_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_dark_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_dark_green_snow;
+	    sprlay_kuroi_tower_dark_green_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_kuroi_tower_dark_blue_norm {
+        ground {
+            sprite: spr_kuroi_tower_ground (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_kuroi_tower_dark_blue_snow {
+        ground {
+            sprite: spr_kuroi_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_kuroi_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+            xoffset: 0;
+            yoffset: 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_kuroi_tower_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_kuroi_tower_dark_blue_snow;
+	    sprlay_kuroi_tower_dark_blue_norm;
+    }
+# 1 "src/houses/skyscrapers/kuroi_tower/kuroi_tower.pnml" 2
+# 1 "src/houses/skyscrapers/kuroi_tower/switches/combined_rs.pnml" 1
+
+switch (FEAT_HOUSES, SELF, switch_kuroi_tower_snow, random_bits % 7 ) {
+	0: switch_kuroi_tower_red_snow;
+	1: switch_kuroi_tower_light_green_snow;
+	2: switch_kuroi_tower_white_snow;
+	3: switch_kuroi_tower_gold_snow;
+	4: switch_kuroi_tower_light_blue_snow;
+	5: switch_kuroi_tower_dark_green_snow;
+	6: switch_kuroi_tower_dark_blue_snow;
 }
+# 1 "src/houses/skyscrapers/kuroi_tower/kuroi_tower.pnml" 2
 
 // Construction Check
 switch (FEAT_HOUSES, SELF, switch_kuroi_tower_con_check, 
@@ -1266,14 +1490,11 @@ item(FEAT_HOUSES, item_kuroi_tower){
 		building_class:				5;	
 		}
 	graphics {
-		default: 					switch_kuroi_tower;
+		default: 					switch_kuroi_tower_snow;
 		construction_check:			switch_kuroi_tower_con_check;
 		cargo_production: 			func_produce(16,6);
-		colour: 					switch_standard_colors; 
 	}
 }
-
-// End kuroi_tower
 # 1 "JPplusBuildings.pnml" 4
 
 // Houses
