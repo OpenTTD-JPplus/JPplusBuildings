@@ -1,0 +1,12 @@
+
+switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse, 
+	!FuncServicePASS() 				                // Build where there is no Passenger service
+        ||                                              // OR
+    (town_zone == TOWNZONE_EDGE && !WideRoads() )   // Not beside a wide road in EDGE
+) {return;}	
+
+switch(FEAT_HOUSES, SELF, ConstructionCheckShotengai, 
+	current_year < 1945
+        ||
+    (current_year >= 1945 && !FuncServicePASS() )
+) {return;}	

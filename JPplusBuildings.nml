@@ -452,15 +452,29 @@ random_switch (FEAT_HOUSES, SELF, switch_standard_colors)
 # 1 "src/id.pnml" 1
 // Assign IDs
 
-// NO PASS Service
+// Houses
 
-item(FEAT_HOUSES, item_house_1870_dense,            05, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_1870,                  21, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_1945_dense,            06, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_1945,                  22, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_1945_0,                58, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_hist_dense,            13, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_hist,                  17, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_dense_wooden,          05, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_large_wooden_farmhouse,14, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_large_wooden_house_01, 13, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_large_wooden_house_02, 12, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_two_wooden_houses_01,  03, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_two_wooden_houses_02,  04, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_two_wooden_houses_03,  08, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_farmhouse,      09, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_house,          15, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_townhouses_01,  16, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_townhouses_02,  18, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_townhouses_03,  20, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_wooden_townhouses_04,  21, HOUSE_SIZE_1X1) {}
+//item(FEAT_HOUSES, item_house_1870,                  21, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_townhouses_01,         06, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_townhouses_02,         22, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_old_villa,             58, HOUSE_SIZE_1X1) {}
+//item(FEAT_HOUSES, item_house_hist,                  17, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_nishikawa,             01, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_house_naganuma,              02, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_shotengai,                   100,HOUSE_SIZE_1X1) {}
 
 // PASS Service
 
@@ -492,18 +506,12 @@ item(FEAT_HOUSES, item_y2kp_11L12L,                 99, HOUSE_SIZE_1X1) {}
 
 // COMMERCIAL
 
-// Boom period
-//item(FEAT_HOUSES, item_commercial_boom_9L10L,       92, HOUSE_SIZE_1X1) {}
-//item(FEAT_HOUSES, item_commercial_boom_11L12L,      39, HOUSE_SIZE_1X1) {}
 
 // Late Twentieth Century
-//item(FEAT_HOUSES, item_commercial_late_5L6L,        01, HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_commercial_late_7L8L,        100,HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_commercial_late_11L12L,      90, HOUSE_SIZE_1X1) {}
 
 // Post Y2K
-//item(FEAT_HOUSES, item_commercial_y2kp_5L6L,        02, HOUSE_SIZE_1X1) {}
-//item(FEAT_HOUSES, item_commercial_y2kp_7L8L,        03, HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_commercial_y2kp_9L10L,       98, HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_commercial_y2kp_11L12L,      99, HOUSE_SIZE_1X1) {}
 
@@ -544,7 +552,7 @@ item(FEAT_HOUSES, item_onsen_01,                    93, HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_petrol_station_01,         50, HOUSE_SIZE_1X2) {}  // 51,          FEAT_HOUSES
 item(FEAT_HOUSES, item_petrol_station_02,           109,HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_petrol_station_03,         110,HOUSE_SIZE_2X1) {}  // 111,         FEAT_HOUSES
-item(FEAT_HOUSES, item_shops_small_01,              7,  HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_shops_small_01,              07, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_yoshinoya_restaurant,        96, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant,  64, HOUSE_SIZE_1X1) {}         
 
@@ -1178,6 +1186,22 @@ switch (FEAT_HOUSES, SELF, IfFirstSkyscraper, same_class_count_town == 0 ) {retu
 switch (FEAT_HOUSES, SELF, SkyscraperRoads, param_wideroad_skyscrapers == 0 || (param_wideroad_skyscrapers == 1 && WideRoads() )  )  {return;}
 # 1 "JPplusBuildings.pnml" 4
 
+// Construction Checks
+# 1 "src/functions/ConstructionChecks.pnml" 1
+
+switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse, 
+	!FuncServicePASS() 				                // Build where there is no Passenger service
+        ||                                              // OR
+    (town_zone == TOWNZONE_EDGE && !WideRoads() )   // Not beside a wide road in EDGE
+) {return;}	
+
+switch(FEAT_HOUSES, SELF, ConstructionCheckShotengai, 
+	current_year < 1945
+        ||
+    (current_year >= 1945 && !FuncServicePASS() )
+) {return;}	
+# 1 "JPplusBuildings.pnml" 4
+
 // GROUND
 # 1 "src/houses/ground/ground.pnml" 1
 // Begin ground
@@ -1502,53 +1526,53 @@ item(FEAT_HOUSES, item_kuroi_tower){
 // Begin dense_wooden
 
 // Buildings
-spriteset (spr_dense_wooden_a, 						"src/houses/houses/dense_wooden/building_a.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_a_snow, 				"src/houses/houses/dense_wooden/building_a.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_a, 						"src/houses/houses/dense_wooden/gfx/building_a.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_a_snow, 				"src/houses/houses/dense_wooden/gfx/building_a.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_b, 						"src/houses/houses/dense_wooden/building_b.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_b_snow, 				"src/houses/houses/dense_wooden/building_b.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_b, 						"src/houses/houses/dense_wooden/gfx/building_b.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_b_snow, 				"src/houses/houses/dense_wooden/gfx/building_b.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_c, 						"src/houses/houses/dense_wooden/building_c.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_c_snow, 				"src/houses/houses/dense_wooden/building_c.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_c, 						"src/houses/houses/dense_wooden/gfx/building_c.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_c_snow, 				"src/houses/houses/dense_wooden/gfx/building_c.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_d, 						"src/houses/houses/dense_wooden/building_d.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_d_snow, 				"src/houses/houses/dense_wooden/building_d.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_d, 						"src/houses/houses/dense_wooden/gfx/building_d.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_d_snow, 				"src/houses/houses/dense_wooden/gfx/building_d.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_e, 						"src/houses/houses/dense_wooden/building_e.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_e_snow, 				"src/houses/houses/dense_wooden/building_e.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_e, 						"src/houses/houses/dense_wooden/gfx/building_e.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_e_snow, 				"src/houses/houses/dense_wooden/gfx/building_e.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_f, 						"src/houses/houses/dense_wooden/building_f.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_f_snow, 				"src/houses/houses/dense_wooden/building_f.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_f, 						"src/houses/houses/dense_wooden/gfx/building_f.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_f_snow, 				"src/houses/houses/dense_wooden/gfx/building_f.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_g, 						"src/houses/houses/dense_wooden/building_g.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_g_snow, 				"src/houses/houses/dense_wooden/building_g.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_g, 						"src/houses/houses/dense_wooden/gfx/building_g.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_g_snow, 				"src/houses/houses/dense_wooden/gfx/building_g.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_h, 						"src/houses/houses/dense_wooden/building_h.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_h_snow, 				"src/houses/houses/dense_wooden/building_h.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_h, 						"src/houses/houses/dense_wooden/gfx/building_h.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_h_snow, 				"src/houses/houses/dense_wooden/gfx/building_h.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_i, 						"src/houses/houses/dense_wooden/building_i.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_i_snow, 				"src/houses/houses/dense_wooden/building_i.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_i, 						"src/houses/houses/dense_wooden/gfx/building_i.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_i_snow, 				"src/houses/houses/dense_wooden/gfx/building_i.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_j, 						"src/houses/houses/dense_wooden/building_j.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_j_snow, 				"src/houses/houses/dense_wooden/building_j.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_j, 						"src/houses/houses/dense_wooden/gfx/building_j.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_j_snow, 				"src/houses/houses/dense_wooden/gfx/building_j.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_k, 						"src/houses/houses/dense_wooden/building_k.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_k_snow, 				"src/houses/houses/dense_wooden/building_k.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_k, 						"src/houses/houses/dense_wooden/gfx/building_k.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_k_snow, 				"src/houses/houses/dense_wooden/gfx/building_k.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_l, 						"src/houses/houses/dense_wooden/building_l.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_l_snow, 				"src/houses/houses/dense_wooden/building_l.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_l, 						"src/houses/houses/dense_wooden/gfx/building_l.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_l_snow, 				"src/houses/houses/dense_wooden/gfx/building_l.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_m, 						"src/houses/houses/dense_wooden/building_m.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_m_snow, 				"src/houses/houses/dense_wooden/building_m.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_m, 						"src/houses/houses/dense_wooden/gfx/building_m.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_m_snow, 				"src/houses/houses/dense_wooden/gfx/building_m.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_n, 						"src/houses/houses/dense_wooden/building_n.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_n_snow, 				"src/houses/houses/dense_wooden/building_n.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_n, 						"src/houses/houses/dense_wooden/gfx/building_n.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_n_snow, 				"src/houses/houses/dense_wooden/gfx/building_n.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_o, 						"src/houses/houses/dense_wooden/building_o.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_o_snow, 				"src/houses/houses/dense_wooden/building_o.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_o, 						"src/houses/houses/dense_wooden/gfx/building_o.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_o_snow, 				"src/houses/houses/dense_wooden/gfx/building_o.png") 					{template_house_80(1,82)}
 
-spriteset (spr_dense_wooden_p, 						"src/houses/houses/dense_wooden/building_p.png") 					{template_house_80(1,1)}
-spriteset (spr_dense_wooden_p_snow, 				"src/houses/houses/dense_wooden/building_p.png") 					{template_house_80(1,82)}
+spriteset (spr_dense_wooden_p, 						"src/houses/houses/dense_wooden/gfx/building_p.png") 					{template_house_80(1,1)}
+spriteset (spr_dense_wooden_p_snow, 				"src/houses/houses/dense_wooden/gfx/building_p.png") 					{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_dense_wooden_a {
@@ -1983,22 +2007,73 @@ switch(FEAT_HOUSES, SELF, switch_dense_wooden_p,terrain_type) {
 	TILETYPE_SNOW: sprlay_dense_wooden_p_snow;
 	sprlay_dense_wooden_p;
 }
+
+// Random selection of sprites
+random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_snow) {
+	1: switch_dense_wooden_a;
+	1: switch_dense_wooden_b;
+	1: switch_dense_wooden_c;
+	1: switch_dense_wooden_d;
+	1: switch_dense_wooden_e;
+	1: switch_dense_wooden_f;
+	1: switch_dense_wooden_g;
+	1: switch_dense_wooden_h;
+	1: switch_dense_wooden_i;
+	1: switch_dense_wooden_j;
+	1: switch_dense_wooden_k;
+	1: switch_dense_wooden_l;
+	1: switch_dense_wooden_m;
+	1: switch_dense_wooden_n;
+	1: switch_dense_wooden_o;
+	1: switch_dense_wooden_p;
+}
+
+item(FEAT_HOUSES, item_house_dense_wooden){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_DENSE_WOODEN);
+		population: 				40;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1944];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB		// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				1;
+		
+		}
+	graphics {
+		default: 					switch_dense_wooden_snow;
+		cargo_production: 			func_produce(2,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/large_wooden_farmhouse_01/large_wooden_farmhouse_01.pnml" 1
 // Begin large_wooden_farmhouse_01
 
 // Buildings
-spriteset (spr_large_wooden_farmhouse_01a, 				"src/houses/houses/large_wooden_farmhouse_01/building_a.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01a_snow, 		"src/houses/houses/large_wooden_farmhouse_01/building_a.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_01a, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_01a_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01b, 				"src/houses/houses/large_wooden_farmhouse_01/building_b.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01b_snow, 		"src/houses/houses/large_wooden_farmhouse_01/building_b.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_01b, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_01b_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01c, 				"src/houses/houses/large_wooden_farmhouse_01/building_c.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01c_snow, 		"src/houses/houses/large_wooden_farmhouse_01/building_c.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_01c, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_c.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_01c_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01d, 				"src/houses/houses/large_wooden_farmhouse_01/building_d.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01d_snow, 		"src/houses/houses/large_wooden_farmhouse_01/building_d.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_01d, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_d.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_01d_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_d.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_large_wooden_farmhouse_01a {
@@ -2129,17 +2204,46 @@ switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01_snow, SpriteDirectio
 	default: switch_large_wooden_farmhouse_01_sprites_any;
 }
 
-// End large_wooden_farmhouse_01
+item(FEAT_HOUSES, item_house_large_wooden_farmhouse){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_LARGE_WOODEN_FARMHOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_large_wooden_farmhouse_01_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/large_wooden_house_01/large_wooden_house_01.pnml" 1
 // Begin large_wooden_house_01
 
 // Buildings
-spriteset (spr_large_wooden_house_01a, 			"src/houses/houses/large_wooden_house_01/building_01a.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_house_01a_snow, 	"src/houses/houses/large_wooden_house_01/building_01a.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_house_01a, 			"src/houses/houses/large_wooden_house_01/gfx/building_01a.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_house_01a_snow, 	"src/houses/houses/large_wooden_house_01/gfx/building_01a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_house_01b, 			"src/houses/houses/large_wooden_house_01/building_01b.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_house_01b_snow, 	"src/houses/houses/large_wooden_house_01/building_01b.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_house_01b, 			"src/houses/houses/large_wooden_house_01/gfx/building_01b.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_house_01b_snow, 	"src/houses/houses/large_wooden_house_01/gfx/building_01b.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_large_wooden_house_01a {
@@ -2204,7 +2308,36 @@ random_switch (FEAT_HOUSES, SELF, switch_large_wooden_house_01_snow) {
 	1: switch_large_wooden_house_01b;		
 }
 
-// End large_wooden_house_01
+item(FEAT_HOUSES, item_house_large_wooden_house_01){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_LARGE_WOODEN_HOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_large_wooden_house_01_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/large_wooden_house_02/large_wooden_house_02.pnml" 1
 // Begin large_wooden_house_02
@@ -2315,7 +2448,36 @@ switch (FEAT_HOUSES, SELF, switch_large_wooden_house_02_snow, SpriteDirections()
 	default: switch_large_wooden_house_02b;					// Otherwise
 }
 
-// End large_wooden_house_02
+item(FEAT_HOUSES, item_house_large_wooden_house_02){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_LARGE_WOODEN_HOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_large_wooden_house_02_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/nishikawa/nishikawa.pnml" 1
 
@@ -4931,33 +5093,47 @@ switch (FEAT_HOUSES, PARENT, switch_nishikawa_f_2L_snow, population_uncapped >= 
 # 1 "src/houses/houses/nishikawa/nishikawa.pnml" 2
 # 1 "src/houses/houses/nishikawa/switches/combined_sw.pnml" 1
 
-random_switch (FEAT_HOUSES, SELF, switch_nishikawa_2L_snow) {
-	1: switch_nishikawa_a_2L_snow;
+switch (FEAT_HOUSES, SELF, switch_nishikawa_2L_snow, random_bits % 6) {
+	0: switch_nishikawa_a_2L_snow;
 	1: switch_nishikawa_b_2L_snow;
-	1: switch_nishikawa_c_2L_snow;
-	1: switch_nishikawa_d_2L_snow;
-	1: switch_nishikawa_e_2L_snow;
-	1: switch_nishikawa_f_2L_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_name_modern) {
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(A),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(B),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(C),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(D),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(E),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NISHIKAWA_HOUSE),string(F),string(PERIOD_MODERN));
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_nishikawa_house_name_modern_edge) {
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(A),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(B),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(C),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(D),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(E),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NISHIKAWA_HOUSE),string(F),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
+	2: switch_nishikawa_c_2L_snow;
+	3: switch_nishikawa_d_2L_snow;
+	4: switch_nishikawa_e_2L_snow;
+	5: switch_nishikawa_f_2L_snow;
 }
 # 1 "src/houses/houses/nishikawa/nishikawa.pnml" 2
+
+item(FEAT_HOUSES, item_house_nishikawa){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_NISHIKAWA_HOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1870,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_nishikawa_2L_snow;
+		construction_check: 		ConstructionCheckSingleHouse();
+		cargo_production: 			func_produce(2,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/naganuma/naganuma.pnml" 1
 
@@ -7245,32 +7421,45 @@ random_switch (FEAT_HOUSES, SELF, switch_naganuma_2L_snow) {
 	1: switch_naganuma_e_2L_snow;
 	1: switch_naganuma_f_2L_snow;
 }
-random_switch (FEAT_HOUSES, SELF, switch_naganuma_house_name_modern) {
-	dependent: switch_naganuma_2L_snow;
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(A), string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(B), string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(C), string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(D), string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(E), string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3, string(NAME_NAGANUMA_HOUSE),string(F), string(PERIOD_MODERN));
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_naganuma_house_name_modern_edge) {
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(A),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(B),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(C),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(D),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(E),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4, string(NAME_NAGANUMA_HOUSE),string(F),string(TOWNZONE_EDGE),string(PERIOD_MODERN));
-}
 # 1 "src/houses/houses/naganuma/naganuma.pnml" 2
+
+item(FEAT_HOUSES, item_house_naganuma){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_NAGANUMA_HOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1870,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_naganuma_2L_snow;
+		construction_check: 		ConstructionCheckSingleHouse();
+		cargo_production: 			func_produce(2,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/old_villa_01/old_villa_01.pnml" 1
-// Begin old_villa_01
+# 1 "src/houses/houses/old_villa/old_villa.pnml" 1
 
 // Buildings
-spriteset (spr_old_villa_01_norm, 			"src/houses/houses/old_villa_01/building.png") 			{template_house_80(1,1)}
-spriteset (spr_old_villa_01_snow, 			"src/houses/houses/old_villa_01/building.png") 			{template_house_80(1,82)}
+spriteset (spr_old_villa_01_norm, 			"src/houses/houses/old_villa/gfx/building.png") 			{template_house_80(1,1)}
+spriteset (spr_old_villa_01_snow, 			"src/houses/houses/old_villa/gfx/building.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_old_villa_01_norm {
@@ -7301,47 +7490,76 @@ switch(FEAT_HOUSES, SELF, switch_old_villa_01_snow,terrain_type) {
 	sprlay_old_villa_01_norm;
 }
 
-// End old_villa_01
+item(FEAT_HOUSES, item_house_old_villa){
+	property {
+		substitute: 				26;
+		name: 						string(NAME_OLD_VILLA);
+		population: 				20;	
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1944];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(						
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class: 			0;
+		
+		}
+	graphics {
+		default: 					switch_old_villa_01_snow;
+		cargo_production: 			func_produce(2,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/shotengai_01/shotengai_01.pnml" 1
+# 1 "src/houses/houses/shotengai/shotengai.pnml" 1
 // Begin shotengai_01
 
 // Buildings
-spriteset (spr_shotengai_01_a, 						"src/houses/houses/shotengai_01/building_a.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_a_snow, 				"src/houses/houses/shotengai_01/building_a.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_a, 						"src/houses/houses/shotengai/gfx/building_a.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_a_snow, 				"src/houses/houses/shotengai/gfx/building_a.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_b, 						"src/houses/houses/shotengai_01/building_b.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_b_snow, 				"src/houses/houses/shotengai_01/building_b.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_b, 						"src/houses/houses/shotengai/gfx/building_b.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_b_snow, 				"src/houses/houses/shotengai/gfx/building_b.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_c, 						"src/houses/houses/shotengai_01/building_c.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_c_snow, 				"src/houses/houses/shotengai_01/building_c.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_c, 						"src/houses/houses/shotengai/gfx/building_c.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_c_snow, 				"src/houses/houses/shotengai/gfx/building_c.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_d, 						"src/houses/houses/shotengai_01/building_d.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_d_snow, 				"src/houses/houses/shotengai_01/building_d.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_d, 						"src/houses/houses/shotengai/gfx/building_d.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_d_snow, 				"src/houses/houses/shotengai/gfx/building_d.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_e, 						"src/houses/houses/shotengai_01/building_e.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_e_snow, 				"src/houses/houses/shotengai_01/building_e.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_e, 						"src/houses/houses/shotengai/gfx/building_e.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_e_snow, 				"src/houses/houses/shotengai/gfx/building_e.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_f, 						"src/houses/houses/shotengai_01/building_f.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_f_snow, 				"src/houses/houses/shotengai_01/building_f.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_f, 						"src/houses/houses/shotengai/gfx/building_f.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_f_snow, 				"src/houses/houses/shotengai/gfx/building_f.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_g, 						"src/houses/houses/shotengai_01/building_g.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_g_snow, 				"src/houses/houses/shotengai_01/building_g.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_g, 						"src/houses/houses/shotengai/gfx/building_g.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_g_snow, 				"src/houses/houses/shotengai/gfx/building_g.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_h, 						"src/houses/houses/shotengai_01/building_h.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_h_snow, 				"src/houses/houses/shotengai_01/building_h.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_h, 						"src/houses/houses/shotengai/gfx/building_h.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_h_snow, 				"src/houses/houses/shotengai/gfx/building_h.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_i, 						"src/houses/houses/shotengai_01/building_i.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_i_snow, 				"src/houses/houses/shotengai_01/building_i.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_i, 						"src/houses/houses/shotengai/gfx/building_i.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_i_snow, 				"src/houses/houses/shotengai/gfx/building_i.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_j, 						"src/houses/houses/shotengai_01/building_j.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_j_snow, 				"src/houses/houses/shotengai_01/building_j.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_j, 						"src/houses/houses/shotengai/gfx/building_j.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_j_snow, 				"src/houses/houses/shotengai/gfx/building_j.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_k, 						"src/houses/houses/shotengai_01/building_k.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_k_snow, 				"src/houses/houses/shotengai_01/building_k.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_k, 						"src/houses/houses/shotengai/gfx/building_k.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_k_snow, 				"src/houses/houses/shotengai/gfx/building_k.png") {template_house_80_wide(1,82)}
 
-spriteset (spr_shotengai_01_l, 						"src/houses/houses/shotengai_01/building_l.png") {template_house_80_wide(1,1)}
-spriteset (spr_shotengai_01_l_snow, 				"src/houses/houses/shotengai_01/building_l.png") {template_house_80_wide(1,82)}
+spriteset (spr_shotengai_01_l, 						"src/houses/houses/shotengai/gfx/building_l.png") {template_house_80_wide(1,1)}
+spriteset (spr_shotengai_01_l_snow, 				"src/houses/houses/shotengai/gfx/building_l.png") {template_house_80_wide(1,82)}
 
 // Spritelayouts
 
@@ -7688,21 +7906,36 @@ random_switch (FEAT_HOUSES, SELF, switch_shotengai_01_sprites) {
 	1: switch_shotengai_01_l;
 }
 
-// Names
-random_switch (FEAT_HOUSES, SELF, switch_shotengai_01_name) {
-	dependent: switch_shotengai_01_sprites;
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(A),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(B),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(C),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(D),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(E),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(F),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(G),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(H),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(I),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(J),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(K),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_4,string(NAME_SHOTENGAI_01),string(L),string(DENSE),string(PERIOD_MODERN));
+item(FEAT_HOUSES, item_shotengai){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_SHOTENGAI);
+		population: 				30;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1900,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(								
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_shotengai_01_sprites;
+		construction_check: 		ConstructionCheckShotengai();
+		cargo_production: 			func_produce(3,1);
+	}
 }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/townhouses_01/townhouses_01.pnml" 1
@@ -9350,14 +9583,47 @@ random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_2L_snow) {
 	1: switch_townhouses_01_f_2L_snow;
 }
 # 1 "src/houses/houses/townhouses_01/townhouses_01.pnml" 2
+
+item(FEAT_HOUSES, item_house_townhouses_01){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_TOWNHOUSES_01);
+		population: 				40;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				10;
+		years_available: 			[1945,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(					
+										TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				1;
+		
+		}
+	graphics {
+		default: 					switch_townhouses_01_2L_snow;
+		construction_check: 		!FuncServicePASS();
+		cargo_production: 			func_produce(4,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 1
+
 # 1 "src/houses/houses/townhouses_02/gfx/townhouses_02_sprites.pnml" 1
 
 // Building Sprites
 spriteset (spr_townhouses_02_a_2L_norm, 		"src/houses/houses/townhouses_02/gfx/building.png") 		{template_house_80(1,1)}
 spriteset (spr_townhouses_02_a_2L_snow, 		"src/houses/houses/townhouses_02/gfx/building.png") 		{template_house_80(1,82)}
-# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 1
+# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 2
 # 1 "src/houses/houses/townhouses_02/levels/2L.pnml" 1
 
 // _white_
@@ -9665,7 +9931,7 @@ spriteset (spr_townhouses_02_a_2L_snow, 		"src/houses/houses/townhouses_02/gfx/b
 	    TILETYPE_SNOW: sprlay_townhouses_02_a_2L_gold_snow;
 	    sprlay_townhouses_02_a_2L_gold_norm;
     }
-# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 1
+# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 2
 # 1 "src/houses/houses/townhouses_02/switches/combined_rs.pnml" 1
 // Basic Colors
 random_switch (FEAT_HOUSES, SELF, switch_townhouses_02_a_2L_basic_colors) {
@@ -9699,23 +9965,55 @@ switch (FEAT_HOUSES, PARENT, switch_townhouses_02_a_2L_snow, population_uncapped
 	1: switch_townhouses_02_a_2L_colors_era_check;
 	switch_townhouses_02_a_2L_basic_colors;
 }
-# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 1
+# 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 2
+
+item(FEAT_HOUSES, item_house_townhouses_02){
+	property {
+		substitute: 				26;
+		name: 						string(NAME_TOWNHOUSES_02);
+		population: 				20;	
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1945,0xFFFF];
+		minimum_lifetime: 			2;
+		availability_mask: 			[bitmask(								// Agreed to JPS
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										TOWNZONE_OUTER_SUBURB,		// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class: 			0;
+		
+		}
+	graphics {
+		default: 					switch_townhouses_02_a_2L_snow;
+		construction_check: 		!FuncServicePASS();
+		cargo_production: 			func_produce(2,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/two_wooden_houses_01/two_wooden_houses_01.pnml" 1
 // Begin two_wooden_houses_01
 
 // Buildings
-spriteset (spr_two_wooden_houses_01a, 			"src/houses/houses/two_wooden_houses_01/building_01a.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_01a_snow, 		"src/houses/houses/two_wooden_houses_01/building_01a.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_01a, 			"src/houses/houses/two_wooden_houses_01/gfx/building_01a.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_01a_snow, 		"src/houses/houses/two_wooden_houses_01/gfx/building_01a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_01b, 			"src/houses/houses/two_wooden_houses_01/building_01b.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_01b_snow, 		"src/houses/houses/two_wooden_houses_01/building_01b.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_01b, 			"src/houses/houses/two_wooden_houses_01/gfx/building_01b.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_01b_snow, 		"src/houses/houses/two_wooden_houses_01/gfx/building_01b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_01c, 			"src/houses/houses/two_wooden_houses_01/building_01c.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_01c_snow, 		"src/houses/houses/two_wooden_houses_01/building_01c.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_01c, 			"src/houses/houses/two_wooden_houses_01/gfx/building_01c.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_01c_snow, 		"src/houses/houses/two_wooden_houses_01/gfx/building_01c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_01d, 			"src/houses/houses/two_wooden_houses_01/building_01d.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_01d_snow, 		"src/houses/houses/two_wooden_houses_01/building_01d.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_01d, 			"src/houses/houses/two_wooden_houses_01/gfx/building_01d.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_01d_snow, 		"src/houses/houses/two_wooden_houses_01/gfx/building_01d.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_two_wooden_houses_01a {
@@ -9724,8 +10022,6 @@ spritelayout sprlay_two_wooden_houses_01a {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01a (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9735,8 +10031,6 @@ spritelayout sprlay_two_wooden_houses_01a_snow {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01a_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9746,8 +10040,6 @@ spritelayout sprlay_two_wooden_houses_01b {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01b (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9757,8 +10049,6 @@ spritelayout sprlay_two_wooden_houses_01b_snow {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01b_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9768,8 +10058,6 @@ spritelayout sprlay_two_wooden_houses_01c {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01c (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9779,8 +10067,6 @@ spritelayout sprlay_two_wooden_houses_01c_snow {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01c_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9790,8 +10076,6 @@ spritelayout sprlay_two_wooden_houses_01d {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01d (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -9801,11 +10085,8 @@ spritelayout sprlay_two_wooden_houses_01d_snow {
 	}
 	building {
 		sprite: spr_two_wooden_houses_01d_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
-
 
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_two_wooden_houses_01a,terrain_type) {
@@ -9853,29 +10134,58 @@ switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_01_snow, SpriteDirections() 
 	default: switch_two_wooden_houses_01_sprites_SESW;		// Otherwise
 }
 
-// End two_wooden_houses_01
+item(FEAT_HOUSES, item_house_two_wooden_houses_01){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_TWO_WOODEN_HOUSES);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_two_wooden_houses_01_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/two_wooden_houses_02/two_wooden_houses_02.pnml" 1
 // Begin two_wooden_houses_02
 
 // Buildings
-spriteset (spr_two_wooden_houses_02a, 			"src/houses/houses/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02a_snow, 		"src/houses/houses/two_wooden_houses_02/building_02a.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02a, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02a.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02a_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02b, 			"src/houses/houses/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02b_snow, 		"src/houses/houses/two_wooden_houses_02/building_02b.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02b, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02b.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02b_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02c, 			"src/houses/houses/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02c_snow, 		"src/houses/houses/two_wooden_houses_02/building_02c.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02c, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02c.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02c_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02d, 			"src/houses/houses/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02d_snow, 		"src/houses/houses/two_wooden_houses_02/building_02d.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02d, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02d.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02d_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02d.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02e, 			"src/houses/houses/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02e_snow, 		"src/houses/houses/two_wooden_houses_02/building_02e.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02e, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02e.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02e_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02e.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_02f, 			"src/houses/houses/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_02f_snow, 		"src/houses/houses/two_wooden_houses_02/building_02f.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_02f, 			"src/houses/houses/two_wooden_houses_02/gfx/building_02f.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_02f_snow, 		"src/houses/houses/two_wooden_houses_02/gfx/building_02f.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_two_wooden_houses_02a {
@@ -10051,29 +10361,58 @@ random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_02_snow) {
 	1: switch_two_wooden_houses_02f;
 }
 
-// End two_wooden_houses_02
+item(FEAT_HOUSES, item_house_two_wooden_houses_02){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_TWO_WOODEN_TOWNHOUSES_TREE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_two_wooden_houses_02_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/two_wooden_houses_03/two_wooden_houses_03.pnml" 1
 // Begin two_wooden_houses_03
 
 // Buildings
-spriteset (spr_two_wooden_houses_03a, 			"src/houses/houses/two_wooden_houses_03/building_03a.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03a_snow, 		"src/houses/houses/two_wooden_houses_03/building_03a.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03a, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03a.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03a_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_03b, 			"src/houses/houses/two_wooden_houses_03/building_03b.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03b_snow, 		"src/houses/houses/two_wooden_houses_03/building_03b.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03b, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03b.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03b_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_03c, 			"src/houses/houses/two_wooden_houses_03/building_03c.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03c_snow, 		"src/houses/houses/two_wooden_houses_03/building_03c.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03c, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03c.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03c_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_03d, 			"src/houses/houses/two_wooden_houses_03/building_03d.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03d_snow, 		"src/houses/houses/two_wooden_houses_03/building_03d.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03d, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03d.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03d_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03d.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_03e, 			"src/houses/houses/two_wooden_houses_03/building_03e.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03e_snow, 		"src/houses/houses/two_wooden_houses_03/building_03e.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03e, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03e.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03e_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03e.png") 			{template_house_80(1,82)}
 
-spriteset (spr_two_wooden_houses_03f, 			"src/houses/houses/two_wooden_houses_03/building_03f.png") 			{template_house_80(1,1)}
-spriteset (spr_two_wooden_houses_03f_snow, 		"src/houses/houses/two_wooden_houses_03/building_03f.png") 			{template_house_80(1,82)}
+spriteset (spr_two_wooden_houses_03f, 			"src/houses/houses/two_wooden_houses_03/gfx/building_03f.png") 			{template_house_80(1,1)}
+spriteset (spr_two_wooden_houses_03f_snow, 		"src/houses/houses/two_wooden_houses_03/gfx/building_03f.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_two_wooden_houses_03a {
@@ -10249,14 +10588,43 @@ random_switch (FEAT_HOUSES, SELF, switch_two_wooden_houses_03_snow) {
 	1: switch_two_wooden_houses_03f;
 }
 
-// End two_wooden_houses_03
+item(FEAT_HOUSES, item_house_two_wooden_houses_03){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_TWO_WOODEN_TOWNHOUSES_TREE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,		// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_two_wooden_houses_03_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_farmhouse_01/wooden_farmhouse_01.pnml" 1
 // Begin wooden_farmhouse_01
 
 // Buildings
-spriteset (spr_wooden_farmhouse_01, 				"src/houses/houses/wooden_farmhouse_01/building.png") 		{template_house_80(1,1)}
-spriteset (spr_wooden_farmhouse_01_snow, 			"src/houses/houses/wooden_farmhouse_01/building.png") 		{template_house_80(1,82)}
+spriteset (spr_wooden_farmhouse_01, 				"src/houses/houses/wooden_farmhouse_01/gfx/building.png") 		{template_house_80(1,1)}
+spriteset (spr_wooden_farmhouse_01_snow, 			"src/houses/houses/wooden_farmhouse_01/gfx/building.png") 		{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_wooden_farmhouse_01 {
@@ -10265,8 +10633,6 @@ spritelayout sprlay_wooden_farmhouse_01 {
 	}
 	building {
 		sprite: spr_wooden_farmhouse_01 (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10276,8 +10642,6 @@ spritelayout sprlay_wooden_farmhouse_01_snow {
 	}
 	building {
 		sprite: spr_wooden_farmhouse_01_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10287,23 +10651,52 @@ switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_snow,terrain_type) {
 	sprlay_wooden_farmhouse_01;
 }
 
-// End wooden_farmhouse_01
+item(FEAT_HOUSES, item_house_wooden_farmhouse){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_FARMHOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_farmhouse_01_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_house_01/wooden_house_01.pnml" 1
 // Begin wooden_house_01
 
 // Buildings
-spriteset (spr_wooden_house_01a, 			"src/houses/houses/wooden_house_01/building_a.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01a_snow, 		"src/houses/houses/wooden_house_01/building_a.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01a, 			"src/houses/houses/wooden_house_01/gfx/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01a_snow, 		"src/houses/houses/wooden_house_01/gfx/building_a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01b, 			"src/houses/houses/wooden_house_01/building_b.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01b_snow, 		"src/houses/houses/wooden_house_01/building_b.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01b, 			"src/houses/houses/wooden_house_01/gfx/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01b_snow, 		"src/houses/houses/wooden_house_01/gfx/building_b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01c, 			"src/houses/houses/wooden_house_01/building_c.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01c_snow, 		"src/houses/houses/wooden_house_01/building_c.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01c, 			"src/houses/houses/wooden_house_01/gfx/building_c.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01c_snow, 		"src/houses/houses/wooden_house_01/gfx/building_c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01d, 			"src/houses/houses/wooden_house_01/building_d.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01d_snow, 		"src/houses/houses/wooden_house_01/building_d.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01d, 			"src/houses/houses/wooden_house_01/gfx/building_d.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01d_snow, 		"src/houses/houses/wooden_house_01/gfx/building_d.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_wooden_house_01a {
@@ -10434,7 +10827,36 @@ switch (FEAT_HOUSES, SELF, switch_wooden_house_01_snow, SpriteDirections() ) {
 	default: switch_wooden_house_01_sprites_any;
 }
 
-// End wooden_house_01
+item(FEAT_HOUSES, item_house_wooden_house){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_HOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_house_01_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_townhouses_01/wooden_townhouses_01.pnml" 1
 // Begin wooden_townhouses_01
@@ -10450,8 +10872,6 @@ spritelayout sprlay_wooden_townhouses_01 {
 	}
 	building {
 		sprite: spr_wooden_townhouses_01 (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10461,8 +10881,6 @@ spritelayout sprlay_wooden_townhouses_01_snow {
 	}
 	building {
 		sprite: spr_wooden_townhouses_01_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10472,7 +10890,36 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_01_snow,terrain_type) {
 	sprlay_wooden_townhouses_01;
 }
 
-// End wooden_townhouses_01
+item(FEAT_HOUSES, item_house_wooden_townhouses_01){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES_SHOPS);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_01_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_townhouses_02/wooden_townhouses_02.pnml" 1
 // Begin wooden_townhouses_02
@@ -10514,7 +10961,36 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_02_snow,terrain_type) {
 	sprlay_wooden_townhouses_02;
 }
 
-// End wooden_townhouses_02
+item(FEAT_HOUSES, item_house_wooden_townhouses_02){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_02_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_townhouses_03/wooden_townhouses_03.pnml" 1
 // Begin wooden_townhouses_03
@@ -10556,17 +11032,41 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_03_snow,terrain_type) {
 	sprlay_wooden_townhouses_03;
 }
 
-// End wooden_townhouses_03
+item(FEAT_HOUSES, item_house_wooden_townhouses_03){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_03_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/wooden_townhouses_04/wooden_townhouses_04.pnml" 1
-// Begin wooden_townhouses_04
-
-// Ground Sprites
-
-// Leveraged from dense wooden
 
 // Buildings
-spriteset (spr_wooden_townhouses_04, 			"src/houses/houses/wooden_townhouses_04/building.png")  			{template_house_80(1,1)}
+spriteset (spr_wooden_townhouses_04, 			"src/houses/houses/wooden_townhouses_04/building.png")  		{template_house_80(1,1)}
 spriteset (spr_wooden_townhouses_04_snow, 		"src/houses/houses/wooden_townhouses_04/building.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
@@ -10576,8 +11076,6 @@ spritelayout sprlay_wooden_townhouses_04 {
 	}
 	building {
 		sprite: spr_wooden_townhouses_04 (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10587,8 +11085,6 @@ spritelayout sprlay_wooden_townhouses_04_snow {
 	}
 	building {
 		sprite: spr_wooden_townhouses_04_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
 	}
 }
 
@@ -10598,7 +11094,36 @@ switch(FEAT_HOUSES, SELF, switch_wooden_townhouses_04_snow,terrain_type) {
 	sprlay_wooden_townhouses_04;
 }
 
-// End wooden_townhouses_04
+item(FEAT_HOUSES, item_house_wooden_townhouses_04){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_TOWNHOUSES_TREE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										TOWNZONE_INNER_SUBURB,		// 3
+										TOWNZONE_OUTER_SUBURB		// 2
+										//TOWNZONE_OUTSKIRT,			// 1
+										//TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_townhouses_04_snow;
+		cargo_production: 			func_produce(1,1);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 
 // Apartments
@@ -52909,625 +53434,8 @@ switch (FEAT_HOUSES, SELF, switch_ybuilding_a_14L_snow, random_bits % 3 ) {
 // HOUSE IDs
 
 // Houses
-# 1 "src/houses/houses/house_hist.pnml" 1
-// Begin house_hist
-
-// Townzone Inner Suburb
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_inner_sprites) {
-	1: switch_two_wooden_houses_01_snow;
-	1: switch_two_wooden_houses_02_snow;
-	1: switch_two_wooden_houses_03_snow;
-	1: switch_wooden_townhouses_01_snow;
-	1: switch_wooden_townhouses_02_snow;
-	1: switch_wooden_townhouses_03_snow;
-	1: switch_wooden_townhouses_04_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_inner_name) {
-	dependent: switch_house_hist_inner_sprites;
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-}
-
-// Townzone Outer Suburb
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_outer_sprites) {
-	1: switch_two_wooden_houses_01_snow;
-	1: switch_two_wooden_houses_02_snow;
-	1: switch_two_wooden_houses_03_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_outer_name) {
-	dependent: switch_house_hist_outer_sprites;
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-}
-
-// Townzone Outskirts
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_outskirt_sprites) {
-	1: switch_large_wooden_farmhouse_01_snow;
-	1: switch_large_wooden_house_01_snow;
-	1: switch_large_wooden_house_02_snow;
-	1: switch_wooden_farmhouse_01_snow;
-	1: switch_wooden_house_01_snow;
-	1: switch_wooden_townhouses_01_snow;
-	1: switch_wooden_townhouses_02_snow;
-	1: switch_wooden_townhouses_03_snow;
-	1: switch_wooden_townhouses_04_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_outskirt_name) {
-	dependent: switch_house_hist_outskirt_sprites;
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_HIST));
-}
-
-// Townzone Edge
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_edge_sprites) {
-	1: switch_large_wooden_farmhouse_01_snow;
-	1: switch_large_wooden_house_01_snow;
-	1: switch_large_wooden_house_02_snow;
-	1: switch_old_villa_01_snow;
-	1: switch_wooden_farmhouse_01_snow;
-	1: switch_wooden_house_01_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_hist_edge_name) {
-	dependent: switch_house_hist_edge_sprites;
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_HIST));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_HIST));
-}
-
-switch(FEAT_HOUSES, SELF, switch_house_hist_sprites, town_zone) {
-	//TOWNZONE_CENTRE:		switch_house_hist_centre_sprites;
-	TOWNZONE_INNER_SUBURB:	switch_house_hist_inner_sprites;
-	TOWNZONE_OUTER_SUBURB:	switch_house_hist_outer_sprites;
-	TOWNZONE_OUTSKIRT:		switch_house_hist_outskirt_sprites;			
-	switch_house_hist_edge_sprites;
-}
-
-switch(FEAT_HOUSES, SELF, switch_house_hist_name, town_zone) {
-	//TOWNZONE_CENTRE:		switch_house_hist_centre_name;
-	TOWNZONE_INNER_SUBURB:	switch_house_hist_inner_name;
-	TOWNZONE_OUTER_SUBURB:	switch_house_hist_outer_name;
-	TOWNZONE_OUTSKIRT:		switch_house_hist_outskirt_name;			
-	switch_house_hist_edge_name;
-}
-
-// Construction Check
-/*
-switch (FEAT_HOUSES, SELF, switch_house_hist_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-) {return;}	
-*/
-item(FEAT_HOUSES, item_house_hist){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_WOODEN_FARMHOUSE);
-		population: 				20;										// Agreed to JPS
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				4;										// Increased due to only SE facing
-		years_available: 			[1700,1869];							// Agreed to JPS
-		minimum_lifetime: 			2;										
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_house_hist_sprites;
-		name:						switch_house_hist_name;
-		//construction_check: 		switch_house_hist_con_check;
-		cargo_production: 			func_produce(1,1);						// 
-	}
-}
-
-// End house_hist
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_hist_dense.pnml" 1
-
-// Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_dense_wooden_sprites) {
-	1: switch_dense_wooden_a;
-	1: switch_dense_wooden_b;
-	1: switch_dense_wooden_c;
-	1: switch_dense_wooden_d;
-	1: switch_dense_wooden_e;
-	1: switch_dense_wooden_f;
-	1: switch_dense_wooden_g;
-	1: switch_dense_wooden_h;
-	1: switch_dense_wooden_i;
-	1: switch_dense_wooden_j;
-	1: switch_dense_wooden_k;
-	1: switch_dense_wooden_l;
-	1: switch_dense_wooden_m;
-	1: switch_dense_wooden_n;
-	1: switch_dense_wooden_o;
-	1: switch_dense_wooden_p;
-}
-
-// Construction Checks
-/*
-switch (FEAT_HOUSES, SELF, switch_dense_wooden_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-) {return;}	
-*/
-item(FEAT_HOUSES, item_house_hist_dense){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_DENSE_WOODEN);
-		population: 				60;										// Agreed to JPS
-		accepted_cargos: 			[[PASS, 6],[MAIL, 3],[GOOD, 6]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1700,1950];							// Agreed to JPS
-		minimum_lifetime: 			2;										
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB		// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT			// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				1;										// Reallcoated to BC1 since more like townhouse (and higher popn factor)
-		
-		}
-	graphics {
-		default: 					switch_dense_wooden_sprites;
-		//construction_check: 		switch_dense_wooden_con_check;
-		cargo_production: 			func_produce(2,1);						// 
-	}
-}
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_1870_dense.pnml" 1
-// Begin house_1870_dense
-
-// Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_dense_sprites) {
-	1: switch_dense_wooden_a;
-	1: switch_dense_wooden_b;
-	1: switch_dense_wooden_c;
-	1: switch_dense_wooden_d;
-	1: switch_dense_wooden_e;
-	1: switch_dense_wooden_f;
-	1: switch_dense_wooden_g;
-	1: switch_dense_wooden_h;
-	1: switch_dense_wooden_i;
-	1: switch_dense_wooden_j;
-	1: switch_dense_wooden_k;
-	1: switch_dense_wooden_l;
-	1: switch_dense_wooden_m;
-	1: switch_dense_wooden_n;
-	1: switch_dense_wooden_o;
-	1: switch_dense_wooden_p;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_dense_name) {
-	dependent: switch_house_1870_dense_sprites;
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(A),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(B),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(C),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(D),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(E),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(F),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(G),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(H),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(I),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(J),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(K),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(L),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(M),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(N),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(O),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_3, string(NAME_DENSE_WOODEN),string(P),string(PERIOD_MEIJI));
-}
-
-// Construction Checks
-/*
-switch (FEAT_HOUSES, SELF, switch_house_1870_dense_con_check, 
-	HouseOfficeGap()
-) {return;}	
-*/
-item(FEAT_HOUSES, item_house_1870_dense){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_TOWNHOUSES_01);
-		population: 				40;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1870,1944];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB		// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT,		// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				1;
-		
-		}
-	graphics {
-		default: 					switch_house_1870_dense_sprites;
-		name:						switch_house_1870_dense_name;
-		//construction_check: 		switch_house_1870_dense_con_check;
-		cargo_production: 			func_produce(2,1);
-	}
-}
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_1870.pnml" 1
-// Begin house_1870
-
-// Townzone Inner Suburb
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_inner_sprites) {
-	1: switch_naganuma_2L_snow;
-	1: switch_nishikawa_2L_snow;
-	1: switch_two_wooden_houses_01_snow;
-	1: switch_two_wooden_houses_02_snow;
-	1: switch_two_wooden_houses_03_snow;
-	1: switch_wooden_townhouses_01_snow;
-	1: switch_wooden_townhouses_02_snow;
-	1: switch_wooden_townhouses_03_snow;
-	1: switch_wooden_townhouses_04_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_inner_name) {
-	dependent: switch_house_1870_inner_sprites;
-	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-}
-
-// Townzone Outer Suburb
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_outer_sprites) {
-	1: switch_naganuma_2L_snow;
-	1: switch_nishikawa_2L_snow;
-	1: switch_two_wooden_houses_01_snow;
-	1: switch_two_wooden_houses_02_snow;
-	1: switch_two_wooden_houses_03_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_outer_name) {
-	dependent: switch_house_1870_outer_sprites;
-	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_TWO_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-}
-
-// Townzone Outskirts
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_outskirt_sprites) {
-	1: switch_large_wooden_farmhouse_01_snow;
-	1: switch_large_wooden_house_01_snow;
-	1: switch_large_wooden_house_02_snow;
-	1: switch_naganuma_2L_snow;
-	1: switch_nishikawa_2L_snow;
-	1: switch_wooden_farmhouse_01_snow;
-	1: switch_wooden_house_01_snow;
-	1: switch_wooden_townhouses_01_snow;
-	1: switch_wooden_townhouses_02_snow;
-	1: switch_wooden_townhouses_03_snow;
-	1: switch_wooden_townhouses_04_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_outskirt_name) {
-	dependent: switch_house_1870_outskirt_sprites;
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_SHOPS),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_TOWNHOUSES_TREE),string(PERIOD_MEIJI));
-}
-
-// Townzone Edge
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_edge_sprites) {
-	1: switch_large_wooden_farmhouse_01_snow;
-	1: switch_large_wooden_house_01_snow;
-	1: switch_large_wooden_house_02_snow;
-	1: switch_naganuma_2L_snow;
-	1: switch_nishikawa_2L_snow;
-	1: switch_old_villa_01_snow;
-	1: switch_wooden_farmhouse_01_snow;
-	1: switch_wooden_house_01_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1870_edge_name) {
-	dependent: switch_house_1870_edge_sprites;
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_FARMHOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_LARGE_WOODEN_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NAGANUMA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_NISHIKAWA_HOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_FARMHOUSE),string(PERIOD_MEIJI));
-	1: string(STR_CONCAT_2, string(NAME_WOODEN_HOUSE),string(PERIOD_MEIJI));
-}
-
-switch(FEAT_HOUSES, SELF, switch_house_1870_sprites, town_zone) {
-	TOWNZONE_INNER_SUBURB:	switch_house_1870_inner_sprites;
-	TOWNZONE_OUTER_SUBURB:	switch_house_1870_outer_sprites;
-	TOWNZONE_OUTSKIRT:		switch_house_1870_outskirt_sprites;
-	switch_house_1870_edge_sprites;
-}
-
-switch(FEAT_HOUSES, SELF, switch_house_1870_name, town_zone) {
-	TOWNZONE_INNER_SUBURB:	switch_house_1870_inner_name;
-	TOWNZONE_OUTER_SUBURB:	switch_house_1870_outer_name;
-	TOWNZONE_OUTSKIRT:		switch_house_1870_outskirt_name;
-	switch_house_1870_edge_name;
-}
-
-
-// Construction Check
-/*
-switch (FEAT_HOUSES, SELF, switch_house_1870_con_check, 
-	HouseOfficeGap() 				// Can't build within two tiles of Building Class 2 (Offices, Shops and Skyscrapers)
-	) {return;}	
-*/
-
-item(FEAT_HOUSES, item_house_1870){
-	property {
-		substitute: 				26;
-		name: 						string(NAME_NISHIKAWA_HOUSE);
-		population: 				20;	
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1870,1944];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class: 			0;
-		
-		}
-	graphics {
-		default: 					switch_house_1870_sprites;
-		name:						switch_house_1870_name;
-		//construction_check: 		switch_house_1870_con_check;
-		cargo_production: 			func_produce(2,1);
-	}
-}
-
-// End house_1870
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_1945_dense.pnml" 1
-// Begin house_1945_dense
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_sprites) {
-	15: switch_townhouses_01_2L_snow;
-	1: switch_townhouses_02_a_2L_snow;
-	5: switch_shotengai_01_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_dense_name) {
-	dependent: switch_house_1945_dense_sprites;
-	15: string(STR_CONCAT_3,string(NAME_TOWNHOUSES_01),string(DENSE),string(PERIOD_MODERN));
-	1: string(STR_CONCAT_3,string(NAME_TOWNHOUSES_02),string(DENSE),string(PERIOD_MODERN));
-	5:  switch_shotengai_01_name;
-}
-
-// Construction Checks
-
-switch (FEAT_HOUSES, SELF, switch_house_1945_dense_con_check, 
-	!FuncServicePASS() 				// Builds where there is no Passenger service
-) {return;}	
-
-
-item(FEAT_HOUSES, item_house_1945_dense){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_TOWNHOUSES_01);
-		population: 				40;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				10;
-		years_available: 			[1945,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										TOWNZONE_CENTRE,			// 4
-										TOWNZONE_INNER_SUBURB,		// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT			// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				1;
-		
-		}
-	graphics {
-		default: 					switch_house_1945_dense_sprites;
-		name:						switch_house_1945_dense_name;
-		construction_check: 		switch_house_1945_dense_con_check;
-		cargo_production: 			func_produce(4,1);
-	}
-}
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_1945.pnml" 1
-// Begin house_1945
-
-// Random selection of sprites
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_sprites) {
-	10: switch_naganuma_2L_snow;
-	10: switch_nishikawa_2L_snow;
-	2:  switch_townhouses_02_a_2L_snow;
-	1:  switch_shotengai_01_sprites;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_name) {
-	dependent: switch_house_1945_sprites;
-	10: switch_naganuma_house_name_modern;
-	10: switch_nishikawa_house_name_modern;
-	2:  string(STR_CONCAT_2, string(NAME_TOWNHOUSES_02),string(PERIOD_MODERN));
-	1:  switch_shotengai_01_name;
-}
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_house_1945_con_check, 
-	!FuncServicePASS() 
-	) {return;}	
-
-item(FEAT_HOUSES, item_house_1945){
-	property {
-		substitute: 				26;
-		name: 						string(NAME_NISHIKAWA_HOUSE);
-		population: 				20;	
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				10;
-		years_available: 			[1945,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(								// Agreed to JPS
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										TOWNZONE_OUTER_SUBURB,		// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										//TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class: 			0;
-		
-		}
-	graphics {
-		default: 					switch_house_1945_sprites;
-		name:						switch_house_1945_name;
-		construction_check: 		switch_house_1945_con_check;
-		cargo_production: 			func_produce(2,1);
-	}
-}
-
-// End house_1945
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/house_1945_0.pnml" 1
-// Begin nishikawa_house
-
-// Random selection of sprites
-
-// EDGE OF CITY
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_0_sprites) {
-	10: switch_naganuma_2L_snow;
-	10: switch_nishikawa_2L_snow;
-	2:  switch_townhouses_02_a_2L_snow;
-	1:  switch_old_villa_01_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_house_1945_0_name) {
-	dependent: switch_house_1945_0_sprites;
-	10: switch_naganuma_house_name_modern_edge;
-	10: switch_nishikawa_house_name_modern_edge;
-	2:  string(STR_CONCAT_2, string(NAME_TOWNHOUSES_02),string(PERIOD_MODERN));
-	1:  string(STR_CONCAT_2, string(NAME_OLD_VILLA_01),string(PERIOD_MODERN));
-}
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_house_1945_0_con_check, 
-	!FuncServicePASS() 
-	) {return;}	
-
-item(FEAT_HOUSES, item_house_1945_0){
-	property {
-		substitute: 				26;
-		name: 						string(NAME_NISHIKAWA_HOUSE);
-		population: 				20;	
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[FOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				10;
-		years_available: 			[1945,0xFFFF];
-		minimum_lifetime: 			2;
-		availability_mask: 			[bitmask(						
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										//TOWNZONE_OUTSKIRT,		// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class: 			0;
-		
-		}
-	graphics {
-		default: 					switch_house_1945_0_sprites;
-		name:						switch_house_1945_0_name;
-		construction_check: 		switch_house_1945_0_con_check;
-		cargo_production: 			func_produce(2,1);
-	}
-}
-
-// End nishikawa_house
-# 1 "JPplusBuildings.pnml" 4
+//#include "src/houses/houses/house_hist.pnml"
+//#include "src/houses/houses/house_1870.pnml"
 
 // COMBINED
 

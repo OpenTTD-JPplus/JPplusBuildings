@@ -1,17 +1,17 @@
 // Begin wooden_house_01
 
 // Buildings
-spriteset (spr_wooden_house_01a, 			"src/houses/houses/wooden_house_01/building_a.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01a_snow, 		"src/houses/houses/wooden_house_01/building_a.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01a, 			"src/houses/houses/wooden_house_01/gfx/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01a_snow, 		"src/houses/houses/wooden_house_01/gfx/building_a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01b, 			"src/houses/houses/wooden_house_01/building_b.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01b_snow, 		"src/houses/houses/wooden_house_01/building_b.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01b, 			"src/houses/houses/wooden_house_01/gfx/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01b_snow, 		"src/houses/houses/wooden_house_01/gfx/building_b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01c, 			"src/houses/houses/wooden_house_01/building_c.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01c_snow, 		"src/houses/houses/wooden_house_01/building_c.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01c, 			"src/houses/houses/wooden_house_01/gfx/building_c.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01c_snow, 		"src/houses/houses/wooden_house_01/gfx/building_c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_wooden_house_01d, 			"src/houses/houses/wooden_house_01/building_d.png") 			{template_house_80(1,1)}
-spriteset (spr_wooden_house_01d_snow, 		"src/houses/houses/wooden_house_01/building_d.png") 			{template_house_80(1,82)}
+spriteset (spr_wooden_house_01d, 			"src/houses/houses/wooden_house_01/gfx/building_d.png") 			{template_house_80(1,1)}
+spriteset (spr_wooden_house_01d_snow, 		"src/houses/houses/wooden_house_01/gfx/building_d.png") 			{template_house_80(1,82)}
 
 // Spritelayouts
 spritelayout sprlay_wooden_house_01a {
@@ -142,4 +142,33 @@ switch (FEAT_HOUSES, SELF, switch_wooden_house_01_snow, SpriteDirections() ) {
 	default: switch_wooden_house_01_sprites_any;
 }
 
-// End wooden_house_01
+item(FEAT_HOUSES, item_house_wooden_house){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_WOODEN_HOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_wooden_house_01_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}

@@ -106,4 +106,33 @@ switch (FEAT_HOUSES, SELF, switch_large_wooden_house_02_snow, SpriteDirections()
 	default: switch_large_wooden_house_02b;					// Otherwise
 }
 
-// End large_wooden_house_02
+item(FEAT_HOUSES, item_house_large_wooden_house_02){
+	property {
+		substitute: 				06;
+		name: 						string(NAME_LARGE_WOODEN_HOUSE);
+		population: 				20;										
+		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				4;										
+		years_available: 			[1700,1944];							
+		minimum_lifetime: 			5;										
+		availability_mask: 			[bitmask(								
+										//TOWNZONE_CENTRE,			// 4
+										//TOWNZONE_INNER_SUBURB,	// 3
+										//TOWNZONE_OUTER_SUBURB,	// 2
+										TOWNZONE_OUTSKIRT,			// 1
+										TOWNZONE_EDGE				// 0
+									), bitmask(
+										CLIMATE_TEMPERATE,
+										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
+										CLIMATE_TROPIC
+									)];
+		building_class:				0;
+		
+		}
+	graphics {
+		default: 					switch_large_wooden_house_02_snow;
+		cargo_production: 			func_produce(1,1);						// 
+	}
+}
