@@ -16,12 +16,23 @@ coloursdict = {
 "black":		"11",
 "gold":			"12",
 "red_brown":	"13",
-"red":			"14"
+"red":			"14",
+"midgrey":		"15"
 }
 
 building_name = "kaneko"
 colours = ["white", "grey", "mauve", "brown1", "brown2", "red_brown"]
 levels = ["7L", "8L", "9L", "10L"]
+items = {
+	"l" : {
+		"height1" : "7L",
+		"height2" : "8L"
+	},
+	"xl" : {
+		"height1" : "9L",
+		"height2" : "10L"
+	}
+}
 variants = {
     "a" : {
 		"xoffset" : "0",
@@ -29,14 +40,15 @@ variants = {
 	}
   }
 switches_required = False
+iterate_switches_on_item = True 
 variant_names = list(variants.keys())
+item_names = list(items.keys())
 
 # 1) Create the colours		
 # 2) Merge the colours		
 # 3) Create the variants	
 # 4) Merge the variants 	
-# 5) Create the levels	
-# 6) 	
+# 5) Create the levels		
 
 # 1) CREATE THE COLOURS
 
@@ -184,15 +196,40 @@ processed_pnml_file.close()
 
 # 3) CREATE THE LEVELS
 
-n = 0
-for i in levels:
-	level_template = open("./switches/combined_variants.pnml", "rt")
-	current_level = open("./switches/" + levels[n] +"_rs.pnml", "wt")
-	for line in level_template:
-		current_level.write(line.replace('_xL_', str('_'+ levels[n] +'_')))
-	current_level.close()
-	level_template.close()
-	n = n+1
+if iterate_switches_on_item == True:
+
+	n = 0
+	for i in items:
+		items_template = open("./switches/combined_variants.pnml", "rt")
+		current_item = open("./switches/" + item_names[n] +"_rs.pnml", "wt")
+		for line in items_template:
+			current_item.write(line.replace('_item_', str('_'+ item_names[n] +'_')))
+		current_item.close()
+		items_template.close()
+
+		search_text_h1 = "height1"
+		search_text_h2 = "height2"
+		h1 = items[i]["height1"]
+		h2 = items[i]["height2"]
+		with open(r'./switches/' + item_names[n] +'_rs.pnml', 'r') as file:
+			data = file.read()
+			data = data.replace(search_text_h1, h1)
+			data = data.replace(search_text_h2, h2)
+		with open(r'./switches/' + item_names[n] + '_rs.pnml', 'w') as file:
+			file.write(data)
+		n = n+1
+
+else:
+
+	n = 0
+	for i in levels:
+		level_template = open("./switches/combined_variants.pnml", "rt")
+		current_level = open("./switches/" + levels[n] +"_rs.pnml", "wt")
+		for line in level_template:
+			current_level.write(line.replace('_xL_', str('_'+ levels[n] +'_')))
+		current_level.close()
+		level_template.close()
+		n = n+1
 
 # 4) MERGE THE LEVELS
 
@@ -210,8 +247,13 @@ def append_variants(file):
     stuff.close()
 
 # Append header stuff which should always be first
-for i in levels:
-    append_variants(i)
+
+if iterate_switches_on_item == True:
+	for i in items:
+		append_variants(i)
+else:
+	for i in levels:
+		append_variants(i)
 
 # Write the content of 'sections' into a file and save it
 processed_pnml_file = codecs.open(variants_pnml_path,'w','utf8')
@@ -224,41 +266,81 @@ if switches_required == True:
 
 	# 1) CREATE THE LEVELS
 
-	n = 0
-	for i in levels:
-		level_template = open("./switches/template_sw.pnml", "rt")
-		current_level = open("./switches/" + levels[n] +"_sw.pnml", "wt")
-		for line in level_template:
-			current_level.write(line.replace('_xL_', str('_'+ levels[n] +'_')))
-		current_level.close()
-		level_template.close()
-		n = n+1
+	if iterate_switches_on_item == True:
 
-	# 4) MERGE THE LEVELS
+		n = 0
+		for i in items:
+			item_template = open("./switches/template_sw.pnml", "rt")
+			current_item = open("./switches/" + item_names[n] +"_sw.pnml", "wt")
+			for line in item_template:
+				current_item.write(line.replace('_xL_', str('_'+ item_names[n] +'_')))
+			current_item.close()
+			item_template.close()
+			n = n+1
 
-	# File with combined output
-	variants_pnml_path = "./switches/combined_sw.pnml"
+		# 4) MERGE THE LEVELS
 
-	# Create an empty list where all the PNML code will be placed
-	sections = []
+		# File with combined output
+		variants_pnml_path = "./switches/combined_sw.pnml"
 
-	# Function for copying code from .pnml files
-	def append_variants(file):
-		filename = "./switches/{}_sw.pnml"
-		stuff = codecs.open(filename.format(file),'r','utf8')
-		sections.append(stuff.read())
-		stuff.close()
+		# Create an empty list where all the PNML code will be placed
+		sections = []
 
-	# Append header stuff which should always be first
-	for i in levels:
-		append_variants(i)
+		# Function for copying code from .pnml files
+		def append_variants(file):
+			filename = "./switches/{}_sw.pnml"
+			stuff = codecs.open(filename.format(file),'r','utf8')
+			sections.append(stuff.read())
+			stuff.close()
 
-	# Write the content of 'sections' into a file and save it
-	processed_pnml_file = codecs.open(variants_pnml_path,'w','utf8')
-	processed_pnml_file.write('\n'.join(sections))
-	processed_pnml_file.close()
+		# Append header stuff which should always be first
+		for i in items:
+			append_variants(i)
 
-	print(building_name + " switches created")
+		# Write the content of 'sections' into a file and save it
+		processed_pnml_file = codecs.open(variants_pnml_path,'w','utf8')
+		processed_pnml_file.write('\n'.join(sections))
+		processed_pnml_file.close()
+
+		print(building_name + " switches created using items")	
+
+	else:
+
+		n = 0
+		for i in levels:
+			level_template = open("./switches/template_sw.pnml", "rt")
+			current_level = open("./switches/" + levels[n] +"_sw.pnml", "wt")
+			for line in level_template:
+				current_level.write(line.replace('_xL_', str('_'+ levels[n] +'_')))
+			current_level.close()
+			level_template.close()
+			n = n+1
+
+		# 4) MERGE THE LEVELS
+
+		# File with combined output
+		variants_pnml_path = "./switches/combined_sw.pnml"
+
+		# Create an empty list where all the PNML code will be placed
+		sections = []
+
+		# Function for copying code from .pnml files
+		def append_variants(file):
+			filename = "./switches/{}_sw.pnml"
+			stuff = codecs.open(filename.format(file),'r','utf8')
+			sections.append(stuff.read())
+			stuff.close()
+
+		# Append header stuff which should always be first
+		for i in levels:
+			append_variants(i)
+
+		# Write the content of 'sections' into a file and save it
+		processed_pnml_file = codecs.open(variants_pnml_path,'w','utf8')
+		processed_pnml_file.write('\n'.join(sections))
+		processed_pnml_file.close()
+
+		print(building_name + " switches created using levels")
 
 else:
 	print("No " + building_name + " Switches Required")
