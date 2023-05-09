@@ -4,219 +4,54 @@
 #include "src/houses/apartments/hirano/levels/5L.pnml"
 #include "src/houses/apartments/hirano/levels/6L.pnml"
 #include "src/houses/apartments/hirano/switches/combined_rs.pnml"
+#include "src/houses/apartments/hirano/switches/combined_sw.pnml"
 
-// 3L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_3L) {
-	1: switch_hirano_a_3L_snow;
-	1: switch_hirano_b_3L_snow;
+item(FEAT_HOUSES, item_hirano_s){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
 }
 
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_3L_snow;
-	5: switch_hirano_random_3L;
-	6: switch_hirano_a_3L_snow;
-	9: switch_hirano_b_3L_snow;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_3L_snow;
-	6: switch_hirano_a_3L_snow;
-	9: switch_hirano_b_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_3L_snow;
-	9: switch_hirano_a_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_3L;
-	6: switch_hirano_b_3L_snow;
-	9: switch_hirano_a_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_3L_snow;
-	2:  switch_hirano_b_3L_snow;
-	3:  switch_hirano_3L_south_check;
-	4:  switch_hirano_a_3L_snow;
-	5:  switch_hirano_a_3L_snow;
-	6:  switch_hirano_3L_west_check;
-	8:  switch_hirano_b_3L_snow;
-	9:  switch_hirano_3L_east_check;
-	10: switch_hirano_b_3L_snow;
-	12: switch_hirano_3L_north_check;
-	switch_hirano_random_3L;
-}
-
-// 4L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_4L) {
-	1: switch_hirano_a_4L_snow;
-	1: switch_hirano_b_4L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_4L_snow;
-	5: switch_hirano_random_4L;
-	6: switch_hirano_a_4L_snow;
-	9: switch_hirano_b_4L_snow;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_4L_snow;
-	6: switch_hirano_a_4L_snow;
-	9: switch_hirano_b_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_4L_snow;
-	9: switch_hirano_a_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_4L;
-	6: switch_hirano_b_4L_snow;
-	9: switch_hirano_a_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_4L_snow;
-	2:  switch_hirano_b_4L_snow;
-	3:  switch_hirano_4L_south_check;
-	4:  switch_hirano_a_4L_snow;
-	5:  switch_hirano_a_4L_snow;
-	6:  switch_hirano_4L_west_check;
-	8:  switch_hirano_b_4L_snow;
-	9:  switch_hirano_4L_east_check;
-	10: switch_hirano_b_4L_snow;
-	12: switch_hirano_4L_north_check;
-	switch_hirano_random_4L;
-}
-
-// 5L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_5L) {
-	1: switch_hirano_a_5L_snow;
-	1: switch_hirano_b_5L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_5L_snow;
-	5: switch_hirano_random_5L;
-	6: switch_hirano_a_5L_snow;
-	9: switch_hirano_b_5L_snow;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_5L_snow;
-	6: switch_hirano_a_5L_snow;
-	9: switch_hirano_b_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_5L_snow;
-	9: switch_hirano_a_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_5L;
-	6: switch_hirano_b_5L_snow;
-	9: switch_hirano_a_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_5L_snow;
-	2:  switch_hirano_b_5L_snow;
-	3:  switch_hirano_5L_south_check;
-	4:  switch_hirano_a_5L_snow;
-	5:  switch_hirano_a_5L_snow;
-	6:  switch_hirano_5L_west_check;
-	8:  switch_hirano_b_5L_snow;
-	9:  switch_hirano_5L_east_check;
-	10: switch_hirano_b_5L_snow;
-	12: switch_hirano_5L_north_check;
-	switch_hirano_random_5L;
-}
-
-// 6L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_6L) {
-	1: switch_hirano_a_6L_snow;
-	1: switch_hirano_b_6L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_6L_snow;
-	5: switch_hirano_random_6L;
-	6: switch_hirano_a_6L_snow;
-	9: switch_hirano_b_6L_snow;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_6L_snow;
-	6: switch_hirano_a_6L_snow;
-	9: switch_hirano_b_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_6L_snow;
-	9: switch_hirano_a_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_6L;
-	6: switch_hirano_b_6L_snow;
-	9: switch_hirano_a_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_6L_snow;
-	2:  switch_hirano_b_6L_snow;
-	3:  switch_hirano_6L_south_check;
-	4:  switch_hirano_a_6L_snow;
-	5:  switch_hirano_a_6L_snow;
-	6:  switch_hirano_6L_west_check;
-	8:  switch_hirano_b_6L_snow;
-	9:  switch_hirano_6L_east_check;
-	10: switch_hirano_b_6L_snow;
-	12: switch_hirano_6L_north_check;
-	switch_hirano_random_6L;
+item(FEAT_HOUSES, item_hirano_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
 }

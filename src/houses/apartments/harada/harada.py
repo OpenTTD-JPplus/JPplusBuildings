@@ -22,7 +22,7 @@ coloursdict = {
 
 building_name = "harada"
 colours = ["white", "grey", "mauve", "brown1", "brown2", "red_brown", "black"]
-levels = ["6L", "7L", "8L", "9L"]
+levels = ["6L", "8L"]
 variants = {
     "a" : {
 		"xoffset" : "0",

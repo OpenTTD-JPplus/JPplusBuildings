@@ -1,12 +1,66 @@
 
+// Single Houses
 switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse, 
 	!FuncServicePASS() 				                // Build where there is no Passenger service
         ||                                              // OR
     (town_zone == TOWNZONE_EDGE && !WideRoads() )   // Not beside a wide road in EDGE
 ) {return;}	
 
+// Shotengai
 switch(FEAT_HOUSES, SELF, ConstructionCheckShotengai, 
 	current_year < 1945
         ||
     (current_year >= 1945 && !FuncServicePASS() )
 ) {return;}	
+
+// Small Height
+switch (FEAT_HOUSES, SELF, switch_small_con_check, 	
+	(FuncServicePASS() &&												// PASS Service AND
+		(!PopOver7L8LThreshold() ||										// Not Above Threshold OR
+			(PopOver7L8LThreshold() && 									// Above Threshold AND
+				(!WideRoads() || 
+					(WideRoads() && (town_zone == TOWNZONE_EDGE || town_zone == TOWNZONE_OUTSKIRT)) )	// Either not on Wide Roads OR on Wide Road in EDGE
+			) 
+		) 
+	) 
+	|| 
+	(!FuncServicePASS() && 												// NO PASS Service AND
+		(PopOver7L8LThreshold() && town_zone == TOWNZONE_CENTRE)		// Above threshold AND in CENTRE
+	)
+) {return;}	
+
+
+// Medium Height
+switch (FEAT_HOUSES, SELF, switch_medium_con_check, 	
+	FuncServicePASS() &&					
+		(
+			(
+				PopOver5L6LThreshold() && !PopOver7L8LThreshold() 
+			) 
+				||
+			(
+				PopOver7L8LThreshold() && 
+				(
+					!WideRoads() 
+					|| 
+					(WideRoads() && (town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_OUTER_SUBURB))
+				)
+			)
+		)	
+	) {return;}	
+
+// Large
+switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
+	FuncServicePASS() &&		
+		(			
+			(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) 
+				||
+			(PopOver9L10LThreshold() && 
+				(
+					(!WideRoads() && town_zone == TOWNZONE_CENTRE)
+						|| 
+					(WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)
+				)
+			)
+		)
+	) {return;}	

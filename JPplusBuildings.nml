@@ -452,7 +452,7 @@ random_switch (FEAT_HOUSES, SELF, switch_standard_colors)
 # 1 "src/id.pnml" 1
 // Assign IDs
 
-// Houses
+// HOUSES
 
 item(FEAT_HOUSES, item_house_dense_wooden,          05, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_large_wooden_farmhouse,14, HOUSE_SIZE_1X1) {}
@@ -467,16 +467,24 @@ item(FEAT_HOUSES, item_house_wooden_townhouses_01,  16, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_02,  18, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_03,  20, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_04,  21, HOUSE_SIZE_1X1) {}
-//item(FEAT_HOUSES, item_house_1870,                  21, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_townhouses_01,         06, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_townhouses_02,         22, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_old_villa,             58, HOUSE_SIZE_1X1) {}
-//item(FEAT_HOUSES, item_house_hist,                  17, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_nishikawa,             01, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_naganuma,              02, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_shotengai,                   100,HOUSE_SIZE_1X1) {}
 
 // PASS Service
+item(FEAT_HOUSES, item_fukuda_m,                    17, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_fukuda_l,                    23, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_harada_m,                    24, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_harada_l,                    25, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hayashi_s,                   26, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hayashi_m,                   28, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hirano_s,                    29, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hirano_m,                    32, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hirata_s,                    33, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_hirata_m,                    34, HOUSE_SIZE_1X1) {}
 
 // Post War
 item(FEAT_HOUSES, item_post_3L4L,                   30, HOUSE_SIZE_1X1) {}
@@ -562,7 +570,6 @@ item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant,  64, HOUSE_SIZE_1X1) {}
 // Free IDs
 /*
 91,
-32,
 85,
 */
 
@@ -1189,17 +1196,71 @@ switch (FEAT_HOUSES, SELF, SkyscraperRoads, param_wideroad_skyscrapers == 0 || (
 // Construction Checks
 # 1 "src/functions/ConstructionChecks.pnml" 1
 
+// Single Houses
 switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse, 
 	!FuncServicePASS() 				                // Build where there is no Passenger service
         ||                                              // OR
     (town_zone == TOWNZONE_EDGE && !WideRoads() )   // Not beside a wide road in EDGE
 ) {return;}	
 
+// Shotengai
 switch(FEAT_HOUSES, SELF, ConstructionCheckShotengai, 
 	current_year < 1945
         ||
     (current_year >= 1945 && !FuncServicePASS() )
 ) {return;}	
+
+// Small Height
+switch (FEAT_HOUSES, SELF, switch_small_con_check, 	
+	(FuncServicePASS() &&												// PASS Service AND
+		(!PopOver7L8LThreshold() ||										// Not Above Threshold OR
+			(PopOver7L8LThreshold() && 									// Above Threshold AND
+				(!WideRoads() || 
+					(WideRoads() && (town_zone == TOWNZONE_EDGE || town_zone == TOWNZONE_OUTSKIRT)) )	// Either not on Wide Roads OR on Wide Road in EDGE
+			) 
+		) 
+	) 
+	|| 
+	(!FuncServicePASS() && 												// NO PASS Service AND
+		(PopOver7L8LThreshold() && town_zone == TOWNZONE_CENTRE)		// Above threshold AND in CENTRE
+	)
+) {return;}	
+
+
+// Medium Height
+switch (FEAT_HOUSES, SELF, switch_medium_con_check, 	
+	FuncServicePASS() &&					
+		(
+			(
+				PopOver5L6LThreshold() && !PopOver7L8LThreshold() 
+			) 
+				||
+			(
+				PopOver7L8LThreshold() && 
+				(
+					!WideRoads() 
+					|| 
+					(WideRoads() && (town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_OUTER_SUBURB))
+				)
+			)
+		)	
+	) {return;}	
+
+// Large
+switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
+	FuncServicePASS() &&		
+		(			
+			(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) 
+				||
+			(PopOver9L10LThreshold() && 
+				(
+					(!WideRoads() && town_zone == TOWNZONE_CENTRE)
+						|| 
+					(WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)
+				)
+			)
+		)
+	) {return;}	
 # 1 "JPplusBuildings.pnml" 4
 
 // GROUND
@@ -11132,16 +11193,16 @@ item(FEAT_HOUSES, item_house_wooden_townhouses_04){
 
 spriteset (spr_fukuda_6L, 						"src/houses/apartments/fukuda/building.png") 					{template_house_100(1,1)}
 spriteset (spr_fukuda_6L_snow, 					"src/houses/apartments/fukuda/building.png") 					{template_house_100(400,1)}
-
+/*
 spriteset (spr_fukuda_7L, 						"src/houses/apartments/fukuda/building.png") 					{template_house_100(1,102)}
 spriteset (spr_fukuda_7L_snow, 					"src/houses/apartments/fukuda/building.png") 					{template_house_100(400,102)}
-
+*/
 spriteset (spr_fukuda_8L, 						"src/houses/apartments/fukuda/building.png") 					{template_house_100(1,203)}
 spriteset (spr_fukuda_8L_snow, 					"src/houses/apartments/fukuda/building.png") 					{template_house_100(400,203)}
-
+/*
 spriteset (spr_fukuda_9L, 						"src/houses/apartments/fukuda/building.png") 					{template_house_100(1,304)}
 spriteset (spr_fukuda_9L_snow, 					"src/houses/apartments/fukuda/building.png") 					{template_house_100(400,304)}
-
+*/
 spriteset (spr_fukuda_ground, 					"src/houses/apartments/fukuda/ground.png") 						{template_ground(1,1)}
 spriteset (spr_fukuda_ground_snow, 				"src/houses/apartments/fukuda/ground.png") 						{template_ground(1,33)}
 
@@ -11175,7 +11236,7 @@ spritelayout sprlay_fukuda_6L_snow {
 }
 
 // Fukuda 7 Storey
-
+/*
 // Normal Sprites
 spritelayout sprlay_fukuda_7L_norm {
 	ground {
@@ -11199,7 +11260,7 @@ spritelayout sprlay_fukuda_7L_snow {
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
-
+*/
 // Fukuda 8 Storey
 
 // Normal Sprites
@@ -11227,7 +11288,7 @@ spritelayout sprlay_fukuda_8L_snow {
 }
 
 // Fukuda 9 Storey
-
+/*
 // Normal Sprites
 spritelayout sprlay_fukuda_9L_norm {
 	ground {
@@ -11251,26 +11312,81 @@ spritelayout sprlay_fukuda_9L_snow {
 		palette: PALETTE_USE_DEFAULT;
 	}
 }
-
+*/
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_fukuda_6L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_6L_snow;
 	sprlay_fukuda_6L_norm;
 }
-
+/*
 switch(FEAT_HOUSES, SELF, switch_fukuda_7L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_7L_snow;
 	sprlay_fukuda_7L_norm;
 }
-
+*/
 switch(FEAT_HOUSES, SELF, switch_fukuda_8L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_8L_snow;
 	sprlay_fukuda_8L_norm;
 }
-
+/*
 switch(FEAT_HOUSES, SELF, switch_fukuda_9L_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_9L_snow;
 	sprlay_fukuda_9L_norm;
+}
+*/
+
+item(FEAT_HOUSES, item_fukuda_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_FUKUDA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1979];
+		minimum_lifetime: 			7;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_fukuda_6L_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_fukuda_l){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_FUKUDA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1979];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_fukuda_8L_snow;
+		construction_check: 		switch_large_con_check;
+		cargo_production: 			func_produce(14,5);
+	}
 }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/harada/harada.pnml" 1
@@ -11279,16 +11395,16 @@ switch(FEAT_HOUSES, SELF, switch_fukuda_9L_snow,terrain_type) {
 
 spriteset (spr_harada_a_6L_norm, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(1,1)}
 spriteset (spr_harada_a_6L_snow, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(400,1)}
-
+/*
 spriteset (spr_harada_a_7L_norm, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(1,130)}
 spriteset (spr_harada_a_7L_snow, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(400,130)}
-
+*/
 spriteset (spr_harada_a_8L_norm, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(1,259)}
 spriteset (spr_harada_a_8L_snow, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(400,259)}
-
+/*
 spriteset (spr_harada_a_9L_norm, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(1,388)}
 spriteset (spr_harada_a_9L_snow, 					"src/houses/apartments/harada/gfx/building.png") 					{template_house_128(400,388)}
-
+*/
 spriteset (spr_harada_a_ground, 					"src/houses/apartments/harada/gfx/ground.png") 						{template_ground(1,1)}
 spriteset (spr_harada_a_ground_snow, 				"src/houses/apartments/harada/gfx/ground.png") 						{template_ground(1,33)}
 # 1 "src/houses/apartments/harada/harada.pnml" 2
@@ -11532,246 +11648,6 @@ spriteset (spr_harada_a_ground_snow, 				"src/houses/apartments/harada/gfx/groun
 	    sprlay_harada_a_6L_black_norm;
     }
 # 1 "src/houses/apartments/harada/harada.pnml" 2
-# 1 "src/houses/apartments/harada/levels/7L.pnml" 1
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_white_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_white_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_white_snow;
-	    sprlay_harada_a_7L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_grey_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_grey_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_grey_snow;
-	    sprlay_harada_a_7L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_mauve_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_mauve_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_mauve_snow;
-	    sprlay_harada_a_7L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_brown1_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_brown1_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_brown1_snow;
-	    sprlay_harada_a_7L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_brown2_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_brown2_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_brown2_snow;
-	    sprlay_harada_a_7L_brown2_norm;
-    }
-
-// _red_brown_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_red_brown_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_red_brown_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_red_brown_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_red_brown_snow;
-	    sprlay_harada_a_7L_red_brown_norm;
-    }
-
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_7L_black_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_7L_black_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_7L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_7L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_7L_black_snow;
-	    sprlay_harada_a_7L_black_norm;
-    }
-# 1 "src/houses/apartments/harada/harada.pnml" 2
 # 1 "src/houses/apartments/harada/levels/8L.pnml" 1
 
 // _white_
@@ -12012,246 +11888,6 @@ spriteset (spr_harada_a_ground_snow, 				"src/houses/apartments/harada/gfx/groun
 	    sprlay_harada_a_8L_black_norm;
     }
 # 1 "src/houses/apartments/harada/harada.pnml" 2
-# 1 "src/houses/apartments/harada/levels/9L.pnml" 1
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_white_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_white_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_white_snow;
-	    sprlay_harada_a_9L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_grey_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_grey_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_grey_snow;
-	    sprlay_harada_a_9L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_mauve_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_mauve_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_mauve_snow;
-	    sprlay_harada_a_9L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_brown1_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_brown1_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_brown1_snow;
-	    sprlay_harada_a_9L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_brown2_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_brown2_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_brown2_snow;
-	    sprlay_harada_a_9L_brown2_norm;
-    }
-
-// _red_brown_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_red_brown_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_red_brown_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_red_brown_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_red_brown_snow;
-	    sprlay_harada_a_9L_red_brown_norm;
-    }
-
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_harada_a_9L_black_norm {
-        ground {
-            sprite: spr_harada_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_a_9L_black_snow {
-        ground {
-            sprite: spr_harada_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_a_9L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_a_9L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_a_9L_black_snow;
-	    sprlay_harada_a_9L_black_norm;
-    }
-# 1 "src/houses/apartments/harada/harada.pnml" 2
 # 1 "src/houses/apartments/harada/switches/combined_rs.pnml" 1
 
 switch (FEAT_HOUSES, SELF, switch_harada_a_6L_snow, random_bits % 14) {
@@ -12271,23 +11907,6 @@ switch (FEAT_HOUSES, SELF, switch_harada_a_6L_snow, random_bits % 14) {
 	13: switch_harada_a_6L_black_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_harada_a_7L_snow, random_bits % 14) {
-	0: switch_harada_a_7L_mauve_snow;
-	1: switch_harada_a_7L_mauve_snow;
-	2: switch_harada_a_7L_brown2_snow;
-	3: switch_harada_a_7L_brown2_snow;
-	4: switch_harada_a_7L_brown2_snow;
-	5: switch_harada_a_7L_brown1_snow;
-	6: switch_harada_a_7L_brown1_snow;
-	7: switch_harada_a_7L_brown1_snow;
-	8: switch_harada_a_7L_grey_snow;
-	9: switch_harada_a_7L_grey_snow;
-	10: switch_harada_a_7L_grey_snow;
-	11: switch_harada_a_7L_white_snow;
-	12: switch_harada_a_7L_red_brown_snow;
-	13: switch_harada_a_7L_black_snow;
-}
-
 switch (FEAT_HOUSES, SELF, switch_harada_a_8L_snow, random_bits % 14) {
 	0: switch_harada_a_8L_mauve_snow;
 	1: switch_harada_a_8L_mauve_snow;
@@ -12304,24 +11923,61 @@ switch (FEAT_HOUSES, SELF, switch_harada_a_8L_snow, random_bits % 14) {
 	12: switch_harada_a_8L_red_brown_snow;
 	13: switch_harada_a_8L_black_snow;
 }
-
-switch (FEAT_HOUSES, SELF, switch_harada_a_9L_snow, random_bits % 14) {
-	0: switch_harada_a_9L_mauve_snow;
-	1: switch_harada_a_9L_mauve_snow;
-	2: switch_harada_a_9L_brown2_snow;
-	3: switch_harada_a_9L_brown2_snow;
-	4: switch_harada_a_9L_brown2_snow;
-	5: switch_harada_a_9L_brown1_snow;
-	6: switch_harada_a_9L_brown1_snow;
-	7: switch_harada_a_9L_brown1_snow;
-	8: switch_harada_a_9L_grey_snow;
-	9: switch_harada_a_9L_grey_snow;
-	10: switch_harada_a_9L_grey_snow;
-	11: switch_harada_a_9L_white_snow;
-	12: switch_harada_a_9L_red_brown_snow;
-	13: switch_harada_a_9L_black_snow;
-}
 # 1 "src/houses/apartments/harada/harada.pnml" 2
+
+item(FEAT_HOUSES, item_harada_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HARADA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_harada_a_6L_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_harada_l){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HARADA);
+		population: 				120;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_harada_a_8L_snow;
+		construction_check: 		switch_large_con_check;
+		cargo_production: 			func_produce(14,5);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
 # 1 "src/houses/apartments/hayashi/gfx/hayashi_sprites.pnml" 1
@@ -13303,46 +12959,90 @@ spriteset (spr_hayashi_a_ground_snow, 				"src/houses/apartments/hayashi/gfx/gro
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
 # 1 "src/houses/apartments/hayashi/switches/combined_rs.pnml" 1
 
-random_switch (FEAT_HOUSES, SELF, switch_hayashi_a_3L_snow) {
-	2: switch_hayashi_a_3L_mauve_snow;
-	3: switch_hayashi_a_3L_brown2_snow;
-	3: switch_hayashi_a_3L_brown1_snow;
-	3: switch_hayashi_a_3L_grey_snow;
-	1: switch_hayashi_a_3L_white_snow;
-	1: switch_hayashi_a_3L_red_brown_snow;
-	1: switch_hayashi_a_3L_black_snow;
+switch (FEAT_HOUSES, SELF, switch_hayashi_s_snow , random_bits % 28) {
+	0..1: switch_hayashi_a_3L_mauve_snow;
+	2..4: switch_hayashi_a_3L_brown2_snow;
+	5..7: switch_hayashi_a_3L_brown1_snow;
+	8..10: switch_hayashi_a_3L_grey_snow;
+	11: switch_hayashi_a_3L_white_snow;
+	12: switch_hayashi_a_3L_red_brown_snow;
+	13: switch_hayashi_a_3L_black_snow;
+	14..15: switch_hayashi_a_4L_mauve_snow;
+	16..18: switch_hayashi_a_4L_brown2_snow;
+	19..21: switch_hayashi_a_4L_brown1_snow;
+	22..24: switch_hayashi_a_4L_grey_snow;
+	25: switch_hayashi_a_4L_white_snow;
+	26: switch_hayashi_a_4L_red_brown_snow;
+	27: switch_hayashi_a_4L_black_snow;
 }
 
-random_switch (FEAT_HOUSES, SELF, switch_hayashi_a_4L_snow) {
-	2: switch_hayashi_a_4L_mauve_snow;
-	3: switch_hayashi_a_4L_brown2_snow;
-	3: switch_hayashi_a_4L_brown1_snow;
-	3: switch_hayashi_a_4L_grey_snow;
-	1: switch_hayashi_a_4L_white_snow;
-	1: switch_hayashi_a_4L_red_brown_snow;
-	1: switch_hayashi_a_4L_black_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_hayashi_a_5L_snow) {
-	2: switch_hayashi_a_5L_mauve_snow;
-	3: switch_hayashi_a_5L_brown2_snow;
-	3: switch_hayashi_a_5L_brown1_snow;
-	3: switch_hayashi_a_5L_grey_snow;
-	1: switch_hayashi_a_5L_white_snow;
-	1: switch_hayashi_a_5L_red_brown_snow;
-	1: switch_hayashi_a_5L_black_snow;
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_hayashi_a_6L_snow) {
-	2: switch_hayashi_a_6L_mauve_snow;
-	3: switch_hayashi_a_6L_brown2_snow;
-	3: switch_hayashi_a_6L_brown1_snow;
-	3: switch_hayashi_a_6L_grey_snow;
-	1: switch_hayashi_a_6L_white_snow;
-	1: switch_hayashi_a_6L_red_brown_snow;
-	1: switch_hayashi_a_6L_black_snow;
+switch (FEAT_HOUSES, SELF, switch_hayashi_m_snow , random_bits % 28) {
+	0..1: switch_hayashi_a_5L_mauve_snow;
+	2..4: switch_hayashi_a_5L_brown2_snow;
+	5..7: switch_hayashi_a_5L_brown1_snow;
+	8..10: switch_hayashi_a_5L_grey_snow;
+	11: switch_hayashi_a_5L_white_snow;
+	12: switch_hayashi_a_5L_red_brown_snow;
+	13: switch_hayashi_a_5L_black_snow;
+	14..15: switch_hayashi_a_6L_mauve_snow;
+	16..18: switch_hayashi_a_6L_brown2_snow;
+	19..21: switch_hayashi_a_6L_brown1_snow;
+	22..24: switch_hayashi_a_6L_grey_snow;
+	25: switch_hayashi_a_6L_white_snow;
+	26: switch_hayashi_a_6L_red_brown_snow;
+	27: switch_hayashi_a_6L_black_snow;
 }
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
+
+item(FEAT_HOUSES, item_hayashi_s){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HAYASHI);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hayashi_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
+}
+
+item(FEAT_HOUSES, item_hayashi_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HAYASHI);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hayashi_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hirano/hirano.pnml" 1
 # 1 "src/houses/apartments/hirano/gfx/hirano_sprites.pnml" 1
@@ -16263,16 +15963,21 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 # 1 "src/houses/apartments/hirano/hirano.pnml" 1
 # 1 "src/houses/apartments/hirano/switches/combined_rs.pnml" 1
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_a_3L_basic_colors) {
-	1: switch_hirano_a_3L_mauve_snow;
-	2: switch_hirano_a_3L_brown2_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_a_s_basic_colors, random_bits % 10) {
+	0: switch_hirano_a_3L_mauve_snow;
+	1: switch_hirano_a_3L_brown2_snow;
 	2: switch_hirano_a_3L_brown1_snow;
-	2: switch_hirano_a_3L_grey_snow;
-	1: switch_hirano_a_3L_white_snow;
+	3: switch_hirano_a_3L_grey_snow;
+	4: switch_hirano_a_3L_white_snow;
+	5: switch_hirano_a_4L_mauve_snow;
+	6: switch_hirano_a_4L_brown2_snow;
+	7: switch_hirano_a_4L_brown1_snow;
+	8: switch_hirano_a_4L_grey_snow;
+	9: switch_hirano_a_4L_white_snow;
 }
 
 // Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_a_3L_modern_colors, random_bits % 17) {
+switch (FEAT_HOUSES, SELF, switch_hirano_a_s_modern_colors, random_bits % 34) {
 	0: switch_hirano_a_3L_mauve_snow;
 	1: switch_hirano_a_3L_mauve_snow;
 	2: switch_hirano_a_3L_brown2_snow;
@@ -16290,24 +15995,46 @@ switch (FEAT_HOUSES, SELF, switch_hirano_a_3L_modern_colors, random_bits % 17) {
 	14: switch_hirano_a_3L_pink_snow;
 	15: switch_hirano_a_3L_light_blue_snow;
 	16: switch_hirano_a_3L_dark_blue_snow;
+	17: switch_hirano_a_4L_mauve_snow;
+	18: switch_hirano_a_4L_mauve_snow;
+	19: switch_hirano_a_4L_brown2_snow;
+	20: switch_hirano_a_4L_brown2_snow;
+	21: switch_hirano_a_4L_brown2_snow;
+	22: switch_hirano_a_4L_brown1_snow;
+	23: switch_hirano_a_4L_brown1_snow;
+	24: switch_hirano_a_4L_brown1_snow;
+	25: switch_hirano_a_4L_grey_snow;
+	26: switch_hirano_a_4L_grey_snow;
+	27: switch_hirano_a_4L_grey_snow;
+	28: switch_hirano_a_4L_white_snow;
+	29: switch_hirano_a_4L_dark_green_snow;
+	30: switch_hirano_a_4L_peach_snow;
+	31: switch_hirano_a_4L_pink_snow;
+	32: switch_hirano_a_4L_light_blue_snow;
+	33: switch_hirano_a_4L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_a_3L_snow, current_year - age) {
-	0..1959: switch_hirano_a_3L_basic_colors;
-	switch_hirano_a_3L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirano_a_s_snow, current_year - age) {
+	0..1959: switch_hirano_a_s_basic_colors;
+	switch_hirano_a_s_modern_colors;
 }
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_b_3L_basic_colors) {
-	1: switch_hirano_b_3L_mauve_snow;
-	2: switch_hirano_b_3L_brown2_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_b_s_basic_colors, random_bits % 10) {
+	0: switch_hirano_b_3L_mauve_snow;
+	1: switch_hirano_b_3L_brown2_snow;
 	2: switch_hirano_b_3L_brown1_snow;
-	2: switch_hirano_b_3L_grey_snow;
-	1: switch_hirano_b_3L_white_snow;
+	3: switch_hirano_b_3L_grey_snow;
+	4: switch_hirano_b_3L_white_snow;
+	5: switch_hirano_b_4L_mauve_snow;
+	6: switch_hirano_b_4L_brown2_snow;
+	7: switch_hirano_b_4L_brown1_snow;
+	8: switch_hirano_b_4L_grey_snow;
+	9: switch_hirano_b_4L_white_snow;
 }
 
 // Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_b_3L_modern_colors, random_bits % 17) {
+switch (FEAT_HOUSES, SELF, switch_hirano_b_s_modern_colors, random_bits % 34) {
 	0: switch_hirano_b_3L_mauve_snow;
 	1: switch_hirano_b_3L_mauve_snow;
 	2: switch_hirano_b_3L_brown2_snow;
@@ -16325,94 +16052,46 @@ switch (FEAT_HOUSES, SELF, switch_hirano_b_3L_modern_colors, random_bits % 17) {
 	14: switch_hirano_b_3L_pink_snow;
 	15: switch_hirano_b_3L_light_blue_snow;
 	16: switch_hirano_b_3L_dark_blue_snow;
+	17: switch_hirano_b_4L_mauve_snow;
+	18: switch_hirano_b_4L_mauve_snow;
+	19: switch_hirano_b_4L_brown2_snow;
+	20: switch_hirano_b_4L_brown2_snow;
+	21: switch_hirano_b_4L_brown2_snow;
+	22: switch_hirano_b_4L_brown1_snow;
+	23: switch_hirano_b_4L_brown1_snow;
+	24: switch_hirano_b_4L_brown1_snow;
+	25: switch_hirano_b_4L_grey_snow;
+	26: switch_hirano_b_4L_grey_snow;
+	27: switch_hirano_b_4L_grey_snow;
+	28: switch_hirano_b_4L_white_snow;
+	29: switch_hirano_b_4L_dark_green_snow;
+	30: switch_hirano_b_4L_peach_snow;
+	31: switch_hirano_b_4L_pink_snow;
+	32: switch_hirano_b_4L_light_blue_snow;
+	33: switch_hirano_b_4L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_b_3L_snow, current_year - age) {
-	0..1959: switch_hirano_b_3L_basic_colors;
-	switch_hirano_b_3L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirano_b_s_snow, current_year - age) {
+	0..1959: switch_hirano_b_s_basic_colors;
+	switch_hirano_b_s_modern_colors;
 }
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_a_4L_basic_colors) {
-	1: switch_hirano_a_4L_mauve_snow;
-	2: switch_hirano_a_4L_brown2_snow;
-	2: switch_hirano_a_4L_brown1_snow;
-	2: switch_hirano_a_4L_grey_snow;
-	1: switch_hirano_a_4L_white_snow;
-}
-
-// Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_a_4L_modern_colors, random_bits % 17) {
-	0: switch_hirano_a_4L_mauve_snow;
-	1: switch_hirano_a_4L_mauve_snow;
-	2: switch_hirano_a_4L_brown2_snow;
-	3: switch_hirano_a_4L_brown2_snow;
-	4: switch_hirano_a_4L_brown2_snow;
-	5: switch_hirano_a_4L_brown1_snow;
-	6: switch_hirano_a_4L_brown1_snow;
-	7: switch_hirano_a_4L_brown1_snow;
-	8: switch_hirano_a_4L_grey_snow;
-	9: switch_hirano_a_4L_grey_snow;
-	10: switch_hirano_a_4L_grey_snow;
-	11: switch_hirano_a_4L_white_snow;
-	12: switch_hirano_a_4L_dark_green_snow;
-	13: switch_hirano_a_4L_peach_snow;
-	14: switch_hirano_a_4L_pink_snow;
-	15: switch_hirano_a_4L_light_blue_snow;
-	16: switch_hirano_a_4L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_a_4L_snow, current_year - age) {
-	0..1959: switch_hirano_a_4L_basic_colors;
-	switch_hirano_a_4L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_b_4L_basic_colors) {
-	1: switch_hirano_b_4L_mauve_snow;
-	2: switch_hirano_b_4L_brown2_snow;
-	2: switch_hirano_b_4L_brown1_snow;
-	2: switch_hirano_b_4L_grey_snow;
-	1: switch_hirano_b_4L_white_snow;
-}
-
-// Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_b_4L_modern_colors, random_bits % 17) {
-	0: switch_hirano_b_4L_mauve_snow;
-	1: switch_hirano_b_4L_mauve_snow;
-	2: switch_hirano_b_4L_brown2_snow;
-	3: switch_hirano_b_4L_brown2_snow;
-	4: switch_hirano_b_4L_brown2_snow;
-	5: switch_hirano_b_4L_brown1_snow;
-	6: switch_hirano_b_4L_brown1_snow;
-	7: switch_hirano_b_4L_brown1_snow;
-	8: switch_hirano_b_4L_grey_snow;
-	9: switch_hirano_b_4L_grey_snow;
-	10: switch_hirano_b_4L_grey_snow;
-	11: switch_hirano_b_4L_white_snow;
-	12: switch_hirano_b_4L_dark_green_snow;
-	13: switch_hirano_b_4L_peach_snow;
-	14: switch_hirano_b_4L_pink_snow;
-	15: switch_hirano_b_4L_light_blue_snow;
-	16: switch_hirano_b_4L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_b_4L_snow, current_year - age) {
-	0..1959: switch_hirano_b_4L_basic_colors;
-	switch_hirano_b_4L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_a_5L_basic_colors) {
-	1: switch_hirano_a_5L_mauve_snow;
-	2: switch_hirano_a_5L_brown2_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_a_m_basic_colors, random_bits % 10) {
+	0: switch_hirano_a_5L_mauve_snow;
+	1: switch_hirano_a_5L_brown2_snow;
 	2: switch_hirano_a_5L_brown1_snow;
-	2: switch_hirano_a_5L_grey_snow;
-	1: switch_hirano_a_5L_white_snow;
+	3: switch_hirano_a_5L_grey_snow;
+	4: switch_hirano_a_5L_white_snow;
+	5: switch_hirano_a_6L_mauve_snow;
+	6: switch_hirano_a_6L_brown2_snow;
+	7: switch_hirano_a_6L_brown1_snow;
+	8: switch_hirano_a_6L_grey_snow;
+	9: switch_hirano_a_6L_white_snow;
 }
 
 // Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_a_5L_modern_colors, random_bits % 17) {
+switch (FEAT_HOUSES, SELF, switch_hirano_a_m_modern_colors, random_bits % 34) {
 	0: switch_hirano_a_5L_mauve_snow;
 	1: switch_hirano_a_5L_mauve_snow;
 	2: switch_hirano_a_5L_brown2_snow;
@@ -16430,24 +16109,46 @@ switch (FEAT_HOUSES, SELF, switch_hirano_a_5L_modern_colors, random_bits % 17) {
 	14: switch_hirano_a_5L_pink_snow;
 	15: switch_hirano_a_5L_light_blue_snow;
 	16: switch_hirano_a_5L_dark_blue_snow;
+	17: switch_hirano_a_6L_mauve_snow;
+	18: switch_hirano_a_6L_mauve_snow;
+	19: switch_hirano_a_6L_brown2_snow;
+	20: switch_hirano_a_6L_brown2_snow;
+	21: switch_hirano_a_6L_brown2_snow;
+	22: switch_hirano_a_6L_brown1_snow;
+	23: switch_hirano_a_6L_brown1_snow;
+	24: switch_hirano_a_6L_brown1_snow;
+	25: switch_hirano_a_6L_grey_snow;
+	26: switch_hirano_a_6L_grey_snow;
+	27: switch_hirano_a_6L_grey_snow;
+	28: switch_hirano_a_6L_white_snow;
+	29: switch_hirano_a_6L_dark_green_snow;
+	30: switch_hirano_a_6L_peach_snow;
+	31: switch_hirano_a_6L_pink_snow;
+	32: switch_hirano_a_6L_light_blue_snow;
+	33: switch_hirano_a_6L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_a_5L_snow, current_year - age) {
-	0..1959: switch_hirano_a_5L_basic_colors;
-	switch_hirano_a_5L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirano_a_m_snow, current_year - age) {
+	0..1959: switch_hirano_a_m_basic_colors;
+	switch_hirano_a_m_modern_colors;
 }
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_b_5L_basic_colors) {
-	1: switch_hirano_b_5L_mauve_snow;
-	2: switch_hirano_b_5L_brown2_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_b_m_basic_colors, random_bits % 10) {
+	0: switch_hirano_b_5L_mauve_snow;
+	1: switch_hirano_b_5L_brown2_snow;
 	2: switch_hirano_b_5L_brown1_snow;
-	2: switch_hirano_b_5L_grey_snow;
-	1: switch_hirano_b_5L_white_snow;
+	3: switch_hirano_b_5L_grey_snow;
+	4: switch_hirano_b_5L_white_snow;
+	5: switch_hirano_b_6L_mauve_snow;
+	6: switch_hirano_b_6L_brown2_snow;
+	7: switch_hirano_b_6L_brown1_snow;
+	8: switch_hirano_b_6L_grey_snow;
+	9: switch_hirano_b_6L_white_snow;
 }
 
 // Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_b_5L_modern_colors, random_bits % 17) {
+switch (FEAT_HOUSES, SELF, switch_hirano_b_m_modern_colors, random_bits % 34) {
 	0: switch_hirano_b_5L_mauve_snow;
 	1: switch_hirano_b_5L_mauve_snow;
 	2: switch_hirano_b_5L_brown2_snow;
@@ -16465,299 +16166,184 @@ switch (FEAT_HOUSES, SELF, switch_hirano_b_5L_modern_colors, random_bits % 17) {
 	14: switch_hirano_b_5L_pink_snow;
 	15: switch_hirano_b_5L_light_blue_snow;
 	16: switch_hirano_b_5L_dark_blue_snow;
+	17: switch_hirano_b_6L_mauve_snow;
+	18: switch_hirano_b_6L_mauve_snow;
+	19: switch_hirano_b_6L_brown2_snow;
+	20: switch_hirano_b_6L_brown2_snow;
+	21: switch_hirano_b_6L_brown2_snow;
+	22: switch_hirano_b_6L_brown1_snow;
+	23: switch_hirano_b_6L_brown1_snow;
+	24: switch_hirano_b_6L_brown1_snow;
+	25: switch_hirano_b_6L_grey_snow;
+	26: switch_hirano_b_6L_grey_snow;
+	27: switch_hirano_b_6L_grey_snow;
+	28: switch_hirano_b_6L_white_snow;
+	29: switch_hirano_b_6L_dark_green_snow;
+	30: switch_hirano_b_6L_peach_snow;
+	31: switch_hirano_b_6L_pink_snow;
+	32: switch_hirano_b_6L_light_blue_snow;
+	33: switch_hirano_b_6L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_b_5L_snow, current_year - age) {
-	0..1959: switch_hirano_b_5L_basic_colors;
-	switch_hirano_b_5L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirano_b_m_snow, current_year - age) {
+	0..1959: switch_hirano_b_m_basic_colors;
+	switch_hirano_b_m_modern_colors;
 }
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_a_6L_basic_colors) {
-	1: switch_hirano_a_6L_mauve_snow;
-	2: switch_hirano_a_6L_brown2_snow;
-	2: switch_hirano_a_6L_brown1_snow;
-	2: switch_hirano_a_6L_grey_snow;
-	1: switch_hirano_a_6L_white_snow;
+# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/switches/combined_sw.pnml" 1
+random_switch (FEAT_HOUSES, SELF, switch_hirano_random_s_snow) {
+	1: switch_hirano_a_s_snow;
+	1: switch_hirano_b_s_snow;
 }
 
-// Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_a_6L_modern_colors, random_bits % 17) {
-	0: switch_hirano_a_6L_mauve_snow;
-	1: switch_hirano_a_6L_mauve_snow;
-	2: switch_hirano_a_6L_brown2_snow;
-	3: switch_hirano_a_6L_brown2_snow;
-	4: switch_hirano_a_6L_brown2_snow;
-	5: switch_hirano_a_6L_brown1_snow;
-	6: switch_hirano_a_6L_brown1_snow;
-	7: switch_hirano_a_6L_brown1_snow;
-	8: switch_hirano_a_6L_grey_snow;
-	9: switch_hirano_a_6L_grey_snow;
-	10: switch_hirano_a_6L_grey_snow;
-	11: switch_hirano_a_6L_white_snow;
-	12: switch_hirano_a_6L_dark_green_snow;
-	13: switch_hirano_a_6L_peach_snow;
-	14: switch_hirano_a_6L_pink_snow;
-	15: switch_hirano_a_6L_light_blue_snow;
-	16: switch_hirano_a_6L_dark_blue_snow;
+// Selection which direction
+
+switch (FEAT_HOUSES, SELF, switch_hirano_s_south_check, SpriteDirectionsSouth()) {
+	4: switch_hirano_a_s_snow;
+	5: switch_hirano_random_s_snow;
+	6: switch_hirano_a_s_snow;
+	9: switch_hirano_b_s_snow;
+	switch_hirano_random_s_snow;
 }
 
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_a_6L_snow, current_year - age) {
-	0..1959: switch_hirano_a_6L_basic_colors;
-	switch_hirano_a_6L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirano_b_6L_basic_colors) {
-	1: switch_hirano_b_6L_mauve_snow;
-	2: switch_hirano_b_6L_brown2_snow;
-	2: switch_hirano_b_6L_brown1_snow;
-	2: switch_hirano_b_6L_grey_snow;
-	1: switch_hirano_b_6L_white_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_s_east_check, SpriteDirectionsEast()) {
+	4: switch_hirano_a_s_snow;
+	6: switch_hirano_a_s_snow;
+	9: switch_hirano_b_s_snow;
+	10: switch_hirano_random_s_snow;
+	switch_hirano_random_s_snow;
 }
 
-// Modern Colors
-switch (FEAT_HOUSES, SELF, switch_hirano_b_6L_modern_colors, random_bits % 17) {
-	0: switch_hirano_b_6L_mauve_snow;
-	1: switch_hirano_b_6L_mauve_snow;
-	2: switch_hirano_b_6L_brown2_snow;
-	3: switch_hirano_b_6L_brown2_snow;
-	4: switch_hirano_b_6L_brown2_snow;
-	5: switch_hirano_b_6L_brown1_snow;
-	6: switch_hirano_b_6L_brown1_snow;
-	7: switch_hirano_b_6L_brown1_snow;
-	8: switch_hirano_b_6L_grey_snow;
-	9: switch_hirano_b_6L_grey_snow;
-	10: switch_hirano_b_6L_grey_snow;
-	11: switch_hirano_b_6L_white_snow;
-	12: switch_hirano_b_6L_dark_green_snow;
-	13: switch_hirano_b_6L_peach_snow;
-	14: switch_hirano_b_6L_pink_snow;
-	15: switch_hirano_b_6L_light_blue_snow;
-	16: switch_hirano_b_6L_dark_blue_snow;
+switch (FEAT_HOUSES, SELF, switch_hirano_s_west_check, SpriteDirectionsWest()) {
+	6: switch_hirano_b_s_snow;
+	9: switch_hirano_a_s_snow;
+	10: switch_hirano_random_s_snow;
+	switch_hirano_random_s_snow;
 }
 
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirano_b_6L_snow, current_year - age) {
-	0..1959: switch_hirano_b_6L_basic_colors;
-	switch_hirano_b_6L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirano_s_north_check, SpriteDirectionsNorth()) {
+	5: switch_hirano_random_s_snow;
+	6: switch_hirano_b_s_snow;
+	9: switch_hirano_a_s_snow;
+	10: switch_hirano_random_s_snow;
+	switch_hirano_random_s_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_hirano_s_snow, SpriteDirections() ) {
+	1:  switch_hirano_a_s_snow;
+	2:  switch_hirano_b_s_snow;
+	3:  switch_hirano_s_south_check;
+	4:  switch_hirano_a_s_snow;
+	5:  switch_hirano_a_s_snow;
+	6:  switch_hirano_s_west_check;
+	8:  switch_hirano_b_s_snow;
+	9:  switch_hirano_s_east_check;
+	10: switch_hirano_b_s_snow;
+	12: switch_hirano_s_north_check;
+	switch_hirano_random_s_snow;
+}
+random_switch (FEAT_HOUSES, SELF, switch_hirano_random_m_snow) {
+	1: switch_hirano_a_m_snow;
+	1: switch_hirano_b_m_snow;
+}
+
+// Selection which direction
+
+switch (FEAT_HOUSES, SELF, switch_hirano_m_south_check, SpriteDirectionsSouth()) {
+	4: switch_hirano_a_m_snow;
+	5: switch_hirano_random_m_snow;
+	6: switch_hirano_a_m_snow;
+	9: switch_hirano_b_m_snow;
+	switch_hirano_random_m_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_hirano_m_east_check, SpriteDirectionsEast()) {
+	4: switch_hirano_a_m_snow;
+	6: switch_hirano_a_m_snow;
+	9: switch_hirano_b_m_snow;
+	10: switch_hirano_random_m_snow;
+	switch_hirano_random_m_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_hirano_m_west_check, SpriteDirectionsWest()) {
+	6: switch_hirano_b_m_snow;
+	9: switch_hirano_a_m_snow;
+	10: switch_hirano_random_m_snow;
+	switch_hirano_random_m_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_hirano_m_north_check, SpriteDirectionsNorth()) {
+	5: switch_hirano_random_m_snow;
+	6: switch_hirano_b_m_snow;
+	9: switch_hirano_a_m_snow;
+	10: switch_hirano_random_m_snow;
+	switch_hirano_random_m_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_hirano_m_snow, SpriteDirections() ) {
+	1:  switch_hirano_a_m_snow;
+	2:  switch_hirano_b_m_snow;
+	3:  switch_hirano_m_south_check;
+	4:  switch_hirano_a_m_snow;
+	5:  switch_hirano_a_m_snow;
+	6:  switch_hirano_m_west_check;
+	8:  switch_hirano_b_m_snow;
+	9:  switch_hirano_m_east_check;
+	10: switch_hirano_b_m_snow;
+	12: switch_hirano_m_north_check;
+	switch_hirano_random_m_snow;
 }
 # 1 "src/houses/apartments/hirano/hirano.pnml" 1
 
-// 3L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_3L) {
-	1: switch_hirano_a_3L_snow;
-	1: switch_hirano_b_3L_snow;
+item(FEAT_HOUSES, item_hirano_s){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
 }
 
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_3L_snow;
-	5: switch_hirano_random_3L;
-	6: switch_hirano_a_3L_snow;
-	9: switch_hirano_b_3L_snow;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_3L_snow;
-	6: switch_hirano_a_3L_snow;
-	9: switch_hirano_b_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_3L_snow;
-	9: switch_hirano_a_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_3L;
-	6: switch_hirano_b_3L_snow;
-	9: switch_hirano_a_3L_snow;
-	10: switch_hirano_random_3L;
-	switch_hirano_random_3L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_3L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_3L_snow;
-	2:  switch_hirano_b_3L_snow;
-	3:  switch_hirano_3L_south_check;
-	4:  switch_hirano_a_3L_snow;
-	5:  switch_hirano_a_3L_snow;
-	6:  switch_hirano_3L_west_check;
-	8:  switch_hirano_b_3L_snow;
-	9:  switch_hirano_3L_east_check;
-	10: switch_hirano_b_3L_snow;
-	12: switch_hirano_3L_north_check;
-	switch_hirano_random_3L;
-}
-
-// 4L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_4L) {
-	1: switch_hirano_a_4L_snow;
-	1: switch_hirano_b_4L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_4L_snow;
-	5: switch_hirano_random_4L;
-	6: switch_hirano_a_4L_snow;
-	9: switch_hirano_b_4L_snow;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_4L_snow;
-	6: switch_hirano_a_4L_snow;
-	9: switch_hirano_b_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_4L_snow;
-	9: switch_hirano_a_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_4L;
-	6: switch_hirano_b_4L_snow;
-	9: switch_hirano_a_4L_snow;
-	10: switch_hirano_random_4L;
-	switch_hirano_random_4L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_4L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_4L_snow;
-	2:  switch_hirano_b_4L_snow;
-	3:  switch_hirano_4L_south_check;
-	4:  switch_hirano_a_4L_snow;
-	5:  switch_hirano_a_4L_snow;
-	6:  switch_hirano_4L_west_check;
-	8:  switch_hirano_b_4L_snow;
-	9:  switch_hirano_4L_east_check;
-	10: switch_hirano_b_4L_snow;
-	12: switch_hirano_4L_north_check;
-	switch_hirano_random_4L;
-}
-
-// 5L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_5L) {
-	1: switch_hirano_a_5L_snow;
-	1: switch_hirano_b_5L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_5L_snow;
-	5: switch_hirano_random_5L;
-	6: switch_hirano_a_5L_snow;
-	9: switch_hirano_b_5L_snow;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_5L_snow;
-	6: switch_hirano_a_5L_snow;
-	9: switch_hirano_b_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_5L_snow;
-	9: switch_hirano_a_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_5L;
-	6: switch_hirano_b_5L_snow;
-	9: switch_hirano_a_5L_snow;
-	10: switch_hirano_random_5L;
-	switch_hirano_random_5L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_5L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_5L_snow;
-	2:  switch_hirano_b_5L_snow;
-	3:  switch_hirano_5L_south_check;
-	4:  switch_hirano_a_5L_snow;
-	5:  switch_hirano_a_5L_snow;
-	6:  switch_hirano_5L_west_check;
-	8:  switch_hirano_b_5L_snow;
-	9:  switch_hirano_5L_east_check;
-	10: switch_hirano_b_5L_snow;
-	12: switch_hirano_5L_north_check;
-	switch_hirano_random_5L;
-}
-
-// 6L
-
-random_switch (FEAT_HOUSES, SELF, switch_hirano_random_6L) {
-	1: switch_hirano_a_6L_snow;
-	1: switch_hirano_b_6L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirano_a_6L_snow;
-	5: switch_hirano_random_6L;
-	6: switch_hirano_a_6L_snow;
-	9: switch_hirano_b_6L_snow;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirano_a_6L_snow;
-	6: switch_hirano_a_6L_snow;
-	9: switch_hirano_b_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirano_b_6L_snow;
-	9: switch_hirano_a_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirano_random_6L;
-	6: switch_hirano_b_6L_snow;
-	9: switch_hirano_a_6L_snow;
-	10: switch_hirano_random_6L;
-	switch_hirano_random_6L;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirano_6L_snow, SpriteDirections() ) {
-	1:  switch_hirano_a_6L_snow;
-	2:  switch_hirano_b_6L_snow;
-	3:  switch_hirano_6L_south_check;
-	4:  switch_hirano_a_6L_snow;
-	5:  switch_hirano_a_6L_snow;
-	6:  switch_hirano_6L_west_check;
-	8:  switch_hirano_b_6L_snow;
-	9:  switch_hirano_6L_east_check;
-	10: switch_hirano_b_6L_snow;
-	12: switch_hirano_6L_north_check;
-	switch_hirano_random_6L;
+item(FEAT_HOUSES, item_hirano_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
 }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hirata/hirata.pnml" 1
@@ -19522,437 +19108,401 @@ spriteset (spr_hirata_b_ground_snow, 			"src/houses/apartments/hirata/gfx/ground
     }
 # 1 "src/houses/apartments/hirata/hirata.pnml" 1
 # 1 "src/houses/apartments/hirata/switches/combined_rs.pnml" 1
+
+// colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "pink", "light_blue", "dark_blue"]
+
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_3L_basic_colors) {
+switch (FEAT_HOUSES, SELF, switch_hirata_a_s_basic_colors, random_bits % 10) {
+	0: switch_hirata_a_3L_white_snow;
+	1: switch_hirata_a_3L_grey_snow;
+	2: switch_hirata_a_3L_mauve_snow;
+	3: switch_hirata_a_3L_brown1_snow;
+	4: switch_hirata_a_3L_brown2_snow;
+	5: switch_hirata_a_3L_white_snow;
+	6: switch_hirata_a_3L_grey_snow;
+	7: switch_hirata_a_3L_mauve_snow;
+	8: switch_hirata_a_3L_brown1_snow;
+	9: switch_hirata_a_3L_brown2_snow;
+}
+
+// Modern Colors
+switch (FEAT_HOUSES, SELF, switch_hirata_a_s_modern_colors, random_bits % 34) {
+	0: switch_hirata_a_3L_mauve_snow;
 	1: switch_hirata_a_3L_mauve_snow;
 	2: switch_hirata_a_3L_brown2_snow;
-	2: switch_hirata_a_3L_brown1_snow;
-	2: switch_hirata_a_3L_grey_snow;
-	1: switch_hirata_a_3L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_3L_modern_colors) {
-	2: switch_hirata_a_3L_mauve_snow;
 	3: switch_hirata_a_3L_brown2_snow;
-	3: switch_hirata_a_3L_brown1_snow;
-	3: switch_hirata_a_3L_grey_snow;
-	1: switch_hirata_a_3L_white_snow;
-	1: switch_hirata_a_3L_dark_green_snow;
-	1: switch_hirata_a_3L_peach_snow;
-	1: switch_hirata_a_3L_pink_snow;
-	1: switch_hirata_a_3L_light_blue_snow;
-	1: switch_hirata_a_3L_dark_blue_snow;
+	4: switch_hirata_a_3L_brown2_snow;
+	5: switch_hirata_a_3L_brown1_snow;
+	6: switch_hirata_a_3L_brown1_snow;
+	7: switch_hirata_a_3L_brown1_snow;
+	8: switch_hirata_a_3L_grey_snow;
+	9: switch_hirata_a_3L_grey_snow;
+	10: switch_hirata_a_3L_grey_snow;
+	11: switch_hirata_a_3L_white_snow;
+	12: switch_hirata_a_3L_dark_green_snow;
+	13: switch_hirata_a_3L_peach_snow;
+	14: switch_hirata_a_3L_pink_snow;
+	15: switch_hirata_a_3L_light_blue_snow;
+	16: switch_hirata_a_3L_dark_blue_snow;
+	17: switch_hirata_a_4L_mauve_snow;
+	18: switch_hirata_a_4L_mauve_snow;
+	19: switch_hirata_a_4L_brown2_snow;
+	20: switch_hirata_a_4L_brown2_snow;
+	21: switch_hirata_a_4L_brown2_snow;
+	22: switch_hirata_a_4L_brown1_snow;
+	23: switch_hirata_a_4L_brown1_snow;
+	24: switch_hirata_a_4L_brown1_snow;
+	25: switch_hirata_a_4L_grey_snow;
+	26: switch_hirata_a_4L_grey_snow;
+	27: switch_hirata_a_4L_grey_snow;
+	28: switch_hirata_a_4L_white_snow;
+	29: switch_hirata_a_4L_dark_green_snow;
+	30: switch_hirata_a_4L_peach_snow;
+	31: switch_hirata_a_4L_pink_snow;
+	32: switch_hirata_a_4L_light_blue_snow;
+	33: switch_hirata_a_4L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_a_3L_snow, current_year - age) {
-	0..1959: switch_hirata_a_3L_basic_colors;
-	switch_hirata_a_3L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirata_a_s_snow, current_year - age) {
+	0..1959: switch_hirata_a_s_basic_colors;
+	switch_hirata_a_s_modern_colors;
 }
+
+// colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "pink", "light_blue", "dark_blue"]
+
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_3L_basic_colors) {
+switch (FEAT_HOUSES, SELF, switch_hirata_b_s_basic_colors, random_bits % 10) {
+	0: switch_hirata_b_3L_white_snow;
+	1: switch_hirata_b_3L_grey_snow;
+	2: switch_hirata_b_3L_mauve_snow;
+	3: switch_hirata_b_3L_brown1_snow;
+	4: switch_hirata_b_3L_brown2_snow;
+	5: switch_hirata_b_3L_white_snow;
+	6: switch_hirata_b_3L_grey_snow;
+	7: switch_hirata_b_3L_mauve_snow;
+	8: switch_hirata_b_3L_brown1_snow;
+	9: switch_hirata_b_3L_brown2_snow;
+}
+
+// Modern Colors
+switch (FEAT_HOUSES, SELF, switch_hirata_b_s_modern_colors, random_bits % 34) {
+	0: switch_hirata_b_3L_mauve_snow;
 	1: switch_hirata_b_3L_mauve_snow;
 	2: switch_hirata_b_3L_brown2_snow;
-	2: switch_hirata_b_3L_brown1_snow;
-	2: switch_hirata_b_3L_grey_snow;
-	1: switch_hirata_b_3L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_3L_modern_colors) {
-	2: switch_hirata_b_3L_mauve_snow;
 	3: switch_hirata_b_3L_brown2_snow;
-	3: switch_hirata_b_3L_brown1_snow;
-	3: switch_hirata_b_3L_grey_snow;
-	1: switch_hirata_b_3L_white_snow;
-	1: switch_hirata_b_3L_dark_green_snow;
-	1: switch_hirata_b_3L_peach_snow;
-	1: switch_hirata_b_3L_pink_snow;
-	1: switch_hirata_b_3L_light_blue_snow;
-	1: switch_hirata_b_3L_dark_blue_snow;
+	4: switch_hirata_b_3L_brown2_snow;
+	5: switch_hirata_b_3L_brown1_snow;
+	6: switch_hirata_b_3L_brown1_snow;
+	7: switch_hirata_b_3L_brown1_snow;
+	8: switch_hirata_b_3L_grey_snow;
+	9: switch_hirata_b_3L_grey_snow;
+	10: switch_hirata_b_3L_grey_snow;
+	11: switch_hirata_b_3L_white_snow;
+	12: switch_hirata_b_3L_dark_green_snow;
+	13: switch_hirata_b_3L_peach_snow;
+	14: switch_hirata_b_3L_pink_snow;
+	15: switch_hirata_b_3L_light_blue_snow;
+	16: switch_hirata_b_3L_dark_blue_snow;
+	17: switch_hirata_b_4L_mauve_snow;
+	18: switch_hirata_b_4L_mauve_snow;
+	19: switch_hirata_b_4L_brown2_snow;
+	20: switch_hirata_b_4L_brown2_snow;
+	21: switch_hirata_b_4L_brown2_snow;
+	22: switch_hirata_b_4L_brown1_snow;
+	23: switch_hirata_b_4L_brown1_snow;
+	24: switch_hirata_b_4L_brown1_snow;
+	25: switch_hirata_b_4L_grey_snow;
+	26: switch_hirata_b_4L_grey_snow;
+	27: switch_hirata_b_4L_grey_snow;
+	28: switch_hirata_b_4L_white_snow;
+	29: switch_hirata_b_4L_dark_green_snow;
+	30: switch_hirata_b_4L_peach_snow;
+	31: switch_hirata_b_4L_pink_snow;
+	32: switch_hirata_b_4L_light_blue_snow;
+	33: switch_hirata_b_4L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_b_3L_snow, current_year - age) {
-	0..1959: switch_hirata_b_3L_basic_colors;
-	switch_hirata_b_3L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirata_b_s_snow, current_year - age) {
+	0..1959: switch_hirata_b_s_basic_colors;
+	switch_hirata_b_s_modern_colors;
 }
+
+// colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "pink", "light_blue", "dark_blue"]
+
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_4L_basic_colors) {
-	1: switch_hirata_a_4L_mauve_snow;
-	2: switch_hirata_a_4L_brown2_snow;
-	2: switch_hirata_a_4L_brown1_snow;
-	2: switch_hirata_a_4L_grey_snow;
-	1: switch_hirata_a_4L_white_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_a_m_basic_colors, random_bits % 10) {
+	0: switch_hirata_a_5L_white_snow;
+	1: switch_hirata_a_5L_grey_snow;
+	2: switch_hirata_a_5L_mauve_snow;
+	3: switch_hirata_a_5L_brown1_snow;
+	4: switch_hirata_a_5L_brown2_snow;
+	5: switch_hirata_a_5L_white_snow;
+	6: switch_hirata_a_5L_grey_snow;
+	7: switch_hirata_a_5L_mauve_snow;
+	8: switch_hirata_a_5L_brown1_snow;
+	9: switch_hirata_a_5L_brown2_snow;
 }
 
 // Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_4L_modern_colors) {
-	2: switch_hirata_a_4L_mauve_snow;
-	3: switch_hirata_a_4L_brown2_snow;
-	3: switch_hirata_a_4L_brown1_snow;
-	3: switch_hirata_a_4L_grey_snow;
-	1: switch_hirata_a_4L_white_snow;
-	1: switch_hirata_a_4L_dark_green_snow;
-	1: switch_hirata_a_4L_peach_snow;
-	1: switch_hirata_a_4L_pink_snow;
-	1: switch_hirata_a_4L_light_blue_snow;
-	1: switch_hirata_a_4L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_a_4L_snow, current_year - age) {
-	0..1959: switch_hirata_a_4L_basic_colors;
-	switch_hirata_a_4L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_4L_basic_colors) {
-	1: switch_hirata_b_4L_mauve_snow;
-	2: switch_hirata_b_4L_brown2_snow;
-	2: switch_hirata_b_4L_brown1_snow;
-	2: switch_hirata_b_4L_grey_snow;
-	1: switch_hirata_b_4L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_4L_modern_colors) {
-	2: switch_hirata_b_4L_mauve_snow;
-	3: switch_hirata_b_4L_brown2_snow;
-	3: switch_hirata_b_4L_brown1_snow;
-	3: switch_hirata_b_4L_grey_snow;
-	1: switch_hirata_b_4L_white_snow;
-	1: switch_hirata_b_4L_dark_green_snow;
-	1: switch_hirata_b_4L_peach_snow;
-	1: switch_hirata_b_4L_pink_snow;
-	1: switch_hirata_b_4L_light_blue_snow;
-	1: switch_hirata_b_4L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_b_4L_snow, current_year - age) {
-	0..1959: switch_hirata_b_4L_basic_colors;
-	switch_hirata_b_4L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_5L_basic_colors) {
+switch (FEAT_HOUSES, SELF, switch_hirata_a_m_modern_colors, random_bits % 34) {
+	0: switch_hirata_a_5L_mauve_snow;
 	1: switch_hirata_a_5L_mauve_snow;
 	2: switch_hirata_a_5L_brown2_snow;
-	2: switch_hirata_a_5L_brown1_snow;
-	2: switch_hirata_a_5L_grey_snow;
-	1: switch_hirata_a_5L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_5L_modern_colors) {
-	2: switch_hirata_a_5L_mauve_snow;
 	3: switch_hirata_a_5L_brown2_snow;
-	3: switch_hirata_a_5L_brown1_snow;
-	3: switch_hirata_a_5L_grey_snow;
-	1: switch_hirata_a_5L_white_snow;
-	1: switch_hirata_a_5L_dark_green_snow;
-	1: switch_hirata_a_5L_peach_snow;
-	1: switch_hirata_a_5L_pink_snow;
-	1: switch_hirata_a_5L_light_blue_snow;
-	1: switch_hirata_a_5L_dark_blue_snow;
+	4: switch_hirata_a_5L_brown2_snow;
+	5: switch_hirata_a_5L_brown1_snow;
+	6: switch_hirata_a_5L_brown1_snow;
+	7: switch_hirata_a_5L_brown1_snow;
+	8: switch_hirata_a_5L_grey_snow;
+	9: switch_hirata_a_5L_grey_snow;
+	10: switch_hirata_a_5L_grey_snow;
+	11: switch_hirata_a_5L_white_snow;
+	12: switch_hirata_a_5L_dark_green_snow;
+	13: switch_hirata_a_5L_peach_snow;
+	14: switch_hirata_a_5L_pink_snow;
+	15: switch_hirata_a_5L_light_blue_snow;
+	16: switch_hirata_a_5L_dark_blue_snow;
+	17: switch_hirata_a_6L_mauve_snow;
+	18: switch_hirata_a_6L_mauve_snow;
+	19: switch_hirata_a_6L_brown2_snow;
+	20: switch_hirata_a_6L_brown2_snow;
+	21: switch_hirata_a_6L_brown2_snow;
+	22: switch_hirata_a_6L_brown1_snow;
+	23: switch_hirata_a_6L_brown1_snow;
+	24: switch_hirata_a_6L_brown1_snow;
+	25: switch_hirata_a_6L_grey_snow;
+	26: switch_hirata_a_6L_grey_snow;
+	27: switch_hirata_a_6L_grey_snow;
+	28: switch_hirata_a_6L_white_snow;
+	29: switch_hirata_a_6L_dark_green_snow;
+	30: switch_hirata_a_6L_peach_snow;
+	31: switch_hirata_a_6L_pink_snow;
+	32: switch_hirata_a_6L_light_blue_snow;
+	33: switch_hirata_a_6L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_a_5L_snow, current_year - age) {
-	0..1959: switch_hirata_a_5L_basic_colors;
-	switch_hirata_a_5L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirata_a_m_snow, current_year - age) {
+	0..1959: switch_hirata_a_m_basic_colors;
+	switch_hirata_a_m_modern_colors;
 }
+
+// colours = ["white", "grey", "mauve", "brown1", "brown2", "dark_green", "peach", "pink", "light_blue", "dark_blue"]
+
 // Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_5L_basic_colors) {
+switch (FEAT_HOUSES, SELF, switch_hirata_b_m_basic_colors, random_bits % 10) {
+	0: switch_hirata_b_5L_white_snow;
+	1: switch_hirata_b_5L_grey_snow;
+	2: switch_hirata_b_5L_mauve_snow;
+	3: switch_hirata_b_5L_brown1_snow;
+	4: switch_hirata_b_5L_brown2_snow;
+	5: switch_hirata_b_5L_white_snow;
+	6: switch_hirata_b_5L_grey_snow;
+	7: switch_hirata_b_5L_mauve_snow;
+	8: switch_hirata_b_5L_brown1_snow;
+	9: switch_hirata_b_5L_brown2_snow;
+}
+
+// Modern Colors
+switch (FEAT_HOUSES, SELF, switch_hirata_b_m_modern_colors, random_bits % 34) {
+	0: switch_hirata_b_5L_mauve_snow;
 	1: switch_hirata_b_5L_mauve_snow;
 	2: switch_hirata_b_5L_brown2_snow;
-	2: switch_hirata_b_5L_brown1_snow;
-	2: switch_hirata_b_5L_grey_snow;
-	1: switch_hirata_b_5L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_5L_modern_colors) {
-	2: switch_hirata_b_5L_mauve_snow;
 	3: switch_hirata_b_5L_brown2_snow;
-	3: switch_hirata_b_5L_brown1_snow;
-	3: switch_hirata_b_5L_grey_snow;
-	1: switch_hirata_b_5L_white_snow;
-	1: switch_hirata_b_5L_dark_green_snow;
-	1: switch_hirata_b_5L_peach_snow;
-	1: switch_hirata_b_5L_pink_snow;
-	1: switch_hirata_b_5L_light_blue_snow;
-	1: switch_hirata_b_5L_dark_blue_snow;
+	4: switch_hirata_b_5L_brown2_snow;
+	5: switch_hirata_b_5L_brown1_snow;
+	6: switch_hirata_b_5L_brown1_snow;
+	7: switch_hirata_b_5L_brown1_snow;
+	8: switch_hirata_b_5L_grey_snow;
+	9: switch_hirata_b_5L_grey_snow;
+	10: switch_hirata_b_5L_grey_snow;
+	11: switch_hirata_b_5L_white_snow;
+	12: switch_hirata_b_5L_dark_green_snow;
+	13: switch_hirata_b_5L_peach_snow;
+	14: switch_hirata_b_5L_pink_snow;
+	15: switch_hirata_b_5L_light_blue_snow;
+	16: switch_hirata_b_5L_dark_blue_snow;
+	17: switch_hirata_b_6L_mauve_snow;
+	18: switch_hirata_b_6L_mauve_snow;
+	19: switch_hirata_b_6L_brown2_snow;
+	20: switch_hirata_b_6L_brown2_snow;
+	21: switch_hirata_b_6L_brown2_snow;
+	22: switch_hirata_b_6L_brown1_snow;
+	23: switch_hirata_b_6L_brown1_snow;
+	24: switch_hirata_b_6L_brown1_snow;
+	25: switch_hirata_b_6L_grey_snow;
+	26: switch_hirata_b_6L_grey_snow;
+	27: switch_hirata_b_6L_grey_snow;
+	28: switch_hirata_b_6L_white_snow;
+	29: switch_hirata_b_6L_dark_green_snow;
+	30: switch_hirata_b_6L_peach_snow;
+	31: switch_hirata_b_6L_pink_snow;
+	32: switch_hirata_b_6L_light_blue_snow;
+	33: switch_hirata_b_6L_dark_blue_snow;
 }
 
 // Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_b_5L_snow, current_year - age) {
-	0..1959: switch_hirata_b_5L_basic_colors;
-	switch_hirata_b_5L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_6L_basic_colors) {
-	1: switch_hirata_a_6L_mauve_snow;
-	2: switch_hirata_a_6L_brown2_snow;
-	2: switch_hirata_a_6L_brown1_snow;
-	2: switch_hirata_a_6L_grey_snow;
-	1: switch_hirata_a_6L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_a_6L_modern_colors) {
-	2: switch_hirata_a_6L_mauve_snow;
-	3: switch_hirata_a_6L_brown2_snow;
-	3: switch_hirata_a_6L_brown1_snow;
-	3: switch_hirata_a_6L_grey_snow;
-	1: switch_hirata_a_6L_white_snow;
-	1: switch_hirata_a_6L_dark_green_snow;
-	1: switch_hirata_a_6L_peach_snow;
-	1: switch_hirata_a_6L_pink_snow;
-	1: switch_hirata_a_6L_light_blue_snow;
-	1: switch_hirata_a_6L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_a_6L_snow, current_year - age) {
-	0..1959: switch_hirata_a_6L_basic_colors;
-	switch_hirata_a_6L_modern_colors;
-}
-// Basic Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_6L_basic_colors) {
-	1: switch_hirata_b_6L_mauve_snow;
-	2: switch_hirata_b_6L_brown2_snow;
-	2: switch_hirata_b_6L_brown1_snow;
-	2: switch_hirata_b_6L_grey_snow;
-	1: switch_hirata_b_6L_white_snow;
-}
-
-// Modern Colors
-random_switch (FEAT_HOUSES, SELF, switch_hirata_b_6L_modern_colors) {
-	2: switch_hirata_b_6L_mauve_snow;
-	3: switch_hirata_b_6L_brown2_snow;
-	3: switch_hirata_b_6L_brown1_snow;
-	3: switch_hirata_b_6L_grey_snow;
-	1: switch_hirata_b_6L_white_snow;
-	1: switch_hirata_b_6L_dark_green_snow;
-	1: switch_hirata_b_6L_peach_snow;
-	1: switch_hirata_b_6L_pink_snow;
-	1: switch_hirata_b_6L_light_blue_snow;
-	1: switch_hirata_b_6L_dark_blue_snow;
-}
-
-// Which Period?
-switch (FEAT_HOUSES, SELF, switch_hirata_b_6L_snow, current_year - age) {
-	0..1959: switch_hirata_b_6L_basic_colors;
-	switch_hirata_b_6L_modern_colors;
+switch (FEAT_HOUSES, SELF, switch_hirata_b_m_snow, current_year - age) {
+	0..1959: switch_hirata_b_m_basic_colors;
+	switch_hirata_b_m_modern_colors;
 }
 # 1 "src/houses/apartments/hirata/hirata.pnml" 1
 # 1 "src/houses/apartments/hirata/switches/combined_sw.pnml" 1
-random_switch (FEAT_HOUSES, SELF, switch_hirata_random_3L_snow) {
-	1: switch_hirata_a_3L_snow;
-	1: switch_hirata_b_3L_snow;
+random_switch (FEAT_HOUSES, SELF, switch_hirata_random_s_snow) {
+	1: switch_hirata_a_s_snow;
+	1: switch_hirata_b_s_snow;
 }
 
 // Selection which direction
 
-switch (FEAT_HOUSES, SELF, switch_hirata_3L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirata_a_3L_snow;
-	5: switch_hirata_random_3L_snow;
-	6: switch_hirata_a_3L_snow;
-	9: switch_hirata_b_3L_snow;
-	switch_hirata_random_3L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_s_south_check, SpriteDirectionsSouth()) {
+	4: switch_hirata_a_s_snow;
+	5: switch_hirata_random_s_snow;
+	6: switch_hirata_a_s_snow;
+	9: switch_hirata_b_s_snow;
+	switch_hirata_random_s_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_3L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirata_a_3L_snow;
-	6: switch_hirata_a_3L_snow;
-	9: switch_hirata_b_3L_snow;
-	10: switch_hirata_random_3L_snow;
-	switch_hirata_random_3L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_s_east_check, SpriteDirectionsEast()) {
+	4: switch_hirata_a_s_snow;
+	6: switch_hirata_a_s_snow;
+	9: switch_hirata_b_s_snow;
+	10: switch_hirata_random_s_snow;
+	switch_hirata_random_s_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_3L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirata_b_3L_snow;
-	9: switch_hirata_a_3L_snow;
-	10: switch_hirata_random_3L_snow;
-	switch_hirata_random_3L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_s_west_check, SpriteDirectionsWest()) {
+	6: switch_hirata_b_s_snow;
+	9: switch_hirata_a_s_snow;
+	10: switch_hirata_random_s_snow;
+	switch_hirata_random_s_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_3L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirata_random_3L_snow;
-	6: switch_hirata_b_3L_snow;
-	9: switch_hirata_a_3L_snow;
-	10: switch_hirata_random_3L_snow;
-	switch_hirata_random_3L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_s_north_check, SpriteDirectionsNorth()) {
+	5: switch_hirata_random_s_snow;
+	6: switch_hirata_b_s_snow;
+	9: switch_hirata_a_s_snow;
+	10: switch_hirata_random_s_snow;
+	switch_hirata_random_s_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_3L_snow, SpriteDirections() ) {
-	1:  switch_hirata_a_3L_snow;
-	2:  switch_hirata_b_3L_snow;
-	3:  switch_hirata_3L_south_check;
-	4:  switch_hirata_a_3L_snow;
-	5:  switch_hirata_a_3L_snow;
-	6:  switch_hirata_3L_west_check;
-	8:  switch_hirata_b_3L_snow;
-	9:  switch_hirata_3L_east_check;
-	10: switch_hirata_b_3L_snow;
-	12: switch_hirata_3L_north_check;
-	switch_hirata_random_3L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_s_snow, SpriteDirections() ) {
+	1:  switch_hirata_a_s_snow;
+	2:  switch_hirata_b_s_snow;
+	3:  switch_hirata_s_south_check;
+	4:  switch_hirata_a_s_snow;
+	5:  switch_hirata_a_s_snow;
+	6:  switch_hirata_s_west_check;
+	8:  switch_hirata_b_s_snow;
+	9:  switch_hirata_s_east_check;
+	10: switch_hirata_b_s_snow;
+	12: switch_hirata_s_north_check;
+	switch_hirata_random_s_snow;
 }
-random_switch (FEAT_HOUSES, SELF, switch_hirata_random_4L_snow) {
-	1: switch_hirata_a_4L_snow;
-	1: switch_hirata_b_4L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirata_4L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirata_a_4L_snow;
-	5: switch_hirata_random_4L_snow;
-	6: switch_hirata_a_4L_snow;
-	9: switch_hirata_b_4L_snow;
-	switch_hirata_random_4L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_4L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirata_a_4L_snow;
-	6: switch_hirata_a_4L_snow;
-	9: switch_hirata_b_4L_snow;
-	10: switch_hirata_random_4L_snow;
-	switch_hirata_random_4L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_4L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirata_b_4L_snow;
-	9: switch_hirata_a_4L_snow;
-	10: switch_hirata_random_4L_snow;
-	switch_hirata_random_4L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_4L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirata_random_4L_snow;
-	6: switch_hirata_b_4L_snow;
-	9: switch_hirata_a_4L_snow;
-	10: switch_hirata_random_4L_snow;
-	switch_hirata_random_4L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_4L_snow, SpriteDirections() ) {
-	1:  switch_hirata_a_4L_snow;
-	2:  switch_hirata_b_4L_snow;
-	3:  switch_hirata_4L_south_check;
-	4:  switch_hirata_a_4L_snow;
-	5:  switch_hirata_a_4L_snow;
-	6:  switch_hirata_4L_west_check;
-	8:  switch_hirata_b_4L_snow;
-	9:  switch_hirata_4L_east_check;
-	10: switch_hirata_b_4L_snow;
-	12: switch_hirata_4L_north_check;
-	switch_hirata_random_4L_snow;
-}
-random_switch (FEAT_HOUSES, SELF, switch_hirata_random_5L_snow) {
-	1: switch_hirata_a_5L_snow;
-	1: switch_hirata_b_5L_snow;
+random_switch (FEAT_HOUSES, SELF, switch_hirata_random_m_snow) {
+	1: switch_hirata_a_m_snow;
+	1: switch_hirata_b_m_snow;
 }
 
 // Selection which direction
 
-switch (FEAT_HOUSES, SELF, switch_hirata_5L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirata_a_5L_snow;
-	5: switch_hirata_random_5L_snow;
-	6: switch_hirata_a_5L_snow;
-	9: switch_hirata_b_5L_snow;
-	switch_hirata_random_5L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_m_south_check, SpriteDirectionsSouth()) {
+	4: switch_hirata_a_m_snow;
+	5: switch_hirata_random_m_snow;
+	6: switch_hirata_a_m_snow;
+	9: switch_hirata_b_m_snow;
+	switch_hirata_random_m_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_5L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirata_a_5L_snow;
-	6: switch_hirata_a_5L_snow;
-	9: switch_hirata_b_5L_snow;
-	10: switch_hirata_random_5L_snow;
-	switch_hirata_random_5L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_m_east_check, SpriteDirectionsEast()) {
+	4: switch_hirata_a_m_snow;
+	6: switch_hirata_a_m_snow;
+	9: switch_hirata_b_m_snow;
+	10: switch_hirata_random_m_snow;
+	switch_hirata_random_m_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_5L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirata_b_5L_snow;
-	9: switch_hirata_a_5L_snow;
-	10: switch_hirata_random_5L_snow;
-	switch_hirata_random_5L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_m_west_check, SpriteDirectionsWest()) {
+	6: switch_hirata_b_m_snow;
+	9: switch_hirata_a_m_snow;
+	10: switch_hirata_random_m_snow;
+	switch_hirata_random_m_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_5L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirata_random_5L_snow;
-	6: switch_hirata_b_5L_snow;
-	9: switch_hirata_a_5L_snow;
-	10: switch_hirata_random_5L_snow;
-	switch_hirata_random_5L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_m_north_check, SpriteDirectionsNorth()) {
+	5: switch_hirata_random_m_snow;
+	6: switch_hirata_b_m_snow;
+	9: switch_hirata_a_m_snow;
+	10: switch_hirata_random_m_snow;
+	switch_hirata_random_m_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_hirata_5L_snow, SpriteDirections() ) {
-	1:  switch_hirata_a_5L_snow;
-	2:  switch_hirata_b_5L_snow;
-	3:  switch_hirata_5L_south_check;
-	4:  switch_hirata_a_5L_snow;
-	5:  switch_hirata_a_5L_snow;
-	6:  switch_hirata_5L_west_check;
-	8:  switch_hirata_b_5L_snow;
-	9:  switch_hirata_5L_east_check;
-	10: switch_hirata_b_5L_snow;
-	12: switch_hirata_5L_north_check;
-	switch_hirata_random_5L_snow;
-}
-random_switch (FEAT_HOUSES, SELF, switch_hirata_random_6L_snow) {
-	1: switch_hirata_a_6L_snow;
-	1: switch_hirata_b_6L_snow;
-}
-
-// Selection which direction
-
-switch (FEAT_HOUSES, SELF, switch_hirata_6L_south_check, SpriteDirectionsSouth()) {
-	4: switch_hirata_a_6L_snow;
-	5: switch_hirata_random_6L_snow;
-	6: switch_hirata_a_6L_snow;
-	9: switch_hirata_b_6L_snow;
-	switch_hirata_random_6L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_6L_east_check, SpriteDirectionsEast()) {
-	4: switch_hirata_a_6L_snow;
-	6: switch_hirata_a_6L_snow;
-	9: switch_hirata_b_6L_snow;
-	10: switch_hirata_random_6L_snow;
-	switch_hirata_random_6L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_6L_west_check, SpriteDirectionsWest()) {
-	6: switch_hirata_b_6L_snow;
-	9: switch_hirata_a_6L_snow;
-	10: switch_hirata_random_6L_snow;
-	switch_hirata_random_6L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_6L_north_check, SpriteDirectionsNorth()) {
-	5: switch_hirata_random_6L_snow;
-	6: switch_hirata_b_6L_snow;
-	9: switch_hirata_a_6L_snow;
-	10: switch_hirata_random_6L_snow;
-	switch_hirata_random_6L_snow;
-}
-
-switch (FEAT_HOUSES, SELF, switch_hirata_6L_snow, SpriteDirections() ) {
-	1:  switch_hirata_a_6L_snow;
-	2:  switch_hirata_b_6L_snow;
-	3:  switch_hirata_6L_south_check;
-	4:  switch_hirata_a_6L_snow;
-	5:  switch_hirata_a_6L_snow;
-	6:  switch_hirata_6L_west_check;
-	8:  switch_hirata_b_6L_snow;
-	9:  switch_hirata_6L_east_check;
-	10: switch_hirata_b_6L_snow;
-	12: switch_hirata_6L_north_check;
-	switch_hirata_random_6L_snow;
+switch (FEAT_HOUSES, SELF, switch_hirata_m_snow, SpriteDirections() ) {
+	1:  switch_hirata_a_m_snow;
+	2:  switch_hirata_b_m_snow;
+	3:  switch_hirata_m_south_check;
+	4:  switch_hirata_a_m_snow;
+	5:  switch_hirata_a_m_snow;
+	6:  switch_hirata_m_west_check;
+	8:  switch_hirata_b_m_snow;
+	9:  switch_hirata_m_east_check;
+	10: switch_hirata_b_m_snow;
+	12: switch_hirata_m_north_check;
+	switch_hirata_random_m_snow;
 }
 # 1 "src/houses/apartments/hirata/hirata.pnml" 1
+
+item(FEAT_HOUSES, item_hirata_s){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRATA);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1945,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirata_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
+}
+
+item(FEAT_HOUSES, item_hirata_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRATA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1950,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirata_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/imai/imai.pnml" 1
 
@@ -53444,12 +52994,6 @@ switch (FEAT_HOUSES, SELF, switch_ybuilding_a_14L_snow, random_bits % 3 ) {
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_post_3L4L_sprites) {
-	1: switch_hayashi_a_3L_snow;
-	1: switch_hayashi_a_4L_snow;
-	10: switch_hirano_3L_snow;
-	10: switch_hirano_4L_snow;
-	1: switch_hirata_3L_snow;
-	1: switch_hirata_4L_snow;
 	1: switch_kimura_3L_snow;
 	1: switch_kimura_4L_snow;
 	//10: switch_mori_3L_snow;
@@ -53462,12 +53006,6 @@ random_switch (FEAT_HOUSES, SELF, switch_post_3L4L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_post_3L4L_name) {
 	dependent: switch_post_3L4L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L4));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L3));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L4));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L4));
 	//10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTWAR),string(L3));
@@ -53520,13 +53058,6 @@ item(FEAT_HOUSES, item_post_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_post_5L6L_sprites) {
-	1: switch_fukuda_6L_snow;
-	1: switch_hayashi_a_6L_snow;
-	1: switch_hayashi_a_5L_snow;
-	7: switch_hirano_6L_snow;
-	7: switch_hirano_5L_snow;
-	1: switch_hirata_6L_snow;
-	1: switch_hirata_5L_snow;
 	1: switch_kimura_6L_snow;
 	1: switch_kimura_5L_snow;
 	//7: switch_mori_6L_snow;
@@ -53548,13 +53079,6 @@ random_switch (FEAT_HOUSES, SELF, switch_post_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_post_5L6L_name) {
 	dependent: switch_post_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_POSTWAR),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTWAR),string(L5));
-	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L6));
-	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTWAR),string(L5));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTWAR),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTWAR),string(L5));
 	//7: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTWAR),string(L6));
@@ -53659,12 +53183,6 @@ item(FEAT_HOUSES, item_post_7L8L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_boom_3L4L_sprites) {
-	1: switch_hayashi_a_3L_snow;
-	1: switch_hayashi_a_4L_snow;
-	10: switch_hirano_3L_snow;
-	10: switch_hirano_4L_snow;
-	1: switch_hirata_3L_snow;
-	1: switch_hirata_4L_snow;
 	1: switch_kimura_3L_snow;
 	1: switch_kimura_4L_snow;
 	10: switch_mori_3L_snow;
@@ -53677,12 +53195,6 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_3L4L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_boom_3L4L_name) {
 	dependent: switch_boom_3L4L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L4));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_BOOM),string(L3));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_BOOM),string(L4));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L3));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L4));
 	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_BOOM),string(L3));
@@ -53735,13 +53247,6 @@ item(FEAT_HOUSES, item_boom_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_sprites) {
-	1: switch_hayashi_a_6L_snow;
-	1: switch_hayashi_a_5L_snow;
-	1: switch_harada_a_6L_snow;
-	7: switch_hirano_6L_snow;
-	7: switch_hirano_5L_snow;
-	1: switch_hirata_6L_snow;
-	1: switch_hirata_5L_snow;
 	1: switch_kimura_6L_snow;
 	1: switch_kimura_5L_snow;
 	1: switch_kono_a_6L_snow;
@@ -53777,13 +53282,6 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_name) {
 	dependent: switch_boom_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_BOOM),string(L5));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM),string(L6));
-	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_BOOM),string(L6));
-	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_BOOM),string(L5));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_BOOM),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_BOOM),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM),string(L6));
@@ -53851,10 +53349,6 @@ item(FEAT_HOUSES, item_boom_5L6L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_sprites) {
-	1: switch_fukuda_8L_snow;
-	1: switch_fukuda_7L_snow;
-	1: switch_harada_a_8L_snow;
-	1: switch_harada_a_7L_snow;
 	1: switch_kono_a_8L_snow;
 	1: switch_kono_a_7L_snow;
 	1: switch_shibata_a_8L_snow;
@@ -53877,10 +53371,6 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_boom_7L8L_name) {
 	dependent: switch_boom_7L8L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM),string(L8));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_BOOM),string(L7));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM),string(L8));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_BOOM),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_BOOM),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_BOOM),string(L8));
@@ -54053,12 +53543,6 @@ item(FEAT_HOUSES, item_boom_11L12L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_late_3L4L_sprites) {
-	//1: switch_hayashi_a_3L_snow;
-	//1: switch_hayashi_a_4L_snow;
-	1: switch_hirano_3L_snow;
-	1: switch_hirano_4L_snow;
-	//1: switch_hirata_3L_snow;
-	//1: switch_hirata_4L_snow;
 	//1: switch_kimura_3L_snow;
 	//1: switch_kimura_4L_snow;
 	1: switch_mori_3L_snow;
@@ -54071,12 +53555,6 @@ random_switch (FEAT_HOUSES, SELF, switch_late_3L4L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_late_3L4L_name) {
 	dependent: switch_late_3L4L_sprites;
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE),string(L3));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE),string(L4));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_LATE),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_LATE),string(L4));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE),string(L3));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE),string(L4));
 	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE),string(L3));
 	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE),string(L4));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_LATE),string(L3));
@@ -54130,11 +53608,6 @@ item(FEAT_HOUSES, item_late_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_sprites) {
-	1: switch_hayashi_a_6L_snow;
-	1: switch_hayashi_a_5L_snow;
-	1: switch_harada_a_6L_snow;
-	1: switch_hirata_6L_snow;
-	1: switch_hirata_5L_snow;
 	1: switch_imai_6L_snow;
 	1: switch_kimura_6L_snow;
 	1: switch_kimura_5L_snow;
@@ -54165,11 +53638,6 @@ random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_name) {
 	dependent: switch_late_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_LATE),string(L5));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_LATE),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_LATE),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_IMAI),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_LATE),string(L5));
@@ -54245,10 +53713,6 @@ item(FEAT_HOUSES, item_late_5L6L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_sprites) {
-	1: switch_fukuda_8L_snow;
-	1: switch_fukuda_7L_snow;
-	1: switch_harada_a_8L_snow;
-	1: switch_harada_a_7L_snow;
 	1: switch_kono_a_8L_snow;
 	1: switch_kono_a_7L_snow;
 	1: switch_shibata_a_8L_snow;
@@ -54271,10 +53735,6 @@ random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_late_7L8L_name) {
 	dependent: switch_late_7L8L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L8));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L7));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_LATE),string(L8));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_LATE),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE),string(L8));
@@ -54339,8 +53799,6 @@ item(FEAT_HOUSES, item_late_7L8L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_late_9L10L_sprites) {
-	1: switch_fukuda_9L_snow;
-	1: switch_harada_a_9L_snow;
 	1: switch_kono_a_9L_snow;
 
 	1: switch_aoki_office_a_10L_snow;
@@ -54355,8 +53813,6 @@ random_switch (FEAT_HOUSES, SELF, switch_late_9L10L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_late_9L10L_name) {
 	dependent: switch_late_9L10L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_FUKUDA),string(PERIOD_LATE),string(L9));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_LATE),string(L9));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_LATE),string(L9));
 
 	1: string(STR_CONCAT_3, string(NAME_AOKI_OFFICE),string(PERIOD_LATE),string(L10));
@@ -54464,36 +53920,16 @@ item(FEAT_HOUSES, item_late_11L12L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_3L4L_sprites) {
-	1: switch_hayashi_a_3L_snow;
-	1: switch_hayashi_a_4L_snow;
-	10: switch_hirano_3L_snow;
-	10: switch_hirano_4L_snow;
-	//1: switch_hirata_3L_snow;
-	//1: switch_hirata_4L_snow;
-	//1: switch_kimura_3L_snow;
-	//1: switch_kimura_4L_snow;
 	10: switch_mori_3L_snow;
 	10: switch_mori_4L_snow;
-	//1: switch_murakami_3L_snow;
-	//1: switch_murakami_4L_snow;
 	10: switch_nakamura_3L_snow;
 	10: switch_nakamura_4L_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_3L4L_name) {
 	dependent: switch_y2kp_3L4L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L3));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L4));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTY2K),string(L3));
-	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRANO),string(PERIOD_POSTY2K),string(L4));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTY2K),string(L3));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTY2K),string(L4));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTY2K),string(L3));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTY2K),string(L4));
 	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTY2K),string(L3));
 	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_MORI),string(PERIOD_POSTY2K),string(L4));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTY2K),string(L3));
-	//1: string(STR_CONCAT_3, string(NAME_APARTMENTS_MURAKAMI),string(PERIOD_POSTY2K),string(L4));
 	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTY2K),string(L3));
 	10: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTY2K),string(L4));
 }
@@ -54541,10 +53977,6 @@ item(FEAT_HOUSES, item_y2kp_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
-	1: switch_hayashi_a_6L_snow;
-	1: switch_hayashi_a_5L_snow;
-	1: switch_hirata_6L_snow;
-	1: switch_hirata_5L_snow;
 	1: switch_imai_6L_snow;
 	1: switch_kimura_6L_snow;
 	1: switch_kimura_5L_snow;
@@ -54576,10 +54008,6 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_name) {
 	dependent: switch_y2kp_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HAYASHI),string(PERIOD_POSTY2K),string(L5));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTY2K),string(L6));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HIRATA),string(PERIOD_POSTY2K),string(L5));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_IMAI),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KIMURA),string(PERIOD_POSTY2K),string(L5));
@@ -54656,8 +54084,6 @@ item(FEAT_HOUSES, item_y2kp_5L6L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_sprites) {
-	1: switch_harada_a_8L_snow;
-	1: switch_harada_a_7L_snow;
 	1: switch_kaneko_a_8L_snow;
 	1: switch_kaneko_a_7L_snow;
 	1: switch_kono_a_8L_snow;
@@ -54682,8 +54108,6 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_7L8L_name) {
 	dependent: switch_y2kp_7L8L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_POSTY2K),string(L8));
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_POSTY2K),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KANEKO),string(PERIOD_POSTY2K),string(L8));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KANEKO),string(PERIOD_POSTY2K),string(L7));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_POSTY2K),string(L8));
@@ -54750,7 +54174,6 @@ item(FEAT_HOUSES, item_y2kp_7L8L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_9L10L_sprites) {
-	1: switch_harada_a_9L_snow;
 	1: switch_kaneko_a_10L_snow;
 	1: switch_kaneko_a_9L_snow;
 	1: switch_kono_a_9L_snow;
@@ -54765,7 +54188,6 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_9L10L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_9L10L_name) {
 	dependent: switch_y2kp_9L10L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_HARADA),string(PERIOD_POSTY2K),string(L9));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KANEKO),string(PERIOD_POSTY2K),string(L10));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KANEKO),string(PERIOD_POSTY2K),string(L9));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_KONO),string(PERIOD_POSTY2K),string(L9));
