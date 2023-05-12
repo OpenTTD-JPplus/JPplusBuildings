@@ -6,3 +6,53 @@
 #include "src/houses/apartments/nakamura/levels/6L.pnml"
 #include "src/houses/apartments/nakamura/switches/combined_rs.pnml"
 #include "src/houses/apartments/nakamura/switches/combined_sw.pnml"
+
+item(FEAT_HOUSES, item_nakamura_s){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_NAKAMURA);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_nakamura_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
+}
+
+item(FEAT_HOUSES, item_nakamura_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_NAKAMURA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_nakamura_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
+}
