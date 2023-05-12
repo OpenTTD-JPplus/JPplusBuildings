@@ -467,9 +467,9 @@ item(FEAT_HOUSES, item_house_wooden_townhouses_01,  16, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_02,  18, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_03,  20, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_04,  21, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_townhouses_01,         06, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_townhouses_02,         22, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_old_villa,             58, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_townhouses_01,               06, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_townhouses_02,               22, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_old_villa,                   58, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_nishikawa,                   01, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_naganuma,                    02, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_shotengai,                   100,HOUSE_SIZE_1X1) {}
@@ -496,6 +496,7 @@ item(FEAT_HOUSES, item_mori_s,                      40, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_mori_m,                      41, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_murakami_s,                  42, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_murakami_m,                  43, HOUSE_SIZE_1X1) {}
+item(FEAT_HOUSES, item_nagoya_m,                    85, HOUSE_SIZE_1X1) {}
 
 // Post War
 item(FEAT_HOUSES, item_post_3L4L,                   30, HOUSE_SIZE_1X1) {}
@@ -570,7 +571,6 @@ item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant,  64, HOUSE_SIZE_1X1) {}
 // Free IDs
 /*
 91,
-85,
 98,
 */
 
@@ -7559,7 +7559,7 @@ switch(FEAT_HOUSES, SELF, switch_old_villa_01_snow,terrain_type) {
 	sprlay_old_villa_01_norm;
 }
 
-item(FEAT_HOUSES, item_house_old_villa){
+item(FEAT_HOUSES, item_old_villa){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_OLD_VILLA);
@@ -9653,7 +9653,7 @@ random_switch (FEAT_HOUSES, SELF, switch_townhouses_01_2L_snow) {
 }
 # 1 "src/houses/houses/townhouses_01/townhouses_01.pnml" 2
 
-item(FEAT_HOUSES, item_house_townhouses_01){
+item(FEAT_HOUSES, item_townhouses_01){
 	property {
 		substitute: 				06;
 		name: 						string(NAME_TOWNHOUSES_01);
@@ -10036,7 +10036,7 @@ switch (FEAT_HOUSES, PARENT, switch_townhouses_02_a_2L_snow, population_uncapped
 }
 # 1 "src/houses/houses/townhouses_02/townhouses_02.pnml" 2
 
-item(FEAT_HOUSES, item_house_townhouses_02){
+item(FEAT_HOUSES, item_townhouses_02){
 	property {
 		substitute: 				26;
 		name: 						string(NAME_TOWNHOUSES_02);
@@ -29830,7 +29830,7 @@ spriteset (spr_nagoya_a_ground_snow, 			"src/houses/apartments/nagoya/gfx/ground
 # 1 "src/houses/apartments/nagoya/nagoya.pnml" 2
 # 1 "src/houses/apartments/nagoya/switches/combined_rs.pnml" 1
 
-switch (FEAT_HOUSES, SELF, switch_nagoya_a_6L_snow, random_bits % 7 ) {
+switch (FEAT_HOUSES, SELF, switch_nagoya_m_snow, random_bits % 7 ) {
 	0: switch_nagoya_a_6L_mauve_snow;
 	1: switch_nagoya_a_6L_brown2_snow;
 	2: switch_nagoya_a_6L_brown1_snow;
@@ -29840,6 +29840,34 @@ switch (FEAT_HOUSES, SELF, switch_nagoya_a_6L_snow, random_bits % 7 ) {
 	6: switch_nagoya_a_6L_black_snow;
 }
 # 1 "src/houses/apartments/nagoya/nagoya.pnml" 2
+
+item(FEAT_HOUSES, item_nagoya_m){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_NAGOYA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(
+										TOWNZONE_CENTRE,
+										TOWNZONE_INNER_SUBURB,
+										TOWNZONE_OUTER_SUBURB,
+										TOWNZONE_OUTSKIRT
+										), 
+									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_nagoya_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,3);
+	}
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/nakamura/nakamura.pnml" 1
 
@@ -52515,7 +52543,6 @@ item(FEAT_HOUSES, item_boom_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_sprites) {
-	1: switch_nagoya_a_6L_snow;
 	7: switch_nakamura_6L_snow;
 	7: switch_nakamura_5L_snow;
 	7: switch_nakayama_6L_snow;
@@ -52543,7 +52570,6 @@ random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_boom_5L6L_name) {
 	dependent: switch_boom_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAGOYA),string(PERIOD_BOOM),string(L6));
 	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTWAR),string(L6));
 	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAMURA),string(PERIOD_POSTWAR),string(L5));
 	7: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAKAYAMA),string(PERIOD_POSTWAR),string(L6));
@@ -52846,7 +52872,6 @@ item(FEAT_HOUSES, item_late_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_sprites) {
-	1: switch_nagoya_a_6L_snow;
 	1: switch_osaka_6L_snow;
 	1: switch_shibata_a_6L_snow;
 	1: switch_shibata_a_5L_snow;
@@ -52870,7 +52895,6 @@ random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_late_5L6L_name) {
 	dependent: switch_late_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAGOYA),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_OSAKA),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_LATE),string(L5));
@@ -53193,7 +53217,6 @@ item(FEAT_HOUSES, item_y2kp_3L4L){
 
 // Random selection of sprites
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
-	1: switch_nagoya_a_6L_snow;
 	1: switch_osaka_6L_snow;
 	1: switch_shibata_a_6L_snow;
 	1: switch_shibata_a_5L_snow;
@@ -53219,7 +53242,6 @@ random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_sprites) {
 
 random_switch (FEAT_HOUSES, SELF, switch_y2kp_5L6L_name) {
 	dependent: switch_y2kp_5L6L_sprites;
-	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_NAGOYA),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_OSAKA),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_POSTY2K),string(L6));
 	1: string(STR_CONCAT_3, string(NAME_APARTMENTS_SHIBATA),string(PERIOD_POSTY2K),string(L5));
