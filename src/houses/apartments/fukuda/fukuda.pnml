@@ -123,7 +123,7 @@ spritelayout sprlay_fukuda_9L_snow {
 }
 */
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_fukuda_6L_snow,terrain_type) {
+switch(FEAT_HOUSES, SELF, switch_fukuda_m_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_6L_snow;
 	sprlay_fukuda_6L_norm;
 }
@@ -133,7 +133,7 @@ switch(FEAT_HOUSES, SELF, switch_fukuda_7L_snow,terrain_type) {
 	sprlay_fukuda_7L_norm;
 }
 */
-switch(FEAT_HOUSES, SELF, switch_fukuda_8L_snow,terrain_type) {
+switch(FEAT_HOUSES, SELF, switch_fukuda_l_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_8L_snow;
 	sprlay_fukuda_8L_norm;
 }
@@ -143,57 +143,3 @@ switch(FEAT_HOUSES, SELF, switch_fukuda_9L_snow,terrain_type) {
 	sprlay_fukuda_9L_norm;
 }
 */
-
-item(FEAT_HOUSES, item_fukuda_m){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_FUKUDA);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,1979];
-		minimum_lifetime: 			7;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_fukuda_6L_snow;
-		construction_check: 		switch_medium_con_check;
-		cargo_production: 			func_produce(10,4);
-	}
-}
-
-item(FEAT_HOUSES, item_fukuda_l){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_FUKUDA);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,1979];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_fukuda_8L_snow;
-		construction_check: 		switch_large_con_check;
-		cargo_production: 			func_produce(14,5);
-	}
-}

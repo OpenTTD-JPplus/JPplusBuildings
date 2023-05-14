@@ -1,0 +1,27 @@
+
+item(FEAT_HOUSES, item_name_, _id_, HOUSE_SIZE_iXj){
+	property {
+		substitute: 				_substitute_;
+		name: 						string(_stringname_);
+        building_flags: 			_building_flags_;
+		population: 				_population_;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				_probability_;
+		years_available: 			[_yearstart_,_yearend_];
+		minimum_lifetime: 			_minimum_lifetime_;
+		availability_mask: 			[_townzones_, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				_building_class_;
+				
+		}
+	graphics {
+		default: 					switch_graphics_default_snow;
+        graphics_north: 			switch_graphics_north_snow;
+		graphics_east: 				switch_graphics_east_snow;
+        graphics_west: 			    switch_graphics_west_snow;
+		graphics_south: 			switch_graphics_south_snow;
+		construction_check: 		switch_height_con_check;
+		cargo_production: 			func_produce(_cargo_pass_,_cargo_mail_);
+	}
+}

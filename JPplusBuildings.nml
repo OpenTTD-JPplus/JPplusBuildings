@@ -475,12 +475,6 @@ item(FEAT_HOUSES, item_naganuma,                    02, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_shotengai,                   100,HOUSE_SIZE_1X1) {}
 
 // APARTMENTS
-item(FEAT_HOUSES, item_fukuda_m,                    17, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_fukuda_l,                    23, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_harada_m,                    24, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_harada_l,                    25, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_hayashi_s,                   26, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_hayashi_m,                   28, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_hirano_s,                    29, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_hirano_m,                    32, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_hirata_s,                    33, HOUSE_SIZE_1X1) {}
@@ -11323,7 +11317,7 @@ spritelayout sprlay_fukuda_9L_snow {
 }
 */
 // Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_fukuda_6L_snow,terrain_type) {
+switch(FEAT_HOUSES, SELF, switch_fukuda_m_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_6L_snow;
 	sprlay_fukuda_6L_norm;
 }
@@ -11333,7 +11327,7 @@ switch(FEAT_HOUSES, SELF, switch_fukuda_7L_snow,terrain_type) {
 	sprlay_fukuda_7L_norm;
 }
 */
-switch(FEAT_HOUSES, SELF, switch_fukuda_8L_snow,terrain_type) {
+switch(FEAT_HOUSES, SELF, switch_fukuda_l_snow,terrain_type) {
 	TILETYPE_SNOW: sprlay_fukuda_8L_snow;
 	sprlay_fukuda_8L_norm;
 }
@@ -11343,60 +11337,6 @@ switch(FEAT_HOUSES, SELF, switch_fukuda_9L_snow,terrain_type) {
 	sprlay_fukuda_9L_norm;
 }
 */
-
-item(FEAT_HOUSES, item_fukuda_m){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_FUKUDA);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,1979];
-		minimum_lifetime: 			7;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_fukuda_6L_snow;
-		construction_check: 		switch_medium_con_check;
-		cargo_production: 			func_produce(10,4);
-	}
-}
-
-item(FEAT_HOUSES, item_fukuda_l){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_FUKUDA);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,1979];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_fukuda_8L_snow;
-		construction_check: 		switch_large_con_check;
-		cargo_production: 			func_produce(14,5);
-	}
-}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/harada/harada.pnml" 1
 
@@ -11899,7 +11839,7 @@ spriteset (spr_harada_a_ground_snow, 				"src/houses/apartments/harada/gfx/groun
 # 1 "src/houses/apartments/harada/harada.pnml" 2
 # 1 "src/houses/apartments/harada/switches/combined_rs.pnml" 1
 
-switch (FEAT_HOUSES, SELF, switch_harada_a_6L_snow, random_bits % 14) {
+switch (FEAT_HOUSES, SELF, switch_harada_m_snow, random_bits % 14) {
 	0: switch_harada_a_6L_mauve_snow;
 	1: switch_harada_a_6L_mauve_snow;
 	2: switch_harada_a_6L_brown2_snow;
@@ -11916,7 +11856,7 @@ switch (FEAT_HOUSES, SELF, switch_harada_a_6L_snow, random_bits % 14) {
 	13: switch_harada_a_6L_black_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_harada_a_8L_snow, random_bits % 14) {
+switch (FEAT_HOUSES, SELF, switch_harada_l_snow, random_bits % 14) {
 	0: switch_harada_a_8L_mauve_snow;
 	1: switch_harada_a_8L_mauve_snow;
 	2: switch_harada_a_8L_brown2_snow;
@@ -11933,60 +11873,6 @@ switch (FEAT_HOUSES, SELF, switch_harada_a_8L_snow, random_bits % 14) {
 	13: switch_harada_a_8L_black_snow;
 }
 # 1 "src/houses/apartments/harada/harada.pnml" 2
-
-item(FEAT_HOUSES, item_harada_m){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HARADA);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			7;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_harada_a_6L_snow;
-		construction_check: 		switch_medium_con_check;
-		cargo_production: 			func_produce(10,4);
-	}
-}
-
-item(FEAT_HOUSES, item_harada_l){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HARADA);
-		population: 				120;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_harada_a_8L_snow;
-		construction_check: 		switch_large_con_check;
-		cargo_production: 			func_produce(14,5);
-	}
-}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
 # 1 "src/houses/apartments/hayashi/gfx/hayashi_sprites.pnml" 1
@@ -13002,56 +12888,6 @@ switch (FEAT_HOUSES, SELF, switch_hayashi_m_snow , random_bits % 28) {
 	27: switch_hayashi_a_6L_black_snow;
 }
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
-
-item(FEAT_HOUSES, item_hayashi_s){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HAYASHI);
-		population: 				75;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_hayashi_s_snow;
-		construction_check: 		switch_small_con_check;
-		cargo_production: 			func_produce(6,2);
-	}
-}
-
-item(FEAT_HOUSES, item_hayashi_m){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HAYASHI);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_hayashi_m_snow;
-		construction_check: 		switch_medium_con_check;
-		cargo_production: 			func_produce(10,3);
-	}
-}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hirano/hirano.pnml" 1
 # 1 "src/houses/apartments/hirano/gfx/hirano_sprites.pnml" 1
@@ -59019,6 +58855,141 @@ item(FEAT_HOUSES, item_farm_01, 52, HOUSE_SIZE_2X2){
 		graphics_south: 			switch_farm_01_sprites_south;
 		construction_check:			switch_farm_01_con_check;	
 		cargo_production: 			func_produce(10,2);
+	}
+}
+# 1 "JPplusBuildings.pnml" 4
+
+# 1 "src/items.pnml" 1
+
+item(FEAT_HOUSES, item_fukuda_m, 17, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_FUKUDA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1980];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_fukuda_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_fukuda_l, 23, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_FUKUDA);
+		population: 				125;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,1980];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_fukuda_l_snow;
+		construction_check: 		switch_large_con_check;
+		cargo_production: 			func_produce(14,5);
+	}
+}
+
+item(FEAT_HOUSES, item_harada_m, 24, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HARADA);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_harada_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_harada_l, 25, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HARADA);
+		population: 				125;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_harada_l_snow;
+		construction_check: 		switch_large_con_check;
+		cargo_production: 			func_produce(14,5);
+	}
+}
+
+item(FEAT_HOUSES, item_hayashi_s, 26, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HAYASHI);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hayashi_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
+}
+
+item(FEAT_HOUSES, item_hayashi_m, 28, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HAYASHI);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hayashi_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
 	}
 }
 # 1 "JPplusBuildings.pnml" 4
