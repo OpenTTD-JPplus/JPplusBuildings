@@ -4,10 +4,10 @@ import codecs
 print("Attempting items creation")
 
 # convert into dataframe
-df = pd.read_excel("docs/buildings.xlsx")
+df1 = pd.read_excel("docs/buildings.xlsx")
 
 # convert into dictionary
-dict = df.to_dict()
+dict = df1.to_dict()
 
 name = list(dict["name"].values())
 id = list(dict["id"].values())
@@ -54,7 +54,7 @@ search_text_cargo_mail = "_cargo_mail_"
 
 n = 0
 for i in name:
-	template = open("./docs/item_template.pnml", "rt")
+	template = open("./src/templates/item_template.pnml", "rt")
 	current_item = open("./src/items/" + name[n] +".pnml", "wt")
 	for line in template:
 		current_item.write(line.replace('_name_', str('_' + name[n])))
