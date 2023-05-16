@@ -475,8 +475,6 @@ item(FEAT_HOUSES, item_naganuma,                    02, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_shotengai,                   100,HOUSE_SIZE_1X1) {}
 
 // APARTMENTS
-item(FEAT_HOUSES, item_hirano_s,                    29, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_hirano_m,                    32, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_hirata_s,                    33, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_hirata_m,                    34, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_imai_m,                      44, HOUSE_SIZE_1X1) {}
@@ -12890,6 +12888,7 @@ switch (FEAT_HOUSES, SELF, switch_hayashi_m_snow , random_bits % 28) {
 # 1 "src/houses/apartments/hayashi/hayashi.pnml" 1
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hirano/hirano.pnml" 1
+
 # 1 "src/houses/apartments/hirano/gfx/hirano_sprites.pnml" 1
 
 spriteset (spr_hirano_a_3L_norm, 				"src/houses/apartments/hirano/gfx/building_a.png") 				{template_house_80(1,1)}
@@ -12921,7 +12920,7 @@ spriteset (spr_hirano_a_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 
 spriteset (spr_hirano_b_ground, 				"src/houses/apartments/hirano/gfx/ground_b.png") 				{template_ground(1,1)}
 spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground_b.png") 				{template_ground(1,33)}
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/levels/3L.pnml" 1
 
 // _white_
@@ -13642,7 +13641,7 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 	sprlay_hirano_b_3L_dark_blue_norm;
     }
 
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/levels/4L.pnml" 1
 
 // _white_
@@ -14363,7 +14362,7 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 	sprlay_hirano_b_4L_dark_blue_norm;
     }
 
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/levels/5L.pnml" 1
 
 // _white_
@@ -15084,7 +15083,7 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 	sprlay_hirano_b_5L_dark_blue_norm;
     }
 
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/levels/6L.pnml" 1
 
 // _white_
@@ -15805,7 +15804,7 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/apartments/hirano/gfx/ground
 	sprlay_hirano_b_6L_dark_blue_norm;
     }
 
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/switches/combined_rs.pnml" 1
 // Basic Colors
 switch (FEAT_HOUSES, SELF, switch_hirano_a_s_basic_colors, random_bits % 10) {
@@ -16035,7 +16034,7 @@ switch (FEAT_HOUSES, SELF, switch_hirano_b_m_snow, current_year - age) {
 	0..1959: switch_hirano_b_m_basic_colors;
 	switch_hirano_b_m_modern_colors;
 }
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "src/houses/apartments/hirano/switches/combined_sw.pnml" 1
 random_switch (FEAT_HOUSES, SELF, switch_hirano_random_s_snow) {
 	1: switch_hirano_a_s_snow;
@@ -16139,57 +16138,7 @@ switch (FEAT_HOUSES, SELF, switch_hirano_m_snow, SpriteDirections() ) {
 	12: switch_hirano_m_north_check;
 	switch_hirano_random_m_snow;
 }
-# 1 "src/houses/apartments/hirano/hirano.pnml" 1
-
-item(FEAT_HOUSES, item_hirano_s){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HIRANO);
-		population: 				75;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_hirano_s_snow;
-		construction_check: 		switch_small_con_check;
-		cargo_production: 			func_produce(6,2);
-	}
-}
-
-item(FEAT_HOUSES, item_hirano_m){
-	property {
-		substitute: 				27;
-		name: 						string(NAME_APARTMENTS_HIRANO);
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1960,0xFFFF];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(
-										TOWNZONE_CENTRE,
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				4;
-				
-		}
-	graphics {
-		default: 					switch_hirano_m_snow;
-		construction_check: 		switch_medium_con_check;
-		cargo_production: 			func_produce(10,3);
-	}
-}
+# 1 "src/houses/apartments/hirano/hirano.pnml" 2
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/apartments/hirata/hirata.pnml" 1
 # 1 "src/houses/apartments/hirata/gfx/hirata_sprites.pnml" 1
@@ -58988,6 +58937,50 @@ item(FEAT_HOUSES, item_hayashi_m, 28, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_hayashi_m_snow;
+		construction_check: 		switch_medium_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_hirano_s, 29, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				75;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			5;
+		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_s_snow;
+		construction_check: 		switch_small_con_check;
+		cargo_production: 			func_produce(6,2);
+	}
+}
+
+item(FEAT_HOUSES, item_hirano_m, 32, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				27;
+		name: 						string(NAME_APARTMENTS_HIRANO);
+		population: 				100;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			7;
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				4;
+				
+		}
+	graphics {
+		default: 					switch_hirano_m_snow;
 		construction_check: 		switch_medium_con_check;
 		cargo_production: 			func_produce(10,4);
 	}

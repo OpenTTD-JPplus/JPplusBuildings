@@ -1,5 +1,6 @@
 import pandas as pd
 import codecs
+from buildings import buildings_dict
 
 coloursdict = {
 "white": 		"0",
@@ -20,33 +21,18 @@ coloursdict = {
 "midgrey":      "15"
 }
 
-fukuda_colours = ["grey","midgrey"]
-harada_colours = ["white", "grey", "mauve", "brown1", "brown2", "red_brown", "black"]
-hayashi_colours = ["white", "grey", "mauve", "brown1", "brown2", "red_brown", "black"]
-
-buildings_dict = {
-	"fukuda" : {
-		"construction_state" : "construction_state",
-        "colours" : fukuda_colours
-        },
-	"harada" : {
-		"construction_state" : "construction_state",
-        "colours" : harada_colours
-	},
-    "hayashi" : {
-		"construction_state" : "3",
-        "colours" : hayashi_colours
-	}
-}
 
 buildings = list(buildings_dict.keys())
 
+
+#print(list(colours.keys()))
+#all_colours = list(buildings_dict["hirano"]["colours"].keys())
 
 # CREATE THE COLOUR SPRITELAYOUTS IN EACH BUILDING'S FOLDER
 
 m = 0
 for b in buildings:
-    colours = buildings_dict[buildings[m]]["colours"]
+    colours = list(buildings_dict[buildings[m]]["colours"].keys())
     n = 0
     for c in colours:
         template = open("./src/templates/colour_template.pnml", "rt")
@@ -74,13 +60,11 @@ for b in buildings:
 
 # COMBINE THE COLOURS INTO AN 'ALL' FILE
 
-# Create an empty list where all the PNML code will be placed
-sections = []
-
 # Cycle through each building and combine each of it's colours
 m = 0
 for b in buildings:
-    colours = buildings_dict[buildings[m]]["colours"]
+    sections = []
+    colours = list(buildings_dict[buildings[m]]["colours"].keys())
     n = 0
     for c in colours:
         colours_pnml_path = "src/houses/" + buildings[m] + "/colours/all.pnml"
@@ -89,7 +73,7 @@ for b in buildings:
         sections.append(stuff.read())
         stuff.close()
         n = n + 1
-    processed_pnml_file = codecs.open(colours_pnml_path,'w','utf8')
-    processed_pnml_file.write('\n'.join(sections))
-    processed_pnml_file.close()
+        processed_pnml_file = codecs.open(colours_pnml_path,'w','utf8')
+        processed_pnml_file.write('\n'.join(sections))
+        processed_pnml_file.close()
     m = m+1
