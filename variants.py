@@ -7,13 +7,12 @@ buildings = list(buildings_dict.keys())
 
 # CREATE THE VARIANTS FOR EACH BUILDING
 
-m = 0
 for b in buildings:
-    variants = list(buildings_dict[buildings[m]]["variants"].keys())
+    variants = list(buildings_dict[b]["variants"].keys())
     n = 0
     for v in variants:
-        template = open("./src/houses/" + buildings[m] + "/colours/all.pnml", "rt")
-        current_variant = open("./src/houses/" + buildings[m] + "/variants/" + variants[n] +".pnml", "wt")
+        template = open("./src/houses/" + b + "/colours/all.pnml", "rt")
+        current_variant = open("./src/houses/" + b + "/variants/" + variants[n] +".pnml", "wt")
         for line in template:
             if variants[n] == 'x':
                 current_variant.write(line.replace('_v_', str('_')))
@@ -24,22 +23,22 @@ for b in buildings:
 
         search_text_x = "_xoff_"
         search_text_y = "_yoff_"
-        xoff = buildings_dict[buildings[m]]["variants"][v]["xoffset"]
-        yoff = buildings_dict[buildings[m]]["variants"][v]["yoffset"]
-        with open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] +'.pnml', 'r') as file:
+        xoff = buildings_dict[b]["variants"][v]["xoffset"]
+        yoff = buildings_dict[b]["variants"][v]["yoffset"]
+        with open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r') as file:
             data = file.read()
             data = data.replace(search_text_x, xoff)
             data = data.replace(search_text_y, yoff)
-        with open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] + '.pnml', 'w') as file:
+        with open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w') as file:
             file.write(data)
         
-        with open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] + '.pnml', 'w') as file:		    
+        with open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w') as file:		    
             file.write(data)
 		    #get list of lines
-        a_file = open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] +'.pnml', 'r')	    
+        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
         lines = a_file.readlines()	    
         a_file.close()	    
-        new_file = open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] + '.pnml', 'w')	    
+        new_file = open(r'./src/houses/' + b+ '/variants/' + variants[n] + '.pnml', 'w')	    
         for line in lines:
 
 		    #delete line matching string
@@ -48,10 +47,10 @@ for b in buildings:
 	   
         new_file.close()
 
-        a_file = open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] +'.pnml', 'r')	    
+        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
         lines = a_file.readlines()	    
         a_file.close()	    
-        new_file = open(r'./src/houses/' + buildings[m] + '/variants/' + variants[n] + '.pnml', 'w')	    
+        new_file = open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w')	    
         for line in lines:
 
 		    #delete line matching string
@@ -61,7 +60,6 @@ for b in buildings:
         new_file.close()
 
         n = n+1
-    m = m+1
 
 # COMBINE THE VARIANTS INTO AN 'ALL' FILE
 

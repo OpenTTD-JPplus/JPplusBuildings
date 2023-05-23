@@ -55,9 +55,9 @@ search_text_cargo_mail = "_cargo_mail_"
 n = 0
 for i in name:
 	template = open("./src/templates/item_template.pnml", "rt")
-	current_item = open("./src/items/" + name[n] +".pnml", "wt")
+	current_item = open("./src/items/" + i +".pnml", "wt")
 	for line in template:
-		current_item.write(line.replace('_name_', str('_' + name[n])))
+		current_item.write(line.replace('_name_', str('_' + i)))
 	current_item.close()
 	template.close()
 
@@ -74,11 +74,11 @@ for i in name:
 	house_height = height[n]
 	house_townzones = townzones[n]
 	house_building_flags = building_flags[n]
-	house_graphics_default = graphics_default[n] + "_snow"
-	house_graphics_north = graphics_north[n] + "_snow"
-	house_graphics_east = graphics_east[n] + "_snow"
-	house_graphics_west = graphics_west[n] + "_snow"
-	house_graphics_south = graphics_south[n] + "_snow"
+	house_graphics_default = graphics_default[n] + "_sprites"
+	house_graphics_north = graphics_north[n] + "_sprites"
+	house_graphics_east = graphics_east[n] + "_sprites"
+	house_graphics_west = graphics_west[n] + "_sprites"
+	house_graphics_south = graphics_south[n] + "_sprites"
 	house_cargo_pass = cargo_pass[n]
 	house_cargo_mail = cargo_mail[n]
 	with open(r'./src/items/' + name[n] +'.pnml', 'r') as file:
