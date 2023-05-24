@@ -5,11 +5,13 @@ import os
 
 buildings = list(buildings_dict.keys())
 
+print("Running switches_directions.py")
+
 # Create a spritedirection file for relevant buildings
 for b in buildings:
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south']:
         pass
     elif variants == ['a', 'b']:    
         for h in heights:
@@ -21,14 +23,14 @@ for b in buildings:
                 file.write(data)
                 file.close()
     else:
-        print("Other")
+        print(b + " has an unrecognised variant #1")
 
 # Combine into other switches file
 for b in buildings:
     sections = []
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south']:
         pass
     elif variants == ['a', 'b']: 
         for h in heights:
@@ -41,13 +43,13 @@ for b in buildings:
             processed_pnml_file.write('\n'.join(sections))
             processed_pnml_file.close()
     else:
-        print("Other")
+        print(b + " has an unrecognised variant #2")
 
 # Delete variant files
 for b in buildings:
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south']:
         pass
     elif variants == ['a', 'b']:
         for h in heights:    
@@ -57,4 +59,4 @@ for b in buildings:
             except OSError as e:
                 print("Error: %s : %s" % (file_path, e.strerror))
     else:
-        print("Other")
+        print(b + " has an unrecognised variant #3")

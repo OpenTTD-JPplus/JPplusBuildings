@@ -5,6 +5,8 @@ import itertools
 
 buildings = list(buildings_dict.keys())
 
+print("Running switches_colours.py")
+
 # ########################## #
 # CREATE DICTIONARIES #
 # ########################## #
@@ -152,10 +154,14 @@ for b in buildings:
             num_heights = len(buildings_dict[b]["heights"][h])
             # Add the switch line and update details
             f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
+            # Old Colours
             if buildings_dict[b]["old_colours"] == False and v == 'x':
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
-            elif buildings_dict[b]["old_colours"] == False and v != 'x':
+            elif buildings_dict[b]["old_colours"] == False and v != 'x' and h != "k":
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
+            elif buildings_dict[b]["old_colours"] == False and v != 'x' and h == 'k':
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_" + v + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")    
+            # Modern buildings
             elif buildings_dict[b]["old_colours"] != False and v == 'x':
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
             else:
@@ -169,11 +175,11 @@ for b in buildings:
                 for c in colours:
                     # Add the colours lines
                     f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                    if v == 'x' and l == 'sky':
+                    if v == 'x' and (l == 'sky' or l == '2X2'):
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + c +"_snow;\n")
                     elif v == 'x' and l != 'sky':    
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + l + "_" + c +"_snow;\n")
-                    elif v != 'x' and l == 'sky':
+                    elif v != 'x' and (l == 'sky' or l == '2X2'):
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + c +"_snow;\n")
                     else:
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")

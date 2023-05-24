@@ -24,9 +24,7 @@ coloursdict = {
 
 buildings = list(buildings_dict.keys())
 
-
-#print(list(colours.keys()))
-#all_colours = list(buildings_dict["hirano"]["colours"].keys())
+print("Running colours.py")
 
 # CREATE THE COLOUR SPRITELAYOUTS IN EACH BUILDING'S FOLDER
 

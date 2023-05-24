@@ -5,7 +5,7 @@ buildings = list(buildings_dict.keys())
 
 for b in buildings:
     print("Deleting " + b + " switch folder contents")
-    folder = './src/houses/' + b +'/variants/'
+    folder = './src/houses/' + b +'/switches/'
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:

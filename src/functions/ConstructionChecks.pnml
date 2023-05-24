@@ -82,3 +82,10 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check,
 	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
+
+// Hospital
+switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
+	IsCity() && 						// Can only appear in Cities
+	IsUniqueHouse()	&&					// Only one per city
+	PopOver5L6LThreshold()				// Required city population
+	) {return;}	

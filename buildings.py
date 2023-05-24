@@ -67,6 +67,16 @@ hirata_old_colours =            {   "white" :       1,
                                     "brown2" :      2
                                     }
 
+# Hospital
+hospital_all_colours =          {   "light_blue" :  1, 
+                                    "grey":         1, 
+                                    "dark_blue" :   1, 
+                                    "brown1" :      1, 
+                                    "brown2" :      1, 
+                                    "red_brown" :   1, 
+                                    "dark_green" :  1  
+                                }
+
 buildings_dict = {
 	"bank_building" : {
 		"construction_state" : "construction_state",
@@ -170,6 +180,33 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
 	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "hospital" : {
+		"construction_state" : "construction_state",
+        "colours" : hospital_all_colours,
+        "old_colours" : False,
+        "levels" : {"2X2"},
+        "heights" : {    
+            "k" : ["2X2"], # k means landmark
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "south" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }

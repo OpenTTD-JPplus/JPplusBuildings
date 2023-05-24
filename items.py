@@ -1,6 +1,7 @@
 import pandas as pd
 import codecs
 
+print("Running items.py")
 print("Attempting items creation")
 
 # convert into dataframe
@@ -30,6 +31,8 @@ graphics_west = list(dict["graphics_west"].values())
 graphics_south = list(dict["graphics_south"].values())
 cargo_pass = list(dict["cargo_pass"].values())
 cargo_mail = list(dict["cargo_mail"].values())
+accepted_cargoes = list(dict["accepted_cargoes"].values())
+con_check_override = list(dict["con_check_override"].values())
 
 search_text_id = "_id_"
 search_text_tile_size = "iXj"
@@ -42,6 +45,7 @@ search_text_yearstart = "_yearstart_"
 search_text_yearend = "_yearend_"
 search_text_minimum_lifetime = "_minimum_lifetime_"
 search_text_height = "height"
+search_text_con_check = "_con_check_"
 search_text_townzones = "_townzones_"
 search_text_building_flags = "_building_flags_"
 search_text_graphics_default = "graphics_default_snow"
@@ -51,6 +55,7 @@ search_text_graphics_west = "graphics_west_snow"
 search_text_graphics_south = "graphics_south_snow"
 search_text_cargo_pass = "_cargo_pass_"
 search_text_cargo_mail = "_cargo_mail_"
+search_text_accepted_cargoes = "_accepted_cargoes_"
 
 n = 0
 for i in name:
@@ -72,6 +77,8 @@ for i in name:
 	house_yearend = yearend[n]
 	house_minimum_lifetime = minimum_lifetime[n]
 	house_height = height[n]
+	house_con_check = height[n]
+	house_con_check_override = con_check_override[n]
 	house_townzones = townzones[n]
 	house_building_flags = building_flags[n]
 	house_graphics_default = graphics_default[n] + "_sprites"
@@ -81,6 +88,7 @@ for i in name:
 	house_graphics_south = graphics_south[n] + "_sprites"
 	house_cargo_pass = cargo_pass[n]
 	house_cargo_mail = cargo_mail[n]
+	house_accepted_cargoes = accepted_cargoes[n]
 	with open(r'./src/items/' + name[n] +'.pnml', 'r') as file:
 		data = file.read()
 		data = data.replace(search_text_id, str(house_id))
@@ -92,8 +100,7 @@ for i in name:
 		data = data.replace(search_text_building_class, str(house_building_class))
 		data = data.replace(search_text_yearstart, str(house_yearstart))
 		data = data.replace(search_text_yearend, str(house_yearend))
-		data = data.replace(search_text_minimum_lifetime, str(house_minimum_lifetime))
-		data = data.replace(search_text_height, str(house_height))
+		data = data.replace(search_text_minimum_lifetime, str(house_minimum_lifetime))	
 		data = data.replace(search_text_townzones, str(house_townzones))
 		data = data.replace(search_text_building_flags, str(house_building_flags))
 		data = data.replace(search_text_graphics_default, str(house_graphics_default))
@@ -103,6 +110,11 @@ for i in name:
 		data = data.replace(search_text_graphics_south, str(house_graphics_south))
 		data = data.replace(search_text_cargo_pass, str(house_cargo_pass))
 		data = data.replace(search_text_cargo_mail, str(house_cargo_mail))
+		data = data.replace(search_text_accepted_cargoes, str(house_accepted_cargoes))
+		if con_check_override[n] == "none":
+			data = data.replace(search_text_con_check, str(house_con_check))
+		else:
+			data = data.replace(search_text_con_check, str(house_con_check_override))
 
 	with open(r'./src/items/' + name[n] + '.pnml', 'w') as file:
 		file.write(data)

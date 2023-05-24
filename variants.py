@@ -5,6 +5,8 @@ from buildings import buildings_dict as buildings_dict
 
 buildings = list(buildings_dict.keys())
 
+print("Running variants.py")
+
 # CREATE THE VARIANTS FOR EACH BUILDING
 
 for b in buildings:

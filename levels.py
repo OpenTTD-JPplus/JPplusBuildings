@@ -5,13 +5,15 @@ from buildings import buildings_dict as buildings_dict
 
 buildings = list(buildings_dict.keys())
 
+print("Running levels.py")
+
 for b in buildings:
     levels = list(buildings_dict[b]["levels"])
     for l in levels:
         template = open("./src/houses/" + b + "/variants/all.pnml", "rt")
         current_level = open("./src/houses/" + b + "/levels/" + l +".pnml", "wt")
         for line in template:
-            if l == 'sky':
+            if l == 'sky' or l == "2X2":
                 current_level.write(line.replace('_xL_', str('_')))
             else:
                 current_level.write(line.replace('_xL_', str('_' + l +'_')))
