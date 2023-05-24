@@ -1,69 +1,91 @@
+# Bank Building
+bank_building_all_colours =     {   "black" :       2,
+                                    "midgrey" :     1
+                                    }
+
 # Fukuda
-fukuda_all_colours = {  "grey" :        2,
-                        "midgrey" :     1
-                        }
+fukuda_all_colours =            {   "grey" :        2,
+                                    "midgrey" :     1
+                                    }
 
 # Harada
-harada_all_colours = {  "white" :       1, 
-                        "grey":         1, 
-                        "mauve" :       1, 
-                        "brown1" :      1, 
-                        "brown2" :      1, 
-                        "red_brown" :   1, 
-                        "black" :       1  
-                        }
+harada_all_colours =            {   "white" :       1, 
+                                    "grey":         1, 
+                                    "mauve" :       1, 
+                                    "brown1" :      1, 
+                                    "brown2" :      1, 
+                                    "red_brown" :   1, 
+                                    "black" :       1  
+                                    }
 # Hayashi
-hayashi_all_colours = { "white" :       1, 
-                        "grey":         1, 
-                        "mauve" :       1, 
-                        "brown1" :      1, 
-                        "brown2" :      1, 
-                        "red_brown" :   1, 
-                        "black" :       1  
-                        }
+hayashi_all_colours =           {   "white" :       1, 
+                                    "grey":         1, 
+                                    "mauve" :       1, 
+                                    "brown1" :      1, 
+                                    "brown2" :      1, 
+                                    "red_brown" :   1, 
+                                    "black" :       1  
+                                }
 
 # Hirano
-hirano_all_colours = {  "white" :       1 , 
-                        "grey" :        2, 
-                        "mauve" :       1, 
-                        "brown1" :      2, 
-                        "brown2" :      2, 
-                        "dark_green" :  1, 
-                        "peach" :       1, 
-                        "pink" :        1, 
-                        "light_blue" :  1, 
-                        "dark_blue" :   1
-                        }
+hirano_all_colours =            {   "white" :       1 , 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_green" :  1, 
+                                    "peach" :       1, 
+                                    "pink" :        1, 
+                                    "light_blue" :  1, 
+                                    "dark_blue" :   1
+                                    }
 
-hirano_old_colours = {  "white" :       1, 
-                        "grey" :        2, 
-                        "mauve" :       1, 
-                        "brown1" :      2, 
-                        "brown2" :      2
-                        }
+hirano_old_colours =            {   "white" :       1, 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2
+                                    }
                         
 # Hirata
-hirata_all_colours = {  "white" :       1 , 
-                        "grey" :        2, 
-                        "mauve" :       1, 
-                        "brown1" :      2, 
-                        "brown2" :      2, 
-                        "dark_green" :  1, 
-                        "peach" :       1, 
-                        "pink" :        1, 
-                        "light_blue" :  1, 
-                        "dark_blue" :   1
-                        }
+hirata_all_colours =            {   "white" :       1 , 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_green" :  1, 
+                                    "peach" :       1, 
+                                    "pink" :        1, 
+                                    "light_blue" :  1, 
+                                    "dark_blue" :   1
+                                    }
 
-hirata_old_colours = {  "white" :       1, 
-                        "grey" :        2, 
-                        "mauve" :       1, 
-                        "brown1" :      2, 
-                        "brown2" :      2
-                        }
+hirata_old_colours =            {   "white" :       1, 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2
+                                    }
 
 buildings_dict = {
-	"fukuda" : {
+	"bank_building" : {
+		"construction_state" : "construction_state",
+        "colours" : bank_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"sky"},
+        "heights" : {    
+            "c" : ["sky"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+    },
+    
+    
+    "fukuda" : {
 		"construction_state" : "construction_state",
         "colours" : fukuda_all_colours,
         "old_colours" : False,

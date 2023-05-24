@@ -513,7 +513,6 @@ item(FEAT_HOUSES, item_y2kp_9L10L,                  118,HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_y2kp_11L12L,                 99, HOUSE_SIZE_1X1) {}
 
 // SKYSCRAPERS
-item(FEAT_HOUSES, item_bank_building,               86, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_enterprise_tower,            81, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_insurance_tower,             82, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_kuroi_tower,                 38, HOUSE_SIZE_1X1) {}
@@ -1260,6 +1259,17 @@ switch (FEAT_HOUSES, SELF, switch_x_large_con_check,
 	PopOver9L10LThreshold() &&					// City has population above relevant threshold
 	WideRoads()									// Can only build beside a wider road
 	) {return;}	
+
+// Skyscrapers
+switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check, 
+	FuncServicePASS() &&					// Must have passenger service
+	IsUniqueHouse() &&						// Only one in city
+	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
+	PopOver11L12LThreshold() &&				// Population of city check
+	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+	IfFirstSkyscraper() )					// OR it's the first skyscraper
+) {return;}	
 # 1 "JPplusBuildings.pnml" 4
 
 // GROUND
@@ -11212,66 +11222,6 @@ spriteset (spr_fukuda_ground_snow, 				"src/houses/fukuda/gfx/ground.png") 					
 
 // _grey_
     // Norm Sprites
-    spritelayout sprlay_fukuda_8L_grey_norm {
-        ground {
-            sprite: spr_fukuda_ground (construction_state);
-        }
-        building {
-            sprite: spr_fukuda_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_fukuda_8L_grey_snow {
-        ground {
-            sprite: spr_fukuda_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_fukuda_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_fukuda_8L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_fukuda_8L_grey_snow;
-	    sprlay_fukuda_8L_grey_norm;
-    }
-
-// _midgrey_
-    // Norm Sprites
-    spritelayout sprlay_fukuda_8L_midgrey_norm {
-        ground {
-            sprite: spr_fukuda_ground (construction_state);
-        }
-        building {
-            sprite: spr_fukuda_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_fukuda_8L_midgrey_snow {
-        ground {
-            sprite: spr_fukuda_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_fukuda_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_fukuda_8L_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_fukuda_8L_midgrey_snow;
-	    sprlay_fukuda_8L_midgrey_norm;
-    }
-
-// _grey_
-    // Norm Sprites
     spritelayout sprlay_fukuda_6L_grey_norm {
         ground {
             sprite: spr_fukuda_ground (construction_state);
@@ -11329,6 +11279,66 @@ spriteset (spr_fukuda_ground_snow, 				"src/houses/fukuda/gfx/ground.png") 					
 	    TILETYPE_SNOW: sprlay_fukuda_6L_midgrey_snow;
 	    sprlay_fukuda_6L_midgrey_norm;
     }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_fukuda_8L_grey_norm {
+        ground {
+            sprite: spr_fukuda_ground (construction_state);
+        }
+        building {
+            sprite: spr_fukuda_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_fukuda_8L_grey_snow {
+        ground {
+            sprite: spr_fukuda_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_fukuda_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_fukuda_8L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_fukuda_8L_grey_snow;
+	    sprlay_fukuda_8L_grey_norm;
+    }
+
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_fukuda_8L_midgrey_norm {
+        ground {
+            sprite: spr_fukuda_ground (construction_state);
+        }
+        building {
+            sprite: spr_fukuda_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_fukuda_8L_midgrey_snow {
+        ground {
+            sprite: spr_fukuda_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_fukuda_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_fukuda_8L_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_fukuda_8L_midgrey_snow;
+	    sprlay_fukuda_8L_midgrey_norm;
+    }
 # 1 "src/houses/fukuda/fukuda.pnml" 4
 # 1 "src/houses/fukuda/switches/colour_switches.pnml" 1
 
@@ -11367,216 +11377,6 @@ spriteset (spr_harada_ground, 					"src/houses/harada/gfx/ground.png") 					{tem
 spriteset (spr_harada_ground_snow, 				"src/houses/harada/gfx/ground.png") 					{template_ground(1,33)}
 # 1 "src/houses/harada/harada.pnml" 4
 # 1 "src/houses/harada/levels/all.pnml" 1
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_white_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_white_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_white_snow;
-	    sprlay_harada_8L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_grey_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_grey_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_grey_snow;
-	    sprlay_harada_8L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_mauve_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_mauve_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_mauve_snow;
-	    sprlay_harada_8L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_brown1_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_brown1_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_brown1_snow;
-	    sprlay_harada_8L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_brown2_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_brown2_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_brown2_snow;
-	    sprlay_harada_8L_brown2_norm;
-    }
-
-// _red_brown_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_red_brown_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_red_brown_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_red_brown_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_red_brown_snow;
-	    sprlay_harada_8L_red_brown_norm;
-    }
-
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_harada_8L_black_norm {
-        ground {
-            sprite: spr_harada_ground (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_harada_8L_black_snow {
-        ground {
-            sprite: spr_harada_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_harada_8L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_harada_8L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_harada_8L_black_snow;
-	    sprlay_harada_8L_black_norm;
-    }
 
 // _white_
     // Norm Sprites
@@ -11787,6 +11587,216 @@ spriteset (spr_harada_ground_snow, 				"src/houses/harada/gfx/ground.png") 					
 	    TILETYPE_SNOW: sprlay_harada_6L_black_snow;
 	    sprlay_harada_6L_black_norm;
     }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_white_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_white_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_white_snow;
+	    sprlay_harada_8L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_grey_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_grey_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_grey_snow;
+	    sprlay_harada_8L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_mauve_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_mauve_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_mauve_snow;
+	    sprlay_harada_8L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_brown1_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_brown1_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_brown1_snow;
+	    sprlay_harada_8L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_brown2_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_brown2_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_brown2_snow;
+	    sprlay_harada_8L_brown2_norm;
+    }
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_red_brown_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_red_brown_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_red_brown_snow;
+	    sprlay_harada_8L_red_brown_norm;
+    }
+
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_harada_8L_black_norm {
+        ground {
+            sprite: spr_harada_ground (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_harada_8L_black_snow {
+        ground {
+            sprite: spr_harada_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_harada_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_harada_8L_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_harada_8L_black_snow;
+	    sprlay_harada_8L_black_norm;
+    }
 # 1 "src/houses/harada/harada.pnml" 4
 # 1 "src/houses/harada/switches/colour_switches.pnml" 1
 
@@ -11835,6 +11845,216 @@ spriteset (spr_hayashi_ground, 					    "src/houses/hayashi/gfx/ground.png") 			
 spriteset (spr_hayashi_ground_snow, 				"src/houses/hayashi/gfx/ground.png") 				{template_ground(1,33)}
 # 1 "src/houses/hayashi/hayashi.pnml" 4
 # 1 "src/houses/hayashi/levels/all.pnml" 1
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_white_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_white_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_white_snow;
+	    sprlay_hayashi_3L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_grey_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_grey_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_grey_snow;
+	    sprlay_hayashi_3L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_mauve_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_mauve_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_mauve_snow;
+	    sprlay_hayashi_3L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_brown1_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_brown1_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_brown1_snow;
+	    sprlay_hayashi_3L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_brown2_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_brown2_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_brown2_snow;
+	    sprlay_hayashi_3L_brown2_norm;
+    }
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_red_brown_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_red_brown_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_red_brown_snow;
+	    sprlay_hayashi_3L_red_brown_norm;
+    }
+
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_hayashi_3L_black_norm {
+        ground {
+            sprite: spr_hayashi_ground (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hayashi_3L_black_snow {
+        ground {
+            sprite: spr_hayashi_ground_snow (3);
+        }
+        building {
+            sprite: spr_hayashi_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hayashi_3L_black_snow;
+	    sprlay_hayashi_3L_black_norm;
+    }
 
 // _white_
     // Norm Sprites
@@ -12258,216 +12478,6 @@ spriteset (spr_hayashi_ground_snow, 				"src/houses/hayashi/gfx/ground.png") 			
 
 // _white_
     // Norm Sprites
-    spritelayout sprlay_hayashi_3L_white_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_white_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_white_snow;
-	    sprlay_hayashi_3L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_grey_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_grey_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_grey_snow;
-	    sprlay_hayashi_3L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_mauve_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_mauve_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_mauve_snow;
-	    sprlay_hayashi_3L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_brown1_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_brown1_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_brown1_snow;
-	    sprlay_hayashi_3L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_brown2_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_brown2_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_brown2_snow;
-	    sprlay_hayashi_3L_brown2_norm;
-    }
-
-// _red_brown_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_red_brown_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_red_brown_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 13;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_red_brown_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_red_brown_snow;
-	    sprlay_hayashi_3L_red_brown_norm;
-    }
-
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_hayashi_3L_black_norm {
-        ground {
-            sprite: spr_hayashi_ground (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hayashi_3L_black_snow {
-        ground {
-            sprite: spr_hayashi_ground_snow (3);
-        }
-        building {
-            sprite: spr_hayashi_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 11;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hayashi_3L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hayashi_3L_black_snow;
-	    sprlay_hayashi_3L_black_norm;
-    }
-
-// _white_
-    // Norm Sprites
     spritelayout sprlay_hayashi_4L_white_norm {
         ground {
             sprite: spr_hayashi_ground (3);
@@ -12752,6 +12762,606 @@ spriteset (spr_hirano_b_ground, 				"src/houses/hirano/gfx/ground_b.png") 				{t
 spriteset (spr_hirano_b_ground_snow, 			"src/houses/hirano/gfx/ground_b.png") 				{template_ground(1,33)}
 # 1 "src/houses/hirano/hirano.pnml" 4
 # 1 "src/houses/hirano/levels/all.pnml" 1
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_white_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_white_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_white_snow;
+	    sprlay_hirano_a_3L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_grey_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_grey_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_grey_snow;
+	    sprlay_hirano_a_3L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_mauve_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_mauve_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_mauve_snow;
+	    sprlay_hirano_a_3L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_brown1_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_brown1_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_brown1_snow;
+	    sprlay_hirano_a_3L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_brown2_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_brown2_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_brown2_snow;
+	    sprlay_hirano_a_3L_brown2_norm;
+    }
+
+// _dark_green_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_dark_green_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_dark_green_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_dark_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_dark_green_snow;
+	    sprlay_hirano_a_3L_dark_green_norm;
+    }
+
+// _peach_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_peach_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_peach_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_peach_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_peach_snow;
+	    sprlay_hirano_a_3L_peach_norm;
+    }
+
+// _pink_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_pink_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_pink_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_pink_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_pink_snow;
+	    sprlay_hirano_a_3L_pink_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_light_blue_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_light_blue_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_light_blue_snow;
+	    sprlay_hirano_a_3L_light_blue_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirano_a_3L_dark_blue_norm {
+        ground {
+            sprite: spr_hirano_a_ground (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_a_3L_dark_blue_snow {
+        ground {
+            sprite: spr_hirano_a_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_a_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_a_3L_dark_blue_snow;
+	    sprlay_hirano_a_3L_dark_blue_norm;
+    }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_white_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_white_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_white_snow;
+	    sprlay_hirano_b_3L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_grey_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_grey_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_grey_snow;
+	    sprlay_hirano_b_3L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_mauve_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_mauve_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_mauve_snow;
+	    sprlay_hirano_b_3L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_brown1_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_brown1_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_brown1_snow;
+	    sprlay_hirano_b_3L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_brown2_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_brown2_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_brown2_snow;
+	    sprlay_hirano_b_3L_brown2_norm;
+    }
+
+// _dark_green_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_dark_green_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_dark_green_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_dark_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_dark_green_snow;
+	    sprlay_hirano_b_3L_dark_green_norm;
+    }
+
+// _peach_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_peach_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_peach_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_peach_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_peach_snow;
+	    sprlay_hirano_b_3L_peach_norm;
+    }
+
+// _pink_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_pink_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_pink_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_pink_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_pink_snow;
+	    sprlay_hirano_b_3L_pink_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_light_blue_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_light_blue_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_light_blue_snow;
+	    sprlay_hirano_b_3L_light_blue_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirano_b_3L_dark_blue_norm {
+        ground {
+            sprite: spr_hirano_b_ground (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirano_b_3L_dark_blue_snow {
+        ground {
+            sprite: spr_hirano_b_ground_snow (3);
+        }
+        building {
+            sprite: spr_hirano_b_3L_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirano_b_3L_dark_blue_snow;
+	    sprlay_hirano_b_3L_dark_blue_norm;
+    }
 
 // _white_
     // Norm Sprites
@@ -13955,606 +14565,6 @@ spriteset (spr_hirano_b_ground_snow, 			"src/houses/hirano/gfx/ground_b.png") 		
 
 // _white_
     // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_white_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_white_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_white_snow;
-	    sprlay_hirano_a_3L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_grey_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_grey_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_grey_snow;
-	    sprlay_hirano_a_3L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_mauve_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_mauve_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_mauve_snow;
-	    sprlay_hirano_a_3L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_brown1_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_brown1_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_brown1_snow;
-	    sprlay_hirano_a_3L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_brown2_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_brown2_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_brown2_snow;
-	    sprlay_hirano_a_3L_brown2_norm;
-    }
-
-// _dark_green_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_dark_green_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_dark_green_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_dark_green_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_dark_green_snow;
-	    sprlay_hirano_a_3L_dark_green_norm;
-    }
-
-// _peach_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_peach_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_peach_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_peach_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_peach_snow;
-	    sprlay_hirano_a_3L_peach_norm;
-    }
-
-// _pink_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_pink_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_pink_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_pink_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_pink_snow;
-	    sprlay_hirano_a_3L_pink_norm;
-    }
-
-// _light_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_light_blue_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_light_blue_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_light_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_light_blue_snow;
-	    sprlay_hirano_a_3L_light_blue_norm;
-    }
-
-// _dark_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirano_a_3L_dark_blue_norm {
-        ground {
-            sprite: spr_hirano_a_ground (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_a_3L_dark_blue_snow {
-        ground {
-            sprite: spr_hirano_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_a_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_a_3L_dark_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_a_3L_dark_blue_snow;
-	    sprlay_hirano_a_3L_dark_blue_norm;
-    }
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_white_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_white_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_white_snow;
-	    sprlay_hirano_b_3L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_grey_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_grey_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_grey_snow;
-	    sprlay_hirano_b_3L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_mauve_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_mauve_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_mauve_snow;
-	    sprlay_hirano_b_3L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_brown1_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_brown1_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_brown1_snow;
-	    sprlay_hirano_b_3L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_brown2_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_brown2_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_brown2_snow;
-	    sprlay_hirano_b_3L_brown2_norm;
-    }
-
-// _dark_green_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_dark_green_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_dark_green_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_dark_green_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_dark_green_snow;
-	    sprlay_hirano_b_3L_dark_green_norm;
-    }
-
-// _peach_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_peach_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_peach_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_peach_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_peach_snow;
-	    sprlay_hirano_b_3L_peach_norm;
-    }
-
-// _pink_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_pink_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_pink_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_pink_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_pink_snow;
-	    sprlay_hirano_b_3L_pink_norm;
-    }
-
-// _light_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_light_blue_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_light_blue_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_light_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_light_blue_snow;
-	    sprlay_hirano_b_3L_light_blue_norm;
-    }
-
-// _dark_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirano_b_3L_dark_blue_norm {
-        ground {
-            sprite: spr_hirano_b_ground (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirano_b_3L_dark_blue_snow {
-        ground {
-            sprite: spr_hirano_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_hirano_b_3L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirano_b_3L_dark_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirano_b_3L_dark_blue_snow;
-	    sprlay_hirano_b_3L_dark_blue_norm;
-    }
-
-// _white_
-    // Norm Sprites
     spritelayout sprlay_hirano_a_4L_white_norm {
         ground {
             sprite: spr_hirano_a_ground (3);
@@ -15469,6 +15479,606 @@ spriteset (spr_hirata_b_ground, 				"src/houses/hirata/gfx/ground_b.png") 				  
 spriteset (spr_hirata_b_ground_snow, 			"src/houses/hirata/gfx/ground_b.png") 				    {template_ground(1,33)}
 # 1 "src/houses/hirata/hirata.pnml" 4
 # 1 "src/houses/hirata/levels/all.pnml" 1
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_white_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_white_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_white_snow;
+	    sprlay_hirata_a_3L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_grey_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_grey_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_grey_snow;
+	    sprlay_hirata_a_3L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_mauve_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_mauve_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_mauve_snow;
+	    sprlay_hirata_a_3L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_brown1_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_brown1_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_brown1_snow;
+	    sprlay_hirata_a_3L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_brown2_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_brown2_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_brown2_snow;
+	    sprlay_hirata_a_3L_brown2_norm;
+    }
+
+// _dark_green_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_dark_green_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_dark_green_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_dark_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_dark_green_snow;
+	    sprlay_hirata_a_3L_dark_green_norm;
+    }
+
+// _peach_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_peach_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_peach_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_peach_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_peach_snow;
+	    sprlay_hirata_a_3L_peach_norm;
+    }
+
+// _pink_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_pink_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_pink_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_pink_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_pink_snow;
+	    sprlay_hirata_a_3L_pink_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_light_blue_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_light_blue_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_light_blue_snow;
+	    sprlay_hirata_a_3L_light_blue_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirata_a_3L_dark_blue_norm {
+        ground {
+            sprite: spr_hirata_a_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_a_3L_dark_blue_snow {
+        ground {
+            sprite: spr_hirata_a_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_a_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_a_3L_dark_blue_snow;
+	    sprlay_hirata_a_3L_dark_blue_norm;
+    }
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_white_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_white_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_white_snow;
+	    sprlay_hirata_b_3L_white_norm;
+    }
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_grey_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_grey_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_grey_snow;
+	    sprlay_hirata_b_3L_grey_norm;
+    }
+
+// _mauve_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_mauve_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_mauve_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 4;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_mauve_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_mauve_snow;
+	    sprlay_hirata_b_3L_mauve_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_brown1_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_brown1_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_brown1_snow;
+	    sprlay_hirata_b_3L_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_brown2_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_brown2_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_brown2_snow;
+	    sprlay_hirata_b_3L_brown2_norm;
+    }
+
+// _dark_green_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_dark_green_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_dark_green_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 5;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_dark_green_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_dark_green_snow;
+	    sprlay_hirata_b_3L_dark_green_norm;
+    }
+
+// _peach_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_peach_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_peach_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 6;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_peach_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_peach_snow;
+	    sprlay_hirata_b_3L_peach_norm;
+    }
+
+// _pink_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_pink_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_pink_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 7;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_pink_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_pink_snow;
+	    sprlay_hirata_b_3L_pink_norm;
+    }
+
+// _light_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_light_blue_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_light_blue_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 8;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_light_blue_snow;
+	    sprlay_hirata_b_3L_light_blue_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_hirata_b_3L_dark_blue_norm {
+        ground {
+            sprite: spr_hirata_b_ground (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_hirata_b_3L_dark_blue_snow {
+        ground {
+            sprite: spr_hirata_b_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_hirata_b_3L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_hirata_b_3L_dark_blue_snow;
+	    sprlay_hirata_b_3L_dark_blue_norm;
+    }
 
 // _white_
     // Norm Sprites
@@ -16668,606 +17278,6 @@ spriteset (spr_hirata_b_ground_snow, 			"src/houses/hirata/gfx/ground_b.png") 		
     switch(FEAT_HOUSES, SELF, switch_hirata_b_5L_dark_blue_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_hirata_b_5L_dark_blue_snow;
 	    sprlay_hirata_b_5L_dark_blue_norm;
-    }
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_white_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_white_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_white_snow;
-	    sprlay_hirata_a_3L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_grey_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_grey_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_grey_snow;
-	    sprlay_hirata_a_3L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_mauve_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_mauve_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_mauve_snow;
-	    sprlay_hirata_a_3L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_brown1_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_brown1_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_brown1_snow;
-	    sprlay_hirata_a_3L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_brown2_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_brown2_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_brown2_snow;
-	    sprlay_hirata_a_3L_brown2_norm;
-    }
-
-// _dark_green_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_dark_green_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_dark_green_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_dark_green_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_dark_green_snow;
-	    sprlay_hirata_a_3L_dark_green_norm;
-    }
-
-// _peach_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_peach_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_peach_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_peach_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_peach_snow;
-	    sprlay_hirata_a_3L_peach_norm;
-    }
-
-// _pink_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_pink_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_pink_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_pink_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_pink_snow;
-	    sprlay_hirata_a_3L_pink_norm;
-    }
-
-// _light_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_light_blue_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_light_blue_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_light_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_light_blue_snow;
-	    sprlay_hirata_a_3L_light_blue_norm;
-    }
-
-// _dark_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirata_a_3L_dark_blue_norm {
-        ground {
-            sprite: spr_hirata_a_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_a_3L_dark_blue_snow {
-        ground {
-            sprite: spr_hirata_a_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_a_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_a_3L_dark_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_a_3L_dark_blue_snow;
-	    sprlay_hirata_a_3L_dark_blue_norm;
-    }
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_white_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_white_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_white_snow;
-	    sprlay_hirata_b_3L_white_norm;
-    }
-
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_grey_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_grey_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_grey_snow;
-	    sprlay_hirata_b_3L_grey_norm;
-    }
-
-// _mauve_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_mauve_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_mauve_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 4;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_mauve_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_mauve_snow;
-	    sprlay_hirata_b_3L_mauve_norm;
-    }
-
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_brown1_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_brown1_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_brown1_snow;
-	    sprlay_hirata_b_3L_brown1_norm;
-    }
-
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_brown2_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_brown2_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_brown2_snow;
-	    sprlay_hirata_b_3L_brown2_norm;
-    }
-
-// _dark_green_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_dark_green_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_dark_green_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 5;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_dark_green_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_dark_green_snow;
-	    sprlay_hirata_b_3L_dark_green_norm;
-    }
-
-// _peach_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_peach_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_peach_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 6;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_peach_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_peach_snow;
-	    sprlay_hirata_b_3L_peach_norm;
-    }
-
-// _pink_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_pink_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_pink_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 7;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_pink_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_pink_snow;
-	    sprlay_hirata_b_3L_pink_norm;
-    }
-
-// _light_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_light_blue_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_light_blue_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 8;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_light_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_light_blue_snow;
-	    sprlay_hirata_b_3L_light_blue_norm;
-    }
-
-// _dark_blue_
-    // Norm Sprites
-    spritelayout sprlay_hirata_b_3L_dark_blue_norm {
-        ground {
-            sprite: spr_hirata_b_ground (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_hirata_b_3L_dark_blue_snow {
-        ground {
-            sprite: spr_hirata_b_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_hirata_b_3L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 9;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_hirata_b_3L_dark_blue_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_hirata_b_3L_dark_blue_snow;
-	    sprlay_hirata_b_3L_dark_blue_norm;
     }
 
 // _white_
@@ -55248,19 +55258,21 @@ item(FEAT_HOUSES, item_sato_building){
 
 // End sato_building
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/skyscrapers/bank_building/bank_building.pnml" 1
+# 1 "src/houses/bank_building/bank_building.pnml" 1
 
-# 1 "src/houses/skyscrapers/bank_building/gfx/bank_building_sprites.pnml" 1
+// bank_building
+
+# 1 "src/houses/bank_building/gfx/bank_building_sprites.pnml" 1
 
 // Building Sprites
-spriteset (spr_bank_building_norm, 				"src/houses/skyscrapers/bank_building/gfx/building.png") 			{template_house_200(1,1)}
-spriteset (spr_bank_building_snow, 				"src/houses/skyscrapers/bank_building/gfx/building.png") 			{template_house_200(1,202)}
+spriteset (spr_bank_building_norm, 				"src/houses/bank_building/gfx/building.png") 			{template_house_200(1,1)}
+spriteset (spr_bank_building_snow, 				"src/houses/bank_building/gfx/building.png") 			{template_house_200(1,202)}
 
 // Ground Sprites
-spriteset (spr_bank_building_ground, 			"src/houses/skyscrapers/bank_building/gfx/ground.png") 				{template_ground(1,1)}
-spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_building/gfx/ground.png") 				{template_ground(1,33)}
-# 1 "src/houses/skyscrapers/bank_building/bank_building.pnml" 2
-# 1 "src/houses/skyscrapers/bank_building/levels/L.pnml" 1
+spriteset (spr_bank_building_ground, 			"src/houses/bank_building/gfx/ground.png") 				{template_ground(1,1)}
+spriteset (spr_bank_building_ground_snow, 		"src/houses/bank_building/gfx/ground.png") 				{template_ground(1,33)}
+# 1 "src/houses/bank_building/bank_building.pnml" 4
+# 1 "src/houses/bank_building/levels/all.pnml" 1
 
 // _black_
     // Norm Sprites
@@ -55272,8 +55284,6 @@ spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_buildin
             sprite: spr_bank_building_norm (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
         }
     }
 
@@ -55286,8 +55296,6 @@ spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_buildin
             sprite: spr_bank_building_snow (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 11;
-            xoffset: 0;
-            yoffset: 0;
         }
     }
 
@@ -55306,8 +55314,6 @@ spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_buildin
             sprite: spr_bank_building_norm (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 15;
-            xoffset: 0;
-            yoffset: 0;
         }
     }
 
@@ -55320,8 +55326,6 @@ spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_buildin
             sprite: spr_bank_building_snow (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 15;
-            xoffset: 0;
-            yoffset: 0;
         }
     }
 
@@ -55329,48 +55333,16 @@ spriteset (spr_bank_building_ground_snow, 		"src/houses/skyscrapers/bank_buildin
 	    TILETYPE_SNOW: sprlay_bank_building_midgrey_snow;
 	    sprlay_bank_building_midgrey_norm;
     }
-# 1 "src/houses/skyscrapers/bank_building/bank_building.pnml" 2
-# 1 "src/houses/skyscrapers/bank_building/switches/combined_rs.pnml" 1
+# 1 "src/houses/bank_building/bank_building.pnml" 4
+# 1 "src/houses/bank_building/switches/colour_switches.pnml" 1
 
-switch (FEAT_HOUSES, SELF, switch_bank_building_snow, random_bits % 3 ) {
-	0: switch_bank_building_black_snow;
-	1: switch_bank_building_midgrey_snow;
-	2: switch_bank_building_black_snow;
+// bank_building ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_bank_building_c_sprites, random_bits % 3 ) {
+0..1: switch_bank_building_black_snow;
+2: switch_bank_building_midgrey_snow;
 }
-# 1 "src/houses/skyscrapers/bank_building/bank_building.pnml" 2
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_bank_building_con_check, 
-	FuncServicePASS() &&					// Must have passenger service
-	IsUniqueHouse() &&						// Only one in city
-	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
-	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
-	PopOver11L12LThreshold() &&				// Population of city check
-	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
-	IfFirstSkyscraper() )					// OR it's the first skyscraper
-) {return;}	
-
-item(FEAT_HOUSES, item_bank_building){
-	property {
-		substitute: 				4; 													
-		name: 						string(NAME_BANK_BUILDING);
-		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
-		population: 				220;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 8],[GOOD, 8]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				10;
-		years_available: 			[1980,0xFFFF];
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
-		building_class:				5;	
-		}
-	graphics {
-		default: 					switch_bank_building_snow;
-		construction_check:			switch_bank_building_con_check;
-		cargo_production: 			func_produce(16,6);
-	}
-}
+# 1 "src/houses/bank_building/bank_building.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/skyscrapers/sugiyama_office_building/sugiyama_office_building.pnml" 1
 // Begin sugiyama_office_building
@@ -57878,6 +57850,29 @@ item(FEAT_HOUSES, item_hirata_m, 34, HOUSE_SIZE_1X1){
 		default: 					switch_hirata_m_sprites;
 		construction_check: 		switch_medium_con_check;
 		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				90;
+		name: 						string(NAME_BANK_BUILDING);
+        building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				220;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1980,0xFFFF];
+		minimum_lifetime: 			20;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				5;
+				
+		}
+	graphics {
+		default: 					switch_bank_building_c_sprites;
+		construction_check: 		switch_skyscraper_con_check;
+		cargo_production: 			func_produce(16,6);
 	}
 }
 # 1 "JPplusBuildings.pnml" 4

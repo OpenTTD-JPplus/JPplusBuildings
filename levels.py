@@ -11,7 +11,10 @@ for b in buildings:
         template = open("./src/houses/" + b + "/variants/all.pnml", "rt")
         current_level = open("./src/houses/" + b + "/levels/" + l +".pnml", "wt")
         for line in template:
-            current_level.write(line.replace('_xL_', str('_' + l +'_')))
+            if l == 'sky':
+                current_level.write(line.replace('_xL_', str('_')))
+            else:
+                current_level.write(line.replace('_xL_', str('_' + l +'_')))
         template.close()
         current_level.close()
 

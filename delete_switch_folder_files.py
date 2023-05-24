@@ -3,10 +3,9 @@ from buildings import buildings_dict as buildings_dict
 
 buildings = list(buildings_dict.keys())
 
-m = 0
 for b in buildings:
     print("Deleting " + b + " switch folder contents")
-    folder = './src/houses/' + b +'/switches/'
+    folder = './src/houses/' + b +'/variants/'
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -16,4 +15,3 @@ for b in buildings:
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
-    m = m +1

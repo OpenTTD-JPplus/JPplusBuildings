@@ -169,8 +169,12 @@ for b in buildings:
                 for c in colours:
                     # Add the colours lines
                     f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                    if v == 'x':
+                    if v == 'x' and l == 'sky':
+                        f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + c +"_snow;\n")
+                    elif v == 'x' and l != 'sky':    
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + l + "_" + c +"_snow;\n")
+                    elif v != 'x' and l == 'sky':
+                        f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + c +"_snow;\n")
                     else:
                         f.write(str(random_bits_all_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")
                     f.close()

@@ -71,3 +71,14 @@ switch (FEAT_HOUSES, SELF, switch_x_large_con_check,
 	PopOver9L10LThreshold() &&					// City has population above relevant threshold
 	WideRoads()									// Can only build beside a wider road
 	) {return;}	
+
+// Skyscrapers
+switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check, 
+	FuncServicePASS() &&					// Must have passenger service
+	IsUniqueHouse() &&						// Only one in city
+	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
+	PopOver11L12LThreshold() &&				// Population of city check
+	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+	IfFirstSkyscraper() )					// OR it's the first skyscraper
+) {return;}	
