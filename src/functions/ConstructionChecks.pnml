@@ -3,7 +3,7 @@
 switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse, 
 	!FuncServicePASS() 				                // Build where there is no Passenger service
         ||                                              // OR
-    (town_zone == TOWNZONE_EDGE && !WideRoads() )   // Not beside a wide road in EDGE
+    town_zone == TOWNZONE_EDGE    					// In EDGE
 ) {return;}	
 
 // Shotengai
@@ -19,7 +19,7 @@ switch (FEAT_HOUSES, SELF, switch_small_con_check,
 		(!PopOver7L8LThreshold() ||										// Not Above Threshold OR
 			(PopOver7L8LThreshold() && 									// Above Threshold AND
 				(!WideRoads() || 
-					(WideRoads() && (town_zone == TOWNZONE_EDGE || town_zone == TOWNZONE_OUTSKIRT)) )	// Either not on Wide Roads OR on Wide Road in EDGE
+					(WideRoads() && town_zone == TOWNZONE_OUTSKIRT) )	// Either not on Wide Roads OR on Wide Road in OUTSKIRT
 			) 
 		) 
 	) 
@@ -43,7 +43,7 @@ switch (FEAT_HOUSES, SELF, switch_medium_con_check,
 				(
 					!WideRoads() 
 					|| 
-					(WideRoads() && (town_zone == TOWNZONE_OUTSKIRT || town_zone == TOWNZONE_OUTER_SUBURB))
+					(WideRoads() &&  town_zone == TOWNZONE_OUTER_SUBURB)
 				)
 			)
 		)	

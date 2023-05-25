@@ -10,7 +10,7 @@ item(FEAT_HOUSES, item_fukuda_m, 17, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,1980];
 		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -54,7 +54,7 @@ item(FEAT_HOUSES, item_harada_m, 24, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -98,7 +98,7 @@ item(FEAT_HOUSES, item_hayashi_s, 26, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -120,7 +120,7 @@ item(FEAT_HOUSES, item_hayashi_m, 28, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -142,7 +142,7 @@ item(FEAT_HOUSES, item_hirano_s, 29, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1955,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -164,7 +164,7 @@ item(FEAT_HOUSES, item_hirano_m, 32, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1955,0xFFFF];
 		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -186,7 +186,7 @@ item(FEAT_HOUSES, item_hirata_s, 33, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			5;
-		availability_mask: 			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -208,7 +208,7 @@ item(FEAT_HOUSES, item_hirata_m, 34, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1945,0xFFFF];
 		minimum_lifetime: 			7;
-		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -242,7 +242,7 @@ item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
 	}
 }
 
-item(FEAT_HOUSES, item_hospital, 121, HOUSE_SIZE_2X2){
+item(FEAT_HOUSES, item_hospital, 200, HOUSE_SIZE_2X2){
 	property {
 		substitute: 				20;
 		name: 						string(NAME_HOSPITAL);
@@ -263,6 +263,32 @@ item(FEAT_HOUSES, item_hospital, 121, HOUSE_SIZE_2X2){
 		graphics_east: 				switch_hospital_k_east_sprites;
         graphics_west: 			    switch_hospital_k_west_sprites;
 		graphics_south: 			switch_hospital_k_south_sprites;
+		construction_check: 		switch_hospital_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_stadium, 204, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20;
+		name: 						string(NAME_STADIUM);
+        building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				150;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				5;
+		years_available: 			[1970,0xFFFF];
+		minimum_lifetime: 			20;
+		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				3;
+				
+		}
+	graphics {
+        graphics_north: 			switch_stadium_k_north_sprites;
+		graphics_east: 				switch_stadium_k_east_sprites;
+        graphics_west: 			    switch_stadium_k_west_sprites;
+		graphics_south: 			switch_stadium_k_south_sprites;
 		construction_check: 		switch_hospital_con_check;
 		cargo_production: 			func_produce(10,4);
 	}

@@ -77,6 +77,16 @@ hospital_all_colours =          {   "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Stadium
+stadium_all_colours =          {    "light_blue" :  1, 
+                                    "red":          1, 
+                                    "dark_blue" :   1, 
+                                    "gold" :        1, 
+                                    "black" :       1, 
+                                    "red_brown" :   1, 
+                                    "dark_green" :  1  
+                                }
+
 buildings_dict = {
 	"bank_building" : {
 		"construction_state" : "construction_state",
@@ -93,8 +103,6 @@ buildings_dict = {
 	        }
         }
     },
-    
-    
     "fukuda" : {
 		"construction_state" : "construction_state",
         "colours" : fukuda_all_colours,
@@ -189,9 +197,36 @@ buildings_dict = {
 		"construction_state" : "construction_state",
         "colours" : hospital_all_colours,
         "old_colours" : False,
-        "levels" : {"2X2"},
+        "levels" : {"x"},   # x since only one version of this 2X2
         "heights" : {    
-            "k" : ["2X2"], # k means landmark
+            "k" : ["x"],    # k means landmark and 2X2
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "stadium" : {
+		"construction_state" : "3",
+        "colours" : stadium_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},   # x since only one version of this 2X2
+        "heights" : {    
+            "k" : ["x"],    # k means landmark and 2X2
         },
         "variants" : {    
             "north" : {
