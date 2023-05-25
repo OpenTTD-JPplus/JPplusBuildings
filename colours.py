@@ -41,15 +41,12 @@ for b in buildings:
         current_colour.close()
 
         search_text_remap = "_c_"
-        search_text_construction_state = "_construction_state_"
         search_text_building_name = "building_name"
         recolour_remap = coloursdict[c]
-        construction_state = buildings_dict[buildings[m]]["construction_state"]
         building_name = buildings[m]
         with open(r'./src/houses/' + buildings[m] + '/colours/' + colours[n] +'.pnml', 'r') as file:
             data = file.read()
             data = data.replace(search_text_remap, recolour_remap)
-            data = data.replace(search_text_construction_state, construction_state)
             data = data.replace(search_text_building_name, building_name)
         with open(r'./src/houses/' + buildings[m] + '/colours/' + colours[n] + '.pnml', 'w') as file:
             file.write(data)

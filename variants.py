@@ -14,23 +14,48 @@ for b in buildings:
     n = 0
     for v in variants:
         template = open("./src/houses/" + b + "/colours/all.pnml", "rt")
-        current_variant = open("./src/houses/" + b + "/variants/" + variants[n] +".pnml", "wt")
+        current_variant = open("./src/houses/" + b + "/variants/" + v +".pnml", "wt")
         for line in template:
-            if variants[n] == 'x':
-                current_variant.write(line.replace('_v_', str('_')))
-            else:
-                current_variant.write(line.replace('_v_', str('_' + variants[n] +'_')))
+            try:
+                if buildings_dict[b]["shared_variant_gfx"] == True and ("spritelayout" in line or "sprlay_" in line or "FEAT_HOUSES" in line):
+                    current_variant.write(line.replace('_v_', str('_' + v +'_')))
+                else:
+                    current_variant.write(line.replace('_v_', str('_'))) 
+            except:
+                if v == 'x':
+                    current_variant.write(line.replace('_v_', str('_')))                      
+                else:
+                    current_variant.write(line.replace('_v_', str('_' + v +'_')))
+            
         template.close()
         current_variant.close()
 
         search_text_x = "_xoff_"
         search_text_y = "_yoff_"
+        search_text_hide_sprite = "_hide_"
+        search_text_construction_state = "_construction_state_"
         xoff = buildings_dict[b]["variants"][v]["xoffset"]
         yoff = buildings_dict[b]["variants"][v]["yoffset"]
-        with open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r') as file:
+        with open(r'./src/houses/' + b + '/variants/' + v +'.pnml', 'r') as file:
             data = file.read()
+            # Offsets
             data = data.replace(search_text_x, xoff)
             data = data.replace(search_text_y, yoff)
+            # Hide Sprites
+            try: 
+                hide_sprite = buildings_dict[b]["variants"][v]["hide_sprite"]
+            except:    
+                data = data.replace(search_text_hide_sprite, "0")
+            else:
+                data = data.replace(search_text_hide_sprite, hide_sprite)
+            # Construction States
+            try:
+                construction_state = buildings_dict[b]["variants"][v]["construction_state"]
+            except:
+                data = data.replace(search_text_construction_state, "construction_state")
+            else:
+                data = data.replace(search_text_construction_state, construction_state)
+
         with open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w') as file:
             file.write(data)
         
@@ -57,6 +82,18 @@ for b in buildings:
 
 		    #delete line matching string
             if line.find('yoffset: 0;') == -1:			      
+                new_file.write(line)
+	   
+        new_file.close()
+
+        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
+        lines = a_file.readlines()	    
+        a_file.close()	    
+        new_file = open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w')	    
+        for line in lines:
+
+		    #delete line matching string
+            if line.find('hide_sprite: 0;') == -1:			      
                 new_file.write(line)
 	   
         new_file.close()

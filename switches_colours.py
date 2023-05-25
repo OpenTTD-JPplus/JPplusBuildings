@@ -156,16 +156,19 @@ for b in buildings:
             f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
             # Old Colours
             if buildings_dict[b]["old_colours"] == False and v == 'x':
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 1 \n")
+            elif buildings_dict[b]["old_colours"] == False and v != 'x' and (h == 'k' or h == 'c'):
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_" + v + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 2\n")   
             elif buildings_dict[b]["old_colours"] == False and v != 'x' and h != "k":
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
-            elif buildings_dict[b]["old_colours"] == False and v != 'x' and h == 'k':
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_" + v + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")    
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 3\n")  
             # Modern buildings
             elif buildings_dict[b]["old_colours"] != False and v == 'x':
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 4\n")
+            elif buildings_dict[b]["old_colours"] != False and v != 'x':
+                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 5\n")
             else:
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) {\n")
+                print("// Ref 6 - " + b + " not allocated to an option")
+            
             f.close()
             levels = list(buildings_dict[b]["heights"].values())[n]
             n = n + 1

@@ -87,24 +87,40 @@ stadium_all_colours =          {    "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Temple
+temple_all_colours =            {   "black" :       1, 
+                                    "brown1":       1, 
+                                    "brown2" :      1, 
+                                    "grey" :        1, 
+                                    "red_brown" :   1, 
+                                }
+
+# Tsuno Building
+tsuno_building_all_colours =    {   "light_blue" :  1, 
+                                    "red":          1, 
+                                    "dark_blue" :   1, 
+                                    "gold" :        1, 
+                                    "black" :       1, 
+                                    "red_brown" :   1, 
+                                    "dark_green" :  1  
+                                }
+
 buildings_dict = {
 	"bank_building" : {
-		"construction_state" : "construction_state",
         "colours" : bank_building_all_colours,
         "old_colours" : False,
-        "levels" : {"sky"},
+        "levels" : {"x"},
         "heights" : {    
-            "c" : ["sky"]
+            "c" : ["x"]
         },
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
 	        }
         }
     },
     "fukuda" : {
-		"construction_state" : "construction_state",
         "colours" : fukuda_all_colours,
         "old_colours" : False,
         "levels" : {"6L", "8L"},
@@ -120,7 +136,6 @@ buildings_dict = {
         }
     },
 	"harada" : {
-		"construction_state" : "construction_state",
         "colours" : harada_all_colours,
         "old_colours" : False,
         "levels" : {"6L", "8L"},
@@ -136,7 +151,6 @@ buildings_dict = {
         }
 	},
     "hayashi" : {
-		"construction_state" : "3",
         "colours" : hayashi_all_colours,
         "old_colours" : False,
         "levels" : {"3L", "4L", "5L", "6L"},
@@ -147,12 +161,12 @@ buildings_dict = {
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
     "hirano" : {
-		"construction_state" : "3",
         "colours" : hirano_all_colours,
         "old_colours" : hirano_old_colours,
         "end_of_old_era" : 1959,
@@ -164,16 +178,17 @@ buildings_dict = {
         "variants" : {    
             "a" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
 	        "b" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
     "hirata" : {
-		"construction_state" : "construction_state",
         "colours" : hirata_all_colours,
         "old_colours" : hirata_old_colours,
         "end_of_old_era" : 1959,
@@ -194,7 +209,6 @@ buildings_dict = {
         }
 	},
     "hospital" : {
-		"construction_state" : "construction_state",
         "colours" : hospital_all_colours,
         "old_colours" : False,
         "levels" : {"x"},   # x since only one version of this 2X2
@@ -221,12 +235,75 @@ buildings_dict = {
         }
 	},
     "stadium" : {
-		"construction_state" : "3",
         "colours" : stadium_all_colours,
         "old_colours" : False,
         "levels" : {"x"},   # x since only one version of this 2X2
         "heights" : {    
             "k" : ["x"],    # k means landmark and 2X2
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
+    "temple" : {
+		"construction_state" : "3",
+        "colours" : temple_all_colours,
+        "old_colours" : False,
+        "levels" : {"p", "q"},   
+        "heights" : {    
+            "k" : ["p", "q"],       # may need to vary the k
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" :     "0",
+		        "yoffset" :     "0",
+                "hide_sprite":  "1",
+                "construction_state" : "3"
+	        },
+            "east" : {
+		        "xoffset" :     "1",
+		        "yoffset" :     "3",
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" :     "1",
+		        "yoffset" :     "0",
+                "construction_state" : "0"
+	        },
+            "south" : {
+		        "xoffset" :     "0",
+		        "yoffset" :     "0",
+                "construction_state" : "1"
+	        }
+        }
+	},
+    "tsuno_building" : {
+        "colours" : tsuno_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},   
+        "heights" : {    
+            "c" : ["x"],    
         },
         "variants" : {    
             "north" : {
@@ -237,14 +314,6 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        },
-            "west" : {
-		        "xoffset" : "0",
-		        "yoffset" : "0"
-	        },
-            "south" : {
-		        "xoffset" : "0",
-		        "yoffset" : "0"
-	        }
-        }
+        },
 	},
 }

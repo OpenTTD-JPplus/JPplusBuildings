@@ -89,3 +89,11 @@ switch (FEAT_HOUSES, SELF, switch_hospital_con_check,
 	IsUniqueHouse()	&&					// Only one per city
 	PopOver5L6LThreshold()				// Required city population
 	) {return;}	
+
+// Temple
+switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Temple per city
+	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
+	) {return;}	
