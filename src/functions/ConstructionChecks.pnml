@@ -6,6 +6,13 @@ switch(FEAT_HOUSES, SELF, ConstructionCheckSingleHouse,
     town_zone == TOWNZONE_EDGE    					// In EDGE
 ) {return;}	
 
+switch(FEAT_HOUSES, SELF, switch_single_house_con_check, 
+	!FuncServicePASS() 				                // Build where there is no Passenger service
+        ||                                              // OR
+    town_zone == TOWNZONE_EDGE    					// In EDGE
+) {return;}	
+
+
 // Shotengai
 switch(FEAT_HOUSES, SELF, ConstructionCheckShotengai, 
 	current_year < 1945
@@ -85,15 +92,21 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check,
 
 // Hospital
 switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
-	IsCity() && 						// Can only appear in Cities
-	IsUniqueHouse()	&&					// Only one per city
-	PopOver5L6LThreshold()				// Required city population
+	IsCity() && 							// Can only appear in Cities
+	IsUniqueHouse()	&&						// Only one per city
+	PopOver5L6LThreshold()					// Required city population
 	) {return;}	
 
 // Temple
 switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
-	IsCity() && 				// Can only appear in Cities
-	IsUniqueHouse() && 			// Only one Temple per city
-	OnGenerationOnly() && 		// Will only spawn when Map is generated - not realistic being built in modern times!
+	IsCity() && 							// Can only appear in Cities
+	IsUniqueHouse() && 						// Only one Temple per city
+	OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
 	nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
 	) {return;}	
+
+// Farm
+switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
+	!IsCity() && 					// Cannot appear in Cities
+	!PopOver5L6LThreshold()			// Population criteria
+	) {return;}		

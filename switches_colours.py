@@ -154,14 +154,14 @@ for b in buildings:
             num_heights = len(buildings_dict[b]["heights"][h])
             # Add the switch line and update details
             f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-            # Old Colours
+            # Modern Colours only
             if buildings_dict[b]["old_colours"] == False and v == 'x':
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 1 \n")
             elif buildings_dict[b]["old_colours"] == False and v != 'x' and (h == 'k' or h == 'c'):
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_" + v + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 2\n")   
             elif buildings_dict[b]["old_colours"] == False and v != 'x' and h != "k":
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 3\n")  
-            # Modern buildings
+            #Old Colours will come latter
             elif buildings_dict[b]["old_colours"] != False and v == 'x':
                 f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 4\n")
             elif buildings_dict[b]["old_colours"] != False and v != 'x':
@@ -209,7 +209,10 @@ for b in buildings:
                 num_heights = len(buildings_dict[b]["heights"][h])
                 # Add the switch line and update details
                 f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
+                if v == 'x':
+                    f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
+                else:
+                    f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
                 f.close()
                 levels = list(buildings_dict[b]["heights"].values())[n]
                 n = n + 1
@@ -219,7 +222,10 @@ for b in buildings:
                     for c in colours:
                         # Add the colours lines
                         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                        f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")
+                        if v == 'x':
+                            f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + l + "_" + c +"_snow;\n")
+                        else:
+                            f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")
                         f.close()
                         m = m + 1
                 # Add bracket at the bottom
@@ -241,9 +247,18 @@ for b in buildings:
             for h in heights:
                 # Add the switch line and update details
                 f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                f.write("\n\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, current_year - age) {")
-                f.write("\n0.." + str(buildings_dict[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_" + h + "_old;")               
-                f.write("\nswitch_" + b + "_" + v + "_" + h + "_modern;") 
+                if v == 'x':
+                    f.write("\n\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, current_year - age) {")
+                else:
+                    f.write("\n\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, current_year - age) {")
+                if v == 'x':
+                    f.write("\n0.." + str(buildings_dict[b]["end_of_old_era"]) + ": switch_" + b + "_" + h + "_old;")  
+                else:
+                    f.write("\n0.." + str(buildings_dict[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_" + h + "_old;")               
+                if v == 'x':
+                    f.write("\nswitch_" + b + "_" + h + "_modern;") 
+                else:
+                    f.write("\nswitch_" + b + "_" + v + "_" + h + "_modern;") 
                 # Add bracket at the bottom
                 f.write("\n}")
                 f.close()

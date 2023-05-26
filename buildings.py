@@ -3,6 +3,11 @@ bank_building_all_colours =     {   "black" :       2,
                                     "midgrey" :     1
                                     }
 
+# Farm
+farm_all_colours =            {     "black" :       1, 
+                                    "brown1":       1, 
+                                }
+
 # Fukuda
 fukuda_all_colours =            {   "grey" :        2,
                                     "midgrey" :     1
@@ -77,6 +82,27 @@ hospital_all_colours =          {   "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Naganuma
+naganuma_all_colours =          {   "gold" :        2 , 
+                                    "grey" :        3, 
+                                    "mauve" :       2, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_green" :  1, 
+                                    "black" :       2, 
+                                    "red_brown" :   2,
+                                    "red" :         2, 
+                                    "dark_blue" :   1
+                                    }
+
+naganuma_old_colours =          {   "black" :       2, 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2,
+                                    "red_brown" :   1,
+                                    }
+
 # Stadium
 stadium_all_colours =          {    "light_blue" :  1, 
                                     "red":          1, 
@@ -120,6 +146,34 @@ buildings_dict = {
 	        }
         }
     },
+     "farm" : {
+        "manual_gfx" : True,
+        "manual_switches" : True,
+        "colours" : farm_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},   
+        "heights" : {    
+            "h" : ["x"],   
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "fukuda" : {
         "colours" : fukuda_all_colours,
         "old_colours" : False,
@@ -231,6 +285,22 @@ buildings_dict = {
             "south" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
+	        }
+        }
+	},
+    "naganuma" : {
+        "colours" : naganuma_all_colours,
+        "old_colours" : naganuma_old_colours,
+        "end_of_old_era" : 1959,
+        "ground" : "spr_ground_grass",
+        "levels" : {"a", "b", "c", "d", "e", "f"},
+        "heights" : {    
+            "h" : ["a", "b", "c", "d", "e", "f"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
 	        }
         }
 	},
