@@ -97,6 +97,14 @@ switch (FEAT_HOUSES, SELF, switch_hospital_con_check,
 	PopOver5L6LThreshold()					// Required city population
 	) {return;}	
 
+// Shiro
+switch (FEAT_HOUSES, SELF, switch_shiro_con_check, 
+	IsCity() && 				// Can only appear in Cities
+	IsUniqueHouse() && 			// Only one Shiro per city
+	TownIndex() % 4 == 0 && 	// Proportion of cities
+	OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
+	) {return;}	
+
 // Temple
 switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
 	IsCity() && 							// Can only appear in Cities

@@ -103,6 +103,13 @@ naganuma_old_colours =          {   "black" :       2,
                                     "red_brown" :   1,
                                     }
 
+# Shiro
+shiro_all_colours =             {   "black" :       1, 
+                                    "brown1":       1, 
+                                    "brown2" :      1, 
+                                    "grey" :        1
+                                }
+
 # Stadium
 stadium_all_colours =          {    "light_blue" :  1, 
                                     "red":          1, 
@@ -301,6 +308,39 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+	},
+    "shiro" : {
+        "colours" : shiro_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_shiro",
+        "levels" : {"x"},   # x since only one version of this 2X2
+        "heights" : {    
+            "k" : ["x"],    # k means landmark and 2X2
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "hide_sprite":  "1",
+                "construction_state" : "3"
+	        },
+            "east" : {
+		        "xoffset" : "-1",
+		        "yoffset" : "2",
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" : "1",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
 	        }
         }
 	},
