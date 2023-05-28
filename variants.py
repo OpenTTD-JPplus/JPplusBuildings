@@ -11,7 +11,6 @@ print("Running variants.py")
 
 for b in buildings:
     variants = list(buildings_dict[b]["variants"].keys())
-    n = 0
     for v in variants:
         template = open("./src/houses/" + b + "/colours/all.pnml", "rt")
         current_variant = open("./src/houses/" + b + "/variants/" + v +".pnml", "wt")
@@ -56,16 +55,16 @@ for b in buildings:
             else:
                 data = data.replace(search_text_construction_state, construction_state)
 
-        with open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w') as file:
+        with open(r'./src/houses/' + b + '/variants/' + v+ '.pnml', 'w') as file:
             file.write(data)
         
-        with open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w') as file:		    
+        with open(r'./src/houses/' + b + '/variants/' + v + '.pnml', 'w') as file:		    
             file.write(data)
 		    #get list of lines
-        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
+        a_file = open(r'./src/houses/' + b + '/variants/' + v +'.pnml', 'r')	    
         lines = a_file.readlines()	    
         a_file.close()	    
-        new_file = open(r'./src/houses/' + b+ '/variants/' + variants[n] + '.pnml', 'w')	    
+        new_file = open(r'./src/houses/' + b+ '/variants/' + v + '.pnml', 'w')	    
         for line in lines:
 
 		    #delete line matching string
@@ -74,10 +73,10 @@ for b in buildings:
 	   
         new_file.close()
 
-        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
+        a_file = open(r'./src/houses/' + b + '/variants/' + v +'.pnml', 'r')	    
         lines = a_file.readlines()	    
         a_file.close()	    
-        new_file = open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w')	    
+        new_file = open(r'./src/houses/' + b + '/variants/' + v + '.pnml', 'w')	    
         for line in lines:
 
 		    #delete line matching string
@@ -86,10 +85,10 @@ for b in buildings:
 	   
         new_file.close()
 
-        a_file = open(r'./src/houses/' + b + '/variants/' + variants[n] +'.pnml', 'r')	    
+        a_file = open(r'./src/houses/' + b + '/variants/' + v +'.pnml', 'r')	    
         lines = a_file.readlines()	    
         a_file.close()	    
-        new_file = open(r'./src/houses/' + b + '/variants/' + variants[n] + '.pnml', 'w')	    
+        new_file = open(r'./src/houses/' + b + '/variants/' + v + '.pnml', 'w')	    
         for line in lines:
 
 		    #delete line matching string
@@ -97,8 +96,6 @@ for b in buildings:
                 new_file.write(line)
 	   
         new_file.close()
-
-        n = n+1
 
 # COMBINE THE VARIANTS INTO AN 'ALL' FILE
 

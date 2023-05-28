@@ -103,6 +103,14 @@ naganuma_old_colours =          {   "black" :       2,
                                     "red_brown" :   1,
                                     }
 
+# Police Station
+police_station_all_colours =    {   "light_blue" :  1, 
+                                    "red":          1, 
+                                    "dark_blue" :   1, 
+                                    "black" :       1, 
+                                    "dark_green" :  1  
+                                }
+
 # Shiro
 shiro_all_colours =             {   "black" :       1, 
                                     "brown1":       1, 
@@ -309,6 +317,25 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
 	        }
+        }
+	},
+    "police_station" : {
+        "colours" : police_station_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "k" : ["x"],
+        },
+        #"shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
         }
 	},
     "shiro" : {
