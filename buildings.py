@@ -82,6 +82,11 @@ hospital_all_colours =          {   "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Pachinko
+pachinko_all_colours =          {   "black" :       1,
+                                    "midgrey" :     1
+                                    }
+
 # Naganuma
 naganuma_all_colours =          {   "gold" :        2 , 
                                     "grey" :        3, 
@@ -107,8 +112,7 @@ naganuma_old_colours =          {   "black" :       2,
 police_station_all_colours =    {   "light_blue" :  1, 
                                     "red":          1, 
                                     "dark_blue" :   1, 
-                                    "black" :       1, 
-                                    "dark_green" :  1  
+                                    "black" :       1 
                                 }
 
 # Shiro
@@ -319,6 +323,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "pachinko" : {
+        "colours" : pachinko_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "3",
+		        "yoffset" : "-1",
+	        }
+        }
+    },
     "police_station" : {
         "colours" : police_station_all_colours,
         "old_colours" : False,

@@ -1,0 +1,23 @@
+
+item(FEAT_HOUSES, item_pachinko, 11, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				29;
+		name: 						string(NAME_PACHINKO);
+        building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
+		population: 				50;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				3;
+		years_available: 			[1980,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				3;
+				
+		}
+	graphics {
+		default: 					switch_pachinko_k_sprites;
+		construction_check: 		switch_pachinko_con_check;
+		cargo_production: 			func_produce(20,5);
+	}
+}
