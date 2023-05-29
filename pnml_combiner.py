@@ -63,10 +63,10 @@ for b in buildings:
     else:
         print(b + " doesn't have a switches file")
     # Directional switches
-    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
     elif variants == ['a', 'b']: 
         f.write('\n#include "src/houses/' + b +'/switches/direction_switches.pnml"')
     else:
-        print(b + " has an unrecognised variant #4")
+        print(b + " has an unrecognised variant #4 pnml_combiner.py")
     f.close()

@@ -11,7 +11,7 @@ print("Running switches_directions.py")
 for b in buildings:
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
     elif variants == ['a', 'b']:    
         for h in heights:
@@ -30,7 +30,7 @@ for b in buildings:
     sections = []
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
     elif variants == ['a', 'b']: 
         for h in heights:
@@ -49,7 +49,7 @@ for b in buildings:
 for b in buildings:
     heights = list(buildings_dict[b]["heights"])
     variants = list(buildings_dict[b]["variants"].keys())
-    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east']:
+    if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
     elif variants == ['a', 'b']:
         for h in heights:    

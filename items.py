@@ -1,5 +1,9 @@
 import pandas as pd
 import codecs
+import copy
+from buildings import buildings_dict as buildings_dict
+
+buildings = list(buildings_dict.keys())
 
 print("Running items.py")
 print("Attempting items creation")
@@ -132,6 +136,27 @@ for i in name:
 	new_file.close()
 
 	n = n+1
+
+# ADD PARAMETER TO RELEVANT BUILDINGS
+
+item_param_buildings = copy.deepcopy(buildings)
+for b in buildings:
+    try: 
+        buildings_dict[b]["item_param_enclosure_top"] != None     
+    except:
+        item_param_buildings.remove(b)
+
+for b in item_param_buildings:
+	top =  buildings_dict[b]["item_param_enclosure_top"]
+	bottom =  buildings_dict[b]["item_param_enclosure_bottom"]
+	with open('./src/items/' + b + '.pnml', 'r+') as file: 
+		file_data = file.read()
+		file.seek(0, 0)
+		file.write(top + '\n' + file_data) 
+		file.close()
+	with open('./src/items/' + b + '.pnml', 'a') as file: 
+		file.write('\n' + bottom)
+		file.close()
 
 # MERGE THE ITEMS
 

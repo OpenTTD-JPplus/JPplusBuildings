@@ -413,6 +413,23 @@ buildings_dict = {
 	        }
         }
 	},
+    "shrine_prohibition" : {
+        "colours" : temple_all_colours,
+        "old_colours" : False,
+        "item_param_enclosure_top" : "if (param_prohibition_shrine == 1) {",
+        "item_param_enclosure_bottom" : "}",
+        "levels" : {"x"},
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "stadium" : {
         "colours" : stadium_all_colours,
         "old_colours" : False,

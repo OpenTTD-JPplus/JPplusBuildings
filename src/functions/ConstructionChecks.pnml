@@ -125,6 +125,13 @@ switch (FEAT_HOUSES, SELF, switch_shiro_con_check,
 	OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
 	) {return;}	
 
+// Shrine_prohibition
+switch (FEAT_HOUSES, SELF, switch_shrine_prohibition_con_check, 
+	IsCity() &&							// Can only build in a city
+	IsUniqueHouse() &&					// Only one per town
+	OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
+) {return;}	
+
 // Temple
 switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
 	IsCity() && 							// Can only appear in Cities
