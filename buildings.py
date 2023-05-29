@@ -8,6 +8,11 @@ farm_all_colours =            {     "black" :       1,
                                     "brown1":       1, 
                                 }
 
+# Fire Station
+fire_station_all_colours =      {   "black" :       1,
+                                    "midgrey" :     1
+                                    }
+
 # Fukuda
 fukuda_all_colours =            {   "grey" :        2,
                                     "midgrey" :     1
@@ -191,6 +196,25 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }
+        }
+	},
+    "fire_station" : {
+        "colours" : fire_station_all_colours,
+        "old_colours" : False,
+        "levels" : {"a", "b", "c", "d"},
+        "heights" : {    
+            "k" : ["a", "b", "c", "d"],
+        },
+        #"shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "1",
+		        "yoffset" : "1",
+	        },
+            "west" : {
+		        "xoffset" : "1",
+		        "yoffset" : "1",
+	        },
         }
 	},
     "fukuda" : {

@@ -90,6 +90,13 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check,
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
 
+// Fire Station
+switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
+	HasRoadAdjacentSE() &&					// Must have road to the SW
+	PopOver5L6LThreshold() &&				// Population must be > threshold
+	TileGapByType(30)						// Can't appear within 30 tiles of another
+) {return;}	
+
 // Hospital
 switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
 	IsCity() && 							// Can only appear in Cities
