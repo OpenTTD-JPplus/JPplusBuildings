@@ -93,6 +93,16 @@ hospital_all_colours =          {   "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Insurance Tower
+insurance_tower_all_colours =   {   "white" :       1 , 
+                                    "midgrey" :     2, 
+                                    "black" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "red_brown" :   2, 
+                                    "light_blue" :  1, 
+                                    }
+
 # Pachinko
 pachinko_all_colours =          {   "black" :       1,
                                     "midgrey" :     1
@@ -351,6 +361,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "insurance_tower" : {
+        "colours" : insurance_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "2",
+	        }
+        }
+    },
     "naganuma" : {
         "colours" : naganuma_all_colours,
         "old_colours" : naganuma_old_colours,
