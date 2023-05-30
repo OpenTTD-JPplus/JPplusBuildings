@@ -3,6 +3,12 @@ bank_building_all_colours =     {   "black" :       2,
                                     "midgrey" :     1
                                     }
 
+# Enterprise Tower
+enterprise_tower_all_colours =  {   "black" :       2,
+                                    "midgrey" :     1
+                                    }
+
+
 # Farm
 farm_all_colours =            {     "black" :       1, 
                                     "brown1":       1, 
@@ -167,6 +173,20 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+    },
+    "enterprise_tower" : {
+        "colours" : enterprise_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "3",
 	        }
         }
     },
@@ -413,6 +433,21 @@ buildings_dict = {
 	        }
         }
 	},
+    "shrine" : {
+        "colours" : temple_all_colours,
+        "old_colours" : False,
+        "levels" : {"p", "q"},
+        "heights" : {    
+            "k" : ["p", "q"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "shrine_prohibition" : {
         "colours" : temple_all_colours,
         "old_colours" : False,

@@ -100,19 +100,15 @@ for b in buildings:
 # COMBINE THE VARIANTS INTO AN 'ALL' FILE
 
 # Cycle through each building and combine each of it's variants
-m = 0
 for b in buildings:
     sections = []
-    variants = list(buildings_dict[buildings[m]]["variants"].keys())
-    n = 0
+    variants = list(buildings_dict[b]["variants"].keys())
     for v in variants:
-        variants_pnml_path = "src/houses/" + buildings[m] + "/variants/all.pnml"
-        filename = "src/houses/" + buildings[m] + "/variants/" + variants[n] + ".pnml"
+        variants_pnml_path = "src/houses/" + b + "/variants/all.pnml"
+        filename = "src/houses/" + b + "/variants/" + v + ".pnml"
         stuff = codecs.open(filename.format(v),'r','utf8')
         sections.append(stuff.read())
         stuff.close()
-        n = n + 1
         processed_pnml_file = codecs.open(variants_pnml_path,'w','utf8')
         processed_pnml_file.write('\n'.join(sections))
         processed_pnml_file.close()
-    m = m+1
