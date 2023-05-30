@@ -261,6 +261,11 @@ tsuno_building_all_colours =            {   "light_blue" :  1,
                                             "dark_green" :  1  
                                         }
 
+# Ueda Office Block
+ueda_office_block_all_colours =         {   "red_brown" :   2,
+                                            "black" :       1
+                                        }
+
 buildings_dict = {
 	"bank_building" : {
         "colours" : bank_building_all_colours,
@@ -802,4 +807,18 @@ buildings_dict = {
 	        },
         },
 	},
+    "ueda_office_block" : {
+        "colours" : ueda_office_block_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
 }
