@@ -103,6 +103,26 @@ insurance_tower_all_colours =   {   "white" :       1 ,
                                     "light_blue" :  1, 
                                     }
 
+# Kuroi Tower
+kuroi_tower_all_colours =       {   "red" :         1, 
+                                    "light_green" : 1, 
+                                    "white" :       1, 
+                                    "gold" :        1, 
+                                    "dark_green" :  1, 
+                                    "dark_blue" :   1, 
+                                    "light_blue" :  1, 
+                                    }
+
+# Mitsui Tower
+mitsui_tower_all_colours =      {   "white" :       1 , 
+                                    "black" :       2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "red_brown" :   1, 
+                                    "mauve" :       1, 
+                                    }
+
 # Pachinko
 pachinko_all_colours =          {   "black" :       1,
                                     "midgrey" :     1
@@ -372,6 +392,36 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "2",
+	        }
+        }
+    },
+    "kuroi_tower" : {
+        "colours" : kuroi_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
+    "mitsui_tower" : {
+        "colours" : mitsui_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
