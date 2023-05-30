@@ -238,23 +238,28 @@ stadium_all_colours =          {    "light_blue" :  1,
                                     "dark_green" :  1  
                                 }
 
+# Sugiyama Office Building
+sugiyama_office_building_all_colours =  {   "black" :       2,
+                                            "midgrey" :     1
+                                        }
+
 # Temple
-temple_all_colours =            {   "black" :       1, 
-                                    "brown1":       1, 
-                                    "brown2" :      1, 
-                                    "grey" :        1, 
-                                    "red_brown" :   1, 
-                                }
+temple_all_colours =                    {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1, 
+                                            "red_brown" :   1, 
+                                        }
 
 # Tsuno Building
-tsuno_building_all_colours =    {   "light_blue" :  1, 
-                                    "red":          1, 
-                                    "dark_blue" :   1, 
-                                    "gold" :        1, 
-                                    "black" :       1, 
-                                    "red_brown" :   1, 
-                                    "dark_green" :  1  
-                                }
+tsuno_building_all_colours =            {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                            "gold" :        1, 
+                                            "black" :       1, 
+                                            "red_brown" :   1, 
+                                            "dark_green" :  1  
+                                        }
 
 buildings_dict = {
 	"bank_building" : {
@@ -731,6 +736,21 @@ buildings_dict = {
 	        }
         }
 	},
+    "sugiyama_office_building" : {
+        "colours" : sugiyama_office_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "-1",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "temple" : {
 		"construction_state" : "3",
         "colours" : temple_all_colours,
