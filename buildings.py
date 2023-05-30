@@ -137,6 +137,17 @@ multimedia_offices_all_colours = {  "black" :       2,
                                     "midgrey" :     1
                                     }
 
+# Office Tower
+office_tower_all_colours =      {   "white" :       1, 
+                                    "black" :       2,
+                                    "midgrey" :     1,  
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_blue" :   1, 
+                                    "grey" :        1, 
+                                    }
+
 # Pachinko
 pachinko_all_colours =          {   "black" :       1,
                                     "midgrey" :     1
@@ -463,6 +474,20 @@ buildings_dict = {
         "variants" : {    
             "x" : {
 		        "xoffset" : "3",
+		        "yoffset" : "0",
+	        }
+        }
+    },
+    "office_tower" : {
+        "colours" : office_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
 		        "yoffset" : "0",
 	        }
         }
