@@ -266,6 +266,16 @@ ueda_office_block_all_colours =         {   "red_brown" :   2,
                                             "black" :       1
                                         }
 
+# Yamguchi Office
+yamaguchi_office_all_colours =          {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                            "white" :       1, 
+                                            "black" :       1, 
+                                            "red_brown" :   1, 
+                                            "grey" :        1  
+                                        }
+
 buildings_dict = {
 	"bank_building" : {
         "colours" : bank_building_all_colours,
@@ -818,6 +828,21 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+    },
+    "yamaguchi_office" : {
+        "colours" : yamaguchi_office_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
