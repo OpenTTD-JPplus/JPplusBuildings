@@ -102,6 +102,23 @@ insurance_tower_all_colours =   {   "white" :       1 ,
                                     "light_blue" :  1, 
                                     }
 
+# Kimura
+kimura_all_colours =            {   "white" :       1 , 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_green" :  1, 
+                                    "peach" :       1, 
+                                    }
+
+kimura_old_colours =            {   "white" :       1, 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2
+                                    }
+
 # Kuroi Tower
 kuroi_tower_all_colours =       {   "red" :         1, 
                                     "light_green" : 1, 
@@ -135,6 +152,24 @@ modern_office_tower_all_colours = { "white" :       1,
 # Multimedia Offices
 multimedia_offices_all_colours = {  "black" :       2,
                                     "midgrey" :     1
+                                    }
+
+# Murakami
+murakami_all_colours =          {   "white" :       1 , 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "dark_green" :  1, 
+                                    "peach" :       1,
+                                    "light_blue" :  1,  
+                                    }
+
+murakami_old_colours =          {   "white" :       1, 
+                                    "grey" :        2, 
+                                    "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2
                                     }
 
 # Office Tower
@@ -180,6 +215,11 @@ police_station_all_colours =    {   "light_blue" :  1,
                                     "dark_blue" :   1, 
                                     "black" :       1 
                                 }
+
+# Sato Building
+sato_building_all_colours =     {   "black" :       1,
+                                    "midgrey" :     1
+                                    }
 
 # Shiro
 shiro_all_colours =             {   "black" :       1, 
@@ -420,6 +460,26 @@ buildings_dict = {
 	        }
         }
     },
+    "kimura" : {
+        "colours" : kimura_all_colours,
+        "old_colours" : kimura_old_colours,
+        "end_of_old_era" : 1964,
+        "levels" : {"3L", "4L", "5L", "6L"},
+        "heights" : {    
+            "s" : ["3L","4L"],
+            "m" : ["5L","6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "kuroi_tower" : {
         "colours" : kuroi_tower_all_colours,
         "old_colours" : False,
@@ -478,6 +538,26 @@ buildings_dict = {
 	        }
         }
     },
+    "murakami" : {
+        "colours" : murakami_all_colours,
+        "old_colours" : murakami_old_colours,
+        "end_of_old_era" : 1959,
+        "levels" : {"3L", "4L", "5L", "6L"},
+        "heights" : {    
+            "s" : ["3L","4L"],
+            "m" : ["5L","6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "office_tower" : {
         "colours" : office_tower_all_colours,
         "old_colours" : False,
@@ -541,6 +621,20 @@ buildings_dict = {
 	        },
         }
 	},
+    "sato_building" : {
+        "colours" : sato_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "shiro" : {
         "colours" : shiro_all_colours,
         "old_colours" : False,
