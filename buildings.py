@@ -8,7 +8,6 @@ enterprise_tower_all_colours =  {   "black" :       2,
                                     "midgrey" :     1
                                     }
 
-
 # Farm
 farm_all_colours =            {     "black" :       1, 
                                     "brown1":       1, 
@@ -131,6 +130,11 @@ modern_office_tower_all_colours = { "white" :       1,
                                     "brown2" :      2, 
                                     "red_brown" :   1, 
                                     "grey" :        1, 
+                                    }
+
+# Multimedia Offices
+multimedia_offices_all_colours = {  "black" :       2,
+                                    "midgrey" :     1
                                     }
 
 # Pachinko
@@ -445,6 +449,20 @@ buildings_dict = {
         "variants" : {    
             "x" : {
 		        "xoffset" : "2",
+		        "yoffset" : "0",
+	        }
+        }
+    },
+    "multimedia_offices" : {
+        "colours" : multimedia_offices_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "3",
 		        "yoffset" : "0",
 	        }
         }
