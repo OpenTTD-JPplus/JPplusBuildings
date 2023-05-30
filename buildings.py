@@ -120,7 +120,17 @@ mitsui_tower_all_colours =      {   "white" :       1 ,
                                     "brown1" :      2, 
                                     "brown2" :      2, 
                                     "red_brown" :   1, 
+                                    }
+
+# Modern Office Tower
+modern_office_tower_all_colours = { "white" :       1, 
+                                    "black" :       2,
+                                    "midgrey" :     1,  
                                     "mauve" :       1, 
+                                    "brown1" :      2, 
+                                    "brown2" :      2, 
+                                    "red_brown" :   1, 
+                                    "grey" :        1, 
                                     }
 
 # Pachinko
@@ -422,6 +432,20 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "3"
+	        }
+        }
+    },
+    "modern_office_tower" : {
+        "colours" : modern_office_tower_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "2",
+		        "yoffset" : "0",
 	        }
         }
     },
