@@ -1,153 +1,158 @@
 # Bank Building
-bank_building_all_colours =     {   "black" :       2,
-                                    "midgrey" :     1
-                                    }
+bank_building_all_colours =             {   "black" :       2,
+                                            "midgrey" :     1
+                                            }
+
+# Convini
+convini_all_colours =                   {   "black" :       1,
+                                            "midgrey" :     1
+                                            }
 
 # Enterprise Tower
-enterprise_tower_all_colours =  {   "black" :       2,
-                                    "midgrey" :     1
-                                    }
+enterprise_tower_all_colours =          {   "black" :       2,
+                                            "midgrey" :     1
+                                            }
 
 # Farm
-farm_all_colours =            {     "black" :       1, 
-                                    "brown1":       1, 
-                                }
+farm_all_colours =                      {   "black" :       1, 
+                                            "brown1":       1, 
+                                            }
 
 # Fire Station
-fire_station_all_colours =      {   "black" :       1,
-                                    "midgrey" :     1
-                                    }
+fire_station_all_colours =              {   "black" :       1,
+                                            "midgrey" :     1
+                                            }
 
 # Fukuda
-fukuda_all_colours =            {   "grey" :        2,
-                                    "midgrey" :     1
-                                    }
+fukuda_all_colours =                    {   "grey" :        2,
+                                            "midgrey" :     1
+                                            }
 
 # Harada
-harada_all_colours =            {   "white" :       1, 
-                                    "grey":         1, 
-                                    "mauve" :       1, 
-                                    "brown1" :      1, 
-                                    "brown2" :      1, 
-                                    "red_brown" :   1, 
-                                    "black" :       1  
-                                    }
+harada_all_colours =                    {   "white" :       1, 
+                                            "grey":         1, 
+                                            "mauve" :       1, 
+                                            "brown1" :      1, 
+                                            "brown2" :      1, 
+                                            "red_brown" :   1, 
+                                            "black" :       1  
+                                            }
 # Hayashi
-hayashi_all_colours =           {   "white" :       1, 
-                                    "grey":         1, 
-                                    "mauve" :       1, 
-                                    "brown1" :      1, 
-                                    "brown2" :      1, 
-                                    "red_brown" :   1, 
-                                    "black" :       1  
-                                }
+hayashi_all_colours =                   {   "white" :       1, 
+                                            "grey":         1, 
+                                            "mauve" :       1, 
+                                            "brown1" :      1, 
+                                            "brown2" :      1, 
+                                            "red_brown" :   1, 
+                                            "black" :       1  
+                                        }
 
 # Hirano
-hirano_all_colours =            {   "white" :       1 , 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_green" :  1, 
-                                    "peach" :       1, 
-                                    "pink" :        1, 
-                                    "light_blue" :  1, 
-                                    "dark_blue" :   1
-                                    }
+hirano_all_colours =                    {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1, 
+                                            "pink" :        1, 
+                                            "light_blue" :  1, 
+                                            "dark_blue" :   1
+                                            }
 
-hirano_old_colours =            {   "white" :       1, 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2
-                                    }
+hirano_old_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
+                                            }
                         
 # Hirata
-hirata_all_colours =            {   "white" :       1 , 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_green" :  1, 
-                                    "peach" :       1, 
-                                    "pink" :        1, 
-                                    "light_blue" :  1, 
-                                    "dark_blue" :   1
-                                    }
+hirata_all_colours =                    {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1, 
+                                            "pink" :        1, 
+                                            "light_blue" :  1, 
+                                            "dark_blue" :   1
+                                            }
 
-hirata_old_colours =            {   "white" :       1, 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2
-                                    }
+hirata_old_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
+                                            }
 
 # Hospital
-hospital_all_colours =          {   "light_blue" :  1, 
-                                    "grey":         1, 
-                                    "dark_blue" :   1, 
-                                    "brown1" :      1, 
-                                    "brown2" :      1, 
-                                    "red_brown" :   1, 
-                                    "dark_green" :  1  
-                                }
+hospital_all_colours =                  {   "light_blue" :  1, 
+                                            "grey":         1, 
+                                            "dark_blue" :   1, 
+                                            "brown1" :      1, 
+                                            "brown2" :      1, 
+                                            "red_brown" :   1, 
+                                            "dark_green" :  1  
+                                        }
 
 # Insurance Tower
-insurance_tower_all_colours =   {   "white" :       1 , 
-                                    "midgrey" :     2, 
-                                    "black" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "red_brown" :   2, 
-                                    "light_blue" :  1, 
-                                    }
+insurance_tower_all_colours =           {   "white" :       1 , 
+                                            "midgrey" :     2, 
+                                            "black" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   2, 
+                                            "light_blue" :  1, 
+                                            }
 
 # Kimura
-kimura_all_colours =            {   "white" :       1 , 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_green" :  1, 
-                                    "peach" :       1, 
-                                    }
+kimura_all_colours =                    {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1, 
+                                            }
 
-kimura_old_colours =            {   "white" :       1, 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2
-                                    }
+kimura_old_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
+                                            }
 
 # Kuroi Tower
-kuroi_tower_all_colours =       {   "red" :         1, 
-                                    "light_green" : 1, 
-                                    "white" :       1, 
-                                    "gold" :        1, 
-                                    "dark_green" :  1, 
-                                    "dark_blue" :   1, 
-                                    "light_blue" :  1, 
-                                    }
+kuroi_tower_all_colours =               {   "red" :         1, 
+                                            "light_green" : 1, 
+                                            "white" :       1, 
+                                            "gold" :        1, 
+                                            "dark_green" :  1, 
+                                            "dark_blue" :   1, 
+                                            "light_blue" :  1, 
+                                            }
 
 # Mitsui Tower
-mitsui_tower_all_colours =      {   "white" :       1 , 
-                                    "black" :       2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "red_brown" :   1, 
-                                    }
+mitsui_tower_all_colours =              {   "white" :       1 , 
+                                            "black" :       2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            }
 
 # Modern Office Tower
-modern_office_tower_all_colours = { "white" :       1, 
-                                    "black" :       2,
-                                    "midgrey" :     1,  
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "red_brown" :   1, 
-                                    "grey" :        1, 
-                                    }
+modern_office_tower_all_colours =       {   "white" :       1, 
+                                            "black" :       2,
+                                            "midgrey" :     1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "grey" :        1, 
+                                            }
 
 # Multimedia Offices
 multimedia_offices_all_colours =        {   "black" :       2,
@@ -271,9 +276,8 @@ ueda_office_block_all_colours =         {   "red_brown" :   2,
                                             "black" :       1
                                         }
 
-# Yamguchi Office
+# Yamaguchi Office
 yamaguchi_office_all_colours =          {   "light_blue" :  1, 
-                                            "red":          1, 
                                             "dark_blue" :   1, 
                                             "white" :       1, 
                                             "black" :       1, 
@@ -302,6 +306,20 @@ buildings_dict = {
         "levels" : {"x"},
         "heights" : {    
             "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
+    "convini" : {
+        "colours" : convini_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "k" : ["x"]
         },
         "variants" : {    
             "x" : {
