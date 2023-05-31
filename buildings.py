@@ -188,6 +188,34 @@ office_tower_all_colours =              {   "white" :       1,
                                             "grey" :        1, 
                                             }
 
+# Okada Office Tower
+okada_office_tower_all_colours =        {   "white" :       1, 
+                                            "black" :       1,
+                                            "midgrey" :     1,  
+                                            "grey" :        1, 
+                                            }
+
+# Old Office Building
+old_office_building_all_colours =       {   "white" :       1, 
+                                            "black" :       1,
+                                            "midgrey" :     1,  
+                                            "mauve" :       1, 
+                                            "peach" :       1,
+                                            "brown1" :      1, 
+                                            "gold" :        1,
+                                            "light_blue" :  1,  
+                                            "dark_green" :  1, 
+                                            "grey" :        1, 
+                                            }
+
+old_office_building_old_colours =       {   "white" :       1, 
+                                            "black" :       1,
+                                            "midgrey" :     1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      1, 
+                                            "grey" :        1, 
+                                            }
+
 # Onsen
 onsen_all_colours =                     {   "black" :       2,
                                             "midgrey" :     1
@@ -636,6 +664,39 @@ buildings_dict = {
 	        }
         }
     },
+    "okada_office_tower" : {
+        "colours" : okada_office_tower_all_colours,
+        "old_colours" : False,
+        "end_of_old_era" : 1959,
+        "levels" : {"a_6L", "b_6L", "a_8L", "b_8L", "a_10L", "b_10L", "a_12L", "b_12L"},
+        "heights" : {    
+            "m" : ["a_6L", "b_6L"],
+            "l" : ["a_8L", "b_8L"],
+            "x" : ["a_10L", "b_10L", "a_12L", "b_12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "old_office_building" : {
+        "colours" : old_office_building_all_colours,
+        "old_colours" : old_office_building_old_colours,
+        "end_of_old_era" : 1959,
+        "levels" : {"5L", "6L", "7L", "8L"},
+        "heights" : {    
+            "m" : ["5L","6L"],
+            "l" : ["7L","8L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "onsen" : {
         "colours" : onsen_all_colours,
         "old_colours" : False,
