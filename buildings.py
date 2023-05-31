@@ -150,93 +150,98 @@ modern_office_tower_all_colours = { "white" :       1,
                                     }
 
 # Multimedia Offices
-multimedia_offices_all_colours = {  "black" :       2,
-                                    "midgrey" :     1
-                                    }
+multimedia_offices_all_colours =        {   "black" :       2,
+                                            "midgrey" :     1
+                                            }
 
 # Murakami
-murakami_all_colours =          {   "white" :       1 , 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_green" :  1, 
-                                    "peach" :       1,
-                                    "light_blue" :  1,  
-                                    }
+murakami_all_colours =                  {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1,
+                                            "light_blue" :  1,  
+                                            }
 
-murakami_old_colours =          {   "white" :       1, 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2
-                                    }
+murakami_old_colours =                  {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
+                                            }
 
 # Office Tower
-office_tower_all_colours =      {   "white" :       1, 
-                                    "black" :       2,
-                                    "midgrey" :     1,  
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_blue" :   1, 
-                                    "grey" :        1, 
-                                    }
+office_tower_all_colours =              {   "white" :       1, 
+                                            "black" :       2,
+                                            "midgrey" :     1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_blue" :   1, 
+                                            "grey" :        1, 
+                                            }
+
+# Onsen
+onsen_all_colours =                     {   "black" :       2,
+                                            "midgrey" :     1
+                                        }
 
 # Pachinko
-pachinko_all_colours =          {   "black" :       1,
-                                    "midgrey" :     1
-                                    }
+pachinko_all_colours =                  {   "black" :       1,
+                                            "midgrey" :     1
+                                            }
 
 # Naganuma
-naganuma_all_colours =          {   "gold" :        2 , 
-                                    "grey" :        3, 
-                                    "mauve" :       2, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2, 
-                                    "dark_green" :  1, 
-                                    "black" :       2, 
-                                    "red_brown" :   2,
-                                    "red" :         2, 
-                                    "dark_blue" :   1
-                                    }
+naganuma_all_colours =                  {   "gold" :        2 , 
+                                            "grey" :        3, 
+                                            "mauve" :       2, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "black" :       2, 
+                                            "red_brown" :   2,
+                                            "red" :         2, 
+                                            "dark_blue" :   1
+                                            }
 
-naganuma_old_colours =          {   "black" :       2, 
-                                    "grey" :        2, 
-                                    "mauve" :       1, 
-                                    "brown1" :      2, 
-                                    "brown2" :      2,
-                                    "red_brown" :   1,
-                                    }
+naganuma_old_colours =                  {   "black" :       2, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2,
+                                            "red_brown" :   1,
+                                            }
 
 # Police Station
-police_station_all_colours =    {   "light_blue" :  1, 
-                                    "red":          1, 
-                                    "dark_blue" :   1, 
-                                    "black" :       1 
-                                }
+police_station_all_colours =            {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                            "black" :       1 
+                                        }
 
 # Sato Building
-sato_building_all_colours =     {   "black" :       1,
-                                    "midgrey" :     1
-                                    }
+sato_building_all_colours =             {   "black" :       1,
+                                            "midgrey" :     1
+                                            }
 
 # Shiro
-shiro_all_colours =             {   "black" :       1, 
-                                    "brown1":       1, 
-                                    "brown2" :      1, 
-                                    "grey" :        1
-                                }
+shiro_all_colours =                     {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1
+                                        }
 
 # Stadium
-stadium_all_colours =          {    "light_blue" :  1, 
-                                    "red":          1, 
-                                    "dark_blue" :   1, 
-                                    "gold" :        1, 
-                                    "black" :       1, 
-                                    "red_brown" :   1, 
-                                    "dark_green" :  1  
-                                }
+stadium_all_colours =                   {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                            "gold" :        1, 
+                                            "black" :       1, 
+                                            "red_brown" :   1, 
+                                            "dark_green" :  1  
+                                        }
 
 # Sugiyama Office Building
 sugiyama_office_building_all_colours =  {   "black" :       2,
@@ -275,6 +280,20 @@ yamaguchi_office_all_colours =          {   "light_blue" :  1,
                                             "red_brown" :   1, 
                                             "grey" :        1  
                                         }
+
+# Yamashiro Office Building
+yamashiro_office_building_all_colours = {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1, 
+                                            "red_brown" :   1, 
+                                        }
+
+# Yamashita Building
+yamashita_building_all_colours =        {   "black" :       2,
+                                            "midgrey" :     1
+                                        }
+
 
 buildings_dict = {
 	"bank_building" : {
@@ -592,6 +611,20 @@ buildings_dict = {
 	        }
         }
     },
+    "onsen" : {
+        "colours" : onsen_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "naganuma" : {
         "colours" : naganuma_all_colours,
         "old_colours" : naganuma_old_colours,
@@ -843,6 +876,38 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "3"
+	        }
+        }
+    },
+    "yamashiro_office_building" : {
+        "colours" : yamashiro_office_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},   
+        "heights" : {    
+            "c" : ["x"],    
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "2",
+		        "yoffset" : "2"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+        },
+	},
+     "yamashita_building" : {
+        "colours" : yamashita_building_all_colours,
+        "old_colours" : False,
+        "levels" : {"x"},
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
 	        }
         }
     },
