@@ -177,6 +177,26 @@ murakami_old_colours =                  {   "white" :       1,
                                             "brown2" :      2
                                             }
 
+# Nakayama
+nakayama_all_colours =                  {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1,
+                                            "light_blue" :  1,
+                                            "red_brown" :   1, 
+                                            "dark_blue" :   1,   
+                                            }
+
+nakayama_old_colours =                  {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
+                                            }
+
 # Office Tower
 office_tower_all_colours =              {   "white" :       1, 
                                             "black" :       2,
@@ -645,6 +665,29 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
 	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "nakayama" : {
+        "colours" : nakayama_all_colours,
+        "old_colours" : nakayama_old_colours,
+        "end_of_old_era" : 1964,
+        "levels" : {"6L"},
+        "heights" : {    
+            "m" : ["6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "c" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }

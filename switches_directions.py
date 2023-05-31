@@ -22,6 +22,15 @@ for b in buildings:
             with open(r'./src/houses/' + b + '/switches/' + h + '.pnml', 'w') as file:
                 file.write(data)
                 file.close()
+    elif variants == ['a', 'b', 'c']:    
+        for h in heights:
+            with open(r'./src/templates/spritedirections_abc.pnml', 'r') as file:    
+                data = file.read()
+                data = data.replace("building_name", b)
+                data = data.replace("height", h)
+            with open(r'./src/houses/' + b + '/switches/' + h + '.pnml', 'w') as file:
+                file.write(data)
+                file.close()
     else:
         print(b + " has an unrecognised variant #1")
 
@@ -32,7 +41,7 @@ for b in buildings:
     variants = list(buildings_dict[b]["variants"].keys())
     if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
-    elif variants == ['a', 'b']: 
+    elif variants == ['a', 'b'] or variants == ['a', 'b', 'c']: 
         for h in heights:
             destination_pnml_path = "src/houses/" + b + "/switches/direction_switches.pnml"
             filename = "src/houses/" + b + "/switches/" + h + ".pnml"
@@ -51,7 +60,7 @@ for b in buildings:
     variants = list(buildings_dict[b]["variants"].keys())
     if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
         pass
-    elif variants == ['a', 'b']:
+    elif variants == ['a', 'b'] or variants == ['a', 'b', 'c']:
         for h in heights:    
             file_path = "src/houses/" + b + "/switches/" + h + ".pnml"
             try:
