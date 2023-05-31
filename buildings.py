@@ -1,3 +1,26 @@
+
+# Aoki Office
+aoki_office_all_colours =               {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            "light_blue" :  1, 
+                                            "dark_blue" :   1
+                                            }
+
+aoki_office_old_colours =               {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            }                                         
+
 # Bank Building
 bank_building_all_colours =             {   "black" :       2,
                                             "midgrey" :     1
@@ -355,7 +378,24 @@ yano_all_colours =                      {   "midgrey" :     1,
                                         }
 
 buildings_dict = {
-	"bank_building" : {
+	"aoki_office" : {
+        "colours" : aoki_office_all_colours,
+        "old_colours" : aoki_office_old_colours,
+        "end_of_old_era" : 1959,
+        "levels" : {"6L", "8L", "10L", "12L"},
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["8L"],
+            "x" : ["10L","12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "bank_building" : {
         "colours" : bank_building_all_colours,
         "old_colours" : False,
         "levels" : {"x"},
