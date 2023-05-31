@@ -298,6 +298,13 @@ yamashita_building_all_colours =        {   "black" :       2,
                                             "midgrey" :     1
                                         }
 
+# Yano
+yano_all_colours =                      {   "midgrey" :     1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1, 
+                                            "mauve" :       1, 
+                                        }
 
 buildings_dict = {
 	"bank_building" : {
@@ -926,6 +933,20 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+    },
+    "yano" : {
+        "colours" : yano_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L"},
+        "heights" : {    
+            "m" : ["6L"],
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
 	        }
         }
     },
