@@ -21,6 +21,28 @@ aoki_office_old_colours =               {   "white" :       1 ,
                                             "black" :       1, 
                                             }                                         
 
+# Aoyama Office
+aoyama_office_all_colours =             {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            "light_blue" :  1, 
+                                            "dark_blue" :   1
+                                            }
+
+aoyama_office_old_colours =             {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            }      
+
 # Bank Building
 bank_building_all_colours =             {   "black" :       2,
                                             "midgrey" :     1
@@ -387,6 +409,22 @@ buildings_dict = {
             "m" : ["6L"],
             "l" : ["8L"],
             "x" : ["10L","12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "aoyama_office" : {
+        "colours" : aoyama_office_all_colours,
+        "old_colours" : aoyama_office_old_colours,
+        "end_of_old_era" : 1974,
+        "levels" : {"5L", "6L", "7L", "8L"},
+        "heights" : {    
+            "m" : ["5L", "6L"],
+            "l" : ["7L", "8L"],
         },
         "variants" : {    
             "x" : {
