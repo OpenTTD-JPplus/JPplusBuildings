@@ -228,7 +228,7 @@ modern_office_tower_all_colours =       {   "white" :       1,
                                             }
 
 # Mori
-mori_all_colours =                      {   "white" :       1 , 
+mori_all_colours =                      {   "white" :       1, 
                                             "grey" :        2, 
                                             "mauve" :       1, 
                                             "brown1" :      2, 
@@ -251,7 +251,7 @@ multimedia_offices_all_colours =        {   "black" :       2,
                                             }
 
 # Murakami
-murakami_all_colours =                  {   "white" :       1 , 
+murakami_all_colours =                  {   "white" :       1, 
                                             "grey" :        2, 
                                             "mauve" :       1, 
                                             "brown1" :      2, 
@@ -268,8 +268,62 @@ murakami_old_colours =                  {   "white" :       1,
                                             "brown2" :      2
                                             }
 
+# Naganuma
+naganuma_all_colours =                  {   "gold" :        2, 
+                                            "grey" :        3, 
+                                            "mauve" :       2, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "black" :       2, 
+                                            "red_brown" :   2,
+                                            "red" :         2, 
+                                            "dark_blue" :   1
+                                            }
+
+naganuma_old_colours =                  {   "black" :       2, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2,
+                                            "red_brown" :   1,
+                                            }
+
+# Nagoya
+nagoya_all_colours =                    {   "white" :       1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "light_blue" :  1,
+                                            "red_brown" :   1,
+                                            "black" :       1,
+                                            }
+
+# Nakamura
+nakamura_all_colours =                  {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1,
+                                            "light_blue" :  1,
+                                            "red_brown" :   1, 
+                                            "black" :       1,
+                                            "midgrey" :     1,
+                                            }
+
+nakamura_old_colours =                  {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2,
+                                            "midgrey" :     1,
+                                            }
+
+
 # Nakayama
-nakayama_all_colours =                  {   "white" :       1 , 
+nakayama_all_colours =                  {   "white" :       1, 
                                             "grey" :        2, 
                                             "mauve" :       1, 
                                             "brown1" :      2, 
@@ -335,27 +389,6 @@ onsen_all_colours =                     {   "black" :       2,
 # Pachinko
 pachinko_all_colours =                  {   "black" :       1,
                                             "midgrey" :     1
-                                            }
-
-# Naganuma
-naganuma_all_colours =                  {   "gold" :        2 , 
-                                            "grey" :        3, 
-                                            "mauve" :       2, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2, 
-                                            "dark_green" :  1, 
-                                            "black" :       2, 
-                                            "red_brown" :   2,
-                                            "red" :         2, 
-                                            "dark_blue" :   1
-                                            }
-
-naganuma_old_colours =                  {   "black" :       2, 
-                                            "grey" :        2, 
-                                            "mauve" :       1, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2,
-                                            "red_brown" :   1,
                                             }
 
 # Police Station
@@ -851,6 +884,40 @@ buildings_dict = {
     "murakami" : {
         "colours" : murakami_all_colours,
         "old_colours" : murakami_old_colours,
+        "end_of_old_era" : 1959,
+        "levels" : {"3L", "4L", "5L", "6L"},
+        "heights" : {    
+            "s" : ["3L","4L"],
+            "m" : ["5L","6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "nagoya" : {
+        "colours" : nagoya_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L"},
+        "heights" : {    
+            "m" : ["6L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
+    "nakamura" : {
+        "colours" : nakamura_all_colours,
+        "old_colours" : nakamura_old_colours,
         "end_of_old_era" : 1959,
         "levels" : {"3L", "4L", "5L", "6L"},
         "heights" : {    
