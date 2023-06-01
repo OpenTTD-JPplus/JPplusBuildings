@@ -369,6 +369,12 @@ ueda_office_block_all_colours =         {   "red_brown" :   2,
                                             "black" :       1
                                         }
 
+# Yamada Electronics Centre
+yamada_electronics_centre_all_colours = {   "white" :       1, 
+                                            "dark_blue":    1, 
+                                            "dark_green" :  1, 
+                                        }
+
 # Yamaguchi Office
 yamaguchi_office_all_colours =          {   "light_blue" :  1, 
                                             "dark_blue" :   1, 
@@ -1071,6 +1077,22 @@ buildings_dict = {
 	        }
         }
     },
+    "yamada_electronics_centre" : {
+        "colours" : yamada_electronics_centre_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L", "8L", "10L", "12L"},
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["8L"],
+            "x" : ["10L","12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "yamaguchi_office" : {
         "colours" : yamaguchi_office_all_colours,
         "old_colours" : False,
