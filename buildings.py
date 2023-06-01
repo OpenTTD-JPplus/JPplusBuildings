@@ -187,6 +187,16 @@ kimura_old_colours =                    {   "white" :       1,
                                             "brown2" :      2
                                             }
 
+# Kono
+kono_all_colours =                      {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            }
+
 # Kuroi Tower
 kuroi_tower_all_colours =               {   "red" :         1, 
                                             "light_green" : 1, 
@@ -215,6 +225,24 @@ modern_office_tower_all_colours =       {   "white" :       1,
                                             "brown2" :      2, 
                                             "red_brown" :   1, 
                                             "grey" :        1, 
+                                            }
+
+# Mori
+mori_all_colours =                      {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_green" :  1, 
+                                            "peach" :       1,
+                                            "light_blue" :  1,
+                                            }
+
+mori_old_colours =                      {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2
                                             }
 
 # Multimedia Offices
@@ -727,6 +755,21 @@ buildings_dict = {
 	        }
         }
 	},
+    "kono" : {
+        "colours" : kono_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L", "7L", "8L"},
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["7L","8L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "kuroi_tower" : {
         "colours" : kuroi_tower_all_colours,
         "old_colours" : False,
@@ -771,6 +814,26 @@ buildings_dict = {
 	        }
         }
     },
+    "mori" : {
+        "colours" : mori_all_colours,
+        "old_colours" : mori_old_colours,
+        "end_of_old_era" : 1964,
+        "levels" : {"3L", "4L", "5L", "6L"},
+        "heights" : {    
+            "s" : ["3L","4L"],
+            "m" : ["5L","6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "multimedia_offices" : {
         "colours" : multimedia_offices_all_colours,
         "old_colours" : False,
