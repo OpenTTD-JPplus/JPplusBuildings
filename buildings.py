@@ -141,6 +141,15 @@ hospital_all_colours =                  {   "light_blue" :  1,
                                             "red_brown" :   1, 
                                             "dark_green" :  1  
                                         }
+# Imai
+imai_all_colours =                      {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1,
+                                            }
 
 # Insurance Tower
 insurance_tower_all_colours =           {   "white" :       1 , 
@@ -150,6 +159,15 @@ insurance_tower_all_colours =           {   "white" :       1 ,
                                             "brown2" :      2, 
                                             "red_brown" :   2, 
                                             "light_blue" :  1, 
+                                            }
+
+# Kaneko
+kaneko_all_colours =                    {   "white" :       1 , 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
                                             }
 
 # Kimura
@@ -642,6 +660,24 @@ buildings_dict = {
 	        }
         }
 	},
+    "imai" : {
+        "colours" : imai_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L"},
+        "heights" : {    
+            "m" : ["6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "insurance_tower" : {
         "colours" : insurance_tower_all_colours,
         "old_colours" : False,
@@ -656,6 +692,21 @@ buildings_dict = {
 	        }
         }
     },
+    "kaneko" : {
+        "colours" : kaneko_all_colours,
+        "old_colours" : False,
+        "levels" : {"7L", "8L", "9L", "10L"},
+        "heights" : {    
+            "l" : ["7L","8L"],
+            "x" : ["9L","10L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "kimura" : {
         "colours" : kimura_all_colours,
         "old_colours" : kimura_old_colours,
