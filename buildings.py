@@ -342,6 +342,29 @@ nakayama_old_colours =                  {   "white" :       1,
                                             "brown2" :      2
                                             }
 
+# Nishikawa
+nishikawa_all_colours =                 {   "gold" :        1, 
+                                            "grey" :        1, 
+                                            "mauve" :       1, 
+                                            "brown1" :      1, 
+                                            "brown2" :      1, 
+                                            "dark_green" :  1, 
+                                            "black" :       1, 
+                                            "red_brown" :   1,
+                                            "peach" :       1,
+                                            "white" :       1, 
+                                            "light_blue" :  1
+                                            }
+
+nishikawa_old_colours =                 {   "black" :       1, 
+                                            "grey" :        1,
+                                            "white" :       1, 
+                                            "mauve" :       1, 
+                                            "brown1" :      1, 
+                                            "brown2" :      1,
+                                            "red_brown" :   1,
+                                            }
+
 # Office Tower
 office_tower_all_colours =              {   "white" :       1, 
                                             "black" :       2,
@@ -385,6 +408,12 @@ old_office_building_old_colours =       {   "white" :       1,
 onsen_all_colours =                     {   "black" :       2,
                                             "midgrey" :     1
                                         }
+
+# Osaka
+osaka_all_colours =                     {   "black" :       1,
+                                            "midgrey" :     1
+                                        }
+
 
 # Pachinko
 pachinko_all_colours =                  {   "black" :       1,
@@ -901,6 +930,22 @@ buildings_dict = {
 	        }
         }
 	},
+     "naganuma" : {
+        "colours" : naganuma_all_colours,
+        "old_colours" : naganuma_old_colours,
+        "end_of_old_era" : 1959,
+        "ground" : "spr_ground_grass",
+        "levels" : {"a", "b", "c", "d", "e", "f"},
+        "heights" : {    
+            "h" : ["a", "b", "c", "d", "e", "f"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+	},
     "nagoya" : {
         "colours" : nagoya_all_colours,
         "old_colours" : False,
@@ -955,6 +1000,22 @@ buildings_dict = {
             "c" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
+	        }
+        }
+	},
+     "nishikawa" : {
+        "colours" : nishikawa_all_colours,
+        "old_colours" : nishikawa_old_colours,
+        "end_of_old_era" : 1959,
+        "ground" : "spr_ground_grass",
+        "levels" : {"a", "b", "c", "d", "e", "f"},
+        "heights" : {    
+            "h" : ["a", "b", "c", "d", "e", "f"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
 	        }
         }
 	},
@@ -1019,22 +1080,24 @@ buildings_dict = {
 	        }
         }
     },
-    "naganuma" : {
-        "colours" : naganuma_all_colours,
-        "old_colours" : naganuma_old_colours,
-        "end_of_old_era" : 1959,
-        "ground" : "spr_ground_grass",
-        "levels" : {"a", "b", "c", "d", "e", "f"},
+    "osaka" : {
+        "colours" : osaka_all_colours,
+        "old_colours" : False,
+        "levels" : {"6L"},
         "heights" : {    
-            "h" : ["a", "b", "c", "d", "e", "f"]
+            "m" : ["6L"]
         },
         "variants" : {    
-            "x" : {
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
 	        }
         }
-	},
+    },
     "pachinko" : {
         "colours" : pachinko_all_colours,
         "old_colours" : False,
