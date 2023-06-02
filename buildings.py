@@ -53,6 +53,16 @@ convini_all_colours =                   {   "black" :       1,
                                             "midgrey" :     1
                                             }
 
+# Dense Townhouses
+dense_townhouses_all_colours =          {   "black" :       2, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "peach" :       1,
+                                            }
+
 # Dense wooden
 dense_wooden_all_colours =              {   "brown1" :      1,
                                             "brown2" :      1
@@ -600,6 +610,21 @@ buildings_dict = {
 	        }
         }
     },
+    "dense_townhouses" : {
+        "colours" : dense_townhouses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["c", "d", "e", "f"],
+        "heights" : {    
+            "h" : ["c", "d", "e", "f"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+	},
     "dense_wooden" : {
         "colours" : dense_wooden_all_colours,
         "old_colours" : False,
@@ -989,7 +1014,7 @@ buildings_dict = {
 	        }
         }
 	},
-     "naganuma" : {
+    "naganuma" : {
         "colours" : naganuma_all_colours,
         "old_colours" : naganuma_old_colours,
         "end_of_old_era" : 1959,
