@@ -528,7 +528,7 @@ buildings_dict = {
         "colours" : aoki_office_all_colours,
         "old_colours" : aoki_office_old_colours,
         "end_of_old_era" : 1959,
-        "levels" : {"6L", "8L", "10L", "12L"},
+        "levels" : ["6L", "8L", "10L", "12L"],
         "heights" : {    
             "m" : ["6L"],
             "l" : ["8L"],
@@ -545,7 +545,7 @@ buildings_dict = {
         "colours" : aoyama_office_all_colours,
         "old_colours" : aoyama_office_old_colours,
         "end_of_old_era" : 1974,
-        "levels" : {"5L", "6L", "7L", "8L"},
+        "levels" : ["5L", "6L", "7L", "8L"],
         "heights" : {    
             "m" : ["5L", "6L"],
             "l" : ["7L", "8L"],
@@ -589,7 +589,7 @@ buildings_dict = {
         "colours" : dense_wooden_all_colours,
         "old_colours" : False,
         "ground" : "spr_ground_grass",
-        "levels" : {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"},
+        "levels" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"],
         "heights" : {    
             "h" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"]
         },
@@ -645,7 +645,7 @@ buildings_dict = {
     "fire_station" : {
         "colours" : fire_station_all_colours,
         "old_colours" : False,
-        "levels" : {"a", "b", "c", "d"},
+        "levels" : ["a", "b", "c", "d"],
         "heights" : {    
             "k" : ["a", "b", "c", "d"],
         },
@@ -664,7 +664,7 @@ buildings_dict = {
     "fukuda" : {
         "colours" : fukuda_all_colours,
         "old_colours" : False,
-        "levels" : {"6L", "8L"},
+        "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
             "l" : ["8L"]
@@ -733,7 +733,7 @@ buildings_dict = {
         "colours" : hirata_all_colours,
         "old_colours" : hirata_old_colours,
         "end_of_old_era" : 1959,
-        "levels" : {"3L", "4L", "5L", "6L"},
+        "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
             "s" : ["3L","4L"],
             "m" : ["5L","6L"]
