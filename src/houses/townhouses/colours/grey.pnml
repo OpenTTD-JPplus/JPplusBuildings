@@ -1,0 +1,36 @@
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_townhouses_v_xL_grey_norm {
+        ground {
+            sprite: spr_ground_grass (_construction_state_);
+        }
+        building {
+            sprite: spr_townhouses_v_xL_norm (_construction_state_);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+            hide_sprite: _hide_;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_townhouses_v_xL_grey_snow {
+        ground {
+            sprite: spr_ground_grass (_construction_state_);
+        }
+        building {
+            sprite: spr_townhouses_v_xL_snow (_construction_state_);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+            hide_sprite: _hide_;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_townhouses_v_xL_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_townhouses_v_xL_grey_snow;
+	    sprlay_townhouses_v_xL_grey_norm;
+    }

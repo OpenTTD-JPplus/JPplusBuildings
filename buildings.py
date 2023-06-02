@@ -492,6 +492,18 @@ temple_all_colours =                    {   "black" :       1,
                                             "red_brown" :   1, 
                                         }
 
+# Townhouses
+townhouses_all_colours =                {   "white" :       1, 
+                                            "grey":         1, 
+                                            "mauve" :       1, 
+                                            "brown1" :      1,
+                                            "brown2" :      1,
+                                            "peach" :       1, 
+                                            "gold" :        1, 
+                                            "black" :       1, 
+                                            "red_brown" :   1, 
+                                        }
+
 # Tsuno Building
 tsuno_building_all_colours =            {   "light_blue" :  1, 
                                             "red":          1, 
@@ -1406,6 +1418,21 @@ buildings_dict = {
 		        "xoffset" :     "0",
 		        "yoffset" :     "0",
                 "construction_state" : "1"
+	        }
+        }
+	},
+    "townhouses" : {
+        "colours" : townhouses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
 	        }
         }
 	},
