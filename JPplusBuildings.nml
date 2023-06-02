@@ -436,13 +436,11 @@ template template_house_250_wide(x, y) {
 
 // HOUSES
 
-item(FEAT_HOUSES, item_house_large_wooden_farmhouse,14, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_large_wooden_house_01, 13, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_large_wooden_house_02, 12, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_two_wooden_houses_01,  03, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_two_wooden_houses_02,  04, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_two_wooden_houses_03,  08, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_house_wooden_farmhouse,      09, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_01,  16, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_02,  18, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_wooden_townhouses_03,  20, HOUSE_SIZE_1X1) {}
@@ -2323,181 +2321,340 @@ switch (FEAT_HOUSES, SELF, switch_dense_wooden_h_sprites, random_bits % 32 ) { /
 }
 # 1 "src/houses/dense_wooden/dense_wooden.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/large_wooden_farmhouse_01/large_wooden_farmhouse_01.pnml" 1
-// Begin large_wooden_farmhouse_01
+# 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 1
+
+// large_wooden_farmhouse
+
+# 1 "src/houses/large_wooden_farmhouse/gfx/large_wooden_farmhouse_sprites.pnml" 1
 
 // Buildings
-spriteset (spr_large_wooden_farmhouse_01a, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_a.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01a_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_a.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_a_f_norm, 		"src/houses/large_wooden_farmhouse/gfx/building_a.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_a_f_snow, 		"src/houses/large_wooden_farmhouse/gfx/building_a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01b, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_b.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01b_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_b.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_a_g_norm, 		"src/houses/large_wooden_farmhouse/gfx/building_b.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_a_g_snow, 		"src/houses/large_wooden_farmhouse/gfx/building_b.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01c, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_c.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01c_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_c.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_b_f_norm, 		"src/houses/large_wooden_farmhouse/gfx/building_c.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_b_f_snow, 		"src/houses/large_wooden_farmhouse/gfx/building_c.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_farmhouse_01d, 				"src/houses/houses/large_wooden_farmhouse_01/gfx/building_d.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_farmhouse_01d_snow, 		"src/houses/houses/large_wooden_farmhouse_01/gfx/building_d.png") 			{template_house_80(1,82)}
+spriteset (spr_large_wooden_farmhouse_b_g_norm, 		"src/houses/large_wooden_farmhouse/gfx/building_d.png") 			{template_house_80(1,1)}
+spriteset (spr_large_wooden_farmhouse_b_g_snow, 		"src/houses/large_wooden_farmhouse/gfx/building_d.png") 			{template_house_80(1,82)}
+# 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 4
+# 1 "src/houses/large_wooden_farmhouse/levels/all.pnml" 1
 
-// Spritelayouts
-spritelayout sprlay_large_wooden_farmhouse_01a {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01a (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+// large_wooden_farmhouse levels
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_f_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_f_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_f_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_f_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_a_f_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_a_f_brown1_snow;
+	    sprlay_large_wooden_farmhouse_a_f_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_f_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_f_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_f_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_f_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_a_f_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_a_f_brown2_snow;
+	    sprlay_large_wooden_farmhouse_a_f_brown2_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_f_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_f_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_f_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_f_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_b_f_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_b_f_brown1_snow;
+	    sprlay_large_wooden_farmhouse_b_f_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_f_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_f_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_f_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_f_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_b_f_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_b_f_brown2_snow;
+	    sprlay_large_wooden_farmhouse_b_f_brown2_norm;
+    }
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_g_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_g_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_g_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_g_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_a_g_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_a_g_brown1_snow;
+	    sprlay_large_wooden_farmhouse_a_g_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_g_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_g_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_a_g_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_a_g_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_a_g_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_a_g_brown2_snow;
+	    sprlay_large_wooden_farmhouse_a_g_brown2_norm;
+    }
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_g_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_g_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_g_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_g_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_b_g_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_b_g_brown1_snow;
+	    sprlay_large_wooden_farmhouse_b_g_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_g_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_g_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_large_wooden_farmhouse_b_g_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_large_wooden_farmhouse_b_g_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_b_g_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_large_wooden_farmhouse_b_g_brown2_snow;
+	    sprlay_large_wooden_farmhouse_b_g_brown2_norm;
+    }
+# 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 4
+# 1 "src/houses/large_wooden_farmhouse/switches/colour_switches.pnml" 1
+
+// large_wooden_farmhouse ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_a_h_sprites, random_bits % 4 ) { // Ref 3
+0: switch_large_wooden_farmhouse_a_f_brown1_snow;
+1: switch_large_wooden_farmhouse_a_f_brown2_snow;
+2: switch_large_wooden_farmhouse_a_g_brown1_snow;
+3: switch_large_wooden_farmhouse_a_g_brown2_snow;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01a_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01a_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_b_h_sprites, random_bits % 4 ) { // Ref 3
+0: switch_large_wooden_farmhouse_b_f_brown1_snow;
+1: switch_large_wooden_farmhouse_b_f_brown2_snow;
+2: switch_large_wooden_farmhouse_b_g_brown1_snow;
+3: switch_large_wooden_farmhouse_b_g_brown2_snow;
+}
+# 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 4
+# 1 "src/houses/large_wooden_farmhouse/switches/direction_switches.pnml" 1
+
+random_switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_random_h_sprites) {
+	1: switch_large_wooden_farmhouse_a_h_sprites;
+	1: switch_large_wooden_farmhouse_b_h_sprites;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01b {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01b (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+// Selection which direction
+
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_south_check, SpriteDirectionsSouth()) {
+	4: switch_large_wooden_farmhouse_a_h_sprites;
+	5: switch_large_wooden_farmhouse_random_h_sprites;
+	6: switch_large_wooden_farmhouse_a_h_sprites;
+	9: switch_large_wooden_farmhouse_b_h_sprites;
+	switch_large_wooden_farmhouse_random_h_sprites;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01b_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01b_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_east_check, SpriteDirectionsEast()) {
+	4: switch_large_wooden_farmhouse_a_h_sprites;
+	6: switch_large_wooden_farmhouse_a_h_sprites;
+	9: switch_large_wooden_farmhouse_b_h_sprites;
+	10: switch_large_wooden_farmhouse_random_h_sprites;
+	switch_large_wooden_farmhouse_random_h_sprites;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01c {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01c (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_west_check, SpriteDirectionsWest()) {
+	6: switch_large_wooden_farmhouse_b_h_sprites;
+	9: switch_large_wooden_farmhouse_a_h_sprites;
+	10: switch_large_wooden_farmhouse_random_h_sprites;
+	switch_large_wooden_farmhouse_random_h_sprites;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01c_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01c_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_north_check, SpriteDirectionsNorth()) {
+	5: switch_large_wooden_farmhouse_random_h_sprites;
+	6: switch_large_wooden_farmhouse_b_h_sprites;
+	9: switch_large_wooden_farmhouse_a_h_sprites;
+	10: switch_large_wooden_farmhouse_random_h_sprites;
+	switch_large_wooden_farmhouse_random_h_sprites;
 }
 
-spritelayout sprlay_large_wooden_farmhouse_01d {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01d (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_sprites, SpriteDirections() ) {
+	1:  switch_large_wooden_farmhouse_a_h_sprites;
+	2:  switch_large_wooden_farmhouse_b_h_sprites;
+	3:  switch_large_wooden_farmhouse_h_south_check;
+	4:  switch_large_wooden_farmhouse_a_h_sprites;
+	5:  switch_large_wooden_farmhouse_a_h_sprites;
+	6:  switch_large_wooden_farmhouse_h_west_check;
+	8:  switch_large_wooden_farmhouse_b_h_sprites;
+	9:  switch_large_wooden_farmhouse_h_east_check;
+	10: switch_large_wooden_farmhouse_b_h_sprites;
+	12: switch_large_wooden_farmhouse_h_north_check;
+	switch_large_wooden_farmhouse_random_h_sprites;
 }
-
-spritelayout sprlay_large_wooden_farmhouse_01d_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_farmhouse_01d_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01a,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_farmhouse_01a_snow;
-	sprlay_large_wooden_farmhouse_01a;
-}
-
-switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01b,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_farmhouse_01b_snow;
-	sprlay_large_wooden_farmhouse_01b;
-}
-
-switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01c,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_farmhouse_01c_snow;
-	sprlay_large_wooden_farmhouse_01c;
-}
-
-switch(FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01d,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_farmhouse_01d_snow;
-	sprlay_large_wooden_farmhouse_01d;
-}
-
-// Selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01_sprites_any) {
-	1: switch_large_wooden_farmhouse_01b;		// Any
-	1: switch_large_wooden_farmhouse_01d;		// Any
-}
-
-random_switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01_sprites_SESW) {
-	1: switch_large_wooden_farmhouse_01a;		// SE
-	1: switch_large_wooden_farmhouse_01c;		// SW
-}
-
-switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_01_snow, SpriteDirections() ) {
-	1: switch_large_wooden_farmhouse_01a; 
-	2: switch_large_wooden_farmhouse_01c;
-	3: switch_large_wooden_farmhouse_01_sprites_SESW;
-	default: switch_large_wooden_farmhouse_01_sprites_any;
-}
-
-item(FEAT_HOUSES, item_house_large_wooden_farmhouse){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_LARGE_WOODEN_FARMHOUSE);
-		population: 				20;										
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				4;										
-		years_available: 			[1700,1944];							
-		minimum_lifetime: 			5;										
-		availability_mask: 			[bitmask(								
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_large_wooden_farmhouse_01_snow;
-		cargo_production: 			func_produce(1,1);						// 
-	}
-}
+# 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/large_wooden_house_01/large_wooden_house_01.pnml" 1
 // Begin large_wooden_house_01
@@ -10007,68 +10164,90 @@ item(FEAT_HOUSES, item_house_two_wooden_houses_03){
 	}
 }
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/wooden_farmhouse_01/wooden_farmhouse_01.pnml" 1
+# 1 "src/houses/wooden_farmhouse/wooden_farmhouse.pnml" 1
+
+// wooden_farmhouse
+
+# 1 "src/houses/wooden_farmhouse/gfx/wooden_farmhouse_sprites.pnml" 1
 // Begin wooden_farmhouse_01
 
 // Buildings
-spriteset (spr_wooden_farmhouse_01, 				"src/houses/houses/wooden_farmhouse_01/gfx/building.png") 		{template_house_80(1,1)}
-spriteset (spr_wooden_farmhouse_01_snow, 			"src/houses/houses/wooden_farmhouse_01/gfx/building.png") 		{template_house_80(1,82)}
+spriteset (spr_wooden_farmhouse_norm, 			"src/houses/wooden_farmhouse/gfx/building.png") 		{template_house_80(1,1)}
+spriteset (spr_wooden_farmhouse_snow, 			"src/houses/wooden_farmhouse/gfx/building.png") 		{template_house_80(1,82)}
+# 1 "src/houses/wooden_farmhouse/wooden_farmhouse.pnml" 4
+# 1 "src/houses/wooden_farmhouse/levels/all.pnml" 1
 
-// Spritelayouts
-spritelayout sprlay_wooden_farmhouse_01 {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_wooden_farmhouse_01 (construction_state);
-	}
-}
+// wooden_farmhouse levels
 
-spritelayout sprlay_wooden_farmhouse_01_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_wooden_farmhouse_01_snow (construction_state);
-	}
-}
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_wooden_farmhouse_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_wooden_farmhouse_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
 
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_01_snow,terrain_type) {
-	TILETYPE_SNOW: sprlay_wooden_farmhouse_01_snow;
-	sprlay_wooden_farmhouse_01;
-}
+    // Snow Sprites
+    spritelayout sprlay_wooden_farmhouse_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_wooden_farmhouse_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
 
-item(FEAT_HOUSES, item_house_wooden_farmhouse){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_WOODEN_FARMHOUSE);
-		population: 				20;										
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				4;										
-		years_available: 			[1700,1944];							
-		minimum_lifetime: 			5;										
-		availability_mask: 			[bitmask(								
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_wooden_farmhouse_01_snow;
-		cargo_production: 			func_produce(1,1);						// 
-	}
+    switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_wooden_farmhouse_brown1_snow;
+	    sprlay_wooden_farmhouse_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_wooden_farmhouse_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_wooden_farmhouse_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_wooden_farmhouse_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_wooden_farmhouse_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_wooden_farmhouse_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_wooden_farmhouse_brown2_snow;
+	    sprlay_wooden_farmhouse_brown2_norm;
+    }
+# 1 "src/houses/wooden_farmhouse/wooden_farmhouse.pnml" 4
+# 1 "src/houses/wooden_farmhouse/switches/colour_switches.pnml" 1
+
+// wooden_farmhouse ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_wooden_farmhouse_h_sprites, random_bits % 2 ) { // Ref 1 
+0: switch_wooden_farmhouse_brown1_snow;
+1: switch_wooden_farmhouse_brown2_snow;
 }
+# 1 "src/houses/wooden_farmhouse/wooden_farmhouse.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/wooden_house/wooden_house.pnml" 1
 
@@ -58956,6 +59135,27 @@ item(FEAT_HOUSES, item_farm, 212, HOUSE_SIZE_2X2){
 	}
 }
 
+item(FEAT_HOUSES, item_large_wooden_farmhouse, 14, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				6;
+		name: 						string(NAME_LARGE_WOODEN_FARMHOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1944];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				0;
+				
+		}
+	graphics {
+		default: 					switch_large_wooden_farmhouse_h_sprites;
+		cargo_production: 			func_produce(1,1);
+	}
+}
+
 item(FEAT_HOUSES, item_naganuma, 2, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				6;
@@ -59018,6 +59218,27 @@ item(FEAT_HOUSES, item_old_villa, 58, HOUSE_SIZE_1X1){
 	graphics {
 		default: 					switch_old_villa_h_sprites;
 		cargo_production: 			func_produce(2,1);
+	}
+}
+
+item(FEAT_HOUSES, item_wooden_farmhouse, 9, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				6;
+		name: 						string(NAME_WOODEN_FARMHOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1944];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				0;
+				
+		}
+	graphics {
+		default: 					switch_wooden_farmhouse_h_sprites;
+		cargo_production: 			func_produce(1,1);
 	}
 }
 

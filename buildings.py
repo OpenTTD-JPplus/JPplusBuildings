@@ -212,6 +212,11 @@ kuroi_tower_all_colours =               {   "red" :         1,
                                             "light_blue" :  1, 
                                             }
 
+# Large Wooden Farmhouse
+large_wooden_farmhouse_all_colours =    {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }     
+
 # Mitsui Tower
 mitsui_tower_all_colours =              {   "white" :       1 , 
                                             "black" :       2, 
@@ -486,6 +491,11 @@ tsuno_building_all_colours =            {   "light_blue" :  1,
 ueda_office_block_all_colours =         {   "red_brown" :   2,
                                             "black" :       1
                                         }
+
+# Wooden Farmhouse
+wooden_farmhouse_all_colours =          {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }    
 
 # Wooden House
 wooden_house_all_colours =              {   "brown1" :      1,
@@ -877,6 +887,25 @@ buildings_dict = {
 	        }
         }
     },
+    "large_wooden_farmhouse" : {
+        "colours" : large_wooden_farmhouse_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["f", "g"],
+        "heights" : {    
+            "h" : ["f", "g"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "mitsui_tower" : {
         "colours" : mitsui_tower_all_colours,
         "old_colours" : False,
@@ -1367,6 +1396,21 @@ buildings_dict = {
 	        }
         }
     },
+     "wooden_farmhouse" : {
+        "colours" : wooden_farmhouse_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "wooden_house" : {
         "colours" : wooden_house_all_colours,
         "old_colours" : False,
