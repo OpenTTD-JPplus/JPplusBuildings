@@ -404,6 +404,11 @@ old_office_building_old_colours =       {   "white" :       1,
                                             "grey" :        1, 
                                             }
 
+# Old Villa
+old_villa_all_colours =                 {   "black" :       2,
+                                            "midgrey" :     1
+                                        }
+
 # Onsen
 onsen_all_colours =                     {   "black" :       2,
                                             "midgrey" :     1
@@ -1066,6 +1071,22 @@ buildings_dict = {
 	        }
         }
 	},
+    "old_villa" : {
+        "colours" : old_villa_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : {"x"},
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "onsen" : {
         "colours" : onsen_all_colours,
         "old_colours" : False,
