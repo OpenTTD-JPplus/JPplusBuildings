@@ -679,7 +679,7 @@ buildings_dict = {
 	"harada" : {
         "colours" : harada_all_colours,
         "old_colours" : False,
-        "levels" : {"6L", "8L"},
+        "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
             "l" : ["8L"]
@@ -694,7 +694,7 @@ buildings_dict = {
     "hayashi" : {
         "colours" : hayashi_all_colours,
         "old_colours" : False,
-        "levels" : {"3L", "4L", "5L", "6L"},
+        "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
             "s" : ["3L","4L"],
             "m" : ["5L","6L"]
@@ -711,7 +711,7 @@ buildings_dict = {
         "colours" : hirano_all_colours,
         "old_colours" : hirano_old_colours,
         "end_of_old_era" : 1959,
-        "levels" : {"3L", "4L", "5L", "6L"},
+        "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
             "s" : ["3L","4L"],
             "m" : ["5L","6L"]
