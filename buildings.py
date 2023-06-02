@@ -464,6 +464,11 @@ shiro_all_colours =                     {   "black" :       1,
                                             "grey" :        1
                                         }
 
+# Shotengai
+shotengai_all_colours =                 {   "brown1" :      2,
+                                            "brown2" :      1, 
+                                        }
+
 # Stadium
 stadium_all_colours =                   {   "light_blue" :  1, 
                                             "red":          1, 
@@ -1275,6 +1280,21 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "1"
+	        }
+        }
+	},
+    "shotengai" : {
+        "colours" : shotengai_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"],
+        "heights" : {    
+            "h" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
 	        }
         }
 	},
