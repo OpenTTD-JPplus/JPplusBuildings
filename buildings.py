@@ -53,6 +53,11 @@ convini_all_colours =                   {   "black" :       1,
                                             "midgrey" :     1
                                             }
 
+# Dense wooden
+dense_wooden_all_colours =              {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }
+
 # Enterprise Tower
 enterprise_tower_all_colours =          {   "black" :       2,
                                             "midgrey" :     1
@@ -580,6 +585,21 @@ buildings_dict = {
 	        }
         }
     },
+    "dense_wooden" : {
+        "colours" : dense_wooden_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"},
+        "heights" : {    
+            "h" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+	},
     "enterprise_tower" : {
         "colours" : enterprise_tower_all_colours,
         "old_colours" : False,
@@ -1008,7 +1028,7 @@ buildings_dict = {
 	        }
         }
 	},
-     "nishikawa" : {
+    "nishikawa" : {
         "colours" : nishikawa_all_colours,
         "old_colours" : nishikawa_old_colours,
         "end_of_old_era" : 1959,

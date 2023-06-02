@@ -115,7 +115,7 @@ for i in name:
 		data = data.replace(search_text_cargo_pass, str(house_cargo_pass))
 		data = data.replace(search_text_cargo_mail, str(house_cargo_mail))
 		data = data.replace(search_text_accepted_cargoes, str(house_accepted_cargoes))
-		if con_check_override[n] == "none":
+		if con_check_override[n] == "standard":
 			data = data.replace(search_text_con_check, str(house_con_check))
 		else:
 			data = data.replace(search_text_con_check, str(house_con_check_override))
