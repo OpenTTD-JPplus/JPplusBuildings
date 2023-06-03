@@ -436,7 +436,6 @@ template template_house_250_wide(x, y) {
 
 // HOUSES
 
-item(FEAT_HOUSES, item_house_large_wooden_house_01, 13, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_large_wooden_house_02, 12, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_two_wooden_houses_01,  03, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_house_two_wooden_houses_02,  04, HOUSE_SIZE_1X1) {}
@@ -2657,109 +2656,153 @@ switch (FEAT_HOUSES, SELF, switch_large_wooden_farmhouse_h_sprites, SpriteDirect
 }
 # 1 "src/houses/large_wooden_farmhouse/large_wooden_farmhouse.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/houses/large_wooden_house_01/large_wooden_house_01.pnml" 1
-// Begin large_wooden_house_01
+# 1 "src/houses/long_wooden_house/long_wooden_house.pnml" 1
+
+// long_wooden_house
+
+# 1 "src/houses/long_wooden_house/gfx/long_wooden_house_sprites.pnml" 1
 
 // Buildings
-spriteset (spr_large_wooden_house_01a, 			"src/houses/houses/large_wooden_house_01/gfx/building_01a.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_house_01a_snow, 	"src/houses/houses/large_wooden_house_01/gfx/building_01a.png") 			{template_house_80(1,82)}
+spriteset (spr_long_wooden_house_a_norm, 	"src/houses/long_wooden_house/gfx/building_01a.png") 			{template_house_80(1,1)}
+spriteset (spr_long_wooden_house_a_snow, 	"src/houses/long_wooden_house/gfx/building_01a.png") 			{template_house_80(1,82)}
 
-spriteset (spr_large_wooden_house_01b, 			"src/houses/houses/large_wooden_house_01/gfx/building_01b.png") 			{template_house_80(1,1)}
-spriteset (spr_large_wooden_house_01b_snow, 	"src/houses/houses/large_wooden_house_01/gfx/building_01b.png") 			{template_house_80(1,82)}
+spriteset (spr_long_wooden_house_b_norm, 	"src/houses/long_wooden_house/gfx/building_01b.png") 			{template_house_80(1,1)}
+spriteset (spr_long_wooden_house_b_snow, 	"src/houses/long_wooden_house/gfx/building_01b.png") 			{template_house_80(1,82)}
+# 1 "src/houses/long_wooden_house/long_wooden_house.pnml" 4
+# 1 "src/houses/long_wooden_house/levels/all.pnml" 1
 
-// Spritelayouts
-spritelayout sprlay_large_wooden_house_01a {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_house_01a (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
+// long_wooden_house levels
+
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_long_wooden_house_a_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_a_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_long_wooden_house_a_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_a_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_long_wooden_house_a_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_long_wooden_house_a_brown1_snow;
+	    sprlay_long_wooden_house_a_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_long_wooden_house_a_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_a_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_long_wooden_house_a_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_a_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_long_wooden_house_a_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_long_wooden_house_a_brown2_snow;
+	    sprlay_long_wooden_house_a_brown2_norm;
+    }
+// _brown1_
+    // Norm Sprites
+    spritelayout sprlay_long_wooden_house_b_brown1_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_b_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_long_wooden_house_b_brown1_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_b_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 2;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_long_wooden_house_b_brown1_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_long_wooden_house_b_brown1_snow;
+	    sprlay_long_wooden_house_b_brown1_norm;
+    }
+
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_long_wooden_house_b_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_b_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_long_wooden_house_b_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (construction_state);
+        }
+        building {
+            sprite: spr_long_wooden_house_b_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_long_wooden_house_b_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_long_wooden_house_b_brown2_snow;
+	    sprlay_long_wooden_house_b_brown2_norm;
+    }
+# 1 "src/houses/long_wooden_house/long_wooden_house.pnml" 4
+# 1 "src/houses/long_wooden_house/switches/colour_switches.pnml" 1
+
+// long_wooden_house ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_long_wooden_house_h_sprites, random_bits % 4 ) { // Ref 1 
+0: switch_long_wooden_house_a_brown1_snow;
+1: switch_long_wooden_house_a_brown2_snow;
+2: switch_long_wooden_house_b_brown1_snow;
+3: switch_long_wooden_house_b_brown2_snow;
 }
-
-spritelayout sprlay_large_wooden_house_01a_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_house_01a_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_large_wooden_house_01b {
-	ground {
-		sprite: spr_ground_grass (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_house_01b (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-spritelayout sprlay_large_wooden_house_01b_snow {
-	ground {
-		sprite: spr_ground_snow (construction_state);
-	}
-	building {
-		sprite: spr_large_wooden_house_01b_snow (construction_state);
-		//recolour_mode: RECOLOUR_REMAP; 
-		//palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_large_wooden_house_01a,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_house_01a_snow;
-	sprlay_large_wooden_house_01a;
-}
-
-switch(FEAT_HOUSES, SELF, switch_large_wooden_house_01b,terrain_type) {
-	TILETYPE_SNOW: sprlay_large_wooden_house_01b_snow;
-	sprlay_large_wooden_house_01b;
-}
-
-
-// Random selection of sprites
-random_switch (FEAT_HOUSES, SELF, switch_large_wooden_house_01_snow) {
-	1: switch_large_wooden_house_01a;		
-	1: switch_large_wooden_house_01b;		
-}
-
-item(FEAT_HOUSES, item_house_large_wooden_house_01){
-	property {
-		substitute: 				06;
-		name: 						string(NAME_LARGE_WOODEN_HOUSE);
-		population: 				20;										
-		accepted_cargos: 			[[PASS, 2],[MAIL, 1],[GOOD, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				4;										
-		years_available: 			[1700,1944];							
-		minimum_lifetime: 			5;										
-		availability_mask: 			[bitmask(								
-										//TOWNZONE_CENTRE,			// 4
-										//TOWNZONE_INNER_SUBURB,	// 3
-										//TOWNZONE_OUTER_SUBURB,	// 2
-										TOWNZONE_OUTSKIRT,			// 1
-										TOWNZONE_EDGE				// 0
-									), bitmask(
-										CLIMATE_TEMPERATE,
-										CLIMATE_ARCTIC, ABOVE_SNOWLINE,
-										CLIMATE_TROPIC
-									)];
-		building_class:				0;
-		
-		}
-	graphics {
-		default: 					switch_large_wooden_house_01_snow;
-		cargo_production: 			func_produce(1,1);						// 
-	}
-}
+# 1 "src/houses/long_wooden_house/long_wooden_house.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/houses/large_wooden_house_02/large_wooden_house_02.pnml" 1
 // Begin large_wooden_house_02
@@ -30020,18 +30063,18 @@ switch (FEAT_HOUSES, SELF, switch_nakayama_m_sprites, SpriteDirections() ) {
 
 # 1 "src/houses/osaka/gfx/osaka_sprites.pnml" 1
 
-spriteset (spr_osaka_a_6L_norm, 				"src/houses/apartments/osaka/gfx/building.png") 					{template_house_128(1,1)}
-spriteset (spr_osaka_a_6L_snow, 				"src/houses/apartments/osaka/gfx/building.png") 					{template_house_128(400,1)}
+spriteset (spr_osaka_a_6L_norm, 				"src/houses/osaka/gfx/building.png") 					{template_house_128(1,1)}
+spriteset (spr_osaka_a_6L_snow, 				"src/houses/osaka/gfx/building.png") 					{template_house_128(400,1)}
 
-spriteset (spr_osaka_b_6L_norm, 				"src/houses/apartments/osaka/gfx/building.png") 					{template_house_128(1,130)}
-spriteset (spr_osaka_b_6L_snow, 				"src/houses/apartments/osaka/gfx/building.png") 					{template_house_128(400,130)}
+spriteset (spr_osaka_b_6L_norm, 				"src/houses/osaka/gfx/building.png") 					{template_house_128(1,130)}
+spriteset (spr_osaka_b_6L_snow, 				"src/houses/osaka/gfx/building.png") 					{template_house_128(400,130)}
 
 // Ground Sprites
-spriteset (spr_osaka_a_ground, 					"src/houses/apartments/osaka/gfx/ground.png") 						{template_ground(261,1)}
-spriteset (spr_osaka_a_ground_snow, 			"src/houses/apartments/osaka/gfx/ground.png") 						{template_ground(261,33)}
+spriteset (spr_osaka_a_ground, 					"src/houses/osaka/gfx/ground.png") 						{template_ground(261,1)}
+spriteset (spr_osaka_a_ground_snow, 			"src/houses/osaka/gfx/ground.png") 						{template_ground(261,33)}
 
-spriteset (spr_osaka_b_ground, 					"src/houses/apartments/osaka/gfx/ground.png") 						{template_ground(1,1)}
-spriteset (spr_osaka_b_ground_snow, 			"src/houses/apartments/osaka/gfx/ground.png") 						{template_ground(1,33)}
+spriteset (spr_osaka_b_ground, 					"src/houses/osaka/gfx/ground.png") 						{template_ground(1,1)}
+spriteset (spr_osaka_b_ground_snow, 			"src/houses/osaka/gfx/ground.png") 						{template_ground(1,33)}
 # 1 "src/houses/osaka/osaka.pnml" 4
 # 1 "src/houses/osaka/levels/all.pnml" 1
 
@@ -48245,43 +48288,74 @@ spriteset (spr_onsen_ground_snow, 			"src/houses/onsen/gfx/ground.png") 				{tem
 	    sprlay_onsen_black_norm;
     }
 
-// _midgrey_
+// _light_blue_
     // Norm Sprites
-    spritelayout sprlay_onsen_midgrey_norm {
+    spritelayout sprlay_onsen_light_blue_norm {
         ground {
             sprite: spr_onsen_ground (construction_state);
         }
         building {
             sprite: spr_onsen_norm (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
+            palette: recolour_remap + 8;
         }
     }
 
     // Snow Sprites
-    spritelayout sprlay_onsen_midgrey_snow {
+    spritelayout sprlay_onsen_light_blue_snow {
         ground {
             sprite: spr_onsen_ground_snow (construction_state);
         }
         building {
             sprite: spr_onsen_snow (construction_state);
             recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
+            palette: recolour_remap + 8;
         }
     }
 
-    switch(FEAT_HOUSES, SELF, switch_onsen_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_onsen_midgrey_snow;
-	    sprlay_onsen_midgrey_norm;
+    switch(FEAT_HOUSES, SELF, switch_onsen_light_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_onsen_light_blue_snow;
+	    sprlay_onsen_light_blue_norm;
+    }
+
+// _dark_blue_
+    // Norm Sprites
+    spritelayout sprlay_onsen_dark_blue_norm {
+        ground {
+            sprite: spr_onsen_ground (construction_state);
+        }
+        building {
+            sprite: spr_onsen_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_onsen_dark_blue_snow {
+        ground {
+            sprite: spr_onsen_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_onsen_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 9;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_onsen_dark_blue_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_onsen_dark_blue_snow;
+	    sprlay_onsen_dark_blue_norm;
     }
 # 1 "src/houses/onsen/onsen.pnml" 4
 # 1 "src/houses/onsen/switches/colour_switches.pnml" 1
 
 // onsen ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_onsen_k_sprites, random_bits % 3 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_onsen_k_sprites, random_bits % 4 ) { // Ref 1 
 0..1: switch_onsen_black_snow;
-2: switch_onsen_midgrey_snow;
+2: switch_onsen_light_blue_snow;
+3: switch_onsen_dark_blue_snow;
 }
 # 1 "src/houses/onsen/onsen.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -49738,8 +49812,8 @@ spriteset (spr_office_tower_norm, 					"src/houses/office_tower/gfx/building.png
 spriteset (spr_office_tower_snow, 					"src/houses/office_tower/gfx/building.png") 					{template_house_250(1,252)}
 
 // Ground Sprites
-spriteset (spr_office_tower_ground, 				"src/houses/office_tower/gfx/ground.png") 						{template_house_250(1,1)}
-spriteset (spr_office_tower_ground_snow, 			"src/houses/office_tower/gfx/ground.png") 						{template_house_250(1,252)}
+spriteset (spr_office_tower_ground, 				"src/houses/office_tower/gfx/ground.png") 						{template_ground(1,1)}
+spriteset (spr_office_tower_ground_snow, 			"src/houses/office_tower/gfx/ground.png") 						{template_ground(1,33)}
 # 1 "src/houses/office_tower/office_tower.pnml" 4
 # 1 "src/houses/office_tower/levels/all.pnml" 1
 
@@ -50192,8 +50266,8 @@ spriteset (spr_enterprise_tower_norm, 			"src/houses/enterprise_tower/gfx/buildi
 spriteset (spr_enterprise_tower_snow, 			"src/houses/enterprise_tower/gfx/building.png") 			{template_house_200_wide(1,202)}
 
 // Ground Sprites
-spriteset (spr_enterprise_tower_ground, 		"src/houses/enterprise_tower/gfx/ground.png") 				{template_house_80(1,1)}
-spriteset (spr_enterprise_tower_ground_snow, 	"src/houses/enterprise_tower/gfx/ground.png") 				{template_house_80(1,82)}
+spriteset (spr_enterprise_tower_ground, 		"src/houses/enterprise_tower/gfx/ground.png") 				{template_ground(1,1)}
+spriteset (spr_enterprise_tower_ground_snow, 	"src/houses/enterprise_tower/gfx/ground.png") 				{template_ground(1,33)}
 # 1 "src/houses/enterprise_tower/enterprise_tower.pnml" 4
 # 1 "src/houses/enterprise_tower/levels/all.pnml" 1
 
@@ -58685,6 +58759,27 @@ item(FEAT_HOUSES, item_large_wooden_farmhouse, 14, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_large_wooden_farmhouse_h_sprites;
+		cargo_production: 			func_produce(1,1);
+	}
+}
+
+item(FEAT_HOUSES, item_long_wooden_house, 13, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				6;
+		name: 						string(NAME_LONG_WOODEN_HOUSE);
+		population: 				20;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1700,1944];
+		minimum_lifetime: 			5;
+		availability_mask: 			[bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				0;
+				
+		}
+	graphics {
+		default: 					switch_long_wooden_house_h_sprites;
 		cargo_production: 			func_produce(1,1);
 	}
 }

@@ -227,6 +227,11 @@ large_wooden_farmhouse_all_colours =    {   "brown1" :      1,
                                             "brown2" :      1
                                             }     
 
+# Long Wooden House
+long_wooden_house_all_colours =         {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }   
+
 # Mitsui Tower
 mitsui_tower_all_colours =              {   "white" :       1 , 
                                             "black" :       2, 
@@ -426,12 +431,13 @@ old_office_building_old_colours =       {   "white" :       1,
 
 # Old Villa
 old_villa_all_colours =                 {   "black" :       2,
-                                            "midgrey" :     1
+                                            "midgrey" :     1,
                                         }
 
 # Onsen
 onsen_all_colours =                     {   "black" :       2,
-                                            "midgrey" :     1
+                                            "light_blue" :  1,
+                                            "dark_blue" :   1,
                                         }
 
 # Osaka
@@ -943,6 +949,21 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
 	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "long_wooden_house" : {
+        "colours" : long_wooden_house_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["a", "b"],
+        "heights" : {    
+            "h" : ["a", "b"]
+        },
+        "variants" : {    
+            "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }
