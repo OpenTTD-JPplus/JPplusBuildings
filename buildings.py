@@ -529,7 +529,12 @@ tsuno_building_all_colours =            {   "light_blue" :  1,
 # Twin Wooden Houses
 twin_wooden_houses_all_colours =        {   "brown1" :      1,
                                             "brown2" :      1
-                                            }    
+                                            }
+
+# Two Small Wooden Houses
+two_small_wooden_houses_all_colours =   {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }   
 
 # Ueda Office Block
 ueda_office_block_all_colours =         {   "red_brown" :   2,
@@ -1526,6 +1531,29 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }
+        }
+	},
+    "two_small_wooden_houses" : {
+        "colours" : two_small_wooden_houses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["p", "q"],
+        "heights" : {    
+            "h" : ["p", "q"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "c" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
         }
 	},
     "ueda_office_block" : {
