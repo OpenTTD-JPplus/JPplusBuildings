@@ -227,6 +227,11 @@ large_wooden_farmhouse_all_colours =    {   "brown1" :      1,
                                             "brown2" :      1
                                             }     
 
+# Large Wooden House
+large_wooden_house_all_colours =        {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }   
+
 # Long Wooden House
 long_wooden_house_all_colours =         {   "brown1" :      1,
                                             "brown2" :      1
@@ -430,8 +435,9 @@ old_office_building_old_colours =       {   "white" :       1,
                                             }
 
 # Old Villa
-old_villa_all_colours =                 {   "black" :       2,
-                                            "midgrey" :     1,
+old_villa_all_colours =                 {   "black" :       1,
+                                            "red_brown" :   3,
+                                            "brown1" :      1, 
                                         }
 
 # Onsen
@@ -519,6 +525,11 @@ tsuno_building_all_colours =            {   "light_blue" :  1,
                                             "red_brown" :   1, 
                                             "dark_green" :  1  
                                         }
+
+# Twin Wooden Houses
+twin_wooden_houses_all_colours =        {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }    
 
 # Ueda Office Block
 ueda_office_block_all_colours =         {   "red_brown" :   2,
@@ -949,6 +960,29 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
 	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "large_wooden_house" : {
+        "colours" : large_wooden_house_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "c" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
 	        }
@@ -1474,6 +1508,25 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
         },
+	},
+    "twin_wooden_houses" : {
+        "colours" : twin_wooden_houses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["l", "n"],
+        "heights" : {    
+            "h" : ["l", "n"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
 	},
     "ueda_office_block" : {
         "colours" : ueda_office_block_all_colours,
