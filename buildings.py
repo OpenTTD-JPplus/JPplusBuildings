@@ -534,6 +534,11 @@ twin_wooden_houses_all_colours =        {   "brown1" :      1,
 # Two Small Wooden Houses
 two_small_wooden_houses_all_colours =   {   "brown1" :      1,
                                             "brown2" :      1
+                                            } 
+
+# Two Wooden Houses
+two_wooden_houses_all_colours =         {   "brown1" :      1,
+                                            "brown2" :      1
                                             }   
 
 # Ueda Office Block
@@ -1535,6 +1540,29 @@ buildings_dict = {
 	},
     "two_small_wooden_houses" : {
         "colours" : two_small_wooden_houses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["p", "q"],
+        "heights" : {    
+            "h" : ["p", "q"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+            "c" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        },
+        }
+	},
+    "two_wooden_houses" : {
+        "colours" : two_wooden_houses_all_colours,
         "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["p", "q"],
