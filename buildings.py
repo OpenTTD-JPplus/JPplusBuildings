@@ -235,6 +235,11 @@ large_wooden_house_all_colours =        {   "brown1" :      1,
 # Long Wooden House
 long_wooden_house_all_colours =         {   "brown1" :      1,
                                             "brown2" :      1
+                                            }  
+
+# Long Wooden Townhouses
+long_wooden_townhouses_all_colours =    {   "brown1" :      1,
+                                            "brown2" :      1
                                             }   
 
 # Mitsui Tower
@@ -504,6 +509,11 @@ temple_all_colours =                    {   "black" :       1,
                                             "red_brown" :   1, 
                                         }
 
+# Three Wooden Houses
+three_wooden_houses_all_colours =       {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }
+
 # Townhouses
 townhouses_all_colours =                {   "white" :       1, 
                                             "grey":         1, 
@@ -515,6 +525,12 @@ townhouses_all_colours =                {   "white" :       1,
                                             "black" :       1, 
                                             "red_brown" :   1, 
                                         }
+
+# Triple Wooden Townhouses
+triple_wooden_townhouses_all_colours =  {   "brown1" :      1,
+                                            "brown2" :      1
+                                            }
+
 
 # Tsuno Building
 tsuno_building_all_colours =            {   "light_blue" :  1, 
@@ -1013,6 +1029,21 @@ buildings_dict = {
 	        }
         }
 	},
+    "long_wooden_townhouses" : {
+        "colours" : long_wooden_townhouses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "mitsui_tower" : {
         "colours" : mitsui_tower_all_colours,
         "old_colours" : False,
@@ -1486,8 +1517,38 @@ buildings_dict = {
 	        }
         }
 	},
+    "three_wooden_houses" : {
+        "colours" : three_wooden_houses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
     "townhouses" : {
         "colours" : townhouses_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_grass",
+        "levels" : ["x"],
+        "heights" : {    
+            "h" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0"
+	        }
+        }
+	},
+    "triple_wooden_townhouses" : {
+        "colours" : triple_wooden_townhouses_all_colours,
         "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
