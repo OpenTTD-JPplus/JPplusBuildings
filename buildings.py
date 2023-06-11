@@ -481,6 +481,11 @@ shiro_all_colours =                     {   "black" :       1,
                                             "grey" :        1
                                         }
 
+# Shops Small
+shops_small_all_colours =               {   "dark_blue" :   1,
+                                            "black" :       1
+                                            }
+
 # Shotengai
 shotengai_all_colours =                 {   "brown1" :      2,
                                             "brown2" :      1, 
@@ -1401,6 +1406,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "shops_small" : {
+        "colours" : shops_small_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "shotengai" : {
         "colours" : shotengai_all_colours,
         "old_colours" : False,
