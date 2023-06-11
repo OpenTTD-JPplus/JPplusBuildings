@@ -459,7 +459,6 @@ item(FEAT_HOUSES, item_y2kp_11L12L,                 99, HOUSE_SIZE_1X1) {}
 item(FEAT_HOUSES, item_petrol_station_02,           109,HOUSE_SIZE_1X1) {}
 //item(FEAT_HOUSES, item_petrol_station_03,         110,HOUSE_SIZE_2X1) {}  // 111,             FEAT_HOUSES
 item(FEAT_HOUSES, item_shops_small_01,              07, HOUSE_SIZE_1X1) {}
-item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant,  64, HOUSE_SIZE_1X1) {}         
 
 // Free IDs
 /*
@@ -484,10 +483,6 @@ switch(FEAT_HOUSES, SELF, FuncServicePASS, 	(cargo_accepted_nearby_last_month(PA
 switch(FEAT_HOUSES, SELF, FuncServicePETR, (cargo_accepted_nearby_last_month(PETR) == 1 || cargo_accepted_nearby_this_month(PETR) == 1)) {return;}
 // Food Service - for Stadiums
 switch(FEAT_HOUSES, SELF, FuncServiceFOOD, (cargo_accepted_nearby_last_month(FOOD) == 1 || cargo_accepted_nearby_this_month(FOOD) == 1)) {return;}
-// Edible Oils Service - for Restaurants
-switch(FEAT_HOUSES, SELF, FuncServiceEOIL, (cargo_accepted_nearby_last_month(EOIL) == 1 || cargo_accepted_nearby_this_month(EOIL) == 1)) {return;}
-// Fish Service - for Restaurants
-switch(FEAT_HOUSES, SELF, FuncServiceFISH, (cargo_accepted_nearby_last_month(FISH) == 1 || cargo_accepted_nearby_this_month(FISH) == 1)) {return;}
 // Fruit - for Shops
 switch(FEAT_HOUSES, SELF, FuncServiceFRUT, (cargo_accepted_nearby_last_month(FRUT) == 1 || cargo_accepted_nearby_this_month(FRUT) == 1)) {return;}
 // Cassava - for shops
@@ -49531,119 +49526,93 @@ item(FEAT_HOUSES, item_petrol_station_03, 110, HOUSE_SIZE_2X1){
 
 // End petrol_station_03
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/shops/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 1
-// Begin yoshinoya_sushi_restaurant
+# 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 1
+
+// yoshinoya_sushi_restaurant
+
+# 1 "src/houses/yoshinoya_sushi_restaurant/gfx/yoshinoya_sushi_restaurant_sprites.pnml" 1
 
 // Building Sprites
-spriteset (spr_build_yoshinoya_sushi_restaurant, 							"src/houses/shops/yoshinoya_sushi_restaurant/building.png") 					{template_house_80(1,1)}
-spriteset (spr_build_yoshinoya_sushi_restaurant_snow, 						"src/houses/shops/yoshinoya_sushi_restaurant/building.png") 					{template_house_80(1,82)}
+spriteset (spr_yoshinoya_sushi_restaurant_norm, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,1)}
+spriteset (spr_yoshinoya_sushi_restaurant_snow, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,82)}
 
 // Ground Sprites
-spriteset (spr_ground_yoshinoya_sushi_restaurant, 							"src/houses/shops/yoshinoya_sushi_restaurant/ground.png") 						{template_house_80(1,1)}
-spriteset (spr_ground_yoshinoya_sushi_restaurant_snow, 						"src/houses/shops/yoshinoya_sushi_restaurant/ground.png") 						{template_house_80(1,82)}
+spriteset (spr_yoshinoya_sushi_restaurant_ground, 			"src/houses/yoshinoya_sushi_restaurant/gfx/ground.png") {template_house_80(1,1)}
+spriteset (spr_yoshinoya_sushi_restaurant_ground_snow, 		"src/houses/yoshinoya_sushi_restaurant/gfx/ground.png") {template_house_80(1,82)}
+# 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
+# 1 "src/houses/yoshinoya_sushi_restaurant/levels/all.pnml" 1
 
-// Normal Sprites
-spritelayout sprlay_yoshinoya_sushi_restaurant {
-	ground {
-		sprite: spr_ground_yoshinoya_sushi_restaurant(construction_state);
-	}
-	building {
-		sprite: spr_build_yoshinoya_sushi_restaurant(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
+// yoshinoya_sushi_restaurant levels
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_white_norm {
+        ground {
+            sprite: spr_yoshinoya_sushi_restaurant_ground (construction_state);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_white_snow {
+        ground {
+            sprite: spr_yoshinoya_sushi_restaurant_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_white_snow;
+	    sprlay_yoshinoya_sushi_restaurant_white_norm;
+    }
+
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_midgrey_norm {
+        ground {
+            sprite: spr_yoshinoya_sushi_restaurant_ground (construction_state);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_midgrey_snow {
+        ground {
+            sprite: spr_yoshinoya_sushi_restaurant_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_midgrey_snow;
+	    sprlay_yoshinoya_sushi_restaurant_midgrey_norm;
+    }
+# 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
+# 1 "src/houses/yoshinoya_sushi_restaurant/switches/colour_switches.pnml" 1
+
+// yoshinoya_sushi_restaurant ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_k_sprites, random_bits % 3 ) { // Ref 1 
+0..1: switch_yoshinoya_sushi_restaurant_white_snow;
+2: switch_yoshinoya_sushi_restaurant_midgrey_snow;
 }
-
-// Snow Sprites
-spritelayout sprlay_yoshinoya_sushi_restaurant_snow {
-	ground {
-		sprite: spr_ground_yoshinoya_sushi_restaurant_snow(construction_state);
-	}
-	building {
-		sprite: spr_build_yoshinoya_sushi_restaurant_snow(construction_state);
-		recolour_mode: RECOLOUR_REMAP; 
-		palette: PALETTE_USE_DEFAULT;
-	}
-}
-
-// Choose between Normal Sprites and Snow Sprites
-switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant,terrain_type) {
-	TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_snow;
-	sprlay_yoshinoya_sushi_restaurant;
-}
-
-// Recolouring
-
-random_switch (FEAT_HOUSES, SELF, rand_recolor_yoshinoya_sushi_restaurant)
-	{
-		1: PALETTE_CC_RED;
-		2: PALETTE_CC_LIGHT_BLUE;
-		1: PALETTE_CC_PINK;
-		1: PALETTE_CC_DARK_BLUE;
-		1: PALETTE_CC_GREEN;
-		2: PALETTE_CC_DARK_GREEN;
-		3: PALETTE_CC_CREAM;
-		1: PALETTE_CC_MAUVE;
-		4: PALETTE_CC_BROWN;
-		4: PALETTE_CC_GREY;
-	}
-
-
-// Construction Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_con_check, 
-	HasRoadAdjacentSW() &&		// Must have road to the SW
-	TileGapByType(30)			// Can't appear within 30 tiles of another
-) {return;}	
-
-// Protection Check
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_pro_check, 
-	FuncServicePASS() 	&&		// Must have PASS delivered
-	(FuncServiceFOOD()	||		// Must have either FOOD delivered
-	FuncServiceEOIL()	||		// or Edible Oil
-	FuncServiceFISH()   )		// or Fish	
-	) {return;}	
-
-item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant){
-	property {
-		substitute: 				29; 													
-		name: 						string(NAME_YOSHINOYA_SUSHI_RESTAURANT);
-		building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);		// Want flat land
-		population: 				50;									// Agreed to JPS
-		accepted_cargos: 			[
-										[PASS, 4],[MAIL, 2],			// Of course
-										[FOOD, 8],						// Food in general
-										[JAVA ,8],						// Coffee
-										[EOIL, 8],						// Oil for cooking
-										[LVST, 8],						// Meat for restaurant
-										[FISH, 8],						// It's a sushi restuarant!
-									];							
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				10;
-		years_available: 			[1950,0xFFFF];	
-		minimum_lifetime: 			5;
-		availability_mask: 			[bitmask(
-										TOWNZONE_INNER_SUBURB,
-										TOWNZONE_OUTER_SUBURB,
-										TOWNZONE_OUTSKIRT
-										), 
-									bitmask(
-										CLIMATE_TEMPERATE, 
-										CLIMATE_ARCTIC, 
-										ABOVE_SNOWLINE
-										)];
-		//building_class:			2;	
-		}
-	graphics {
-		default: 					switch_yoshinoya_sushi_restaurant;
-		construction_check:			switch_yoshinoya_sushi_restaurant_con_check;
-		protection:					switch_yoshinoya_sushi_restaurant_pro_check;
-		cargo_production: 			func_produce(20,5);
-		colour: 					rand_recolor_yoshinoya_sushi_restaurant;
-	}
-}
-
-// End yoshinoya_sushi_restaurant
+# 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/yoshinoya_restaurant/yoshinoya_restaurant.pnml" 1
 
@@ -60138,6 +60107,28 @@ item(FEAT_HOUSES, item_yoshinoya_restaurant, 96, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_yoshinoya_restaurant_k_sprites;
+		construction_check: 		switch_onsen_con_check;
+		cargo_production: 			func_produce(10,4);
+	}
+}
+
+item(FEAT_HOUSES, item_yoshinoya_sushi_restaurant, 64, HOUSE_SIZE_1X1){
+	property {
+		substitute: 				29;
+		name: 						string(NAME_YOSHINOYA_SUSHI_RESTAURANT);
+		population: 				60;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1960,0xFFFF];
+		minimum_lifetime: 			10;
+		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB, TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		building_class:				3;
+				
+		}
+	graphics {
+		default: 					switch_yoshinoya_sushi_restaurant_k_sprites;
 		construction_check: 		switch_onsen_con_check;
 		cargo_production: 			func_produce(10,4);
 	}

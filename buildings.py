@@ -613,6 +613,11 @@ yoshinoya_restaurant_all_colours =      {   "white" :       2,
                                             "midgrey" :     1
                                         }
 
+# Yoshinoya Sushi Restaurant
+yoshinoya_sushi_restaurant_all_colours ={   "white" :       2,
+                                            "midgrey" :     1
+                                        }
+
 buildings_dict = {
 	"aoki_office" : {
         "colours" : aoki_office_all_colours,
@@ -1790,6 +1795,20 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "1",
+	        }
+        }
+    },
+    "yoshinoya_sushi_restaurant" : {
+        "colours" : yoshinoya_sushi_restaurant_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
 	        }
         }
     },
