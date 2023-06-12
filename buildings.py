@@ -462,6 +462,12 @@ pachinko_all_colours =                  {   "black" :       1,
                                             "midgrey" :     1
                                             }
 
+# Petrol Station Old
+petrol_station_old_all_colours =        {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                        }
+
 # Police Station
 police_station_all_colours =            {   "light_blue" :  1, 
                                             "red":          1, 
@@ -1340,6 +1346,28 @@ buildings_dict = {
 	        }
         }
     },
+    "petrol_station_old" : {
+        "colours" : petrol_station_old_all_colours,
+        "old_colours" : False,
+        "building" : "spr_petrol_station_old",
+        "ground" : "spr_petrol_station_old_ground",
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"],
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        },
+        }
+	},
     "police_station" : {
         "colours" : police_station_all_colours,
         "old_colours" : False,

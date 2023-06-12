@@ -21,13 +21,9 @@ coloursdict = {
 "midgrey":      "15"
 }
 
-
 buildings = list(buildings_dict.keys())
 
 print("Running colours.py")
-
-
-
 
 # CREATE THE COLOUR SPRITELAYOUTS IN EACH BUILDING'S FOLDER
 
@@ -44,6 +40,8 @@ for b in buildings:
         search_text_remap = "_c_"
         search_text_ground = "spr_building_name_v_ground"
         search_text_ground_snow = "spr_building_name_v_ground_snow"
+        search_text_building = "spr_building_name_v_xL_norm"
+        search_text_building_snow = "spr_building_name_v_xL_snow"
         search_text_building_name = "building_name"
         recolour_remap = coloursdict[c]
         with open(r'./src/houses/' + b + '/colours/' + c +'.pnml', 'r') as file:
@@ -52,6 +50,12 @@ for b in buildings:
                 ground_sprite = buildings_dict[b]["ground"]
                 data = data.replace(search_text_ground_snow, ground_sprite)
                 data = data.replace(search_text_ground, ground_sprite)            
+            except:
+                pass
+            try:
+                building_sprite = buildings_dict[b]["building"]
+                data = data.replace(search_text_building_snow, building_sprite + "_snow")
+                data = data.replace(search_text_building, building_sprite + "_norm")  
             except:
                 pass
             data = data.replace(search_text_remap, recolour_remap)
