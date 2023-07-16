@@ -456,11 +456,23 @@ osaka_all_colours =                     {   "black" :       1,
                                             "midgrey" :     1
                                         }
 
-
 # Pachinko
 pachinko_all_colours =                  {   "black" :       1,
                                             "midgrey" :     1
                                             }
+
+# Pagoda
+pagoda_all_colours =                    {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1
+                                        }
+
+# Petrol Station Large
+petrol_station_large_all_colours =      {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                        }
 
 # Petrol Station Old
 petrol_station_old_all_colours =        {   "light_blue" :  1, 
@@ -1346,6 +1358,44 @@ buildings_dict = {
 	        }
         }
     },
+    "pagoda" : {
+        "colours" : pagoda_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_temple",
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
+    "petrol_station_large" : {
+        "colours" : petrol_station_large_all_colours,
+        "old_colours" : False,
+        "building" : "spr_petrol_station_large",
+        "ground" : "spr_petrol_station_large_ground",
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"],
+        },
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        },
+        }
+	},
     "petrol_station_old" : {
         "colours" : petrol_station_old_all_colours,
         "old_colours" : False,
