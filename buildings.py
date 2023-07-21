@@ -467,6 +467,15 @@ osaka_all_colours =                     {   "black" :       1,
                                             "midgrey" :     1
                                         }
 
+# Ota
+ota_all_colours =                       {   "gold" :        1, 
+                                            "light_green":  1, 
+                                            "white" :       1, 
+                                            "light_blue" :  1,
+                                            "red" :         1,
+                                            "red_brown" :   1, 
+                                        }
+
 # Pachinko
 pachinko_all_colours =                  {   "black" :       1,
                                             "midgrey" :     1
@@ -1453,6 +1462,22 @@ buildings_dict = {
             "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+    },
+    "ota" : {
+        "colours" : ota_all_colours,
+        "old_colours" : False,
+        "levels" : ["6L", "12L"],
+        "heights" : {    
+            "m" : ["6L"],
+            "x" : ["12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
