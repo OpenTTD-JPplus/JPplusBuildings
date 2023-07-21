@@ -548,6 +548,18 @@ suzuki_all_colours =                    {   "mix01" :       1,
                                             "mix02" :       1
                                         }
 
+# Tanaguchi
+tanaguchi_all_colours =                 {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            "midgrey" :     1, 
+                                            "dark_blue" :   1
+                                            }
+
 # Tanaka
 tanaka_all_colours =                    {   "mix01" :       1,
                                             "mix02" :       1
@@ -1707,6 +1719,22 @@ buildings_dict = {
 	        }
         }
 	},
+    "tanaguchi" : {
+        "colours" : tanaguchi_all_colours,
+        "old_colours" : False,
+        "levels" : ["6L", "11L"],
+        "heights" : {    
+            "m" : ["6L"],
+            "x" : ["11L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "tanaka" : {
         "colours" : tanaka_all_colours,
         "old_colours" : False,
