@@ -97,6 +97,12 @@ harada_all_colours =                    {   "white" :       1,
                                             "red_brown" :   1, 
                                             "black" :       1  
                                             }
+
+# Hasegawa
+hasegawa_all_colours =                  {   "mix01" :       1,
+                                            "mix02" :       1
+                                        }
+
 # Hayashi
 hayashi_all_colours =                   {   "white" :       1, 
                                             "grey":         1, 
@@ -165,6 +171,11 @@ imai_all_colours =                      {   "white" :       1 ,
                                             "red_brown" :   1, 
                                             "black" :       1,
                                             }
+
+# Inoue
+inoue_all_colours =                     {   "mix01" :       1,
+                                            "mix02" :       1
+                                        }
 
 # Insurance Tower
 insurance_tower_all_colours =           {   "white" :       1 , 
@@ -524,6 +535,16 @@ sugiyama_office_building_all_colours =  {   "black" :       2,
                                             "midgrey" :     1
                                         }
 
+# Suzuki
+suzuki_all_colours =                    {   "mix01" :       1,
+                                            "mix02" :       1
+                                        }
+
+# Tanaka
+tanaka_all_colours =                    {   "mix01" :       1,
+                                            "mix02" :       1
+                                        }
+
 # Temple
 temple_all_colours =                    {   "black" :       1, 
                                             "brown1":       1, 
@@ -824,6 +845,32 @@ buildings_dict = {
 	        }
         }
 	},
+    "hasegawa" : {
+        "colours" : hasegawa_all_colours,
+        "old_colours" : False,
+        "levels" : ["6L", "8L"],
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["8L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "s" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "hayashi" : {
         "colours" : hayashi_all_colours,
         "old_colours" : False,
@@ -923,6 +970,27 @@ buildings_dict = {
 	        "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
+	        }
+        }
+	},
+    "inoue" : {
+        "colours" : inoue_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_concrete",
+        "levels" : ["6L"],
+        "heights" : {    
+            "m" : ["6L"],
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -1118,11 +1186,13 @@ buildings_dict = {
         "variants" : {    
             "a" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
 	        "b" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -1202,11 +1272,13 @@ buildings_dict = {
         "variants" : {    
             "a" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
 	        "b" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -1591,6 +1663,50 @@ buildings_dict = {
 	        }
         }
     },
+    "suzuki" : {
+        "colours" : suzuki_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_concrete",
+        "levels" : ["6L", "8L"],
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["8L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
+    "tanaka" : {
+        "colours" : tanaka_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_ground_concrete",
+        "levels" : ["6L", "8L"],
+        "heights" : {    
+            "m" : ["6L"],
+            "l" : ["8L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "temple" : {
 		"construction_state" : "3",
         "colours" : temple_all_colours,
