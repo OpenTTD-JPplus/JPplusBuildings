@@ -573,6 +573,16 @@ temple_all_colours =                    {   "black" :       1,
                                             "red_brown" :   1, 
                                         }
 
+# Tetsui
+tetsui_all_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1, 
+                                            "black" :       1, 
+                                            }
+
 # Three Wooden Houses
 three_wooden_houses_all_colours =       {   "brown1" :      1,
                                             "brown2" :      1
@@ -1789,6 +1799,21 @@ buildings_dict = {
 	        }
         }
 	},
+     "tetsui" : {
+        "colours" : tetsui_all_colours,
+        "old_colours" : False,
+        "levels" : ["5L", "6L", "7L", "8L"],
+        "heights" : {    
+            "m" : ["5L", "6L"],
+            "l" : ["7L", "8L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "three_wooden_houses" : {
         "colours" : three_wooden_houses_all_colours,
         "old_colours" : False,
