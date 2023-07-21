@@ -503,6 +503,14 @@ sato_building_all_colours =             {   "black" :       1,
                                             "midgrey" :     1
                                             }
 
+# Shibata
+shibata_all_colours =                   {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1,
+                                            "mauve" :       1, 
+                                        }
+
 # Shiro
 shiro_all_colours =                     {   "black" :       1, 
                                             "brown1":       1, 
@@ -976,7 +984,6 @@ buildings_dict = {
     "inoue" : {
         "colours" : inoue_all_colours,
         "old_colours" : False,
-        "ground" : "spr_ground_concrete",
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1523,6 +1530,22 @@ buildings_dict = {
 	        }
         }
     },
+    "shibata" : {
+        "colours" : shibata_all_colours,
+        "old_colours" : False,
+        "levels" : ["5L", "6L", "7L", "8L"],
+        "heights" : {    
+            "m" : ["5L","6L"],
+            "l" : ["7L","8L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "shiro" : {
         "colours" : shiro_all_colours,
         "old_colours" : False,
@@ -1666,7 +1689,6 @@ buildings_dict = {
     "suzuki" : {
         "colours" : suzuki_all_colours,
         "old_colours" : False,
-        "ground" : "spr_ground_concrete",
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1688,7 +1710,6 @@ buildings_dict = {
     "tanaka" : {
         "colours" : tanaka_all_colours,
         "old_colours" : False,
-        "ground" : "spr_ground_concrete",
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
