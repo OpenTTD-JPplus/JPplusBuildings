@@ -103,6 +103,14 @@ hasegawa_all_colours =                  {   "mix01" :       1,
                                             "mix02" :       1
                                         }
 
+# Hashimoto Office Tower
+hashimoto_office_tower_all_colours =    {   "white" :       1, 
+                                            "grey":         1, 
+                                            "mauve" :       1,
+                                            "midgrey" :     1, 
+                                            "black" :       1  
+                                            }
+
 # Hayashi
 hayashi_all_colours =                   {   "white" :       1, 
                                             "grey":         1, 
@@ -557,6 +565,14 @@ suzuki_all_colours =                    {   "mix01" :       1,
                                             "mix02" :       1
                                         }
 
+# Takagi
+takagi_all_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "black" :       1, 
+                                            "midgrey" :     1, 
+                                            }
 # Tanaguchi
 tanaguchi_all_colours =                 {   "white" :       1, 
                                             "grey" :        2, 
@@ -608,6 +624,11 @@ toki_all_colours =                      {   "white" :       1,
                                             "midgrey" :     1, 
                                             }
 
+# Tokyo
+tokyo_all_colours =                     {   "black" :       1,
+                                            "midgrey" :     1, 
+                                            }
+
 # Townhouses
 townhouses_all_colours =                {   "white" :       1, 
                                             "grey":         1, 
@@ -634,6 +655,11 @@ tsuno_building_all_colours =            {   "light_blue" :  1,
                                             "black" :       1, 
                                             "red_brown" :   1, 
                                             "dark_green" :  1  
+                                        }
+
+# Tsuzumi Electronics Centre
+tsuzumi_electronics_centre_all_colours ={   "red_brown" :   1, 
+                                            "brown1":       1, 
                                         }
 
 # Twin Wooden Houses
@@ -693,6 +719,15 @@ yamashiro_office_building_all_colours = {   "black" :       1,
 yamashita_building_all_colours =        {   "black" :       2,
                                             "midgrey" :     1
                                         }
+
+# Yanagi
+yanagi_all_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "red_brown" :   1,
+                                            }
 
 # Yano
 yano_all_colours =                      {   "midgrey" :     1, 
@@ -915,6 +950,22 @@ buildings_dict = {
                 "construction_state" : "3"
 	        },
             "s" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
+    "hashimoto_office_tower" : {
+        "colours" : hashimoto_office_tower_all_colours,
+        "old_colours" : False,
+        "levels" : ["9L", "10L", "11L", "12L", "13L", "14L", "15L", "16L"],
+        "heights" : {    
+            "l" : ["9L","10L"],
+            "x" : ["11L","12L", "13L", "14L", "15L", "16L"]
+        },
+        "variants" : {    
+            "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "3"
@@ -1765,6 +1816,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "takagi" : {
+        "colours" : takagi_all_colours,
+        "old_colours" : False,
+        "levels" : ["10L"],
+        "heights" : {    
+            "x" : ["10L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "tanaguchi" : {
         "colours" : tanaguchi_all_colours,
         "old_colours" : False,
@@ -1880,6 +1945,24 @@ buildings_dict = {
 	        }
         }
     },
+    "tokyo" : {
+        "colours" : tokyo_all_colours,
+        "old_colours" : False,
+        "levels" : ["6L"],
+        "heights" : {    
+            "m" : ["6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+	},
     "townhouses" : {
         "colours" : townhouses_all_colours,
         "old_colours" : False,
@@ -1927,6 +2010,28 @@ buildings_dict = {
 		        "yoffset" : "0"
 	        },
         },
+	},
+    "tsuzumi_electronics_centre" : {
+        "colours" : tsuzumi_electronics_centre_all_colours,
+        "old_colours" : False,
+        "levels" : ["p", "q", "r", "t"],   
+        "heights" : {    
+            "x" : ["p", "q", "r", "t"],       
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" :     "2",
+		        "yoffset" :     "0",
+	        },
+            "b" : {
+		        "xoffset" :     "2",
+		        "yoffset" :     "0",
+	        },
+            "s" : {
+		        "xoffset" :     "2",
+		        "yoffset" :     "0",
+	        },
+        }
 	},
     "twin_wooden_houses" : {
         "colours" : twin_wooden_houses_all_colours,
@@ -2100,6 +2205,21 @@ buildings_dict = {
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
+    "yanagi" : {
+        "colours" : yanagi_all_colours,
+        "old_colours" : False,
+        "levels" : ["5L", "6L", "7L", "8L"],
+        "heights" : {    
+            "m" : ["5L", "6L"],
+            "l" : ["7L", "8L"]
         },
         "variants" : {    
             "x" : {
