@@ -755,6 +755,13 @@ yano_all_colours =                      {   "midgrey" :     1,
                                             "mauve" :       1, 
                                         }
 
+# Y Building
+ybuilding_all_colours =                 {   "grey" :        1, 
+                                            "black" :       1, 
+                                            "midgrey" :     1, 
+                                            }                                   
+
+
 # Yoshinoya Restaurant
 yoshinoya_restaurant_all_colours =      {   "white" :       2,
                                             "midgrey" :     1
@@ -2285,6 +2292,20 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0"
+	        }
+        }
+    },
+    "ybuilding" : {
+        "colours" : ybuilding_all_colours,
+        "old_colours" : False,
+        "levels" : ["14L"],
+        "heights" : {    
+            "x" : ["14L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "2",
+		        "yoffset" : "0",
 	        }
         }
     },
