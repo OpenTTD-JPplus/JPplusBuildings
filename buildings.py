@@ -634,6 +634,14 @@ tanaka_all_colours =                    {   "mix01" :       1,
                                             "mix02" :       1
                                         }
 
+# T Building
+tbuilding_all_colours =                 {   "white" :       1, 
+                                            "gold" :        2, 
+                                            "light_green" : 2, 
+                                            "light_blue" :  2, 
+                                            "red" :         1, 
+                                            }
+
 # Temple
 temple_all_colours =                    {   "black" :       1, 
                                             "brown1":       1, 
@@ -744,6 +752,13 @@ xbuilding_all_colours =                 {   "white" :       1,
                                             "black" :       1, 
                                             "midgrey" :     1, 
                                             }                                   
+
+# Yamada
+yamada_all_colours =                    {   "white" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "black" :       1, 
+                                            }
 
 # Yamada Electronics Centre
 yamada_electronics_centre_all_colours = {   "white" :       1, 
@@ -2010,6 +2025,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "tbuilding" : {
+        "colours" : tbuilding_all_colours,
+        "old_colours" : False,
+        "levels" : ["16L"],
+        "heights" : {    
+            "x" : ["16L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "temple" : {
 		"construction_state" : "3",
         "colours" : temple_all_colours,
@@ -2304,6 +2333,21 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+	        }
+        }
+    },
+    "yamada" : {
+        "colours" : yamada_all_colours,
+        "old_colours" : False,
+        "levels" : ["12L"],
+        "heights" : {    
+            "x" : ["12L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
