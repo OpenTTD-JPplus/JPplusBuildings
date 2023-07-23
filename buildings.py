@@ -443,6 +443,11 @@ nishikawa_old_colours =                 {   "black" :       1,
                                             "red_brown" :   1,
                                             }
 
+# O Building
+obuilding_all_colours =                 {   "light_blue" :  1,
+                                            "dark_blue" :   1,
+                                        }
+
 # Office Tower
 office_tower_all_colours =              {   "white" :       1, 
                                             "black" :       2,
@@ -606,6 +611,12 @@ takagi_all_colours =                    {   "white" :       1,
                                             "black" :       1, 
                                             "midgrey" :     1, 
                                             }
+
+# Takemaru Shopping Centre
+takemaru_shopping_centre_all_colours =  {   "red" :         1,
+                                            "dark_green" :  1,
+                                        }
+
 # Tanaguchi
 tanaguchi_all_colours =                 {   "white" :       1, 
                                             "grey" :        2, 
@@ -1502,6 +1513,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "obuilding" : {
+        "colours" : obuilding_all_colours,
+        "old_colours" : False,
+        "levels" : ["10L"],
+        "heights" : {    
+            "l" : ["10L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "office_tower" : {
         "colours" : office_tower_all_colours,
         "old_colours" : False,
@@ -1925,6 +1950,29 @@ buildings_dict = {
 	        }
         }
     },
+    "takemaru_shopping_centre" : {
+        "colours" : takemaru_shopping_centre_all_colours,
+        "old_colours" : False,
+        "ground" : "spr_takemaru_shopping_centre_ground",
+        "levels" : ["9L"],
+        "heights" : {    
+            "l" : ["9L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "s" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+	},
     "tanaguchi" : {
         "colours" : tanaguchi_all_colours,
         "old_colours" : False,
