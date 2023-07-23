@@ -699,7 +699,16 @@ wooden_farmhouse_all_colours =          {   "brown1" :      1,
 # Wooden House
 wooden_house_all_colours =              {   "brown1" :      1,
                                             "brown2" :      1
-                                            }                                       
+                                            }
+
+# X Building
+xbuilding_all_colours =                 {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "black" :       1, 
+                                            "midgrey" :     1, 
+                                            }                                   
 
 # Yamada Electronics Centre
 yamada_electronics_centre_all_colours = {   "white" :       1, 
@@ -2173,6 +2182,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "xbuilding" : {
+        "colours" : xbuilding_all_colours,
+        "old_colours" : False,
+        "levels" : ["11L"],
+        "heights" : {    
+            "x" : ["11L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "yamada_electronics_centre" : {
         "colours" : yamada_electronics_centre_all_colours,
         "old_colours" : False,
