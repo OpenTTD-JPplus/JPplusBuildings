@@ -195,6 +195,30 @@ insurance_tower_all_colours =           {   "white" :       1 ,
                                             "light_blue" :  1, 
                                             }
 
+# Ishida Commercial Building
+ishida_commercial_building_all_colours ={   "white" :       1, 
+                                            "black" :       2,
+                                            "red_brown" :   1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2,
+                                            "light_blue" :  1, 
+                                            "dark_blue" :   1, 
+                                            "dark_green" :  1, 
+                                            }
+
+# Ishii Office Tower
+ishii_office_tower_all_colours =        {   "white" :       1, 
+                                            "black" :       2,
+                                            "red_brown" :   1,  
+                                            "mauve" :       1, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "dark_blue" :   1, 
+                                            "grey" :        1,
+                                            "gold" :        1, 
+                                            }
+
 # Kaneko
 kaneko_all_colours =                    {   "white" :       1 , 
                                             "grey" :        2, 
@@ -1130,6 +1154,38 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "2",
+	        }
+        }
+    },
+    "ishida_commercial_building" : {
+        "colours" : ishida_commercial_building_all_colours,
+        "old_colours" : False,
+        "levels" : ["11L", "16L"],
+        "heights" : {    
+            "l" : ["11L"],
+            "x" : ["16L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
+    "ishii_office_tower" : {
+        "colours" : ishii_office_tower_all_colours,
+        "old_colours" : False,
+        "levels" : ["11L", "17L"],
+        "heights" : {    
+            "l" : ["11L"],
+            "x" : ["17L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
