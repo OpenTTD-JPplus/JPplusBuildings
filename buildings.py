@@ -565,6 +565,15 @@ suzuki_all_colours =                    {   "mix01" :       1,
                                             "mix02" :       1
                                         }
 
+# Takada
+takada_all_colours =                    {   "white" :       1, 
+                                            "grey" :        2, 
+                                            "brown1" :      2, 
+                                            "brown2" :      2, 
+                                            "black" :       1, 
+                                            "midgrey" :     1, 
+                                            }
+
 # Takagi
 takagi_all_colours =                    {   "white" :       1, 
                                             "grey" :        2, 
@@ -1816,6 +1825,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "takada" : {
+        "colours" : takada_all_colours,
+        "old_colours" : False,
+        "levels" : ["18L"],
+        "heights" : {    
+            "x" : ["18L"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        }
+        }
+    },
     "takagi" : {
         "colours" : takagi_all_colours,
         "old_colours" : False,
