@@ -537,6 +537,12 @@ petrol_station_old_all_colours =        {   "light_blue" :  1,
                                             "dark_blue" :   1, 
                                         }
 
+# Petrol Station Small
+petrol_station_small_all_colours =      {   "light_blue" :  1, 
+                                            "red":          1, 
+                                            "dark_blue" :   1, 
+                                        }
+
 # Police Station
 police_station_all_colours =            {   "light_blue" :  1, 
                                             "red":          1, 
@@ -1727,6 +1733,21 @@ buildings_dict = {
 	        },
         }
 	},
+    "petrol_station_small" : {
+        "colours" : petrol_station_small_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "police_station" : {
         "colours" : police_station_all_colours,
         "old_colours" : False,
