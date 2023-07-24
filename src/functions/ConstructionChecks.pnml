@@ -23,8 +23,8 @@ switch(FEAT_HOUSES, SELF, switch_shotengai_con_check,
 // Small Height
 switch (FEAT_HOUSES, SELF, switch_small_con_check, 	
 	(FuncServicePASS() &&												// PASS Service AND
-		(!PopOver7L8LThreshold() ||										// Not Above Threshold OR
-			(PopOver7L8LThreshold() && 									// Above Threshold AND
+		(!PopOverLargeThreshold() ||										// Not Above Threshold OR
+			(PopOverLargeThreshold() && 									// Above Threshold AND
 				(!WideRoads() || 
 					(WideRoads() && town_zone == TOWNZONE_OUTSKIRT) )	// Either not on Wide Roads OR on Wide Road in OUTSKIRT
 			) 
@@ -32,7 +32,7 @@ switch (FEAT_HOUSES, SELF, switch_small_con_check,
 	) 
 	|| 
 	(!FuncServicePASS() && 												// NO PASS Service AND
-		(PopOver7L8LThreshold() && town_zone == TOWNZONE_CENTRE)		// Above threshold AND in CENTRE
+		(PopOverLargeThreshold() && town_zone == TOWNZONE_CENTRE)		// Above threshold AND in CENTRE
 	)
 ) {return;}	
 
@@ -42,11 +42,11 @@ switch (FEAT_HOUSES, SELF, switch_medium_con_check,
 	FuncServicePASS() &&					
 		(
 			(
-				PopOver5L6LThreshold() && !PopOver7L8LThreshold() && WideRoads()
+				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads()
 			) 
 				||
 			(
-				PopOver7L8LThreshold() && 
+				PopOverLargeThreshold() && 
 				(
 					!WideRoads() 
 					|| 
@@ -60,9 +60,9 @@ switch (FEAT_HOUSES, SELF, switch_medium_con_check,
 switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
 	FuncServicePASS() &&		
 		(			
-			(PopOver7L8LThreshold() && !PopOver9L10LThreshold() && WideRoads() ) 
+			(PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads() ) 
 				||
-			(PopOver9L10LThreshold() && 
+			(PopOverXtraThreshold() && 
 				(
 					(!WideRoads() && town_zone == TOWNZONE_CENTRE)
 						|| 
@@ -75,7 +75,7 @@ switch (FEAT_HOUSES, SELF, switch_large_con_check,
 // Xtra Large
 switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
 	FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
-	PopOver9L10LThreshold() &&					// City has population above relevant threshold
+	PopOverXtraThreshold() &&					// City has population above relevant threshold
 	WideRoads()									// Can only build beside a wider road
 	) {return;}	
 
@@ -85,7 +85,7 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check,
 	IsUniqueHouse() &&						// Only one in city
 	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
 	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
-	PopOver11L12LThreshold() &&				// Population of city check
+	PopOverSkyThreshold() &&				// Population of city check
 	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 	IfFirstSkyscraper() )					// OR it's the first skyscraper
 ) {return;}	
@@ -93,7 +93,7 @@ switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check,
 // Fire Station
 switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
 	HasRoadAdjacentSE() &&					// Must have road to the SW
-	PopOver5L6LThreshold() &&				// Population must be > threshold
+	PopOverMediumThreshold() &&				// Population must be > threshold
 	TileGapByType(30)						// Can't appear within 30 tiles of another
 ) {return;}	
 
@@ -101,7 +101,7 @@ switch (FEAT_HOUSES, SELF, switch_fire_station_con_check,
 switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
 	IsCity() && 							// Can only appear in Cities
 	IsUniqueHouse()	&&						// Only one per city
-	PopOver5L6LThreshold()					// Required city population
+	PopOverMediumThreshold()				// Required city population
 	) {return;}	
 
 // Onsen
@@ -120,7 +120,7 @@ switch (FEAT_HOUSES, SELF, switch_pachinko_con_check,
 // Police Station
 switch (FEAT_HOUSES, SELF, switch_police_station_con_check, 
 	HasRoadAdjacentSW() &&					// Must have road to the SW
-	PopOver5L6LThreshold() &&				// Population must be > 10k
+	PopOverMediumThreshold() &&				// Population must be > 10k
 	TileGapByType(30)						// Can't appear within 30 tiles of another
 ) {return;}	
 
@@ -155,5 +155,5 @@ switch (FEAT_HOUSES, SELF, switch_temple_con_check,
 // Farm
 switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
 	!IsCity() && 					// Cannot appear in Cities
-	!PopOver5L6LThreshold()			// Population criteria
+	!PopOverMediumThreshold()			// Population criteria
 	) {return;}		

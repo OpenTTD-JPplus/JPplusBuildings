@@ -19,9 +19,9 @@ grf {
 		}
 	}
 	param 2 {
-		param_population_threshold_5L6L {
+		param_population_threshold_medium {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_5L6L);
+			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_MEDIUM);
 			desc: 				string(STR_PARAM_DESC_THRESHOLD);
 			min_value:			1000;
 			max_value:			50000;
@@ -29,9 +29,9 @@ grf {
 		}
 	}
 	param 3 {
-		param_population_threshold_7L8L {
+		param_population_threshold_large {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_7L8L);
+			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_LARGE);
 			desc: 				string(STR_PARAM_DESC_THRESHOLD);
 			min_value:			1000;
 			max_value:			5000000;
@@ -39,9 +39,9 @@ grf {
 		}
 	}
 	param 4 {
-		param_population_threshold_9L10L {
+		param_population_threshold_xtra {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_9L10L);
+			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_XTRA);
 			desc: 				string(STR_PARAM_DESC_THRESHOLD);
 			min_value:			1000;
 			max_value:			5000000;
@@ -49,9 +49,9 @@ grf {
 		}
 	}
 	param 5 {
-		param_population_threshold_11L12L {
+		param_population_threshold_sky {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_11L12L);
+			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_SKY);
 			desc: 				string(STR_PARAM_DESC_THRESHOLD);
 			min_value:			1000;
 			max_value:			5000000;
@@ -69,6 +69,11 @@ grf {
 }
 
 if (version_openttd(1,10,0,28004) > openttd_version) {
+	error(FATAL, string(STR_ERROR_GAME_VERSION));
+}
+
+// https://jgrennison.github.io/OpenTTD-patches/newgrf-town-nml.html
+if (!extended_feature_test("town_uncapped_variables")) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
 
