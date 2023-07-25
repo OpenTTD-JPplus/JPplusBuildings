@@ -1,36 +1,41 @@
 import pandas as pd
 
-# convert into dataframe
+with open("test_manual.pnml") as manual:
+    manual_lines = [line.rstrip('\n') for line in manual]
+
+with open("test_generated.pnml") as generated:
+    generated_lines = [line.rstrip('\n') for line in generated]
+
+differing_v1 = []
+for element in manual_lines:
+    if element not in generated_lines:
+        differing_v1.append(element)
+
+print(differing_v1)
+
+differing_v2 = []
+for element in generated_lines:
+    if element not in manual_lines:
+        differing_v2.append(element)
+
+print(differing_v2)
+
+
+'''# convert excel spreadsheet into dataframe
 df1 = pd.read_excel("docs/buildings.xlsx")
 
-# convert into dictionary
-dict = df1.to_dict()
+# convert dataframe into dictionary
+all_buildings = df1.set_index('name').T.to_dict('dict')
 
-name = list(dict["name"].values())
-include = list(dict["include"].values())
-folder = list(dict["folder"].values())
+# create active, inactive and parameter building lists
 
-items_dictionary = {name[i]:include[i] for i in range(len(name))}
-buildings_dictionary = {folder[i]:include[i] for i in range(len(name))}
+folders = list(df1["folder"])
+folders = list(dict.fromkeys(folders))
 
-all_building_items = list(items_dictionary.keys())
-all_buildings = list(buildings_dictionary.keys())
-
-building_items = []
-for b in all_building_items:
-    if items_dictionary[b] == True:
-        building_items.append(b)
-    else:
-        pass
-
-buildings = []
-for b in all_buildings:
-    if buildings_dictionary[b] == True:
-        buildings.append(b)
-    else:
-        pass
-
-print(buildings)
-
-
-
+f = open("./src/houses.pnml", "w")
+f.write('\n// House pnml files\n')
+f.close()
+for b in folders:
+    f = open("./src/houses.pnml", "a")
+    f.write('\n#include "src/houses/' + b + '/' + b + '.pnml"')
+    f.close()'''

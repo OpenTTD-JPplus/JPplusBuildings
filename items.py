@@ -1,154 +1,98 @@
 import pandas as pd
+import os, shutil
 import codecs
 import copy
 from buildings import buildings_dict as buildings_dict
 
-buildings = list(buildings_dict.keys())
-
-print("Running items.py")
-print("Attempting items creation")
-
-# convert into dataframe
+# convert excel spreadsheet into dataframe
 df1 = pd.read_excel("docs/buildings.xlsx")
 
-# convert into dictionary
-dict = df1.to_dict()
+# convert dataframe into dictionary
+all_buildings = df1.set_index('name').T.to_dict('dict')
 
-name = list(dict["name"].values())
-id = list(dict["id"].values())
-tile_size = list(dict["tile_size"].values())
-string_name = list(dict["stringname"].values())
-population = list(dict["population"].values())
-probability = list(dict["probability"].values())
-substitute = list(dict["substitute"].values())
-building_class = list(dict["building_class"].values())
-yearstart = list(dict["yearstart"].values())
-yearend = list(dict["yearend"].values())
-minimum_lifetime = list(dict["minimum_lifetime"].values())
-height = list(dict["height"].values())
-townzones = list(dict["townzones"].values())
-building_flags = list(dict["building_flags"].values())
-graphics_default = list(dict["graphics_default"].values())
-graphics_north = list(dict["graphics_north"].values())
-graphics_east = list(dict["graphics_east"].values())
-graphics_west = list(dict["graphics_west"].values())
-graphics_south = list(dict["graphics_south"].values())
-cargo_pass = list(dict["cargo_pass"].values())
-cargo_mail = list(dict["cargo_mail"].values())
-accepted_cargoes = list(dict["accepted_cargoes"].values())
-con_check_override = list(dict["con_check_override"].values())
+# create active, inactive and parameter building lists
+active_buildings = []
+inactive_buildings = []
+parameter_buildings = []
+for b in all_buildings:
+    if  all_buildings[b]["include"] == False:
+        inactive_buildings.append(b)
+    else:
+        active_buildings.append(b)
+    # parameter list
+    if  all_buildings[b]["param_top"] == "none":
+        pass
+    else:
+        parameter_buildings.append(b)
 
-search_text_id = "_id_"
-search_text_tile_size = "iXj"
-search_text_string_name = "_stringname_"
-search_text_population = "_population_"
-search_text_probability = "_probability_"
-search_text_substitute = "_substitute_"
-search_text_building_class = "_building_class_"
-search_text_yearstart = "_yearstart_"
-search_text_yearend = "_yearend_"
-search_text_minimum_lifetime = "_minimum_lifetime_"
-search_text_height = "height"
-search_text_con_check = "_con_check_"
-search_text_townzones = "_townzones_"
-search_text_building_flags = "_building_flags_"
-search_text_graphics_default = "graphics_default_snow"
-search_text_graphics_north = "graphics_north_snow"
-search_text_graphics_east = "graphics_east_snow"
-search_text_graphics_west = "graphics_west_snow"
-search_text_graphics_south = "graphics_south_snow"
-search_text_cargo_pass = "_cargo_pass_"
-search_text_cargo_mail = "_cargo_mail_"
-search_text_accepted_cargoes = "_accepted_cargoes_"
 
-n = 0
-for i in name:
-	template = open("./src/templates/item_template.pnml", "rt")
-	current_item = open("./src/items/" + i +".pnml", "wt")
-	for line in template:
-		current_item.write(line.replace('_name_', str('_' + i)))
-	current_item.close()
-	template.close()
+# delete out items folder before starting
+folder = './src/items/'
+for filename in os.listdir(folder):
+    file_path = os.path.join(folder, filename)
+    try:
+        if os.path.isfile(file_path) or os.path.islink(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            shutil.rmtree(file_path)
+    except Exception as e:
+        print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-	house_id = id[n]
-	house_tile_size = tile_size[n]
-	house_string_name = string_name[n]
-	house_population = population[n]
-	house_probability = probability[n]
-	house_substitute = substitute[n]
-	house_building_class = building_class[n]
-	house_yearstart = yearstart[n]
-	house_yearend = yearend[n]
-	house_minimum_lifetime = minimum_lifetime[n]
-	house_height = height[n]
-	house_con_check = height[n]
-	house_con_check_override = con_check_override[n]
-	house_townzones = townzones[n]
-	house_building_flags = building_flags[n]
-	house_graphics_default = graphics_default[n] + "_sprites"
-	house_graphics_north = graphics_north[n] + "_sprites"
-	house_graphics_east = graphics_east[n] + "_sprites"
-	house_graphics_west = graphics_west[n] + "_sprites"
-	house_graphics_south = graphics_south[n] + "_sprites"
-	house_cargo_pass = cargo_pass[n]
-	house_cargo_mail = cargo_mail[n]
-	house_accepted_cargoes = accepted_cargoes[n]
-	with open(r'./src/items/' + name[n] +'.pnml', 'r') as file:
-		data = file.read()
-		data = data.replace(search_text_id, str(house_id))
-		data = data.replace(search_text_tile_size, str(house_tile_size))
-		data = data.replace(search_text_string_name, str(house_string_name))
-		data = data.replace(search_text_population, str(house_population))
-		data = data.replace(search_text_probability, str(house_probability))
-		data = data.replace(search_text_substitute, str(house_substitute))
-		data = data.replace(search_text_building_class, str(house_building_class))
-		data = data.replace(search_text_yearstart, str(house_yearstart))
-		data = data.replace(search_text_yearend, str(house_yearend))
-		data = data.replace(search_text_minimum_lifetime, str(house_minimum_lifetime))	
-		data = data.replace(search_text_townzones, str(house_townzones))
-		data = data.replace(search_text_building_flags, str(house_building_flags))
-		data = data.replace(search_text_graphics_default, str(house_graphics_default))
-		data = data.replace(search_text_graphics_north, str(house_graphics_north))
-		data = data.replace(search_text_graphics_east, str(house_graphics_east))
-		data = data.replace(search_text_graphics_west, str(house_graphics_west))
-		data = data.replace(search_text_graphics_south, str(house_graphics_south))
-		data = data.replace(search_text_cargo_pass, str(house_cargo_pass))
-		data = data.replace(search_text_cargo_mail, str(house_cargo_mail))
-		data = data.replace(search_text_accepted_cargoes, str(house_accepted_cargoes))
-		if con_check_override[n] == "standard":
-			data = data.replace(search_text_con_check, str(house_con_check))
-		else:
-			data = data.replace(search_text_con_check, str(house_con_check_override))
+for b in active_buildings:
+    # Create the files
+    template = open("./src/templates/item_template.pnml", "rt")
+    current_item = open("./src/items/" + b +".pnml", "wt")
+    for line in template:
+        current_item.write(line.replace('_name_', str('_' + b)))
+    current_item.close()
+    template.close()
+    # Replace the placeholders with data from spreadsheet
+    with open(r'./src/items/' + b +'.pnml', 'r') as file:
+        data = file.read()
+        data = data.replace('_id_', str(all_buildings[b]["id"]))
+        data = data.replace('iXj', str(all_buildings[b]["tile_size"]))
+        data = data.replace('_stringname_', str(all_buildings[b]["stringname"]))
+        data = data.replace('_population_', str(all_buildings[b]["population"]))
+        data = data.replace('_probability_', str(all_buildings[b]["probability"]))
+        data = data.replace('_substitute_', str(all_buildings[b]["substitute"]))
+        data = data.replace('_building_class_', str(all_buildings[b]["building_class"]))
+        data = data.replace('_yearstart_', str(all_buildings[b]["yearstart"]))
+        data = data.replace('_yearend_', str(all_buildings[b]["yearend"]))
+        data = data.replace('_minimum_lifetime_', str(all_buildings[b]["minimum_lifetime"]))
+        data = data.replace('height', str(all_buildings[b]["height"]))
+        data = data.replace('_townzones_', str(all_buildings[b]["townzones"]))
+        data = data.replace('_building_flags_', str(all_buildings[b]["building_flags"]))
+        data = data.replace('graphics_default_snow', str(all_buildings[b]["graphics_default"]) + "_sprites")
+        data = data.replace('graphics_north_snow', str(all_buildings[b]["graphics_north"]) + "_sprites")
+        data = data.replace('graphics_east_snow', str(all_buildings[b]["graphics_east"]) + "_sprites")
+        data = data.replace('graphics_west_snow', str(all_buildings[b]["graphics_west"]) + "_sprites")
+        data = data.replace('graphics_south_snow', str(all_buildings[b]["graphics_south"]) + "_sprites")
+        data = data.replace('_cargo_pass_', str(all_buildings[b]["cargo_pass"]))
+        data = data.replace('_cargo_mail_', str(all_buildings[b]["cargo_mail"]))
+        data = data.replace('_accepted_cargoes_', str(all_buildings[b]["accepted_cargoes"]))
+        
+        if all_buildings[b]["con_check_override"] == "standard":
+            data = data.replace('_con_check_', str(all_buildings[b]["height"]))
+        else:
+            data = data.replace('_con_check_', str(all_buildings[b]["con_check_override"]))
+    
+    with open(r'./src/items/' + b + '.pnml', 'w') as file:
+        file.write(data)
+    a_file = open(r'./src/items/' + b +'.pnml', 'r')
+    lines = a_file.readlines()
+    a_file.close()
+    new_file = open(r'./src/items/' + b + '.pnml', 'w')
+    for line in lines:
+        #delete line matching string
+        if line.find('none') == -1:
+            new_file.write(line)
+    new_file.close()
+            
+# Add Parameter to relevant buildings
 
-	with open(r'./src/items/' + name[n] + '.pnml', 'w') as file:
-		file.write(data)
-		#get list of lines
-	a_file = open(r'./src/items/' + name[n] +'.pnml', 'r')
-	lines = a_file.readlines()
-	a_file.close()
-	new_file = open(r'./src/items/' + name[n] + '.pnml', 'w')
-	for line in lines:
-
-		#delete line matching string
-		if line.find('none') == -1:
-			new_file.write(line)
-
-	new_file.close()
-
-	n = n+1
-
-# ADD PARAMETER TO RELEVANT BUILDINGS
-
-item_param_buildings = copy.deepcopy(buildings)
-for b in buildings:
-    try: 
-        buildings_dict[b]["item_param_enclosure_top"] != None     
-    except:
-        item_param_buildings.remove(b)
-
-for b in item_param_buildings:
-	top =  buildings_dict[b]["item_param_enclosure_top"]
-	bottom =  buildings_dict[b]["item_param_enclosure_bottom"]
+for b in parameter_buildings:
+	top =  all_buildings[b]["param_top"]
+	bottom =  all_buildings[b]["param_bottom"]
 	with open('./src/items/' + b + '.pnml', 'r+') as file: 
 		file_data = file.read()
 		file.seek(0, 0)
@@ -174,8 +118,8 @@ def append_variants(file):
     stuff.close()
 
 # Append header stuff which should always be first
-for i in name:
-    append_variants(i)
+for b in active_buildings:
+    append_variants(b)
 
 # Write the content of 'sections' into a file and save it
 processed_pnml_file = codecs.open(items_pnml_path,'w','utf8')
