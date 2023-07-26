@@ -795,12 +795,10 @@ yamashita_building_all_colours =        {   "black" :       2,
                                         }
 
 # Yanagi
-yanagi_all_colours =                    {   "white" :       1, 
-                                            "grey" :        2, 
-                                            "mauve" :       1, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2, 
-                                            "red_brown" :   1,
+yanagi_all_colours =                    {   "half01" :      1, 
+                                            "half02" :      1,
+                                            "half03" :      1,
+                                            "half04" :      1, 
                                             }
 
 # Yano
@@ -2438,15 +2436,21 @@ buildings_dict = {
     "yanagi" : {
         "colours" : yanagi_all_colours,
         "old_colours" : False,
-        "levels" : ["5L", "6L", "7L", "8L"],
+        "levels" : ["5L", "7L"],
         "heights" : {    
-            "m" : ["5L", "6L"],
-            "l" : ["7L", "8L"]
+            "m" : ["5L"],
+            "l" : ["7L"]
         },
         "variants" : {    
-            "x" : {
+            "a" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },

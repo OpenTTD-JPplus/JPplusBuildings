@@ -26,6 +26,17 @@ for b in all_buildings:
         parameter_buildings.append(b)
 
 
+folders = list(df1["folder"])
+folders = list(dict.fromkeys(folders))
+
+f = open("./src/houses.pnml", "w")
+f.write('\n// House pnml files\n')
+f.close()
+for b in folders:
+    f = open("./src/houses.pnml", "a")
+    f.write('\n#include "src/houses/' + b + '/' + b + '.pnml"')
+    f.close()
+
 # delete out items folder before starting
 folder = './src/items/'
 for filename in os.listdir(folder):
