@@ -500,8 +500,11 @@ onsen_all_colours =                     {   "black" :       2,
                                         }
 
 # Osaka
-osaka_all_colours =                     {   "black" :       1,
-                                            "midgrey" :     1
+osaka_all_colours =                     {   "half01" :      1,
+                                            "half02" :      1,
+                                            "half03" :      1,
+                                            "half04" :      1,
+                                            "half05" :      1,
                                         }
 
 # Ota
@@ -683,8 +686,10 @@ toki_all_colours =                      {   "white" :       1,
                                             }
 
 # Tokyo
-tokyo_all_colours =                     {   "black" :       1,
-                                            "midgrey" :     1, 
+tokyo_all_colours =                     {   "half01" :      1,
+                                            "half02" :      1,
+                                            "half03" :      1,
+                                            "half04" :      1, 
                                             }
 
 # Townhouses
@@ -1504,15 +1509,18 @@ buildings_dict = {
         "variants" : {    
             "a" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
 	        "b" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
             "c" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -1634,10 +1642,12 @@ buildings_dict = {
             "a" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
             "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
@@ -2147,10 +2157,12 @@ buildings_dict = {
             "a" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
 	        "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
