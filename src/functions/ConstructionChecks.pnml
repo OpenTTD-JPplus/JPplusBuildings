@@ -157,3 +157,19 @@ switch (FEAT_HOUSES, SELF, switch_farm_con_check,
 	!IsCity() && 					// Cannot appear in Cities
 	!PopOverMediumThreshold()			// Population criteria
 	) {return;}		
+
+// South facing medium
+switch (FEAT_HOUSES, SELF, switch_medium_south_con_check, 
+	switch_medium_con_check() && 					// Cannot appear in Cities
+	(
+		HasRoadAdjacentSW() || HasRoadAdjacentSE()	
+	)
+	) {return;}		
+
+// South facing large
+switch (FEAT_HOUSES, SELF, switch_large_south_con_check, 
+	switch_large_con_check() && 					// Cannot appear in Cities
+	(
+		HasRoadAdjacentSW() || HasRoadAdjacentSE()	
+	)
+	) {return;}		

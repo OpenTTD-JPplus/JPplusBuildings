@@ -171,13 +171,11 @@ hospital_all_colours =                  {   "light_blue" :  1,
                                             "dark_green" :  1  
                                         }
 # Imai
-imai_all_colours =                      {   "white" :       1 , 
-                                            "grey" :        2, 
-                                            "mauve" :       1, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2, 
-                                            "red_brown" :   1, 
-                                            "black" :       1,
+imai_all_colours =                      {   "half01" :      1, 
+                                            "half02" :      1, 
+                                            "half03" :      1,  
+                                            "half04" :      1, 
+                                            "half05" :      1,  
                                             }
 
 # Inoue
@@ -368,13 +366,11 @@ naganuma_old_colours =                  {   "black" :       2,
                                             }
 
 # Nagoya
-nagoya_all_colours =                    {   "white" :       1,  
-                                            "mauve" :       1, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2, 
-                                            "light_blue" :  1,
-                                            "red_brown" :   1,
-                                            "black" :       1,
+nagoya_all_colours =                    {   "half01" :      1,
+                                            "half02" :      1,  
+                                            "half03" :      1,  
+                                            "half04" :      1,  
+                                            "half05" :      1,  
                                             }
 
 # Nakamura
@@ -1470,7 +1466,11 @@ buildings_dict = {
             "m" : ["6L"]
         },
         "variants" : {    
-            "x" : {
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
 	        }

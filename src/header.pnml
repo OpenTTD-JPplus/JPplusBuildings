@@ -77,4 +77,25 @@ if (!extended_feature_test("town_uncapped_variables")) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
 
+if (!extended_feature_test("town_zone_callback")) {
+	error(FATAL, string(STR_ERROR_GAME_VERSION));
+}
+
+switch (FEAT_TOWN, SELF, town_zone_cb,
+		[
+			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
+			STORE_TEMP((num_houses_uncapped >> 4) * 4, 0x101),
+			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
+			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
+			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
+		]) {
+	return 0;
+}
+
+item (FEAT_TOWN, town_cb, GENERIC_CALLBACK) {
+	graphics {
+		town_zone: town_zone_cb;
+	}
+}
+
 disable_item(FEAT_HOUSES);
