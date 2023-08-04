@@ -1518,7 +1518,7 @@ buildings_dict = {
 		        "yoffset" : "0",
                 "construction_state" : "3"
 	        },
-            "c" : {
+            "s" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "3"
@@ -2114,10 +2114,12 @@ buildings_dict = {
             "a" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
             "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        },
         }
     },
