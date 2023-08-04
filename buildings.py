@@ -2483,7 +2483,8 @@ buildings_dict = {
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
-		        "yoffset" : "0"
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },

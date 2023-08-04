@@ -1225,13 +1225,22 @@ switch(FEAT_HOUSES, SELF, switch_single_house_con_check,
 	!FuncServicePASS() 				                // Build where there is no Passenger service
         ||                                              // OR
     town_zone == TOWNZONE_EDGE    					// In EDGE
+		||
+	(town_zone == TOWNZONE_OUTSKIRT && !WideRoads()  )
 		||												// OR
 	current_year < 1945								// Earlier than 1945
 ) {return;}	
 
 // Central postwar houses
 switch(FEAT_HOUSES, SELF, switch_house_con_check, 
-	!FuncServicePASS() 				                // Build where there is no Passenger service
+	!FuncServicePASS() 
+		&&
+		(!PopOverLargeThreshold() 
+			||
+		(PopOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
+		||
+	(FuncServicePASS() && town_zone == TOWNZONE_OUTSKIRT )
+
 ) {return;}	
 
 // Shotengai
@@ -1243,17 +1252,49 @@ switch(FEAT_HOUSES, SELF, switch_shotengai_con_check,
 
 // Small Height
 switch (FEAT_HOUSES, SELF, switch_small_con_check, 	
-	(FuncServicePASS() &&												// PASS Service AND
-		(!PopOverLargeThreshold() ||										// Not Above Threshold OR
-			(PopOverLargeThreshold() && 									// Above Threshold AND
-				(!WideRoads() || 
-					(WideRoads() && town_zone == TOWNZONE_OUTSKIRT) )	// Either not on Wide Roads OR on Wide Road in OUTSKIRT
-			) 
-		) 
-	) 
-	|| 
-	(!FuncServicePASS() && 												// NO PASS Service AND
-		(PopOverLargeThreshold() && town_zone == TOWNZONE_CENTRE)		// Above threshold AND in CENTRE
+	(
+		FuncServicePASS() &&												
+		(
+			town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() &&
+			(
+				PopOverMediumThreshold() && !WideRoads()
+			)
+				||
+			(
+				!PopOverMediumThreshold() 								
+			)
+		)
+			||	
+		(
+			town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() &&
+			(
+				!WideRoads()								
+			)
+				||
+			(
+				WideRoads() && !PopOverLargeThreshold()
+			)
+		)
+			||
+		(
+			town_zone == TOWNZONE_OUTER_SUBURB &&
+			(
+				!WideRoads()								
+			)
+				||
+			(
+				WideRoads() && !PopOverLargeThreshold()
+			)
+		)
+			||
+		(
+			town_zone == TOWNZONE_OUTSKIRT && WideRoads() && PopOverLargeThreshold()
+		)
+	)
+		|| 
+	// No PASS exceptions
+	(
+		!FuncServicePASS() && PopOverLargeThreshold() && town_zone == TOWNZONE_CENTRE
 	)
 ) {return;}	
 
@@ -1262,34 +1303,51 @@ switch (FEAT_HOUSES, SELF, switch_small_con_check,
 switch (FEAT_HOUSES, SELF, switch_medium_con_check, 	
 	FuncServicePASS() &&					
 		(
+			town_zone == TOWNZONE_CENTRE &&
 			(
-				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads()
+				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
 			) 
 				||
 			(
-				PopOverLargeThreshold() && 
-				(
-					!WideRoads() 
-					|| 
-					(WideRoads() &&  town_zone == TOWNZONE_OUTER_SUBURB)
-				)
+				PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
+			)
+		)
+			||
+		(	
+			town_zone == TOWNZONE_INNER_SUBURB &&
+			(
+				PopOverXtraThreshold() && !WideRoads() 
+			) 
+				||
+			(
+				PopOverLargeThreshold() && WideRoads() 
 			)
 		)	
+			||
+		(
+			town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+		)
 	) {return;}	
 
 // Large
 switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
 	FuncServicePASS() &&		
-		(			
-			(PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads() ) 
-				||
-			(PopOverXtraThreshold() && 
-				(
-					(!WideRoads() && town_zone == TOWNZONE_CENTRE)
-						|| 
-					(WideRoads() && town_zone == TOWNZONE_INNER_SUBURB)
-				)
+		(	
+			town_zone == TOWNZONE_CENTRE &&
+
+			(
+				PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads()
 			)
+				||
+			(
+				PopOverXtraThreshold() && !WideRoads()
+			)
+
+		)
+			||
+
+		(
+			town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
 		)
 	) {return;}	
 
@@ -27321,10 +27379,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Norm Sprites
     spritelayout sprlay_yano_6L_midgrey_norm {
         ground {
-            sprite: spr_yano_ground (construction_state);
+            sprite: spr_yano_ground (3);
         }
         building {
-            sprite: spr_yano_6L_norm (construction_state);
+            sprite: spr_yano_6L_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 15;
         }
@@ -27333,10 +27391,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Snow Sprites
     spritelayout sprlay_yano_6L_midgrey_snow {
         ground {
-            sprite: spr_yano_ground_snow (construction_state);
+            sprite: spr_yano_ground_snow (3);
         }
         building {
-            sprite: spr_yano_6L_snow (construction_state);
+            sprite: spr_yano_6L_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 15;
         }
@@ -27351,10 +27409,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Norm Sprites
     spritelayout sprlay_yano_6L_brown1_norm {
         ground {
-            sprite: spr_yano_ground (construction_state);
+            sprite: spr_yano_ground (3);
         }
         building {
-            sprite: spr_yano_6L_norm (construction_state);
+            sprite: spr_yano_6L_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 2;
         }
@@ -27363,10 +27421,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Snow Sprites
     spritelayout sprlay_yano_6L_brown1_snow {
         ground {
-            sprite: spr_yano_ground_snow (construction_state);
+            sprite: spr_yano_ground_snow (3);
         }
         building {
-            sprite: spr_yano_6L_snow (construction_state);
+            sprite: spr_yano_6L_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 2;
         }
@@ -27381,10 +27439,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Norm Sprites
     spritelayout sprlay_yano_6L_brown2_norm {
         ground {
-            sprite: spr_yano_ground (construction_state);
+            sprite: spr_yano_ground (3);
         }
         building {
-            sprite: spr_yano_6L_norm (construction_state);
+            sprite: spr_yano_6L_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 3;
         }
@@ -27393,10 +27451,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Snow Sprites
     spritelayout sprlay_yano_6L_brown2_snow {
         ground {
-            sprite: spr_yano_ground_snow (construction_state);
+            sprite: spr_yano_ground_snow (3);
         }
         building {
-            sprite: spr_yano_6L_snow (construction_state);
+            sprite: spr_yano_6L_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 3;
         }
@@ -27411,10 +27469,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Norm Sprites
     spritelayout sprlay_yano_6L_grey_norm {
         ground {
-            sprite: spr_yano_ground (construction_state);
+            sprite: spr_yano_ground (3);
         }
         building {
-            sprite: spr_yano_6L_norm (construction_state);
+            sprite: spr_yano_6L_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 1;
         }
@@ -27423,10 +27481,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Snow Sprites
     spritelayout sprlay_yano_6L_grey_snow {
         ground {
-            sprite: spr_yano_ground_snow (construction_state);
+            sprite: spr_yano_ground_snow (3);
         }
         building {
-            sprite: spr_yano_6L_snow (construction_state);
+            sprite: spr_yano_6L_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 1;
         }
@@ -27441,10 +27499,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Norm Sprites
     spritelayout sprlay_yano_6L_mauve_norm {
         ground {
-            sprite: spr_yano_ground (construction_state);
+            sprite: spr_yano_ground (3);
         }
         building {
-            sprite: spr_yano_6L_norm (construction_state);
+            sprite: spr_yano_6L_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 4;
         }
@@ -27453,10 +27511,10 @@ spriteset (spr_yano_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{tem
     // Snow Sprites
     spritelayout sprlay_yano_6L_mauve_snow {
         ground {
-            sprite: spr_yano_ground_snow (construction_state);
+            sprite: spr_yano_ground_snow (3);
         }
         building {
-            sprite: spr_yano_6L_snow (construction_state);
+            sprite: spr_yano_6L_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 4;
         }
@@ -50021,7 +50079,7 @@ item(FEAT_HOUSES, item_long_wooden_townhouses, 16, HOUSE_SIZE_1X1){
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
 		probability: 				1;
-		years_available: 			[1700,1988];
+		years_available: 			[1700,1944];
 		minimum_lifetime: 			5;
 		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				0;
@@ -50300,7 +50358,7 @@ item(FEAT_HOUSES, item_aoki_office_m, 123, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			7;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
@@ -50322,7 +50380,7 @@ item(FEAT_HOUSES, item_aoki_office_l, 124, HOUSE_SIZE_1X1){
 		probability: 				1;
 		years_available: 			[1960,0xFFFF];
 		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE)];
 		building_class:				4;
 				
 		}
