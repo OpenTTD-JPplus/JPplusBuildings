@@ -112,12 +112,28 @@ switch (FEAT_TOWN, SELF, town_zone_cb,
 
 /*	tz03
 	- zone 1 is larger, but not at the complete expense of zone 0
-*/
+
 switch (FEAT_TOWN, SELF, town_zone_cb,
 		[
 			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
 			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
 			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
+			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
+			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
+		]) {
+	return 0;
+}
+*/
+
+/* 	tz04 (new construction checks also)
+	- Zone 2 expanded slightly but not at the expense of other zones
+
+*/
+switch (FEAT_TOWN, SELF, town_zone_cb,
+		[
+			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
+			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
+			STORE_TEMP((num_houses_uncapped >> 3) * 3, 0x102),
 			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
 			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
 		]) {

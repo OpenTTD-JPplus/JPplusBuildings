@@ -30,83 +30,69 @@ switch(FEAT_HOUSES, SELF, switch_shotengai_con_check,
 ) {return;}	
 
 // Small Height
-switch (FEAT_HOUSES, SELF, switch_small_con_check, 	
-	(
-		FuncServicePASS() &&												
-		(
-			town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() &&
-			(
-				PopOverMediumThreshold() && !WideRoads()
-			)
-				||
-			(
-				!PopOverMediumThreshold() 								
-			)
-		)
-			||	
-		(
-			town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() &&
-			(
-				!WideRoads()								
-			)
-				||
-			(
-				WideRoads() && !PopOverLargeThreshold()
-			)
-		)
-			||
-		(
-			town_zone == TOWNZONE_OUTER_SUBURB &&
-			(
-				!WideRoads()								
-			)
-				||
-			(
-				WideRoads() && !PopOverLargeThreshold()
-			)
-		)
-			||
-		(
-			town_zone == TOWNZONE_OUTSKIRT && WideRoads() && PopOverLargeThreshold()
-		)
-	)
-		|| 
-	// No PASS exceptions
-	(
-		!FuncServicePASS() && PopOverLargeThreshold() && town_zone == TOWNZONE_CENTRE
-	)
-) {return;}	
 
+switch (FEAT_HOUSES, SELF, switch_small_wide_roads_con_check, 	
+
+	!WideRoads() &&
+	(
+		town_zone == TOWNZONE_OUTER_SUBURB || 
+		( town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() ) ||
+		( town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() )
+	)
+
+	||
+
+	WideRoads() &&
+	(
+		( town_zone == TOWNZONE_OUTSKIRT && PopOverLargeThreshold() ) ||
+		( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !PopOverLargeThreshold() ) ||
+		( town_zone == TOWNZONE_CENTRE && !PopOverMediumThreshold() )
+	)
+) {return;}
+
+switch (FEAT_HOUSES, SELF, switch_small_centre_exception_con_check, 	
+	!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() 
+) {return;}
+
+switch(FEAT_HOUSES, SELF, switch_small_con_check, FuncServicePASS() ) {
+        0:return switch_small_centre_exception_con_check;
+        return switch_small_wide_roads_con_check;
+    }
 
 // Medium Height
-switch (FEAT_HOUSES, SELF, switch_medium_con_check, 	
-	FuncServicePASS() &&					
+
+switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
+	FuncServicePASS() &&
 		(
-			town_zone == TOWNZONE_CENTRE &&
-			(
-				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
-			) 
-				||
-			(
-				PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
-			)
-		)
-			||
-		(	
-			town_zone == TOWNZONE_INNER_SUBURB &&
-			(
-				PopOverXtraThreshold() && !WideRoads() 
-			) 
-				||
-			(
-				PopOverLargeThreshold() && WideRoads() 
-			)
-		)	
+			PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
+		) 
 			||
 		(
-			town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+			PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
 		)
-	) {return;}	
+) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
+	FuncServicePASS() &&
+		(
+			PopOverXtraThreshold() && !WideRoads() 
+		) 
+			||
+		(
+			PopOverLargeThreshold() && WideRoads() 
+		)
+
+) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
+	FuncServicePASS() && town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+) {return;}	
+
+switch (FEAT_HOUSES, SELF, switch_medium_con_check,	town_zone) {
+	TOWNZONE_CENTRE: switch_medium_centre_con_check;
+	TOWNZONE_INNER_SUBURB: switch_medium_inner_con_check;
+	switch_medium_outer_con_check;
+}
 
 // Large
 switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
