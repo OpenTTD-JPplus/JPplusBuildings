@@ -672,14 +672,11 @@ three_wooden_houses_all_colours =       {   "brown1" :      1,
                                             }
 
 # Toki
-toki_all_colours =                      {   "white" :       1, 
-                                            "grey" :        2, 
-                                            "mauve" :       1, 
-                                            "brown1" :      2, 
-                                            "brown2" :      2, 
-                                            "red_brown" :   1, 
-                                            "black" :       1,
-                                            "midgrey" :     1, 
+toki_all_colours =                      {   "half01" :      1,
+                                            "half02" :      1,
+                                            "half03" :      1, 
+                                            "half04" :      1, 
+                                            "half05" :      1, 
                                             }
 
 # Tokyo
@@ -2141,13 +2138,17 @@ buildings_dict = {
     "toki" : {
         "colours" : toki_all_colours,
         "old_colours" : False,
-        "levels" : ["5L", "6L", "7L", "8L"],
+        "levels" : ["6L", "8L"],
         "heights" : {    
-            "m" : ["5L", "6L"],
-            "l" : ["7L", "8L"]
+            "m" : ["6L"],
+            "l" : ["8L"]
         },
         "variants" : {    
-            "x" : {
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+	        },
+            "b" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
 	        }
