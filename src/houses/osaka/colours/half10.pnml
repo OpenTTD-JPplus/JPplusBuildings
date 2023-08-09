@@ -1,0 +1,36 @@
+
+// _half10_
+    // Norm Sprites
+    spritelayout sprlay_osaka_v_xL_half10_norm {
+        ground {
+            sprite: spr_osaka_v_ground (_construction_state_);
+        }
+        building {
+            sprite: spr_osaka_v_xL_norm (_construction_state_);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 29;
+            hide_sprite: _hide_;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_osaka_v_xL_half10_snow {
+        ground {
+            sprite: spr_osaka_v_ground_snow (_construction_state_);
+        }
+        building {
+            sprite: spr_osaka_v_xL_snow (_construction_state_);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 29;
+            hide_sprite: _hide_;
+            xoffset: _xoff_;
+            yoffset: _yoff_;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_osaka_v_xL_half10_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_osaka_v_xL_half10_snow;
+	    sprlay_osaka_v_xL_half10_norm;
+    }

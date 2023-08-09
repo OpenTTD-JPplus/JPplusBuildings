@@ -28,6 +28,11 @@ coloursdict = {
 "half03":       "22",
 "half04":       "23",
 "half05":       "24",
+"half06":       "25",
+"half07":       "26",
+"half08":       "27",
+"half09":       "28",
+"half10":       "29",
 }
 
 buildings = list(buildings_dict.keys())
