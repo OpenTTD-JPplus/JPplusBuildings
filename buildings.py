@@ -156,6 +156,36 @@ hayashi_all_colours =                   {   "white" :       1,
                                             "black" :       1  
                                         }
 
+# Hirano
+hirano_all_colours =                    {   "half01" :      1,  # White & Brown 1 (light end)
+                                            "half02" :      1,  # Brown 1 (light end) & White
+
+                                            "half03" :      1,  # Black & Brown 1 (dark end)
+                                            "half04" :      1,  # Brown 1 (dark end) & Black
+
+                                            "half05" :      1,  # Brown 1 (dark end) & Mauve
+                                            "half06" :      1,  # Mauve & Brown 1 (dark end)
+
+                                            "half07" :      1,  # Brown 1 (dark end) & Osaka Red
+                                            "half08" :      1,  # Osaka Red & Brown 1 (dark end)
+
+                                            "half09" :      1,  # Black & Brown 1 (light end)
+                                            "half10" :      1,  # Brown 1 (light end) & Black
+                                            }
+
+hirano_old_colours =                    {   "half01" :      1,  # White & Brown 1 (light end)
+                                            "half02" :      1,  # Brown 1 (light end) & White
+
+                                            "half03" :      1,  # Black & Brown 1 (dark end)
+                                            "half04" :      1,  # Brown 1 (dark end) & Black
+
+                                            "half05" :      1,  # Brown 1 (dark end) & Mauve
+                                            "half06" :      1,  # Mauve & Brown 1 (dark end)
+
+                                            "half09" :      1,  # Black & Brown 1 (light end)
+                                            "half10" :      1,  # Brown 1 (light end) & Black
+                                            }
+
 # Hirata
 hirata_all_colours =                    {   "white" :       1 , 
                                             "grey" :        2, 
@@ -373,6 +403,24 @@ naganuma_old_colours =                  {   "black" :       2,
                                             "red_brown" :   1,
                                             }
 
+# Nagoya
+nagoya_all_colours =                    {   "half01" :      1,  # White & Brown 1 (light end)
+                                            "half02" :      1,  # Brown 1 (light end) & White
+
+                                            "half03" :      1,  # Black & Brown 1 (dark end)
+                                            "half04" :      1,  # Brown 1 (dark end) & Black
+
+                                            "half05" :      1,  # Brown 1 (dark end) & Mauve
+                                            "half06" :      1,  # Mauve & Brown 1 (dark end)
+
+                                            "half07" :      1,  # Brown 1 (dark end) & Osaka Red
+                                            "half08" :      1,  # Osaka Red & Brown 1 (dark end)
+
+                                            "half09" :      1,  # Black & Brown 1 (light end)
+                                            "half10" :      1,  # Brown 1 (light end) & Black
+                                            }
+
+
 # Nakamura
 nakamura_all_colours =                  {   "white" :       1, 
                                             "grey" :        2, 
@@ -494,6 +542,24 @@ onsen_all_colours =                     {   "black" :       2,
                                             "light_blue" :  1,
                                             "dark_blue" :   1,
                                         }
+
+# Osaka
+osaka_all_colours =                     {   "half01" :      1,  # White & Brown 1 (light end)
+                                            "half02" :      1,  # Brown 1 (light end) & White
+
+                                            "half03" :      1,  # Black & Brown 1 (dark end)
+                                            "half04" :      1,  # Brown 1 (dark end) & Black
+
+                                            "half05" :      1,  # Brown 1 (dark end) & Mauve
+                                            "half06" :      1,  # Mauve & Brown 1 (dark end)
+
+                                            "half07" :      1,  # Brown 1 (dark end) & Osaka Red
+                                            "half08" :      1,  # Osaka Red & Brown 1 (dark end)
+
+                                            "half09" :      1,  # Black & Brown 1 (light end)
+                                            "half10" :      1,  # Brown 1 (light end) & Black
+                                            }
+
 
 # Ota
 ota_all_colours =                       {   "gold" :        1, 
@@ -647,6 +713,24 @@ temple_all_colours =                    {   "black" :       1,
                                             "red_brown" :   1, 
                                         }
 
+# Shrine
+shrine_all_colours =                    {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1, 
+                                            "red_brown" :   1, 
+                                        }
+
+
+# Shrine Prohibition
+shrine_prohibition_all_colours =        {   "black" :       1, 
+                                            "brown1":       1, 
+                                            "brown2" :      1, 
+                                            "grey" :        1, 
+                                            "red_brown" :   1, 
+                                        }
+
+
 # Three Wooden Houses
 three_wooden_houses_all_colours =       {   "brown1" :      1,
                                             "brown2" :      1
@@ -758,6 +842,23 @@ yamashiro_office_building_all_colours = {   "black" :       1,
 yamashita_building_all_colours =        {   "black" :       2,
                                             "midgrey" :     1
                                         }
+
+# Yanagi
+yanagi_all_colours =                    {   "half01" :      1,  # White & Brown 1 (light end)
+                                            "half02" :      1,  # Brown 1 (light end) & White
+
+                                            "half03" :      1,  # Black & Brown 1 (dark end)
+                                            "half04" :      1,  # Brown 1 (dark end) & Black
+
+                                            "half05" :      1,  # Brown 1 (dark end) & Mauve
+                                            "half06" :      1,  # Mauve & Brown 1 (dark end)
+
+                                            "half07" :      1,  # Brown 1 (dark end) & Osaka Red
+                                            "half08" :      1,  # Osaka Red & Brown 1 (dark end)
+
+                                            "half09" :      1,  # Black & Brown 1 (light end)
+                                            "half10" :      1,  # Brown 1 (light end) & Black
+                                            }
 
 # Yano
 yano_all_colours =                      {   "midgrey" :     1, 
@@ -1026,8 +1127,8 @@ buildings_dict = {
         }
 	},
     "hirano" : {
-        "colours" : all_half_all_colours,
-        "old_colours" : all_half_old_colours,
+        "colours" : hirano_all_colours,
+        "old_colours" : hirano_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -1416,7 +1517,7 @@ buildings_dict = {
         }
 	},
     "nagoya" : {
-        "colours" : all_half_all_colours,
+        "colours" : nagoya_all_colours,
         "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
@@ -1589,7 +1690,7 @@ buildings_dict = {
         }
     },
     "osaka" : {
-        "colours" : all_half_all_colours,
+        "colours" : osaka_all_colours,
         "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
@@ -1825,7 +1926,7 @@ buildings_dict = {
         }
 	},
     "shrine" : {
-        "colours" : temple_all_colours,
+        "colours" : shrine_all_colours,
         "old_colours" : False,
         "levels" : ["p", "q"],
         "heights" : {    
@@ -1840,7 +1941,7 @@ buildings_dict = {
         }
     },
     "shrine_prohibition" : {
-        "colours" : temple_all_colours,
+        "colours" : shrine_prohibition_all_colours,
         "old_colours" : False,
         "item_param_enclosure_top" : "if (param_prohibition_shrine == 1) {",
         "item_param_enclosure_bottom" : "}",

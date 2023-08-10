@@ -1,41 +1,28 @@
 import pandas as pd
+import copy
+from colourdict import colourdict as colourdict
 
-with open("test_manual.pnml") as manual:
-    manual_lines = [line.rstrip('\n') for line in manual]
-
-with open("test_generated.pnml") as generated:
-    generated_lines = [line.rstrip('\n') for line in generated]
-
-differing_v1 = []
-for element in manual_lines:
-    if element not in generated_lines:
-        differing_v1.append(element)
-
-print(differing_v1)
-
-differing_v2 = []
-for element in generated_lines:
-    if element not in manual_lines:
-        differing_v2.append(element)
-
-print(differing_v2)
-
-
-'''# convert excel spreadsheet into dataframe
-df1 = pd.read_excel("docs/buildings.xlsx")
+# convert excel spreadsheet into dataframe
+df1 = pd.read_excel('docs/buildings.xlsx','colours')
 
 # convert dataframe into dictionary
-all_buildings = df1.set_index('name').T.to_dict('dict')
+raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
 
-# create active, inactive and parameter building lists
+colour_profile_names = list(raw_colour_profiles.keys())
 
-folders = list(df1["folder"])
-folders = list(dict.fromkeys(folders))
+for b in colour_profile_names:
+    for c in colourdict:
+        if pd.isna(raw_colour_profiles[b][c]) :
+            pass
+        else:
+            raw_colour_profiles[b][c] = int(raw_colour_profiles[b][c])
 
-f = open("./src/houses.pnml", "w")
-f.write('\n// House pnml files\n')
-f.close()
-for b in folders:
-    f = open("./src/houses.pnml", "a")
-    f.write('\n#include "src/houses/' + b + '/' + b + '.pnml"')
-    f.close()'''
+colour_profiles = {}
+
+colour_profiles = raw_colour_profiles.copy()
+hirano = raw_colour_profiles["hirano_all_colours"].copy()
+
+for b in colour_profile_names:
+    colour_profiles[b] = {keys:values for keys, values in colour_profiles[b].items() if values is not None and values != 0}
+
+print(colour_profiles)

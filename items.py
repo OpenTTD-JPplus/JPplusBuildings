@@ -5,7 +5,7 @@ import copy
 from buildings import buildings_dict as buildings_dict
 
 # convert excel spreadsheet into dataframe
-df1 = pd.read_excel("docs/buildings.xlsx")
+df1 = pd.read_excel('docs/buildings.xlsx','items')
 
 # convert dataframe into dictionary
 all_buildings = df1.set_index('name').T.to_dict('dict')
