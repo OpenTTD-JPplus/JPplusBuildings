@@ -1,6 +1,5 @@
 #!/bin/bash
-python colours.py
-python variants.py
+python jpplusbuildings.py
 python levels.py
 python switches_colours.py
 python switches_directions.py
