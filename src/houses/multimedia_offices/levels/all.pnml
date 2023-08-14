@@ -1,6 +1,39 @@
 
 // multimedia_offices levels
 
+// multimedia_offices all colours
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_multimedia_offices_grey_norm {
+        ground {
+            sprite: spr_multimedia_offices_ground (construction_state);
+        }
+        building {
+            sprite: spr_multimedia_offices_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+            xoffset: 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_multimedia_offices_grey_snow {
+        ground {
+            sprite: spr_multimedia_offices_ground_snow (construction_state);
+        }
+        building {
+            sprite: spr_multimedia_offices_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+            xoffset: 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_multimedia_offices_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_multimedia_offices_grey_snow;
+	    sprlay_multimedia_offices_grey_norm;
+    }
 // _black_
     // Norm Sprites
     spritelayout sprlay_multimedia_offices_black_norm {
@@ -31,36 +64,4 @@
     switch(FEAT_HOUSES, SELF, switch_multimedia_offices_black_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_multimedia_offices_black_snow;
 	    sprlay_multimedia_offices_black_norm;
-    }
-
-// _midgrey_
-    // Norm Sprites
-    spritelayout sprlay_multimedia_offices_midgrey_norm {
-        ground {
-            sprite: spr_multimedia_offices_ground (construction_state);
-        }
-        building {
-            sprite: spr_multimedia_offices_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
-            xoffset: 3;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_multimedia_offices_midgrey_snow {
-        ground {
-            sprite: spr_multimedia_offices_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_multimedia_offices_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 15;
-            xoffset: 3;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_multimedia_offices_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_multimedia_offices_midgrey_snow;
-	    sprlay_multimedia_offices_midgrey_norm;
     }

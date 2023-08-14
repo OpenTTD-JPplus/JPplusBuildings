@@ -2,7 +2,7 @@ import pandas as pd
 import os, shutil
 import codecs
 import copy
-from buildings import buildings_dict as buildings_dict
+from colourprofiles import buildings_dict as buildings_dict
 
 # convert excel spreadsheet into dataframe
 df1 = pd.read_excel('docs/buildings.xlsx','items')

@@ -1,7 +1,7 @@
 import pandas as pd
 import codecs
 import os
-from buildings import buildings_dict as buildings_dict
+from colourprofiles import buildings_dict as buildings_dict
 
 buildings = list(buildings_dict.keys())
 

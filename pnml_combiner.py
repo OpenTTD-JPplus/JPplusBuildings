@@ -1,5 +1,5 @@
 
-from buildings import buildings_dict as buildings_dict
+from colourprofiles import buildings_dict as buildings_dict
 import copy
 import os
 
