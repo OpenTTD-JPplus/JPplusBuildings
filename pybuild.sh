@@ -1,7 +1,5 @@
 #!/bin/bash
 python jpplusbuildings.py
-python levels.py
-python switches_colours.py
 python switches_directions.py
 python pnml_combiner.py
 python items.py
