@@ -85,9 +85,9 @@ kimura_old_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 
 
 kono_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "black": 1, "red_brown": 1}
 
-mori_all_colours = {"grey": 2, "brown1": 2, "brown2": 2, "mauve": 1}
+mori_all_colours = {"brown1": 1, "brown2": 1, "half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
 
-mori_old_colours = {"grey": 2, "brown1": 2, "brown2": 2, "mauve": 1}
+mori_old_colours = {"brown1": 1, "brown2": 1, "half01": 1, "half02": 1, "half03": 1, "half04": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
 
 murakami_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "dark_green": 1, "peach": 1, "light_blue": 1}
 
@@ -95,9 +95,9 @@ murakami_old_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve"
 
 nagoya_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
 
-nakamura_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "dark_green": 1, "peach": 1, "light_blue": 1, "black": 1, "red_brown": 1, "midgrey": 1}
+nakamura_all_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1}
 
-nakamura_old_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "midgrey": 1}
+nakamura_old_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1}
 
 nakayama_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "dark_green": 1, "peach": 1, "light_blue": 1, "dark_blue": 1, "red_brown": 1}
 

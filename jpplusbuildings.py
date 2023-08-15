@@ -1,9 +1,9 @@
 
 from lib import functions
 
-# This file creates the majority buildings related pnml files, exception being graphics ('gfx') pnml files
+# This file creates the majority of building related pnml files, the exception being graphics ('gfx') pnml files
 # It does not create centalised pnml files e.g. header.pnml  or src/functions files
-# The purpose behind it was to be able to update building 'stats' and colour choinse easily
+# The purpose behind it was to be able to update building 'stats' and colour choices easily
 
 print("Running jpplusbuildings.py")
 
@@ -21,3 +21,12 @@ functions.CreateLevelsFiles()
 
 print("\tRunning CreateColourSwitches")
 functions.CreateColourSwitches()
+
+print("\tRunning CreateDirectionSwitches")
+functions.CreateDirectionSwitches()
+
+print("\tRunning PnmlCombiner")
+functions.PnmlCombiner()
+
+print("\tRunning CreateItems")
+functions.CreateItems()
