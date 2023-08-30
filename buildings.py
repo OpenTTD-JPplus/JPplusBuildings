@@ -459,6 +459,21 @@ buildings_dict = {
 	        }
         }
     },
+    "landmark_tower" : {
+        "colours" : landmark_tower_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],
+        "heights" : {    
+            "c" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "large_wooden_farmhouse" : {
         "colours" : large_wooden_farmhouse_all_colours,
         "old_colours" : False,
@@ -1549,6 +1564,7 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },

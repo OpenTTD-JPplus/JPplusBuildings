@@ -1,220 +1,219 @@
 
 // Single Houses
-switch(FEAT_HOUSES, SELF, switch_single_house_con_check, 
-	!FuncServicePASS() 				                // Build where there is no Passenger service
-        ||                                              // OR
-    town_zone == TOWNZONE_EDGE    					// In EDGE
-		||
-	(town_zone == TOWNZONE_OUTSKIRT && !WideRoads()  )
-		||												// OR
-	current_year < 1945								// Earlier than 1945
-) {return;}	
+	switch(FEAT_HOUSES, SELF, switch_single_house_con_check, 
+		!FuncServicePASS() 				                // Build where there is no Passenger service
+			||                                              // OR
+		town_zone == TOWNZONE_EDGE    					// In EDGE
+			||
+		(town_zone == TOWNZONE_OUTSKIRT && !WideRoads()  )
+			||												// OR
+		current_year < 1945								// Earlier than 1945
+	) {return;}	
 
 // Central postwar houses
-switch(FEAT_HOUSES, SELF, switch_house_con_check, 
-	!FuncServicePASS() 
-		&&
-		(!PopOverLargeThreshold() 
+	switch(FEAT_HOUSES, SELF, switch_house_con_check, 
+		!FuncServicePASS() 
+			&&
+			(!PopOverLargeThreshold() 
+				||
+			(PopOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
 			||
-		(PopOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
-		||
-	(FuncServicePASS() && town_zone == TOWNZONE_OUTSKIRT )
+		(FuncServicePASS() && town_zone == TOWNZONE_OUTSKIRT )
 
-) {return;}	
+	) {return;}	
 
 // Shotengai
-switch(FEAT_HOUSES, SELF, switch_shotengai_con_check, 
-	current_year < 1945
-        ||
-    (current_year >= 1945 && !FuncServicePASS() )
-) {return;}	
+	switch(FEAT_HOUSES, SELF, switch_shotengai_con_check, 
+		current_year < 1945
+			||
+		(current_year >= 1945 && !FuncServicePASS() )
+	) {return;}	
 
 // Small Height
 
-switch (FEAT_HOUSES, SELF, switch_small_wide_roads_con_check, 	
+	switch (FEAT_HOUSES, SELF, switch_small_wide_roads_con_check, 	
 
-	!WideRoads() &&
-	(
-		town_zone == TOWNZONE_OUTER_SUBURB || 
-		( town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() ) ||
-		( town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() )
-	)
+		!WideRoads() &&
+		(
+			town_zone == TOWNZONE_OUTER_SUBURB || 
+			( town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() )
+		)
 
-	||
+		||
 
-	WideRoads() &&
-	(
-		( town_zone == TOWNZONE_OUTSKIRT && PopOverLargeThreshold() ) ||
-		( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !PopOverLargeThreshold() ) ||
-		( town_zone == TOWNZONE_CENTRE && !PopOverMediumThreshold() )
-	)
-) {return;}
+		WideRoads() &&
+		(
+			( town_zone == TOWNZONE_OUTSKIRT && PopOverLargeThreshold() ) ||
+			( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !PopOverLargeThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !PopOverMediumThreshold() )
+		)
+	) {return;}
 
-switch (FEAT_HOUSES, SELF, switch_small_centre_exception_con_check, 	
-	!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() 
-) {return;}
+	switch (FEAT_HOUSES, SELF, switch_small_centre_exception_con_check, 	
+		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() 
+	) {return;}
 
-switch(FEAT_HOUSES, SELF, switch_small_con_check, FuncServicePASS() ) {
-        0:return switch_small_centre_exception_con_check;
-        return switch_small_wide_roads_con_check;
-    }
+	switch(FEAT_HOUSES, SELF, switch_small_con_check, FuncServicePASS() ) {
+			0:return switch_small_centre_exception_con_check;
+			return switch_small_wide_roads_con_check;
+		}
 
 // Medium Height
-
-switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
-	FuncServicePASS() &&
-		(
-			PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
-		) 
-			||
-		(
-			PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
-		)
-) {return;}	
-
-switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
-	FuncServicePASS() &&
-		(
-			PopOverXtraThreshold() && !WideRoads() 
-		) 
-			||
-		(
-			PopOverLargeThreshold() && WideRoads() 
-		)
-
-) {return;}	
-
-switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
-	FuncServicePASS() && town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
-) {return;}	
-
-switch (FEAT_HOUSES, SELF, switch_medium_con_check,	town_zone) {
-	TOWNZONE_CENTRE: switch_medium_centre_con_check;
-	TOWNZONE_INNER_SUBURB: switch_medium_inner_con_check;
-	switch_medium_outer_con_check;
-}
-
-// Large
-switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
-	FuncServicePASS() &&		
-		(	
-			town_zone == TOWNZONE_CENTRE &&
-
+	switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
+		FuncServicePASS() &&
 			(
-				PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads()
-			)
+				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
+			) 
 				||
 			(
-				PopOverXtraThreshold() && !WideRoads()
+				PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
+			)
+	) {return;}	
+
+	switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
+		FuncServicePASS() &&
+			(
+				PopOverXtraThreshold() && !WideRoads() 
+			) 
+				||
+			(
+				PopOverLargeThreshold() && WideRoads() 
 			)
 
-		)
-			||
-
-		(
-			town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
-		)
 	) {return;}	
+
+	switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
+		FuncServicePASS() && town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+	) {return;}	
+
+	switch (FEAT_HOUSES, SELF, switch_medium_con_check,	town_zone) {
+		TOWNZONE_CENTRE: switch_medium_centre_con_check;
+		TOWNZONE_INNER_SUBURB: switch_medium_inner_con_check;
+		switch_medium_outer_con_check;
+	}
+
+// Large
+	switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
+		FuncServicePASS() &&		
+			(	
+				town_zone == TOWNZONE_CENTRE &&
+
+				(
+					PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads()
+				)
+					||
+				(
+					PopOverXtraThreshold() && !WideRoads()
+				)
+
+			)
+				||
+
+			(
+				town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
+			)
+		) {return;}	
 
 // Xtra Large
-switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
-	FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
-	PopOverXtraThreshold() &&					// City has population above relevant threshold
-	TileGapByType(3) &&							// Don't build within x tiles of the same house ID
-	WideRoads()									// Can only build beside a wider road
-	) {return;}	
+	switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
+		FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
+		PopOverXtraThreshold() &&					// City has population above relevant threshold
+		TileGapByType(3) &&							// Don't build within x tiles of the same house ID
+		WideRoads()									// Can only build beside a wider road
+		) {return;}	
 
 // Skyscrapers
-switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check, 
-	FuncServicePASS() &&					// Must have passenger service
-	IsUniqueHouse() &&						// Only one in city
-	NoProhibitionShrine() &&				// No Prohibition shrine to block construction
-	SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
-	PopOverSkyThreshold() &&				// Population of city check
-	(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
-	IfFirstSkyscraper() )					// OR it's the first skyscraper
-) {return;}	
-
-// Fire Station
-switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
-	HasRoadAdjacentSE() &&					// Must have road to the SW
-	PopOverMediumThreshold() &&				// Population must be > threshold
-	TileGapByType(30)						// Can't appear within 30 tiles of another
-) {return;}	
-
-// Hospital
-switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
-	IsCity() && 							// Can only appear in Cities
-	IsUniqueHouse()	&&						// Only one per city
-	PopOverMediumThreshold()				// Required city population
+	switch (FEAT_HOUSES, SELF, switch_skyscraper_con_check, 
+		FuncServicePASS() &&					// Must have passenger service
+		IsUniqueHouse() &&						// Only one in city
+		NoProhibitionShrine() &&				// No Prohibition shrine to block construction
+		SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
+		PopOverSkyThreshold() &&				// Population of city check
+		(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
+		IfFirstSkyscraper() )					// OR it's the first skyscraper
 	) {return;}	
 
+// Fire Station
+	switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
+		HasRoadAdjacentSE() &&					// Must have road to the SW
+		PopOverMediumThreshold() &&				// Population must be > threshold
+		TileGapByType(30)						// Can't appear within 30 tiles of another
+	) {return;}	
+
+// Hospital
+	switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueHouse()	&&						// Only one per city
+		PopOverMediumThreshold()				// Required city population
+		) {return;}	
+
 // Onsen
-switch (FEAT_HOUSES, SELF, switch_onsen_con_check, 
-	HasRoadAdjacentSW() &&		// Must have road to the SW
-	TileGapByType(30)			// Can't appear within 30 tiles of another
-) {return;}	
+	switch (FEAT_HOUSES, SELF, switch_onsen_con_check, 
+		HasRoadAdjacentSW() &&		// Must have road to the SW
+		TileGapByType(30)			// Can't appear within 30 tiles of another
+	) {return;}	
 
 
 // Pachinko
-switch (FEAT_HOUSES, SELF, switch_pachinko_con_check, 
-	FuncServicePASS() &&		// Must have road to the SW
-	TileGapByType(30)			// Can't appear within 30 tiles of another
-) {return;}	
+	switch (FEAT_HOUSES, SELF, switch_pachinko_con_check, 
+		FuncServicePASS() &&		// Must have road to the SW
+		TileGapByType(30)			// Can't appear within 30 tiles of another
+	) {return;}	
 
 // Police Station
-switch (FEAT_HOUSES, SELF, switch_police_station_con_check, 
-	HasRoadAdjacentSW() &&					// Must have road to the SW
-	PopOverMediumThreshold() &&				// Population must be > 10k
-	TileGapByType(30)						// Can't appear within 30 tiles of another
-) {return;}	
+	switch (FEAT_HOUSES, SELF, switch_police_station_con_check, 
+		HasRoadAdjacentSW() &&					// Must have road to the SW
+		PopOverMediumThreshold() &&				// Population must be > 10k
+		TileGapByType(30)						// Can't appear within 30 tiles of another
+	) {return;}	
 
 // Shiro
-switch (FEAT_HOUSES, SELF, switch_shiro_con_check, 
-	IsCity() && 				// Can only appear in Cities
-	IsUniqueHouse() && 			// Only one Shiro per city
-	TownIndex() % 4 == 0 && 	// Proportion of cities
-	OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
-	) {return;}	
+	switch (FEAT_HOUSES, SELF, switch_shiro_con_check, 
+		IsCity() && 				// Can only appear in Cities
+		IsUniqueHouse() && 			// Only one Shiro per city
+		TownIndex() % 4 == 0 && 	// Proportion of cities
+		OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
+		) {return;}	
 
 // Shrine
-switch (FEAT_HOUSES, SELF, switch_shrine_con_check, 
-	TileGapByType(30) 				// Cannot build within thirty tiles of another
-) {return;}	
-
-// Shrine_prohibition
-switch (FEAT_HOUSES, SELF, switch_shrine_prohibition_con_check, 
-	IsCity() &&							// Can only build in a city
-	IsUniqueHouse() &&					// Only one per town
-	OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
-) {return;}	
-
-// Temple
-switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
-	IsCity() && 							// Can only appear in Cities
-	IsUniqueHouse() && 						// Only one Temple per city
-	OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
-	nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
+	switch (FEAT_HOUSES, SELF, switch_shrine_con_check, 
+		TileGapByType(30) 				// Cannot build within thirty tiles of another
 	) {return;}	
 
+// Shrine_prohibition
+	switch (FEAT_HOUSES, SELF, switch_shrine_prohibition_con_check, 
+		IsCity() &&							// Can only build in a city
+		IsUniqueHouse() &&					// Only one per town
+		OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
+	) {return;}	
+
+// Temple
+	switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueHouse() && 						// Only one Temple per city
+		OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
+		nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
+		) {return;}	
+
 // Farm
-switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
-	!IsCity() && 					// Cannot appear in Cities
-	!PopOverMediumThreshold()			// Population criteria
-	) {return;}		
+	switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
+		!IsCity() && 					// Cannot appear in Cities
+		!PopOverMediumThreshold()			// Population criteria
+		) {return;}		
 
 // South facing medium
-switch (FEAT_HOUSES, SELF, switch_medium_south_con_check, 
-	switch_medium_con_check() && 					// Cannot appear in Cities
-	(
-		HasRoadAdjacentSW() || HasRoadAdjacentSE()	
-	)
-	) {return;}		
+	switch (FEAT_HOUSES, SELF, switch_medium_south_con_check, 
+		switch_medium_con_check() && 					
+		(
+			HasRoadAdjacentSW() || HasRoadAdjacentSE()	
+		)
+		) {return;}		
 
 // South facing large
-switch (FEAT_HOUSES, SELF, switch_large_south_con_check, 
-	switch_large_con_check() && 					// Cannot appear in Cities
-	(
-		HasRoadAdjacentSW() || HasRoadAdjacentSE()	
-	)
+	switch (FEAT_HOUSES, SELF, switch_large_south_con_check, 
+		switch_large_con_check() && 					
+		(
+			HasRoadAdjacentSW() || HasRoadAdjacentSE()	
+		)
 	) {return;}		

@@ -61,9 +61,9 @@ hashimoto_office_tower_all_colours = {"white": 1, "grey": 1, "mauve": 1, "black"
 
 hayashi_all_colours = {"white": 1, "grey": 1, "brown1": 1, "brown2": 1, "mauve": 1, "black": 1, "red_brown": 1}
 
-hirano_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+hirano_all_colours = {"half01": 1, "half02": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half10": 1, "half11": 1, "half12": 1, "half13": 1, "half14": 1}
 
-hirano_old_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+hirano_old_colours = {"half01": 1, "half02": 1, "half04": 1, "half05": 1, "half06": 1, "half10": 1, "half11": 1, "half12": 1, "half13": 1, "half14": 1}
 
 hirata_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "dark_green": 1, "peach": 1, "pink": 1, "light_blue": 1, "dark_blue": 1}
 
@@ -95,9 +95,9 @@ murakami_old_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve"
 
 nagoya_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
 
-nakamura_all_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1}
+nakamura_all_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1, "half13": 1, "half14": 1}
 
-nakamura_old_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1}
+nakamura_old_colours = {"midgrey": 1, "half01": 1, "half03": 1, "half09": 1, "half12": 1, "half13": 1, "half14": 1}
 
 nakayama_all_colours = {"white": 1, "grey": 2, "brown1": 2, "brown2": 2, "mauve": 1, "dark_green": 1, "peach": 1, "light_blue": 1, "dark_blue": 1, "red_brown": 1}
 
@@ -111,7 +111,7 @@ old_office_building_all_colours = {"white": 1, "grey": 1, "brown1": 1, "mauve": 
 
 old_office_building_old_colours = {"white": 1, "grey": 1, "brown1": 1, "mauve": 1, "black": 1, "red_brown": 1}
 
-osaka_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+osaka_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1, "half13": 1, "half14": 1}
 
 ota_all_colours = {"white": 1, "light_blue": 1, "light_green": 1, "gold": 1, "red_brown": 1, "red": 1}
 
@@ -131,11 +131,11 @@ tanaka_all_colours = {"mix01": 1, "mix02": 1}
 
 tbuilding_all_colours = {"white": 1, "light_blue": 1, "light_green": 1, "gold": 1, "red": 1}
 
-tetsui_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+tetsui_all_colours = {"half01": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half12": 1, "half13": 1}
 
-toki_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+toki_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1, "half13": 1, "half14": 1}
 
-tokyo_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1}
+tokyo_all_colours = {"half01": 1, "half02": 1, "half03": 1, "half04": 1, "half05": 1, "half06": 1, "half07": 1, "half08": 1, "half09": 1, "half10": 1, "half11": 1, "half12": 1, "half13": 1, "half14": 1}
 
 tsuzumi_electronics_centre_all_colours = {"brown1": 1, "red_brown": 1}
 
@@ -158,6 +158,8 @@ enterprise_tower_all_colours = {"black": 2, "midgrey": 1}
 insurance_tower_all_colours = {"white": 1, "brown1": 2, "brown2": 2, "light_blue": 1, "black": 2, "red": 2, "midgrey": 2}
 
 kuroi_tower_all_colours = {"dark_green": 1, "light_blue": 1, "dark_blue": 1, "light_green": 1, "gold": 1, "red_brown": 1, "red": 1}
+
+landmark_tower_all_colours = {"white": 1, "grey": 1, "midgrey": 1}
 
 mitsui_tower_all_colours = {"white": 1, "brown1": 2, "brown2": 2, "mauve": 1, "black": 2, "midgrey": 1}
 

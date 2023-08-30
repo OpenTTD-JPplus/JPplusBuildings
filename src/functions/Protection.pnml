@@ -1,0 +1,27 @@
+
+// Akiba protection
+
+    /*  
+    - Version 1 (may need to tweak)
+    - Protection if beside another Akiba
+    - Let construction check determine if can build in the first place
+
+    */
+    switch (FEAT_HOUSES, SELF, switch_akiba_large_protection, 
+		(   // Beside another Class 7 (Large Akiba)
+            nearby_tile_house_class ( 1, 0) == 263 ||
+            nearby_tile_house_class ( 0, 1) == 263 || 
+            nearby_tile_house_class (-1, 0) == 263 || 
+            nearby_tile_house_class ( 0,-1) == 263 
+        )   
+            ||
+        (   // Beside a Class 8 (Medium Akiba)
+            nearby_tile_house_class ( 1, 0) == 264 ||
+            nearby_tile_house_class ( 0, 1) == 264 || 
+            nearby_tile_house_class (-1, 0) == 264 || 
+            nearby_tile_house_class ( 0,-1) == 264 
+        )
+
+        //nearest_house_matching_criterion(10, SEARCH_HOUSE_BY_CLASS) < 
+
+	) {return;}		

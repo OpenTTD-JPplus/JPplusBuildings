@@ -764,7 +764,8 @@ def CreateItems():
             data = data.replace('_cargo_pass_', str(all_buildings[b]["cargo_pass"]))
             data = data.replace('_cargo_mail_', str(all_buildings[b]["cargo_mail"]))
             data = data.replace('_accepted_cargoes_', str(all_buildings[b]["accepted_cargoes"]))
-            
+            data = data.replace('_protection_', str(all_buildings[b]["protection"]))
+
             if all_buildings[b]["con_check_override"] == "standard":
                 data = data.replace('_con_check_', str(all_buildings[b]["height"]))
             else:
