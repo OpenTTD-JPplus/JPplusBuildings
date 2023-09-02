@@ -25,6 +25,8 @@ Welcome to 🇯🇵🏠 **JP+ Buildings** 🏠🇯🇵
 
 * Thanks all for all the input and ideas. 
 
-### New Sprites
+### Sprites
 
-* By KeepinItRail and Simozzz
+* KeepinItRail
+* Simozzz
+* Sojot Collection

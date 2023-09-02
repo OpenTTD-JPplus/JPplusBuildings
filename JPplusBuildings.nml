@@ -689,6 +689,14 @@ template template_house_250_wide(x, y) {
     nw: [ x+154,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
     ne: [ x+231,	y,		76,		250,	-37,		-218,	NOCROP | ANIM]
 }
+
+template template_house_250_wide64(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x+6,		y,		64,		250,	-31,		-218,	NOCROP | ANIM]
+    sw: [ x+83,		y,		64,		250,	-31,		-218,	NOCROP | ANIM]  
+    nw: [ x+160,	y,		64,		250,	-31,		-218,	NOCROP | ANIM]
+    ne: [ x+237,	y,		64,		250,	-31,		-218,	NOCROP | ANIM]
+}
 # 1 "JPplusBuildings.pnml" 4
 
 // Primary Functions (i.e. do not use any other Function)
@@ -47952,6 +47960,293 @@ switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_c_sprites, random_bit
 }
 # 1 "src/houses/sugiyama_office_building/sugiyama_office_building.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 1
+
+// tokyo_tower
+
+# 1 "src/houses/tokyo_tower/gfx/tokyo_tower_sprites.pnml" 1
+
+// Building Sprites
+spriteset (spr_tokyo_tower_norm, 				"src/houses/tokyo_tower/gfx/building.png") 			{template_house_250_wide64(1,1)}
+spriteset (spr_tokyo_tower_snow, 				"src/houses/tokyo_tower/gfx/building.png") 			{template_house_250_wide64(1,1)}
+
+// Ground Sprites
+spriteset (spr_tokyo_tower_ground, 				"src/houses/tokyo_tower/gfx/ground.png") 			{template_ground(1,1)}
+spriteset (spr_tokyo_tower_ground_snow, 		"src/houses/tokyo_tower/gfx/ground.png") 			{template_ground(1,33)}
+# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
+# 1 "src/houses/tokyo_tower/levels/all.pnml" 1
+
+// tokyo_tower levels
+
+// tokyo_tower all colours
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_north_red_brown_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (0);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_north_red_brown_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (0);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_north_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_north_red_brown_snow;
+	    sprlay_tokyo_tower_north_red_brown_norm;
+    }
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_north_red_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (0);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_north_red_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (0);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_north_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_north_red_snow;
+	    sprlay_tokyo_tower_north_red_norm;
+    }
+
+// tokyo_tower all colours
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_east_red_brown_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (2);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_east_red_brown_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (2);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_east_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_east_red_brown_snow;
+	    sprlay_tokyo_tower_east_red_brown_norm;
+    }
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_east_red_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (2);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_east_red_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (2);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_east_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_east_red_snow;
+	    sprlay_tokyo_tower_east_red_norm;
+    }
+
+// tokyo_tower all colours
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_west_red_brown_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (1);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_west_red_brown_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (1);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_west_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_west_red_brown_snow;
+	    sprlay_tokyo_tower_west_red_brown_norm;
+    }
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_west_red_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (1);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_west_red_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (1);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_west_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_west_red_snow;
+	    sprlay_tokyo_tower_west_red_norm;
+    }
+
+// tokyo_tower all colours
+
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_south_red_brown_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (3);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_south_red_brown_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_south_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_south_red_brown_snow;
+	    sprlay_tokyo_tower_south_red_brown_norm;
+    }
+// _red_
+    // Norm Sprites
+    spritelayout sprlay_tokyo_tower_south_red_norm {
+        ground {
+            sprite: spr_tokyo_tower_ground (3);
+        }
+        building {
+            sprite: spr_tokyo_tower_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_tokyo_tower_south_red_snow {
+        ground {
+            sprite: spr_tokyo_tower_ground_snow (3);
+        }
+        building {
+            sprite: spr_tokyo_tower_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_tokyo_tower_south_red_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_tokyo_tower_south_red_snow;
+	    sprlay_tokyo_tower_south_red_norm;
+    }
+# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
+# 1 "src/houses/tokyo_tower/switches/colour_switches.pnml" 1
+
+// tokyo_tower ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_tokyo_tower_c_north_sprites, random_bits % 2 ) { // Ref 2
+0: switch_tokyo_tower_north_red_brown_snow;
+1: switch_tokyo_tower_north_red_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_tokyo_tower_c_east_sprites, random_bits % 2 ) { // Ref 2
+0: switch_tokyo_tower_east_red_brown_snow;
+1: switch_tokyo_tower_east_red_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_tokyo_tower_c_west_sprites, random_bits % 2 ) { // Ref 2
+0: switch_tokyo_tower_west_red_brown_snow;
+1: switch_tokyo_tower_west_red_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_tokyo_tower_c_south_sprites, random_bits % 2 ) { // Ref 2
+0: switch_tokyo_tower_south_red_brown_snow;
+1: switch_tokyo_tower_south_red_snow;
+}
+# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
+# 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/ueda_office_block/ueda_office_block.pnml" 1
 
 // ueda_office_block
@@ -56797,6 +57092,32 @@ item(FEAT_HOUSES, item_sugiyama_office_building, 87, HOUSE_SIZE_1X1){
 		}
 	graphics {
 		default: 					switch_sugiyama_office_building_c_sprites;
+		construction_check: 		switch_skyscraper_con_check;
+		cargo_production: 			func_produce(24,10);
+	}
+}
+
+item(FEAT_HOUSES, item_tokyo_tower, 220, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20;
+		name: 						string(STR_CONCAT_2, string(NAME_TOKYO_TOWER),string(SKY));
+        building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+		population: 				200;
+		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1958,0xFFFF];
+		minimum_lifetime: 			25;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+		building_class:				5;
+				
+		}
+	graphics {
+        graphics_north: 			switch_tokyo_tower_c_north_sprites;
+		graphics_east: 				switch_tokyo_tower_c_east_sprites;
+        graphics_west: 			    switch_tokyo_tower_c_west_sprites;
+		graphics_south: 			switch_tokyo_tower_c_south_sprites;
 		construction_check: 		switch_skyscraper_con_check;
 		cargo_production: 			func_produce(24,10);
 	}

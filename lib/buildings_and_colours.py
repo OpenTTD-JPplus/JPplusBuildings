@@ -173,6 +173,8 @@ sato_building_all_colours = {"black": 1, "midgrey": 1}
 
 sugiyama_office_building_all_colours = {"black": 2, "midgrey": 1}
 
+tokyo_tower_all_colours = {"red_brown": 1, "red": 1}
+
 tsuno_building_all_colours = {"dark_green": 1, "light_blue": 1, "dark_blue": 1, "black": 1, "gold": 1, "red_brown": 1, "red": 1}
 
 ueda_office_block_all_colours = {"black": 1, "red_brown": 2}
@@ -1580,6 +1582,37 @@ buildings_dict = {
                 "construction_state" : "3"
 	        },
 	        "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
+    "tokyo_tower" : {
+        "colours" : tokyo_tower_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],   # x since only one version of this 2X2
+        "heights" : {    
+            "c" : ["x"],    # k means landmark and 2X2
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        },
+            "south" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "3"

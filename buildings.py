@@ -1366,6 +1366,37 @@ buildings_dict = {
 	        }
         }
 	},
+    "tokyo_tower" : {
+        "colours" : tokyo_tower_all_colours,
+        "old_colours" : False,
+        "levels" : ["x"],   # x since only one version of this 2X2
+        "heights" : {    
+            "c" : ["x"],    # k means landmark and 2X2
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "east" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "townhouses" : {
         "colours" : townhouses_all_colours,
         "old_colours" : False,
