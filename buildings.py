@@ -110,7 +110,7 @@ buildings_dict = {
      "farm" : {
         "manual_gfx" : True,
         "manual_switches" : True,
-        "colours" : farm_all_colours,
+        "colours" : False,
         "old_colours" : False,
         "levels" : ["x"],   
         "heights" : {    
@@ -1367,7 +1367,7 @@ buildings_dict = {
         }
 	},
     "tokyo_tower" : {
-        "colours" : tokyo_tower_all_colours,
+        "colours" : False,
         "old_colours" : False,
         "levels" : ["x"],   # x since only one version of this 2X2
         "heights" : {    

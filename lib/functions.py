@@ -1,9 +1,7 @@
+from lib.buildings_and_colours import buildings_dict as buildings
+from lib import dictionaries
 import pandas as pd
-import json
-import copy
-import itertools
-import codecs
-import os, shutil
+import json, copy, itertools, codecs, os, shutil
 
 def ImportColoursTab():
     # convert excel spreadsheet into dataframe
@@ -120,18 +118,44 @@ def ImportColoursTab():
     # Close the destination file
     destination_file.close()
 
+# Create a list of buildings which will NOT be recoloured
+def NoRecolouring():
+    buildings_no_recolouring = []
+    for b in buildings:
+        if buildings[b]["colours"] == False:
+            buildings_no_recolouring.append(b)
+        else:
+            pass
+    return buildings_no_recolouring
+
+# Create a list of buildings which will be recoloured
+def Recolouring():
+    from lib.buildings_and_colours import buildings_dict as buildings
+    buildings_recolouring = []
+    for b in buildings:
+        if buildings[b]["colours"] == False:
+            pass
+        else:
+            buildings_recolouring.append(b)
+    return buildings_recolouring
+
 def CreateColourFiles():
     from lib.buildings_and_colours import buildings_dict as buildings
     from lib.remap import remap as remap
 
-    for b in buildings:
+    buildings_no_recolouring = NoRecolouring()
+    buildings_recolouring = Recolouring()
+
+    # For buildings which require recolouring
+    for b in buildings_recolouring:
         with open('./src/houses/' + b + '/colours/all.pnml', 'w') as f:
             f.write('\n// '+ b +' all colours\n')
             f.close()
+        
         colours = list(buildings[b]["colours"].keys())
         
         for c in colours:
-            template = open("./src/templates/colour_template.pnml", "rt")
+            template = open("./src/templates/recolour_template.pnml", "rt")
             current_colour = open('./src/houses/' + b + '/colours/all.pnml', "a")
             for line in template:
                 current_colour.write(line.replace('_clr_', str('_' + c +'_')))
@@ -147,12 +171,14 @@ def CreateColourFiles():
             recolour_remap = remap[c]
             with open(r'./src/houses/' + b + '/colours/all.pnml', 'r') as file:
                 data = file.read()
+                # Override for ground sprites e.g. 'spr_ground_grass'
                 try:
                     ground_sprite = buildings[b]["ground"]
                     data = data.replace(search_text_ground_snow, ground_sprite)
                     data = data.replace(search_text_ground, ground_sprite)            
                 except:
                     pass
+                # Override for building sprites
                 try:
                     building_sprite = buildings[b]["building"]
                     data = data.replace(search_text_building_snow, building_sprite + "_snow")
@@ -163,6 +189,44 @@ def CreateColourFiles():
                 data = data.replace(search_text_building_name, b)
             with open(r'./src/houses/' + b + '/colours/all.pnml', 'w') as file:
                 file.write(data)
+
+    # For buildings which DON'T require recolouring    
+    for b in buildings_no_recolouring:
+        with open('./src/houses/' + b + '/colours/all.pnml', 'w') as f:
+            f.write('\n// '+ b +' all colours\n')
+            f.close()
+
+        template = open("./src/templates/norecolour_template.pnml", "rt")
+        current_colour = open('./src/houses/' + b + '/colours/all.pnml', "a")
+        for line in template:
+            current_colour.write(line.replace('_clr_', str('_')))
+        template.close()
+        current_colour.close()
+
+        search_text_ground = "spr_building_name_v_ground"
+        search_text_ground_snow = "spr_building_name_v_ground_snow"
+        search_text_building = "spr_building_name_v_xL_norm"
+        search_text_building_snow = "spr_building_name_v_xL_snow"
+        search_text_building_name = "building_name"
+        with open(r'./src/houses/' + b + '/colours/all.pnml', 'r') as file:
+            data = file.read()
+            # Override for ground sprites e.g. 'spr_ground_grass'
+            try:
+                ground_sprite = buildings[b]["ground"]
+                data = data.replace(search_text_ground_snow, ground_sprite)
+                data = data.replace(search_text_ground, ground_sprite)            
+            except:
+                pass
+            # Override for building sprites
+            try:
+                building_sprite = buildings[b]["building"]
+                data = data.replace(search_text_building_snow, building_sprite + "_snow")
+                data = data.replace(search_text_building, building_sprite + "_norm")  
+            except:
+                pass
+            data = data.replace(search_text_building_name, b)
+        with open(r'./src/houses/' + b + '/colours/all.pnml', 'w') as file:
+            file.write(data)
 
 def CreateVariantFiles():
     from lib.buildings_and_colours import buildings_dict as buildings
@@ -272,8 +336,6 @@ def CreateVariantFiles():
             processed_pnml_file.close()
 
 def CreateLevelsFiles():
-    from lib.buildings_and_colours import buildings_dict as buildings
-
     for b in buildings:
         levels_pnml = open("src/houses/" + b + "/levels/all.pnml", "wt")
         levels_pnml.write("\n// " + b + " levels\n")
@@ -291,139 +353,16 @@ def CreateLevelsFiles():
             current_level.close()
 
 def CreateColourSwitches():
-    from lib.buildings_and_colours import buildings_dict as buildings
-
-    colour_dict = {}
-    colour_weightings_all_dict = {}
-    colour_weightings_old_dict = {}
-    for b in buildings:
-        colours = list(buildings[b]["colours"].keys())
-        for c in colours:
-            colour_dict[b] = buildings[b]["colours"]
-            colour_weightings_all_dict[b] = list(buildings[b]["colours"].values())
-            if buildings[b]["old_colours"] == False:
-                colour_weightings_old_dict[b] = False
-            else:
-                colour_weightings_old_dict[b] = list(buildings[b]["old_colours"].values())
-
-    # Create dictionary showing what levels are available per height
-    heights_dict = {}
-    for b in buildings:
-        heights = list(buildings[b]["heights"])
-        for h in heights:
-            heights_dict[b] = (buildings[b]["heights"])
-
-    # Create dictionary with number of levels per height
-    num_heights_dict = copy.deepcopy(heights_dict)
-    for b in buildings:
-        heights = list(buildings[b]["heights"])
-        for h in heights:
-            num_heights_dict[b][h] = len(num_heights_dict[b][h]) # {'fukuda': {'m': 1, 'l': 1}, 'harada': {'m': 1, 'l': 1}, 'hayashi': {'s': 2, 'm': 2}, 'hirano': {'s': 2, 'm': 2}}
-
-    # Map the colour weighting to each building and each height
-    colour_weightings_all_levels_dict = copy.deepcopy(colour_weightings_all_dict)
-    colour_weightings_old_levels_dict = copy.deepcopy(colour_weightings_old_dict)
-
-    colours_all_weightings = copy.deepcopy(num_heights_dict)
-    for b in buildings:
-        heights = list(colours_all_weightings[b].keys())
-        for h in heights:
-            colours_all_weightings[b][h] = colour_weightings_all_levels_dict[b] * num_heights_dict[b][h] 
-
-    colours_old_weightings = copy.deepcopy(num_heights_dict)
-    for b in buildings:
-        heights = list(colours_old_weightings[b].keys())
-        for h in heights:
-            if buildings[b]["old_colours"] == False:
-                colours_old_weightings[b][h] = False
-            else:
-                colours_old_weightings[b][h] = colour_weightings_old_levels_dict[b] * num_heights_dict[b][h] 
-
-    # Calculate the end point of the random bits
-    end_point_all = copy.deepcopy(colours_all_weightings)
-    end_point_old = copy.deepcopy(colours_old_weightings)
-    for b in buildings:
-        heights = list(colours_all_weightings[b].keys())
-        for h in heights:
-            end_point_all[b][h] = list(itertools.accumulate(colours_all_weightings[b][h]))
-            end_point_all[b][h] = [x - 1 for x in end_point_all[b][h]]
-            if buildings[b]["old_colours"] == False:
-                end_point_old[b][h] = False
-            else:
-                end_point_old[b][h] = list(itertools.accumulate(colours_old_weightings[b][h]))
-                end_point_old[b][h] = [x - 1 for x in end_point_old[b][h]]
-
-    # Calculate the start point of the random bits
-    start_point_all = copy.deepcopy(end_point_all)
-    start_point_old = copy.deepcopy(end_point_old)
-    for b in buildings:
-        heights = list(start_point_all[b].keys())
-        heights_old = list(start_point_old[b].keys())
-        # For ALL colours
-        for h in heights:
-            bits = list(start_point_all[b][h])
-            n = 0
-            for g in bits:
-                start_point_all[b][h][n] = end_point_all[b][h][n] - ( colours_all_weightings[b][h][n] - 1)
-                n = n + 1
-        # For OLD colours
-        for i in heights_old:
-            m = 0
-            if buildings[b]["old_colours"] == False:
-                start_point_old[b][i] = False
-                m = m + 1
-            else:
-                bits_old = list(start_point_old[b][i])
-                for f in bits_old: 
-                    start_point_old[b][i][m] = end_point_old[b][i][m] - ( colours_old_weightings[b][i][m] - 1)
-                    m = m + 1
-
-    # Calculate the random bit range
-    random_bits_all_range = copy.deepcopy(end_point_all)
-    random_bits_old_range = copy.deepcopy(end_point_old)
-    for b in buildings:
-        heights = list(random_bits_all_range[b].keys())
-        heights_old = list(random_bits_old_range[b].keys())
-        # For ALL colours
-        for h in heights:
-            bits = list(random_bits_all_range[b][h])
-            n = 0
-            for g in bits:
-                if start_point_all[b][h][n] == end_point_all[b][h][n]:
-                    random_bits_all_range[b][h][n] = str(start_point_all[b][h][n])
-                else:
-                    random_bits_all_range[b][h][n] = str(start_point_all[b][h][n]) + ".." + str(end_point_all[b][h][n])
-                n = n + 1
-        # For OLD colours
-        for i in heights_old:
-            m = 0
-            if buildings[b]["old_colours"] == False:
-                random_bits_old_range[b][i] = False
-                m = m + 1
-            else:
-                bits_old = list(start_point_old[b][i])
-                for f in bits_old: 
-                    if start_point_old[b][h][m] == end_point_old[b][h][m]:
-                        random_bits_old_range[b][i][m] = str(start_point_old[b][i][m])
-                    else:
-                        random_bits_old_range[b][i][m] = str(start_point_old[b][i][m]) + ".." + str(end_point_old[b][i][m])
-                    m = m + 1
-
-    # Calculate the random bits totals - adj for number of levels is made later
-    random_bits_total_all_dict = {}
-    for b in buildings:
-        random_bits_total_all_dict[b] = sum(buildings[b]["colours"].values())
-
-    random_bits_total_old_dict = {}
-    for b in buildings:
-        if buildings[b]["old_colours"] == False:
-            random_bits_total_old_dict[b] = False
-        else:
-            random_bits_total_old_dict[b] = sum(buildings[b]["old_colours"].values())
-
+    # Import various dictionaries and lists
+    buildings_no_recolouring = NoRecolouring()
+    buildings_recolouring = Recolouring()
+    random_bits_all_range = dictionaries.RandomBitsAllRange()
+    random_bits_old_range = dictionaries.RandomBitsOldRange()
+    random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
+    random_bits_total_old_dict = dictionaries.RandomBitsTotalOldDict()
 
     # Add the lines for each colour option and it's random bit allocation
-    for b in buildings:
+    for b in buildings_recolouring:
         # Create an initial file
         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "w")
         f.write("\n// " + b + " ALL colours\n")
@@ -621,7 +560,6 @@ def CreateDirectionSwitches():
             print(b + " has an unrecognised variant #3")
 
 def PnmlCombiner():
-    from lib.buildings_and_colours import buildings_dict as buildings
 
     folders = ["levels", "colours", "variants"]
 
