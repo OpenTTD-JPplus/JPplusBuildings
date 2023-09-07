@@ -3,8 +3,6 @@
 
 buildings_dict = {
 	"aoki_office" : {
-        "colours" : aoki_office_all_colours,
-        "old_colours" : aoki_office_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["6L", "8L", "10L", "12L"],
         "heights" : {    
@@ -20,8 +18,6 @@ buildings_dict = {
         }
 	},
     "aoyama_office" : {
-        "colours" : aoyama_office_all_colours,
-        "old_colours" : aoyama_office_old_colours,
         "end_of_old_era" : 1974,
         "levels" : ["5L", "6L", "7L", "8L"],
         "heights" : {    
@@ -36,8 +32,6 @@ buildings_dict = {
         }
 	},
     "bank_building" : {
-        "colours" : bank_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -50,8 +44,6 @@ buildings_dict = {
         }
     },
     "convini" : {
-        "colours" : convini_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -64,8 +56,6 @@ buildings_dict = {
         }
     },
     "dense_townhouses" : {
-        "colours" : dense_townhouses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["c", "d", "e", "f"],
         "heights" : {    
@@ -79,8 +69,6 @@ buildings_dict = {
         }
 	},
     "dense_wooden" : {
-        "colours" : dense_wooden_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"],
         "heights" : {    
@@ -94,8 +82,6 @@ buildings_dict = {
         }
 	},
     "enterprise_tower" : {
-        "colours" : enterprise_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -110,8 +96,6 @@ buildings_dict = {
      "farm" : {
         "manual_gfx" : True,
         "manual_switches" : True,
-        "colours" : False,
-        "old_colours" : False,
         "levels" : ["x"],   
         "heights" : {    
             "h" : ["x"],   
@@ -136,8 +120,6 @@ buildings_dict = {
         }
 	},
     "fire_station" : {
-        "colours" : fire_station_all_colours,
-        "old_colours" : False,
         "levels" : ["a", "b", "c", "d"],
         "heights" : {    
             "k" : ["a", "b", "c", "d"],
@@ -155,8 +137,6 @@ buildings_dict = {
         }
 	},
     "fukuda" : {
-        "colours" : fukuda_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -170,8 +150,6 @@ buildings_dict = {
         }
     },
 	"harada" : {
-        "colours" : harada_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -185,8 +163,6 @@ buildings_dict = {
         }
 	},
     "hasegawa" : {
-        "colours" : hasegawa_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -211,8 +187,6 @@ buildings_dict = {
         }
 	},
     "hashimoto_office_tower" : {
-        "colours" : hashimoto_office_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["9L", "10L", "11L", "12L", "13L", "14L", "15L", "16L"],
         "heights" : {    
             "l" : ["9L","10L"],
@@ -227,8 +201,6 @@ buildings_dict = {
         }
 	},
     "hayashi" : {
-        "colours" : hayashi_all_colours,
-        "old_colours" : False,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
             "s" : ["3L","4L"],
@@ -243,8 +215,6 @@ buildings_dict = {
         }
 	},
     "hirano" : {
-        "colours" : hirano_all_colours,
-        "old_colours" : hirano_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -265,8 +235,6 @@ buildings_dict = {
         }
 	},
     "hirata" : {
-        "colours" : hirata_all_colours,
-        "old_colours" : hirata_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -285,8 +253,6 @@ buildings_dict = {
         }
 	},
     "hospital" : {
-        "colours" : hospital_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],   # x since only one version of this 2X2
         "heights" : {    
             "k" : ["x"],    # k means landmark and 2X2
@@ -311,8 +277,6 @@ buildings_dict = {
         }
 	},
     "imai" : {
-        "colours" : imai_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"]
@@ -329,8 +293,6 @@ buildings_dict = {
         }
 	},
     "inoue" : {
-        "colours" : inoue_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"],
@@ -349,8 +311,6 @@ buildings_dict = {
         }
 	},
     "insurance_tower" : {
-        "colours" : insurance_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -363,8 +323,6 @@ buildings_dict = {
         }
     },
     "ishida_commercial_building" : {
-        "colours" : ishida_commercial_building_all_colours,
-        "old_colours" : False,
         "levels" : ["11L", "16L"],
         "heights" : {    
             "l" : ["11L"],
@@ -379,8 +337,6 @@ buildings_dict = {
         }
     },
     "ishii_office_tower" : {
-        "colours" : ishii_office_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["11L", "17L"],
         "heights" : {    
             "l" : ["11L"],
@@ -395,8 +351,6 @@ buildings_dict = {
         }
     },
     "kaneko" : {
-        "colours" : kaneko_all_colours,
-        "old_colours" : False,
         "levels" : ["7L", "8L", "9L", "10L"],
         "heights" : {    
             "l" : ["7L","8L"],
@@ -410,8 +364,6 @@ buildings_dict = {
         }
 	},
     "kimura" : {
-        "colours" : kimura_all_colours,
-        "old_colours" : kimura_old_colours,
         "end_of_old_era" : 1964,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -430,8 +382,6 @@ buildings_dict = {
         }
 	},
     "kono" : {
-        "colours" : kono_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "7L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -445,8 +395,6 @@ buildings_dict = {
         }
 	},
     "kuroi_tower" : {
-        "colours" : kuroi_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -460,8 +408,6 @@ buildings_dict = {
         }
     },
     "landmark_tower" : {
-        "colours" : landmark_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -475,8 +421,6 @@ buildings_dict = {
         }
     },
     "large_wooden_farmhouse" : {
-        "colours" : large_wooden_farmhouse_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["f", "g"],
         "heights" : {    
@@ -494,8 +438,6 @@ buildings_dict = {
         }
 	},
     "large_wooden_house" : {
-        "colours" : large_wooden_house_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -517,8 +459,6 @@ buildings_dict = {
         }
 	},
     "long_wooden_house" : {
-        "colours" : long_wooden_house_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b"],
         "heights" : {    
@@ -532,8 +472,6 @@ buildings_dict = {
         }
 	},
     "long_wooden_townhouses" : {
-        "colours" : long_wooden_townhouses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -547,8 +485,6 @@ buildings_dict = {
         }
 	},
     "mitsui_tower" : {
-        "colours" : mitsui_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -562,8 +498,6 @@ buildings_dict = {
         }
     },
     "modern_office_tower" : {
-        "colours" : modern_office_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -576,8 +510,6 @@ buildings_dict = {
         }
     },
     "mori" : {
-        "colours" : mori_all_colours,
-        "old_colours" : mori_old_colours,
         "end_of_old_era" : 1964,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -598,8 +530,6 @@ buildings_dict = {
         }
 	},
     "multimedia_offices" : {
-        "colours" : multimedia_offices_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -612,8 +542,6 @@ buildings_dict = {
         }
     },
     "murakami" : {
-        "colours" : murakami_all_colours,
-        "old_colours" : murakami_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -632,8 +560,6 @@ buildings_dict = {
         }
 	},
     "naganuma" : {
-        "colours" : naganuma_all_colours,
-        "old_colours" : naganuma_old_colours,
         "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d", "e", "f"],
@@ -648,8 +574,6 @@ buildings_dict = {
         }
 	},
     "nagoya" : {
-        "colours" : nagoya_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"]
@@ -666,8 +590,6 @@ buildings_dict = {
         }
     },
     "nakamura" : {
-        "colours" : nakamura_all_colours,
-        "old_colours" : nakamura_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["3L", "4L", "5L", "6L"],
         "heights" : {    
@@ -688,8 +610,6 @@ buildings_dict = {
         }
 	},
     "nakayama" : {
-        "colours" : nakayama_all_colours,
-        "old_colours" : nakayama_old_colours,
         "end_of_old_era" : 1964,
         "levels" : ["6L"],
         "heights" : {    
@@ -714,8 +634,6 @@ buildings_dict = {
         }
 	},
     "nishikawa" : {
-        "colours" : nishikawa_all_colours,
-        "old_colours" : nishikawa_old_colours,
         "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d", "e", "f"],
@@ -730,8 +648,6 @@ buildings_dict = {
         }
 	},
     "obuilding" : {
-        "colours" : obuilding_all_colours,
-        "old_colours" : False,
         "levels" : ["10L"],
         "heights" : {    
             "l" : ["10L"]
@@ -744,8 +660,6 @@ buildings_dict = {
         }
     },
     "office_tower" : {
-        "colours" : office_tower_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -758,8 +672,6 @@ buildings_dict = {
         }
     },
     "okada_office_tower" : {
-        "colours" : okada_office_tower_all_colours,
-        "old_colours" : False,
         "end_of_old_era" : 1959,
         "levels" : ["a_6L", "b_6L", "a_8L", "b_8L", "a_10L", "b_10L", "a_12L", "b_12L"],
         "heights" : {    
@@ -775,8 +687,6 @@ buildings_dict = {
         }
 	},
     "old_office_building" : {
-        "colours" : old_office_building_all_colours,
-        "old_colours" : old_office_building_old_colours,
         "end_of_old_era" : 1959,
         "levels" : ["5L", "6L", "7L", "8L"],
         "heights" : {    
@@ -791,8 +701,6 @@ buildings_dict = {
         }
 	},
     "old_villa" : {
-        "colours" : old_villa_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -807,8 +715,6 @@ buildings_dict = {
         }
     },
     "onsen" : {
-        "colours" : onsen_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -821,8 +727,6 @@ buildings_dict = {
         }
     },
     "osaka" : {
-        "colours" : osaka_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"]
@@ -841,8 +745,6 @@ buildings_dict = {
         }
     },
     "ota" : {
-        "colours" : ota_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "12L"],
         "heights" : {    
             "m" : ["6L"],
@@ -857,8 +759,6 @@ buildings_dict = {
         }
     },
     "pachinko" : {
-        "colours" : pachinko_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -871,8 +771,6 @@ buildings_dict = {
         }
     },
     "pagoda" : {
-        "colours" : pagoda_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_temple",
         "levels" : ["x"],
         "heights" : {    
@@ -887,8 +785,6 @@ buildings_dict = {
         }
     },
     "petrol_station_large" : {
-        "colours" : petrol_station_large_all_colours,
-        "old_colours" : False,
         "building" : "spr_petrol_station_large",
         "ground" : "spr_petrol_station_large_ground",
         "levels" : ["x"],
@@ -909,8 +805,6 @@ buildings_dict = {
         }
 	},
     "petrol_station_old" : {
-        "colours" : petrol_station_old_all_colours,
-        "old_colours" : False,
         "building" : "spr_petrol_station_old",
         "ground" : "spr_petrol_station_old_ground",
         "levels" : ["x"],
@@ -931,8 +825,6 @@ buildings_dict = {
         }
 	},
     "petrol_station_small" : {
-        "colours" : petrol_station_small_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -946,8 +838,6 @@ buildings_dict = {
         }
     },
     "police_station" : {
-        "colours" : police_station_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"],
@@ -965,8 +855,6 @@ buildings_dict = {
         }
 	},
     "sato_building" : {
-        "colours" : sato_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -979,8 +867,6 @@ buildings_dict = {
         }
     },
     "shibata" : {
-        "colours" : shibata_all_colours,
-        "old_colours" : False,
         "levels" : ["5L", "6L", "7L", "8L"],
         "heights" : {    
             "m" : ["5L","6L"],
@@ -995,8 +881,6 @@ buildings_dict = {
         }
 	},
     "shiro" : {
-        "colours" : shiro_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_shiro",
         "levels" : ["x"],   # x since only one version of this 2X2
         "heights" : {    
@@ -1028,8 +912,6 @@ buildings_dict = {
         }
 	},
     "shops_small" : {
-        "colours" : shops_small_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -1042,8 +924,6 @@ buildings_dict = {
         }
     },
     "shotengai" : {
-        "colours" : shotengai_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"],
         "heights" : {    
@@ -1057,8 +937,6 @@ buildings_dict = {
         }
 	},
     "shrine" : {
-        "colours" : shrine_all_colours,
-        "old_colours" : False,
         "levels" : ["p", "q"],
         "heights" : {    
             "k" : ["p", "q"]
@@ -1072,8 +950,6 @@ buildings_dict = {
         }
     },
     "shrine_prohibition" : {
-        "colours" : shrine_prohibition_all_colours,
-        "old_colours" : False,
         "item_param_enclosure_top" : "if (param_prohibition_shrine == 1) {",
         "item_param_enclosure_bottom" : "}",
         "levels" : ["x"],
@@ -1089,8 +965,6 @@ buildings_dict = {
         }
     },
     "stadium" : {
-        "colours" : stadium_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],   # x since only one version of this 2X2
         "heights" : {    
             "k" : ["x"],    # k means landmark and 2X2
@@ -1120,8 +994,6 @@ buildings_dict = {
         }
 	},
     "sugiyama_office_building" : {
-        "colours" : sugiyama_office_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -1135,8 +1007,6 @@ buildings_dict = {
         }
     },
     "suzuki" : {
-        "colours" : suzuki_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1156,8 +1026,6 @@ buildings_dict = {
         }
 	},
     "takada" : {
-        "colours" : takada_all_colours,
-        "old_colours" : False,
         "levels" : ["18L"],
         "heights" : {    
             "x" : ["18L"]
@@ -1171,8 +1039,6 @@ buildings_dict = {
         }
     },
     "takagi" : {
-        "colours" : takagi_all_colours,
-        "old_colours" : False,
         "levels" : ["10L"],
         "heights" : {    
             "x" : ["10L"]
@@ -1185,8 +1051,6 @@ buildings_dict = {
         }
     },
     "takemaru_shopping_centre" : {
-        "colours" : takemaru_shopping_centre_all_colours,
-        "old_colours" : False,
         "ground" : "spr_takemaru_shopping_centre_ground",
         "levels" : ["9L"],
         "heights" : {    
@@ -1208,8 +1072,6 @@ buildings_dict = {
         }
 	},
     "tanaguchi" : {
-        "colours" : tanaguchi_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "11L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1224,8 +1086,6 @@ buildings_dict = {
         }
     },
     "tanaka" : {
-        "colours" : tanaka_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1245,8 +1105,6 @@ buildings_dict = {
         }
 	},
     "tbuilding" : {
-        "colours" : tbuilding_all_colours,
-        "old_colours" : False,
         "levels" : ["16L"],
         "heights" : {    
             "x" : ["16L"]
@@ -1260,8 +1118,6 @@ buildings_dict = {
     },
     "temple" : {
 		"construction_state" : "3",
-        "colours" : temple_all_colours,
-        "old_colours" : False,
         "levels" : ["p", "q"],   
         "heights" : {    
             "k" : ["p", "q"],       # may need to vary the k
@@ -1292,8 +1148,6 @@ buildings_dict = {
         }
 	},
     "tetsui" : {
-        "colours" : tetsui_all_colours,
-        "old_colours" : False,
         "levels" : ["4L", "6L"],
         "heights" : {    
             "s" : ["4L"],
@@ -1313,8 +1167,6 @@ buildings_dict = {
         }
     },
     "three_wooden_houses" : {
-        "colours" : three_wooden_houses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -1328,8 +1180,6 @@ buildings_dict = {
         }
 	},
     "toki" : {
-        "colours" : toki_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1347,8 +1197,6 @@ buildings_dict = {
         }
     },
     "tokyo" : {
-        "colours" : tokyo_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"]
@@ -1367,8 +1215,6 @@ buildings_dict = {
         }
 	},
     "tokyo_tower" : {
-        "colours" : False,
-        "old_colours" : False,
         "levels" : ["x"],   # x since only one version of this 2X2
         "heights" : {    
             "c" : ["x"],    # k means landmark and 2X2
@@ -1398,8 +1244,6 @@ buildings_dict = {
         }
 	},
     "townhouses" : {
-        "colours" : townhouses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -1413,8 +1257,6 @@ buildings_dict = {
         }
 	},
     "triple_wooden_townhouses" : {
-        "colours" : triple_wooden_townhouses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -1428,8 +1270,6 @@ buildings_dict = {
         }
 	},
     "tsuno_building" : {
-        "colours" : tsuno_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],   
         "heights" : {    
             "c" : ["x"],    
@@ -1446,8 +1286,6 @@ buildings_dict = {
         },
 	},
     "tsuzumi_electronics_centre" : {
-        "colours" : tsuzumi_electronics_centre_all_colours,
-        "old_colours" : False,
         "levels" : ["p", "q", "r", "t"],   
         "heights" : {    
             "x" : ["p", "q", "r", "t"],       
@@ -1468,8 +1306,6 @@ buildings_dict = {
         }
 	},
     "twin_wooden_houses" : {
-        "colours" : twin_wooden_houses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["l", "n"],
         "heights" : {    
@@ -1487,8 +1323,6 @@ buildings_dict = {
         }
 	},
     "two_small_wooden_houses" : {
-        "colours" : two_small_wooden_houses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["p", "q"],
         "heights" : {    
@@ -1510,8 +1344,6 @@ buildings_dict = {
         }
 	},
     "two_wooden_houses" : {
-        "colours" : two_wooden_houses_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["p", "q"],
         "heights" : {    
@@ -1533,8 +1365,6 @@ buildings_dict = {
         }
 	},
     "ueda_office_block" : {
-        "colours" : ueda_office_block_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -1547,8 +1377,6 @@ buildings_dict = {
         }
     },
      "wooden_farmhouse" : {
-        "colours" : wooden_farmhouse_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -1562,8 +1390,6 @@ buildings_dict = {
         }
 	},
     "wooden_house" : {
-        "colours" : wooden_house_all_colours,
-        "old_colours" : False,
         "ground" : "spr_ground_grass",
         "levels" : ["x"],
         "heights" : {    
@@ -1585,8 +1411,6 @@ buildings_dict = {
         }
 	},
     "xbuilding" : {
-        "colours" : xbuilding_all_colours,
-        "old_colours" : False,
         "levels" : ["11L"],
         "heights" : {    
             "x" : ["11L"]
@@ -1600,8 +1424,6 @@ buildings_dict = {
         }
     },
     "yamada" : {
-        "colours" : yamada_all_colours,
-        "old_colours" : False,
         "levels" : ["12L"],
         "heights" : {    
             "x" : ["12L"]
@@ -1615,8 +1437,6 @@ buildings_dict = {
         }
     },
     "yamada_electronics_centre" : {
-        "colours" : yamada_electronics_centre_all_colours,
-        "old_colours" : False,
         "levels" : ["6L", "8L", "10L", "12L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1631,8 +1451,6 @@ buildings_dict = {
         }
 	},
     "yamaguchi_office" : {
-        "colours" : yamaguchi_office_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -1646,8 +1464,6 @@ buildings_dict = {
         }
     },
     "yamashiro_office_building" : {
-        "colours" : yamashiro_office_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],   
         "heights" : {    
             "c" : ["x"],    
@@ -1664,8 +1480,6 @@ buildings_dict = {
         },
 	},
      "yamashita_building" : {
-        "colours" : yamashita_building_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "c" : ["x"]
@@ -1678,8 +1492,6 @@ buildings_dict = {
         }
     },
     "yanagi" : {
-        "colours" : yanagi_all_colours,
-        "old_colours" : False,
         "levels" : ["5L", "7L"],
         "heights" : {    
             "m" : ["5L"],
@@ -1699,8 +1511,6 @@ buildings_dict = {
         }
     },
     "yano" : {
-        "colours" : yano_all_colours,
-        "old_colours" : False,
         "levels" : ["6L"],
         "heights" : {    
             "m" : ["6L"],
@@ -1714,8 +1524,6 @@ buildings_dict = {
         }
     },
     "ybuilding" : {
-        "colours" : ybuilding_all_colours,
-        "old_colours" : False,
         "levels" : ["14L"],
         "heights" : {    
             "x" : ["14L"]
@@ -1728,8 +1536,6 @@ buildings_dict = {
         }
     },
     "yoshinoya_restaurant" : {
-        "colours" : yoshinoya_restaurant_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]
@@ -1742,8 +1548,6 @@ buildings_dict = {
         }
     },
     "yoshinoya_sushi_restaurant" : {
-        "colours" : yoshinoya_sushi_restaurant_all_colours,
-        "old_colours" : False,
         "levels" : ["x"],
         "heights" : {    
             "k" : ["x"]

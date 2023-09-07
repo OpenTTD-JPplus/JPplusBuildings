@@ -6,8 +6,8 @@ from lib import functions
 
 print("Running jpplusbuildings.py")
 
-print("\tRunning ImportColoursTab")
-functions.ImportColoursTab()
+print("\tRunning CreateRecolourPnml")
+functions.CreateRecolourPnml()
 
 print("\tRunning CreateColourFiles")
 functions.CreateColourFiles()

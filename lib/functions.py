@@ -1,59 +1,12 @@
-from lib.buildings_and_colours import buildings_dict as buildings
-from lib import dictionaries
+from buildings import buildings_dict as buildings
+from lib import dictionaries, lists
 import pandas as pd
 import json, copy, itertools, codecs, os, shutil
 
-def ImportColoursTab():
-    # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.xlsx','colours')
-    # convert dataframe into dictionary
-    raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
-
-    # REMAPS - get colours with their remap number
-    colours = raw_colour_profiles['remap']
-
-    # REMAPS - create remap.py
-    with open('lib/remap.py', 'w') as f:
-        f.write("\n# Remap\n")
-        f.write("\nremap = {")
-        f.close()
-    for c in colours:
-        with open('lib/remap.py', 'a') as f:
-            f.write('\n"' + c + '": "' + str(colours[c]) + '",')
-            f.close()
-    with open('lib/remap.py', 'a') as f:
-        f.write("\n}")
-        f.close()
-
-    # PALETTE - create palette dictionary
-    
-    recolour_codes  = {
-        'palette01': '0xC6: 0x', 
-        'palette02': '0xC7: 0x', 
-        'palette03': '0xC8: 0x', 
-        'palette04': '0xC9: 0x', 
-        'palette05': '0xCA: 0x', 
-        'palette06': '0xCB: 0x', 
-        'palette07': '0xCC: 0x', 
-        'palette08': '0xCD: 0x', 
-        }
-
-    keys = list(recolour_codes.keys())
-
-    palette = raw_colour_profiles.copy()
-    for p in raw_colour_profiles:
-        if p not in recolour_codes:
-            palette.pop(p, None)
-        else:
-            pass
-
-    # Convert colour codes to two digit strings
-    for p in palette:
-        for c in colours:
-            if len(str(palette[p][c])) == 2:
-                palette[p][c] = str(palette[p][c])
-            else:
-                palette[p][c] = str("0" + str(palette[p][c]))
+def CreateRecolourPnml():
+    colour_remaps = dictionaries.ColourRemapsDict()
+    palette = dictionaries.PaletteDict()
+    from lib.dictionaries import recolour_codes as recolour_codes
 
     # Create Recolour.pnml file
     website1 = '// https://newgrf-specs.tt-wiki.net/wiki/NML:Recolour_sprites'
@@ -62,12 +15,12 @@ def ImportColoursTab():
     with open('src/recolour.pnml', 'w') as f:
         f.write(website1)
         f.write('\n\n' + website2 + '\n\n')
-        f.write('recolour_remap = reserve_sprites(' + str(len(colours)) + ');\n\n')
+        f.write('recolour_remap = reserve_sprites(' + str(len(colour_remaps)) + ');\n\n')
         f.write('replace(recolour_remap) {\n')
         f.close()
-    for c in colours:
+    for c in colour_remaps:
         with open('src/recolour.pnml', 'a') as f:
-            f.write('\n// ' + c + " +" + str(colours[c]))
+            f.write('\n// ' + c + " +" + str(colour_remaps[c]))
             f.write('\n\trecolour_sprite {')
             for r in recolour_codes:
                 f.write('\n\t\t' + recolour_codes[r] + str(palette[r][c]) + ';')
@@ -76,16 +29,10 @@ def ImportColoursTab():
     with open('src/recolour.pnml', 'a') as f:
         f.write("\n}")
         f.close()
-            
-    # BUILDINGS
-    colour_profiles = raw_colour_profiles.copy()
-    colour_profiles.pop('remap', None)
-    for key in keys:
-        colour_profiles.pop(key, None)
+
+'''def ImportColoursTab():
     
-    # Remove colours with nil probability
-    for b in colour_profiles:
-        colour_profiles[b] = {keys:values for keys, values in colour_profiles[b].items() if values != 0}
+    colour_profiles = dictionaries.RecolourDict()
 
    # create colour profile dictionaries
     with open('lib/colourprofiles.py', 'w') as f:
@@ -116,35 +63,13 @@ def ImportColoursTab():
     # Write the concatenated content to the destination file
     destination_file.write(content1 + content2)
     # Close the destination file
-    destination_file.close()
-
-# Create a list of buildings which will NOT be recoloured
-def NoRecolouring():
-    buildings_no_recolouring = []
-    for b in buildings:
-        if buildings[b]["colours"] == False:
-            buildings_no_recolouring.append(b)
-        else:
-            pass
-    return buildings_no_recolouring
-
-# Create a list of buildings which will be recoloured
-def Recolouring():
-    from lib.buildings_and_colours import buildings_dict as buildings
-    buildings_recolouring = []
-    for b in buildings:
-        if buildings[b]["colours"] == False:
-            pass
-        else:
-            buildings_recolouring.append(b)
-    return buildings_recolouring
+    destination_file.close()'''
 
 def CreateColourFiles():
-    from lib.buildings_and_colours import buildings_dict as buildings
-    from lib.remap import remap as remap
-
-    buildings_no_recolouring = NoRecolouring()
-    buildings_recolouring = Recolouring()
+    buildings_no_recolouring = lists.NoRecolouring()
+    buildings_recolouring = lists.Recolouring()
+    colour_all_dict = dictionaries.ColourAllDict()
+    remap = dictionaries.ColourRemapsDict()
 
     # For buildings which require recolouring
     for b in buildings_recolouring:
@@ -152,7 +77,8 @@ def CreateColourFiles():
             f.write('\n// '+ b +' all colours\n')
             f.close()
         
-        colours = list(buildings[b]["colours"].keys())
+        colours = colour_all_dict[b].keys()
+        #colours = list(buildings[b]["colours"].keys())
         
         for c in colours:
             template = open("./src/templates/recolour_template.pnml", "rt")
@@ -168,7 +94,7 @@ def CreateColourFiles():
             search_text_building = "spr_building_name_v_xL_norm"
             search_text_building_snow = "spr_building_name_v_xL_snow"
             search_text_building_name = "building_name"
-            recolour_remap = remap[c]
+            recolour_remap = str(remap[c])
             with open(r'./src/houses/' + b + '/colours/all.pnml', 'r') as file:
                 data = file.read()
                 # Override for ground sprites e.g. 'spr_ground_grass'
@@ -229,8 +155,6 @@ def CreateColourFiles():
             file.write(data)
 
 def CreateVariantFiles():
-    from lib.buildings_and_colours import buildings_dict as buildings
-
     for b in buildings:
         variants = list(buildings[b]["variants"].keys())
         for v in variants:
@@ -354,12 +278,15 @@ def CreateLevelsFiles():
 
 def CreateColourSwitches():
     # Import various dictionaries and lists
-    buildings_no_recolouring = NoRecolouring()
-    buildings_recolouring = Recolouring()
+    buildings_no_recolouring = lists.NoRecolouring()
+    buildings_recolouring = lists.Recolouring()
     random_bits_all_range = dictionaries.RandomBitsAllRange()
     random_bits_old_range = dictionaries.RandomBitsOldRange()
     random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
     random_bits_total_old_dict = dictionaries.RandomBitsTotalOldDict()
+    colour_all_dict = dictionaries.ColourAllDict()
+    colour_old_dict = dictionaries.ColourOldDict()
+    old_colour_buildings = lists.HasOldColours()
 
     # Add the lines for each colour option and it's random bit allocation
     for b in buildings_recolouring:
@@ -376,16 +303,16 @@ def CreateColourSwitches():
                 # Add the switch line and update details
                 f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
                 # Modern Colours only
-                if buildings[b]["old_colours"] == False and v == 'x':
+                if b not in old_colour_buildings and v == 'x':
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 1 \n")
-                elif buildings[b]["old_colours"] == False and v != 'x' and (h == 'k' or h == 'c'):
+                elif b not in old_colour_buildings and v != 'x' and (h == 'k' or h == 'c'):
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_" + v + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 2\n")   
-                elif buildings[b]["old_colours"] == False and v != 'x' and h != "k":
+                elif b not in old_colour_buildings and v != 'x' and h != "k":
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 3\n")  
                 #Old Colours will come latter
-                elif buildings[b]["old_colours"] != False and v == 'x':
+                elif b in old_colour_buildings and v == 'x':
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 4\n")
-                elif buildings[b]["old_colours"] != False and v != 'x':
+                elif b in old_colour_buildings and v != 'x':
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_modern, random_bits % " + str(random_bits_total_all_dict[b] * num_heights) + " ) { // Ref 5\n")
                 else:
                     print("// Ref 6 - " + b + " not allocated to an option")
@@ -395,7 +322,7 @@ def CreateColourSwitches():
                 n = n + 1
                 m = 0
                 for l in levels:
-                    colours = list(buildings[b]["colours"].keys())
+                    colours = colour_all_dict[b].keys()
                     for c in colours:
                         # Add the colours lines
                         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
@@ -415,48 +342,45 @@ def CreateColourSwitches():
                 f.close()
 
     # For buildings with old colour subsets, append those switches
-    for b in buildings:
-        if buildings[b]["old_colours"] == False:
-            pass
-        else:
-            f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-            f.write("\n// " + b + " OLD colours\n")
-            f.close()
-            variants = list(buildings[b]["variants"])
-            for v in variants:
-                heights = list(buildings[b]["heights"])
-                n = 0
-                for h in heights:
-                    num_heights = len(buildings[b]["heights"][h])
-                    # Add the switch line and update details
-                    f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                    if v == 'x':
-                        f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
-                    else:
-                        f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
-                    f.close()
-                    levels = list(buildings[b]["heights"].values())[n]
-                    n = n + 1
-                    m = 0
-                    for l in levels:
-                        colours = list(buildings[b]["old_colours"].keys())
-                        for c in colours:
-                            # Add the colours lines
-                            f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                            if v == 'x':
-                                f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + l + "_" + c +"_snow;\n")
-                            else:
-                                f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")
-                            f.close()
-                            m = m + 1
-                    # Add bracket at the bottom
-                    f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
-                    f.write("}\n")
-                    f.close()
+    for b in old_colour_buildings:
+        f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
+        f.write("\n// " + b + " OLD colours\n")
+        f.close()
+        variants = list(buildings[b]["variants"])
+        for v in variants:
+            heights = list(buildings[b]["heights"])
+            n = 0
+            for h in heights:
+                num_heights = len(buildings[b]["heights"][h])
+                # Add the switch line and update details
+                f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
+                if v == 'x':
+                    f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
+                else:
+                    f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
+                f.close()
+                levels = list(buildings[b]["heights"].values())[n]
+                n = n + 1
+                m = 0
+                for l in levels:
+                    old_colours = list(colour_old_dict[b].keys())
+                    for c in old_colours:
+                        # Add the colours lines
+                        f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
+                        if v == 'x':
+                            f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + l + "_" + c +"_snow;\n")
+                        else:
+                            f.write(str(random_bits_old_range[b][h][m]) + ": switch_" + b + "_" + v + "_" + l + "_" + c +"_snow;\n")
+                        f.close()
+                        m = m + 1
+                # Add bracket at the bottom
+                f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
+                f.write("}\n")
+                f.close()
 
     # Switch to pick between OLD and MODERN colours depending on year
-    for b in buildings:
-        if buildings[b]["old_colours"] == False:
+    for b in buildings_recolouring:
+        if b not in old_colour_buildings:
             pass
         else:
             f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
@@ -486,7 +410,6 @@ def CreateColourSwitches():
                     n = n + 1
 
 def CreateDirectionSwitches():
-    from lib.buildings_and_colours import buildings_dict as buildings
     # Create a spritedirection file for relevant buildings
     for b in buildings:
         heights = list(buildings[b]["heights"])

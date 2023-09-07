@@ -3,6 +3,7 @@ from lib import functions
 from lib import dictionaries
 import pprint
 
+colour_remap_dict = dictionaries.ColourRemapsDict()
 buildings_recolouring = functions.Recolouring()
 buildings_no_recolouring = functions.NoRecolouring()
 colour_dict = dictionaries.ColourDict()
@@ -21,7 +22,8 @@ random_bits_old_range = dictionaries.RandomBitsOldRange()
 random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
 random_bits_total_old_dict = dictionaries.RandomBitsTotalOldDict()
 items_tab = dictionaries.ItemsTab()
+palette = dictionaries.PaletteDict()
 
 
 #pprint.pprint(items_tab)
-print(buildings_recolouring)
+print(len(colour_remap_dict))
