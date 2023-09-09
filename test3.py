@@ -1,7 +1,7 @@
 from lib import functions
 from lib import dictionaries, lists
 
-#test = dictionaries.RandomBitsAllRange()
-test = dictionaries.RandomBitsTotalOldDict()
+test = dictionaries.NumHeightsDict()
+#test = lists.ActiveBuildingItems()
 
 print(test)

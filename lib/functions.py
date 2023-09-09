@@ -30,41 +30,6 @@ def CreateRecolourPnml():
         f.write("\n}")
         f.close()
 
-'''def ImportColoursTab():
-    
-    colour_profiles = dictionaries.RecolourDict()
-
-   # create colour profile dictionaries
-    with open('lib/colourprofiles.py', 'w') as f:
-        f.write("\n# Colour Profiles\n")
-        f.close()
-    for b in colour_profiles:
-        with open('lib/colourprofiles.py', 'a') as f:
-            f.write("\n")
-            f.write(str(b) + " = ")
-            f.write(json.dumps(colour_profiles[b]))
-            f.write("\n")
-            f.close()
-
-    file1 = open('lib/colourprofiles.py', 'r')
-    file2 = open('buildings.py', 'r')
-
-    # Read the contents of the text files
-    content1 = file1.read()
-    content2 = file2.read()
-
-    # Close the source text files
-    file1.close()
-    file2.close()
-
-    # Open the destination file
-    destination_file = open('lib/buildings_and_colours.py', 'w')
-
-    # Write the concatenated content to the destination file
-    destination_file.write(content1 + content2)
-    # Close the destination file
-    destination_file.close()'''
-
 def CreateColourFiles():
     buildings_no_recolouring = lists.NoRecolouring()
     buildings_recolouring = lists.Recolouring()
@@ -483,7 +448,7 @@ def CreateDirectionSwitches():
             print(b + " has an unrecognised variant #3")
 
 def PnmlCombiner():
-
+    
     folders = ["levels", "colours", "variants"]
 
     manual_gfx = copy.deepcopy(buildings)
@@ -548,35 +513,15 @@ def PnmlCombiner():
 
 def CreateItems():
 
-    # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.xlsx','items')
-
-    # convert dataframe into dictionary
-    all_buildings = df1.set_index('name').T.to_dict('dict')
-
-    # create active, inactive and parameter building lists
-    active_buildings = []
-    inactive_buildings = []
-    parameter_buildings = []
-    for b in all_buildings:
-        if  all_buildings[b]["include"] == False:
-            inactive_buildings.append(b)
-        else:
-            active_buildings.append(b)
-        # parameter list
-        if  all_buildings[b]["param_top"] == "none":
-            pass
-        else:
-            parameter_buildings.append(b)
-
-
-    folders = list(df1["folder"])
-    folders = list(dict.fromkeys(folders))
+    all_buildings = dictionaries.ItemsTab()
+    active_buildings = lists.ActiveBuildings()
+    active_building_items = lists.ActiveBuildingItems()
+    parameter_buildings = lists.ParameterBuildings()
 
     f = open("./src/houses.pnml", "w")
     f.write('\n// House pnml files\n')
     f.close()
-    for b in folders:
+    for b in active_buildings:
         f = open("./src/houses.pnml", "a")
         f.write('\n#include "src/houses/' + b + '/' + b + '.pnml"')
         f.close()
@@ -593,7 +538,7 @@ def CreateItems():
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-    for b in active_buildings:
+    for b in all_buildings:
         # Create the files
         template = open("./src/templates/item_template.pnml", "rt")
         current_item = open("./src/items/" + b +".pnml", "wt")
@@ -674,7 +619,7 @@ def CreateItems():
         stuff.close()
 
     # Append header stuff which should always be first
-    for b in active_buildings:
+    for b in active_building_items:
         append_variants(b)
 
     # Write the content of 'sections' into a file and save it

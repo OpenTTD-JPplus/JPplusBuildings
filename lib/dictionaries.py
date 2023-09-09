@@ -294,7 +294,8 @@ def ItemsTab():
     df1 = pd.read_excel('docs/buildings.xlsx','items', usecols=[
         'name', 
         'folder', 
-        'id', 
+        'id',
+        'include', 
         'tile_size', 
         'height', 
         'recolour',
@@ -303,7 +304,8 @@ def ItemsTab():
         'population', 
         'probability', 
         'substitute', 
-        'building_class', 
+        'building_class',
+        'building_flags',
         'yearstart', 
         'yearend', 
         'minimum_lifetime',
@@ -311,7 +313,10 @@ def ItemsTab():
         'cargo_pass',
         'cargo_mail',
         'accepted_cargoes',
-        'protection'
+        'protection',
+        'con_check_override',
+        'param_top',
+        'param_bottom'
         ])
     all_buildings = df1.set_index('name').T.to_dict('dict')
     # Add graphics columns

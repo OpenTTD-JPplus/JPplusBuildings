@@ -1,6 +1,34 @@
 from lib import dictionaries, functions
 
 # Create a list of buildings which will NOT be recoloured
+def ActiveBuildings():
+    all_buildings = dictionaries.ItemsTab()
+    active_buildings = []
+
+    for b in all_buildings:
+        if all_buildings[b]["include"] != False:
+            active_buildings.append(all_buildings[b]["folder"])
+    active_buildings = list(dict.fromkeys(active_buildings))
+    return active_buildings
+
+def ActiveBuildingItems():
+    all_buildings = dictionaries.ItemsTab()
+    active_building_items = []
+
+    for b in all_buildings:
+        if all_buildings[b]["include"] != False:
+            active_building_items.append(b)
+    return active_building_items
+
+def ParameterBuildings():
+    all_buildings = dictionaries.ItemsTab()
+    parameter_buildings = []
+
+    for b in all_buildings:
+        if all_buildings[b]["param_top"] != "none":
+            parameter_buildings.append(b)
+    return parameter_buildings
+
 def NoRecolouring():
     all_buildings = dictionaries.ItemsTab()
     buildings_no_recolouring = []
