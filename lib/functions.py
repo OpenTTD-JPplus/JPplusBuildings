@@ -501,7 +501,7 @@ def PnmlCombiner():
         elif os.path.exists('./src/houses/' + b +'/switches/manual_switches.pnml'):
             f.write('\n#include "src/houses/' + b +'/switches/manual_switches.pnml"')
         else:
-            print(b + " doesn't have a switches file")
+            pass
         # Directional switches
         if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
             pass
