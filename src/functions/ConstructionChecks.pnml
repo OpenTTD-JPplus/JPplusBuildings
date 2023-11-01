@@ -50,18 +50,25 @@
 		)
 	) {return;}
 
+	// Prevent building beside same class (i.e. stop two hiranos being beside each other)
+	switch(FEAT_HOUSES, SELF, switch_small_class_check, TileGapByClass(1) ) {
+			0:return 0;
+			return switch_small_wide_roads_con_check;
+		}
+
+	// However, if there is no PASS service, exception allowed for Centre Zone in Large Cities
 	switch (FEAT_HOUSES, SELF, switch_small_centre_exception_con_check, 	
-		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() 
+		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() && TileGapByClass(1)
 	) {return;}
 
+	// First check if there is Passenger service #failfast
 	switch(FEAT_HOUSES, SELF, switch_small_con_check, FuncServicePASS() ) {
 			0:return switch_small_centre_exception_con_check;
-			return switch_small_wide_roads_con_check;
+			return switch_small_class_check;
 		}
 
 // Medium Height
 	switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
-		FuncServicePASS() &&
 			(
 				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
 			) 
@@ -72,7 +79,6 @@
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
-		FuncServicePASS() &&
 			(
 				PopOverXtraThreshold() && !WideRoads() 
 			) 
@@ -80,22 +86,32 @@
 			(
 				PopOverLargeThreshold() && WideRoads() 
 			)
-
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
-		FuncServicePASS() && town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+		town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
 	) {return;}	
 
-	switch (FEAT_HOUSES, SELF, switch_medium_con_check,	town_zone) {
+	switch (FEAT_HOUSES, SELF, switch_medium_town_zone_check,	town_zone) {
 		TOWNZONE_CENTRE: switch_medium_centre_con_check;
 		TOWNZONE_INNER_SUBURB: switch_medium_inner_con_check;
 		switch_medium_outer_con_check;
 	}
 
+	// Prevent building beside same class (i.e. stop two hiranos being beside each other)
+	switch(FEAT_HOUSES, SELF, switch_medium_class_check, TileGapByClass(1) ) {
+			0:return 0;
+			return switch_medium_town_zone_check;
+		}
+
+	// PASS Service check #failfast
+	switch (FEAT_HOUSES, SELF, switch_medium_con_check,	FuncServicePASS() ) {
+		0: return 0;
+		switch_medium_class_check;
+	}
+
 // Large
-	switch (FEAT_HOUSES, SELF, switch_large_con_check, 	
-		FuncServicePASS() &&		
+	switch (FEAT_HOUSES, SELF, switch_large_town_zone_check, 		
 			(	
 				town_zone == TOWNZONE_CENTRE &&
 
@@ -114,12 +130,24 @@
 				town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
 			)
 		) {return;}	
+	
+	// Prevent building beside same class (i.e. stop two hiranos being beside each other)
+	switch(FEAT_HOUSES, SELF, switch_large_class_check, TileGapByClass(1) ) {
+			0:return 0;
+			return switch_large_town_zone_check;
+		}
+
+	// PASS Service check #failfast
+	switch (FEAT_HOUSES, SELF, switch_large_con_check,	FuncServicePASS() ) {
+		0: return 0;
+		switch_large_class_check;
+	}
 
 // Xtra Large
 	switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
 		FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
 		PopOverXtraThreshold() &&					// City has population above relevant threshold
-		TileGapByType(3) &&							// Don't build within x tiles of the same house ID
+		TileGapByType(2) &&							// Don't build within x tiles of the same house ID
 		WideRoads()									// Can only build beside a wider road
 		) {return;}	
 
