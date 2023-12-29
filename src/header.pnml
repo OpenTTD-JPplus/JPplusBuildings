@@ -6,8 +6,8 @@ grf {
 	grfid: 						"KR04";
 	name: 						string(STR_GRF_NAME);
 	desc: 						string(STR_GRF_DESC);
-	version: 					010;
-	min_compatible_version: 	010;
+	version: 					011;
+	min_compatible_version: 	011;
 	url: 						string(STR_WEBSITE);
 
 	param 1 {
@@ -71,16 +71,16 @@ grf {
 if (version_openttd(1,10,0,28004) > openttd_version) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
-
+/*
 // https://jgrennison.github.io/OpenTTD-patches/newgrf-town-nml.html
 if (!extended_feature_test("town_uncapped_variables")) {
-	error(FATAL, string(STR_ERROR_GAME_VERSION));
+	error(FATAL, string(STR_ERROR_TOWN_UNCAPPED_VARIABLES));
 }
 
 if (!extended_feature_test("town_zone_callback")) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
-
+*/
 
  /* tz01
 switch (FEAT_TOWN, SELF, town_zone_cb,
@@ -129,6 +129,7 @@ switch (FEAT_TOWN, SELF, town_zone_cb,
 	- Zone 2 expanded slightly but not at the expense of other zones
 
 */
+/*
 switch (FEAT_TOWN, SELF, town_zone_cb,
 		[
 			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
@@ -145,5 +146,5 @@ item (FEAT_TOWN, town_cb, GENERIC_CALLBACK) {
 		town_zone: town_zone_cb;
 	}
 }
-
+*/
 disable_item(FEAT_HOUSES);
