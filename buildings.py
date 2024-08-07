@@ -57,14 +57,15 @@ buildings_dict = {
     },
     "dense_townhouses" : {
         "ground" : "spr_ground_grass",
-        "levels" : ["c", "d", "e", "f"],
+        "levels" : ["g", "h", "i"],
         "heights" : {    
-            "h" : ["c", "d", "e", "f"]
+            "h" : ["g", "h", "i"]
         },
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -676,6 +677,7 @@ buildings_dict = {
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
@@ -915,12 +917,12 @@ buildings_dict = {
                 "construction_state" : "3"
 	        },
             "east" : {
-		        "xoffset" : "-1",
-		        "yoffset" : "2",
+		        "xoffset" : "0",   # -1
+		        "yoffset" : "0",    # -2
                 "construction_state" : "2"
 	        },
             "west" : {
-		        "xoffset" : "1",
+		        "xoffset" : "0",    # 1
 		        "yoffset" : "0",
                 "construction_state" : "0"
 	        },
@@ -928,6 +930,25 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "construction_state" : "1"
+	        }
+        }
+	},
+    "shiroi" : {
+        "levels" : ["4L", "6L"],
+        "heights" : {    
+            "s" : ["4L"],
+            "m" : ["6L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},
@@ -1276,6 +1297,19 @@ buildings_dict = {
 	        }
         }
 	},
+    "toyoko" : {
+        "levels" : ["x"],
+        "heights" : {    
+            "k" : ["x"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+    },
     "triple_wooden_townhouses" : {
         "ground" : "spr_ground_grass",
         "levels" : ["x"],

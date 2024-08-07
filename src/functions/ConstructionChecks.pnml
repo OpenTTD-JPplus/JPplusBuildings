@@ -224,9 +224,16 @@
 		nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
 		) {return;}	
 
+// Toyoko
+	switch (FEAT_HOUSES, SELF, switch_toyoko_con_check, 
+		FuncServicePASS() &&				// Must have road to the SW
+		PopOverMediumThreshold() &&			// Population must be > 1Medium Threshold
+		TileGapByType(30)					// Can't appear within 30 tiles of another
+	) {return;}	
+
 // Farm
 	switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
-		!IsCity() && 					// Cannot appear in Cities
+		!IsCity() && 						// Cannot appear in Cities
 		!PopOverMediumThreshold()			// Population criteria
 		) {return;}		
 
