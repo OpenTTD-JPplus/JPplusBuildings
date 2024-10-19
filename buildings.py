@@ -902,6 +902,24 @@ buildings_dict = {
 	        }
         }
 	},
+    "shibuyat" : {
+        "levels" : ["11L"],
+        "heights" : {    
+            "l" : ["11L"]
+        },
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "b" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "shiro" : {
         "ground" : "spr_ground_shiro",
         "levels" : ["x"],   # x since only one version of this 2X2
