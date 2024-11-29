@@ -5,7 +5,7 @@ from lib import functions, lists
 
 def ColourRemapsDict():
     # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.xlsx','colours')
+    df1 = pd.read_excel('docs/buildings.ods','colours')
     # convert dataframe into dictionary
     raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
 
@@ -26,7 +26,7 @@ recolour_codes  = {
 
 def PaletteDict():
     # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.xlsx','colours')
+    df1 = pd.read_excel('docs/buildings.ods','colours')
     # convert dataframe into dictionary
     raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
 
@@ -52,7 +52,7 @@ def PaletteDict():
 
 def RecolourDict():
     # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.xlsx','colours')
+    df1 = pd.read_excel('docs/buildings.ods','colours')
     # convert dataframe into dictionary
     raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
 
@@ -291,7 +291,7 @@ def RandomBitsTotalOldDict():
 
 def ItemsTab():
     # Import Desired columns
-    df1 = pd.read_excel('docs/buildings.xlsx','items', usecols=[
+    df1 = pd.read_excel('docs/buildings.ods','items', usecols=[
         'name', 
         'folder', 
         'id',

@@ -30,4 +30,5 @@ Welcome to 🇯🇵🏠 **JP+ Buildings** 🏠🇯🇵
 * KeepinItRail
 * Simozzz
 * Sheepy
+* Zyliety
 * Sojot Collection
