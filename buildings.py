@@ -505,6 +505,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "matsuo" : {
+        "ground" : "spr_ground_grass",
+        "levels" : ["a", "b", "c", "d"],
+        "heights" : {    
+            "h" : ["a", "b", "c", "d"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "mitsui_tower" : {
         "levels" : ["x"],
         "heights" : {    
