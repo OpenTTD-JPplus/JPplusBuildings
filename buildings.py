@@ -672,6 +672,20 @@ buildings_dict = {
 	        }
         }
 	},
+    "nakasato" : {
+        "ground" : "spr_ground_grass",
+        "levels" : ["a", "b"],
+        "heights" : {    
+            "h" : ["a", "b"]
+        },
+        "variants" : {    
+            "x" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "nakayama" : {
         "end_of_old_era" : 1964,
         "levels" : ["6L"],
