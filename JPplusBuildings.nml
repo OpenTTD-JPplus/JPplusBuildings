@@ -1534,6 +1534,18 @@ switch (FEAT_HOUSES, SELF, SkyscraperRoads, param_wideroad_skyscrapers == 0 || (
 		OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
 	) {return;}	
 
+// South 2x2
+	switch (FEAT_HOUSES, SELF, switch_south_con_check, 
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueHouse() && 						// Only one per city
+		OnGenerationOnly() //&& 					// Will only spawn when Map is generated - not realistic being built in modern times!
+		/*
+		((nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION )
+			&&	// Requires a road to the SE and SW to appear on southern corners
+		(nearby_tile_class(2,0) == TILE_CLASS_ROAD || nearby_tile_class(2,0) == TILE_CLASS_STATION ))
+		*/
+		) {return;}		
+
 // Temple
 	switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
 		IsCity() && 							// Can only appear in Cities
@@ -1610,6 +1622,8 @@ spriteset (spr_ground_grass, 							"src/ground/grass.png") 				{template_ground
 spriteset (spr_ground_snow, 						    "src/ground/snow.png") 					{template_ground(1,1)}
 // Concrete
 spriteset (spr_ground_concrete, 						"src/ground/concrete.png") 				{template_ground(1,1)}
+// Concrete All
+spriteset (spr_ground_concrete_all, 				    "src/ground/concrete_all.png") 			{template_ground(1,1)}
 // Temple
 spriteset (spr_ground_temple, 							"src/ground/temple.png") 				{template_ground(1,1)}
 // Shiro
@@ -4181,7 +4195,7 @@ spriteset (spr_matsuo_d_snow, 				"src/houses/matsuo/gfx/building.png") 						{t
 
 // matsuo ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, random_bits % 24 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_modern, random_bits % 24 ) { // Ref 4
 0: switch_matsuo_a_brown2_snow;
 1: switch_matsuo_a_dark_blue_snow;
 2: switch_matsuo_a_black_snow;
@@ -4206,6 +4220,26 @@ switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, random_bits % 24 ) { // Ref 
 21: switch_matsuo_d_red_brown_snow;
 22: switch_matsuo_d_maroon_snow;
 23: switch_matsuo_d_midgrey_snow;
+}
+
+// matsuo OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_old, random_bits % 8 ) {
+0: switch_matsuo_a_brown2_snow;
+1: switch_matsuo_a_black_snow;
+2: switch_matsuo_b_brown2_snow;
+3: switch_matsuo_b_black_snow;
+4: switch_matsuo_c_brown2_snow;
+5: switch_matsuo_c_black_snow;
+6: switch_matsuo_d_brown2_snow;
+7: switch_matsuo_d_black_snow;
+}
+
+// matsuo switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, current_year - age) {
+0..1959: switch_matsuo_h_old;
+switch_matsuo_h_modern;
 }
 # 1 "src/houses/matsuo/matsuo.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -4944,7 +4978,7 @@ spriteset (spr_miyazaki_d_snow, 				"src/houses/miyazaki/gfx/building.png") 				
 
 // miyazaki ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_miyazaki_h_sprites, random_bits % 48 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_miyazaki_h_modern, random_bits % 48 ) { // Ref 4
 0..1: switch_miyazaki_a_grey_snow;
 2..3: switch_miyazaki_a_brown2_snow;
 4..5: switch_miyazaki_a_black_snow;
@@ -4969,6 +5003,34 @@ switch (FEAT_HOUSES, SELF, switch_miyazaki_h_sprites, random_bits % 48 ) { // Re
 42..43: switch_miyazaki_d_red_brown_snow;
 44..45: switch_miyazaki_d_maroon_snow;
 46..47: switch_miyazaki_d_midgrey_snow;
+}
+
+// miyazaki OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_miyazaki_h_old, random_bits % 16 ) {
+0: switch_miyazaki_a_grey_snow;
+1: switch_miyazaki_a_brown2_snow;
+2: switch_miyazaki_a_black_snow;
+3: switch_miyazaki_a_midgrey_snow;
+4: switch_miyazaki_b_grey_snow;
+5: switch_miyazaki_b_brown2_snow;
+6: switch_miyazaki_b_black_snow;
+7: switch_miyazaki_b_midgrey_snow;
+8: switch_miyazaki_c_grey_snow;
+9: switch_miyazaki_c_brown2_snow;
+10: switch_miyazaki_c_black_snow;
+11: switch_miyazaki_c_midgrey_snow;
+12: switch_miyazaki_d_grey_snow;
+13: switch_miyazaki_d_brown2_snow;
+14: switch_miyazaki_d_black_snow;
+15: switch_miyazaki_d_midgrey_snow;
+}
+
+// miyazaki switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_miyazaki_h_sprites, current_year - age) {
+0..1959: switch_miyazaki_h_old;
+switch_miyazaki_h_modern;
 }
 # 1 "src/houses/miyazaki/miyazaki.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -5463,7 +5525,7 @@ spriteset (spr_nakasato_b_snow, 				"src/houses/nakasato/gfx/building.png") 				
 
 // nakasato ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_nakasato_h_sprites, random_bits % 16 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_nakasato_h_modern, random_bits % 16 ) { // Ref 4
 0: switch_nakasato_a_grey_snow;
 1: switch_nakasato_a_brown1_snow;
 2: switch_nakasato_a_brown2_snow;
@@ -5480,6 +5542,26 @@ switch (FEAT_HOUSES, SELF, switch_nakasato_h_sprites, random_bits % 16 ) { // Re
 13: switch_nakasato_b_red_brown_snow;
 14: switch_nakasato_b_maroon_snow;
 15: switch_nakasato_b_midgrey_snow;
+}
+
+// nakasato OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_nakasato_h_old, random_bits % 8 ) {
+0: switch_nakasato_a_grey_snow;
+1: switch_nakasato_a_brown1_snow;
+2: switch_nakasato_a_brown2_snow;
+3: switch_nakasato_a_black_snow;
+4: switch_nakasato_b_grey_snow;
+5: switch_nakasato_b_brown1_snow;
+6: switch_nakasato_b_brown2_snow;
+7: switch_nakasato_b_black_snow;
+}
+
+// nakasato switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_nakasato_h_sprites, current_year - age) {
+0..1959: switch_nakasato_h_old;
+switch_nakasato_h_modern;
 }
 # 1 "src/houses/nakasato/nakasato.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -7630,6 +7712,35 @@ spriteset (spr_nagai_d_snow, 				"src/houses/nagai/gfx/building.png") 						{tem
 	    TILETYPE_SNOW: sprlay_nagai_a_grey_snow;
 	    sprlay_nagai_a_grey_norm;
     }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_nagai_a_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_a_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_nagai_a_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_a_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_nagai_a_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_nagai_a_brown2_snow;
+	    sprlay_nagai_a_brown2_norm;
+    }
 // _black_
     // Norm Sprites
     spritelayout sprlay_nagai_a_black_norm {
@@ -7747,6 +7858,35 @@ spriteset (spr_nagai_d_snow, 				"src/houses/nagai/gfx/building.png") 						{tem
     switch(FEAT_HOUSES, SELF, switch_nagai_b_grey_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_nagai_b_grey_snow;
 	    sprlay_nagai_b_grey_norm;
+    }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_nagai_b_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_b_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_nagai_b_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_b_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_nagai_b_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_nagai_b_brown2_snow;
+	    sprlay_nagai_b_brown2_norm;
     }
 // _black_
     // Norm Sprites
@@ -7866,6 +8006,35 @@ spriteset (spr_nagai_d_snow, 				"src/houses/nagai/gfx/building.png") 						{tem
 	    TILETYPE_SNOW: sprlay_nagai_c_grey_snow;
 	    sprlay_nagai_c_grey_norm;
     }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_nagai_c_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_c_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_nagai_c_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_c_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_nagai_c_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_nagai_c_brown2_snow;
+	    sprlay_nagai_c_brown2_norm;
+    }
 // _black_
     // Norm Sprites
     spritelayout sprlay_nagai_c_black_norm {
@@ -7984,6 +8153,35 @@ spriteset (spr_nagai_d_snow, 				"src/houses/nagai/gfx/building.png") 						{tem
 	    TILETYPE_SNOW: sprlay_nagai_d_grey_snow;
 	    sprlay_nagai_d_grey_norm;
     }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_nagai_d_brown2_norm {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_d_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_nagai_d_brown2_snow {
+        ground {
+            sprite: spr_ground_grass (3);
+        }
+        building {
+            sprite: spr_nagai_d_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_nagai_d_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_nagai_d_brown2_snow;
+	    sprlay_nagai_d_brown2_norm;
+    }
 // _black_
     // Norm Sprites
     spritelayout sprlay_nagai_d_black_norm {
@@ -8076,23 +8274,51 @@ spriteset (spr_nagai_d_snow, 				"src/houses/nagai/gfx/building.png") 						{tem
 
 // nagai ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_nagai_h_sprites, random_bits % 32 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_nagai_h_modern, random_bits % 36 ) { // Ref 4
 0..1: switch_nagai_a_grey_snow;
-2..3: switch_nagai_a_black_snow;
-4..5: switch_nagai_a_red_brown_snow;
-6..7: switch_nagai_a_maroon_snow;
-8..9: switch_nagai_b_grey_snow;
-10..11: switch_nagai_b_black_snow;
-12..13: switch_nagai_b_red_brown_snow;
-14..15: switch_nagai_b_maroon_snow;
-16..17: switch_nagai_c_grey_snow;
-18..19: switch_nagai_c_black_snow;
-20..21: switch_nagai_c_red_brown_snow;
-22..23: switch_nagai_c_maroon_snow;
-24..25: switch_nagai_d_grey_snow;
-26..27: switch_nagai_d_black_snow;
-28..29: switch_nagai_d_red_brown_snow;
-30..31: switch_nagai_d_maroon_snow;
+2: switch_nagai_a_brown2_snow;
+3..4: switch_nagai_a_black_snow;
+5..6: switch_nagai_a_red_brown_snow;
+7..8: switch_nagai_a_maroon_snow;
+9..10: switch_nagai_b_grey_snow;
+11: switch_nagai_b_brown2_snow;
+12..13: switch_nagai_b_black_snow;
+14..15: switch_nagai_b_red_brown_snow;
+16..17: switch_nagai_b_maroon_snow;
+18..19: switch_nagai_c_grey_snow;
+20: switch_nagai_c_brown2_snow;
+21..22: switch_nagai_c_black_snow;
+23..24: switch_nagai_c_red_brown_snow;
+25..26: switch_nagai_c_maroon_snow;
+27..28: switch_nagai_d_grey_snow;
+29: switch_nagai_d_brown2_snow;
+30..31: switch_nagai_d_black_snow;
+32..33: switch_nagai_d_red_brown_snow;
+34..35: switch_nagai_d_maroon_snow;
+}
+
+// nagai OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_nagai_h_old, random_bits % 12 ) {
+0: switch_nagai_a_grey_snow;
+1: switch_nagai_a_brown2_snow;
+2: switch_nagai_a_black_snow;
+3: switch_nagai_b_grey_snow;
+4: switch_nagai_b_brown2_snow;
+5: switch_nagai_b_black_snow;
+6: switch_nagai_c_grey_snow;
+7: switch_nagai_c_brown2_snow;
+8: switch_nagai_c_black_snow;
+9: switch_nagai_d_grey_snow;
+10: switch_nagai_d_brown2_snow;
+11: switch_nagai_d_black_snow;
+}
+
+// nagai switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_nagai_h_sprites, current_year - age) {
+0..1959: switch_nagai_h_old;
+switch_nagai_h_modern;
 }
 # 1 "src/houses/nagai/nagai.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -10550,7 +10776,7 @@ spriteset (spr_yoshizawa_b_snow, 				"src/houses/yoshizawa/gfx/building.png") 		
 
 // yoshizawa ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_yoshizawa_h_sprites, random_bits % 18 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_yoshizawa_h_modern, random_bits % 18 ) { // Ref 4
 0: switch_yoshizawa_a_grey_snow;
 1: switch_yoshizawa_a_brown1_snow;
 2: switch_yoshizawa_a_brown2_snow;
@@ -10569,6 +10795,26 @@ switch (FEAT_HOUSES, SELF, switch_yoshizawa_h_sprites, random_bits % 18 ) { // R
 15: switch_yoshizawa_b_red_brown_snow;
 16: switch_yoshizawa_b_maroon_snow;
 17: switch_yoshizawa_b_midgrey_snow;
+}
+
+// yoshizawa OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_yoshizawa_h_old, random_bits % 8 ) {
+0: switch_yoshizawa_a_grey_snow;
+1: switch_yoshizawa_a_brown1_snow;
+2: switch_yoshizawa_a_brown2_snow;
+3: switch_yoshizawa_a_black_snow;
+4: switch_yoshizawa_b_grey_snow;
+5: switch_yoshizawa_b_brown1_snow;
+6: switch_yoshizawa_b_brown2_snow;
+7: switch_yoshizawa_b_black_snow;
+}
+
+// yoshizawa switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_yoshizawa_h_sprites, current_year - age) {
+0..1959: switch_yoshizawa_h_old;
+switch_yoshizawa_h_modern;
 }
 # 1 "src/houses/yoshizawa/yoshizawa.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -51110,12 +51356,15 @@ switch (FEAT_HOUSES, SELF, switch_onsen_k_sprites, random_bits % 3 ) { // Ref 1
 # 1 "src/houses/yoshinoya_sushi_restaurant/gfx/yoshinoya_sushi_restaurant_sprites.pnml" 1
 
 // Building Sprites
-spriteset (spr_yoshinoya_sushi_restaurant_norm, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,1)}
-spriteset (spr_yoshinoya_sushi_restaurant_snow, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,82)}
+spriteset (spr_yoshinoya_sushi_restaurant_a_norm, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,1)}
+spriteset (spr_yoshinoya_sushi_restaurant_a_snow, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(400,1)}
 
-// Ground Sprites
-spriteset (spr_yoshinoya_sushi_restaurant_ground, 			"src/houses/yoshinoya_sushi_restaurant/gfx/ground.png") {template_house_80(1,1)}
-spriteset (spr_yoshinoya_sushi_restaurant_ground_snow, 		"src/houses/yoshinoya_sushi_restaurant/gfx/ground.png") {template_house_80(1,82)}
+spriteset (spr_yoshinoya_sushi_restaurant_b_norm, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,82)}
+spriteset (spr_yoshinoya_sushi_restaurant_b_snow, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(400,82)}
+
+spriteset (spr_yoshinoya_sushi_restaurant_c_norm, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(1,163)}
+spriteset (spr_yoshinoya_sushi_restaurant_c_snow, 			"src/houses/yoshinoya_sushi_restaurant/gfx/building.png") {template_house_80(400,163)}
+
 # 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
 # 1 "src/houses/yoshinoya_sushi_restaurant/levels/all.pnml" 1
 
@@ -51125,166 +51374,196 @@ spriteset (spr_yoshinoya_sushi_restaurant_ground_snow, 		"src/houses/yoshinoya_s
 
 // _white_
     // Norm Sprites
-    spritelayout sprlay_yoshinoya_sushi_restaurant_white_norm {
+    spritelayout sprlay_yoshinoya_sushi_restaurant_a_white_norm {
         ground {
-            sprite: spr_yoshinoya_sushi_restaurant_ground (construction_state);
+            sprite: spr_ground_concrete (3);
         }
         building {
-            sprite: spr_yoshinoya_sushi_restaurant_norm (construction_state);
+            sprite: spr_yoshinoya_sushi_restaurant_a_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 0;
         }
     }
 
     // Snow Sprites
-    spritelayout sprlay_yoshinoya_sushi_restaurant_white_snow {
+    spritelayout sprlay_yoshinoya_sushi_restaurant_a_white_snow {
         ground {
-            sprite: spr_yoshinoya_sushi_restaurant_ground_snow (construction_state);
+            sprite: spr_ground_concrete (3);
         }
         building {
-            sprite: spr_yoshinoya_sushi_restaurant_snow (construction_state);
+            sprite: spr_yoshinoya_sushi_restaurant_a_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 0;
         }
     }
 
-    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_white_snow;
-	    sprlay_yoshinoya_sushi_restaurant_white_norm;
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_a_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_a_white_snow;
+	    sprlay_yoshinoya_sushi_restaurant_a_white_norm;
     }
 // _midgrey_
     // Norm Sprites
-    spritelayout sprlay_yoshinoya_sushi_restaurant_midgrey_norm {
+    spritelayout sprlay_yoshinoya_sushi_restaurant_a_midgrey_norm {
         ground {
-            sprite: spr_yoshinoya_sushi_restaurant_ground (construction_state);
+            sprite: spr_ground_concrete (3);
         }
         building {
-            sprite: spr_yoshinoya_sushi_restaurant_norm (construction_state);
+            sprite: spr_yoshinoya_sushi_restaurant_a_norm (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 16;
         }
     }
 
     // Snow Sprites
-    spritelayout sprlay_yoshinoya_sushi_restaurant_midgrey_snow {
+    spritelayout sprlay_yoshinoya_sushi_restaurant_a_midgrey_snow {
         ground {
-            sprite: spr_yoshinoya_sushi_restaurant_ground_snow (construction_state);
+            sprite: spr_ground_concrete (3);
         }
         building {
-            sprite: spr_yoshinoya_sushi_restaurant_snow (construction_state);
+            sprite: spr_yoshinoya_sushi_restaurant_a_snow (3);
             recolour_mode: RECOLOUR_REMAP; 
             palette: recolour_remap + 16;
         }
     }
 
-    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_midgrey_snow;
-	    sprlay_yoshinoya_sushi_restaurant_midgrey_norm;
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_a_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_a_midgrey_snow;
+	    sprlay_yoshinoya_sushi_restaurant_a_midgrey_norm;
+    }
+// yoshinoya_sushi_restaurant all colours
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_b_white_norm {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_b_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_b_white_snow {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_b_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_b_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_b_white_snow;
+	    sprlay_yoshinoya_sushi_restaurant_b_white_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_b_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_b_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_b_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_b_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_b_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_b_midgrey_snow;
+	    sprlay_yoshinoya_sushi_restaurant_b_midgrey_norm;
+    }
+// yoshinoya_sushi_restaurant all colours
+
+// _white_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_c_white_norm {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_c_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_c_white_snow {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_c_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 0;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_c_white_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_c_white_snow;
+	    sprlay_yoshinoya_sushi_restaurant_c_white_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_c_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_c_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_yoshinoya_sushi_restaurant_c_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete (3);
+        }
+        building {
+            sprite: spr_yoshinoya_sushi_restaurant_c_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_c_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_yoshinoya_sushi_restaurant_c_midgrey_snow;
+	    sprlay_yoshinoya_sushi_restaurant_c_midgrey_norm;
     }
 # 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
 # 1 "src/houses/yoshinoya_sushi_restaurant/switches/colour_switches.pnml" 1
 
 // yoshinoya_sushi_restaurant ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_k_sprites, random_bits % 3 ) { // Ref 1 
-0..1: switch_yoshinoya_sushi_restaurant_white_snow;
-2: switch_yoshinoya_sushi_restaurant_midgrey_snow;
+switch (FEAT_HOUSES, SELF, switch_yoshinoya_sushi_restaurant_k_sprites, random_bits % 9 ) { // Ref 1 
+0..1: switch_yoshinoya_sushi_restaurant_a_white_snow;
+2: switch_yoshinoya_sushi_restaurant_a_midgrey_snow;
+3..4: switch_yoshinoya_sushi_restaurant_b_white_snow;
+5: switch_yoshinoya_sushi_restaurant_b_midgrey_snow;
+6..7: switch_yoshinoya_sushi_restaurant_c_white_snow;
+8: switch_yoshinoya_sushi_restaurant_c_midgrey_snow;
 }
 # 1 "src/houses/yoshinoya_sushi_restaurant/yoshinoya_sushi_restaurant.pnml" 4
-# 1 "JPplusBuildings.pnml" 4
-# 1 "src/houses/yoshinoya_restaurant/yoshinoya_restaurant.pnml" 1
-
-// yoshinoya_restaurant
-
-# 1 "src/houses/yoshinoya_restaurant/gfx/yoshinoya_restaurant_sprites.pnml" 1
-
-// Building Sprites
-spriteset (spr_yoshinoya_restaurant_norm, 			"src/houses/yoshinoya_restaurant/gfx/building.png") 		{template_house_80_wide(1,1)}
-spriteset (spr_yoshinoya_restaurant_snow, 			"src/houses/yoshinoya_restaurant/gfx/building.png") 		{template_house_80_wide(1,82)}
-
-// Ground Sprites
-spriteset (spr_yoshinoya_restaurant_ground, 		"src/houses/yoshinoya_restaurant/gfx/ground.png") 			{template_ground(1,1)}
-spriteset (spr_yoshinoya_restaurant_ground_snow, 	"src/houses/yoshinoya_restaurant/gfx/ground.png") 			{template_ground(1,33)}
-
-# 1 "src/houses/yoshinoya_restaurant/yoshinoya_restaurant.pnml" 4
-# 1 "src/houses/yoshinoya_restaurant/levels/all.pnml" 1
-
-// yoshinoya_restaurant levels
-
-// yoshinoya_restaurant all colours
-
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_yoshinoya_restaurant_white_norm {
-        ground {
-            sprite: spr_yoshinoya_restaurant_ground (construction_state);
-        }
-        building {
-            sprite: spr_yoshinoya_restaurant_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            yoffset: 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_yoshinoya_restaurant_white_snow {
-        ground {
-            sprite: spr_yoshinoya_restaurant_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_yoshinoya_restaurant_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-            yoffset: 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_yoshinoya_restaurant_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_yoshinoya_restaurant_white_snow;
-	    sprlay_yoshinoya_restaurant_white_norm;
-    }
-// _midgrey_
-    // Norm Sprites
-    spritelayout sprlay_yoshinoya_restaurant_midgrey_norm {
-        ground {
-            sprite: spr_yoshinoya_restaurant_ground (construction_state);
-        }
-        building {
-            sprite: spr_yoshinoya_restaurant_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 16;
-            yoffset: 1;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_yoshinoya_restaurant_midgrey_snow {
-        ground {
-            sprite: spr_yoshinoya_restaurant_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_yoshinoya_restaurant_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 16;
-            yoffset: 1;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_yoshinoya_restaurant_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_yoshinoya_restaurant_midgrey_snow;
-	    sprlay_yoshinoya_restaurant_midgrey_norm;
-    }
-# 1 "src/houses/yoshinoya_restaurant/yoshinoya_restaurant.pnml" 4
-# 1 "src/houses/yoshinoya_restaurant/switches/colour_switches.pnml" 1
-
-// yoshinoya_restaurant ALL colours
-
-switch (FEAT_HOUSES, SELF, switch_yoshinoya_restaurant_k_sprites, random_bits % 3 ) { // Ref 1 
-0..1: switch_yoshinoya_restaurant_white_snow;
-2: switch_yoshinoya_restaurant_midgrey_snow;
-}
-# 1 "src/houses/yoshinoya_restaurant/yoshinoya_restaurant.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/shops_small/shops_small.pnml" 1
 
@@ -51374,6 +51653,768 @@ switch (FEAT_HOUSES, SELF, switch_shops_small_k_sprites, random_bits % 2 ) { // 
 1: switch_shops_small_black_snow;
 }
 # 1 "src/houses/shops_small/shops_small.pnml" 4
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/shirokiya/shirokiya.pnml" 1
+
+// shirokiya
+
+# 1 "src/houses/shirokiya/gfx/shirokiya_sprites.pnml" 1
+
+spriteset (spr_shirokiya_norm, 						"src/houses/shirokiya/gfx/building.png") 						{template_house_80(1,1)}
+spriteset (spr_shirokiya_snow, 						"src/houses/shirokiya/gfx/building.png") 						{template_house_80(400,1)}
+# 1 "src/houses/shirokiya/shirokiya.pnml" 4
+# 1 "src/houses/shirokiya/levels/all.pnml" 1
+
+// shirokiya levels
+
+// shirokiya all colours
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_grey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_grey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_grey_snow;
+	    sprlay_shirokiya_north_grey_norm;
+    }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_brown2_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_brown2_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_brown2_snow;
+	    sprlay_shirokiya_north_brown2_norm;
+    }
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_black_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_black_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_black_snow;
+	    sprlay_shirokiya_north_black_norm;
+    }
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_red_brown_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_red_brown_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_red_brown_snow;
+	    sprlay_shirokiya_north_red_brown_norm;
+    }
+// _maroon_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_maroon_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_maroon_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_maroon_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_maroon_snow;
+	    sprlay_shirokiya_north_maroon_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_north_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_north_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (3);
+        }
+        building {
+            sprite: spr_shirokiya_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_north_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_north_midgrey_snow;
+	    sprlay_shirokiya_north_midgrey_norm;
+    }
+
+// shirokiya all colours
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_grey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_grey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_grey_snow;
+	    sprlay_shirokiya_east_grey_norm;
+    }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_brown2_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_brown2_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_brown2_snow;
+	    sprlay_shirokiya_east_brown2_norm;
+    }
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_black_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_black_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_black_snow;
+	    sprlay_shirokiya_east_black_norm;
+    }
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_red_brown_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_red_brown_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_red_brown_snow;
+	    sprlay_shirokiya_east_red_brown_norm;
+    }
+// _maroon_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_maroon_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_maroon_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_maroon_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_maroon_snow;
+	    sprlay_shirokiya_east_maroon_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_east_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_east_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (2);
+        }
+        building {
+            sprite: spr_shirokiya_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_east_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_east_midgrey_snow;
+	    sprlay_shirokiya_east_midgrey_norm;
+    }
+
+// shirokiya all colours
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_grey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_grey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_grey_snow;
+	    sprlay_shirokiya_west_grey_norm;
+    }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_brown2_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_brown2_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_brown2_snow;
+	    sprlay_shirokiya_west_brown2_norm;
+    }
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_black_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_black_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_black_snow;
+	    sprlay_shirokiya_west_black_norm;
+    }
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_red_brown_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_red_brown_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_red_brown_snow;
+	    sprlay_shirokiya_west_red_brown_norm;
+    }
+// _maroon_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_maroon_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_maroon_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_maroon_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_maroon_snow;
+	    sprlay_shirokiya_west_maroon_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_west_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_west_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (0);
+        }
+        building {
+            sprite: spr_shirokiya_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_west_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_west_midgrey_snow;
+	    sprlay_shirokiya_west_midgrey_norm;
+    }
+
+// shirokiya all colours
+
+// _grey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_grey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_grey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_grey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_grey_snow;
+	    sprlay_shirokiya_south_grey_norm;
+    }
+// _brown2_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_brown2_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_brown2_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 3;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_brown2_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_brown2_snow;
+	    sprlay_shirokiya_south_brown2_norm;
+    }
+// _black_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_black_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_black_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 11;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_black_snow;
+	    sprlay_shirokiya_south_black_norm;
+    }
+// _red_brown_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_red_brown_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_red_brown_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_red_brown_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_red_brown_snow;
+	    sprlay_shirokiya_south_red_brown_norm;
+    }
+// _maroon_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_maroon_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_maroon_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 15;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_maroon_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_maroon_snow;
+	    sprlay_shirokiya_south_maroon_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shirokiya_south_midgrey_norm {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shirokiya_south_midgrey_snow {
+        ground {
+            sprite: spr_ground_concrete_all (1);
+        }
+        building {
+            sprite: spr_shirokiya_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 16;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shirokiya_south_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shirokiya_south_midgrey_snow;
+	    sprlay_shirokiya_south_midgrey_norm;
+    }
+# 1 "src/houses/shirokiya/shirokiya.pnml" 4
+# 1 "src/houses/shirokiya/switches/colour_switches.pnml" 1
+
+// shirokiya ALL colours
+
+switch (FEAT_HOUSES, SELF, switch_shirokiya_k_north_sprites, random_bits % 6 ) { // Ref 2
+0: switch_shirokiya_north_grey_snow;
+1: switch_shirokiya_north_brown2_snow;
+2: switch_shirokiya_north_black_snow;
+3: switch_shirokiya_north_red_brown_snow;
+4: switch_shirokiya_north_maroon_snow;
+5: switch_shirokiya_north_midgrey_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_shirokiya_k_east_sprites, random_bits % 6 ) { // Ref 2
+0: switch_shirokiya_east_grey_snow;
+1: switch_shirokiya_east_brown2_snow;
+2: switch_shirokiya_east_black_snow;
+3: switch_shirokiya_east_red_brown_snow;
+4: switch_shirokiya_east_maroon_snow;
+5: switch_shirokiya_east_midgrey_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_shirokiya_k_west_sprites, random_bits % 6 ) { // Ref 2
+0: switch_shirokiya_west_grey_snow;
+1: switch_shirokiya_west_brown2_snow;
+2: switch_shirokiya_west_black_snow;
+3: switch_shirokiya_west_red_brown_snow;
+4: switch_shirokiya_west_maroon_snow;
+5: switch_shirokiya_west_midgrey_snow;
+}
+
+switch (FEAT_HOUSES, SELF, switch_shirokiya_k_south_sprites, random_bits % 6 ) { // Ref 2
+0: switch_shirokiya_south_grey_snow;
+1: switch_shirokiya_south_brown2_snow;
+2: switch_shirokiya_south_black_snow;
+3: switch_shirokiya_south_red_brown_snow;
+4: switch_shirokiya_south_maroon_snow;
+5: switch_shirokiya_south_midgrey_snow;
+}
+# 1 "src/houses/shirokiya/shirokiya.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 
 // LANDMARKS
@@ -62109,6 +63150,31 @@ item(FEAT_HOUSES, item_shibata_l, 140, HOUSE_SIZE_1X1){
 	}
 }
 
+item(FEAT_HOUSES, item_shirokiya, 97, HOUSE_SIZE_2X2){
+	property {
+		substitute: 				20;
+		name: 						string(NAME_SHIROKIYA);
+		population: 				150;
+		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
+		local_authority_impact: 	80;
+		removal_cost_multiplier: 	80;
+		probability: 				1;
+		years_available: 			[1900,1950];
+		minimum_lifetime: 			15;
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+		building_class:				68;
+				
+		}
+	graphics {
+        graphics_north: 			switch_shirokiya_k_north_sprites;
+		graphics_east: 				switch_shirokiya_k_east_sprites;
+        graphics_west: 			    switch_shirokiya_k_west_sprites;
+		graphics_south: 			switch_shirokiya_k_south_sprites;
+		construction_check: 		switch_south_con_check;
+		cargo_production: 			func_produce(14,5);
+	}
+}
+
 item(FEAT_HOUSES, item_suzuki_m, 136, HOUSE_SIZE_1X1){
 	property {
 		substitute: 				27;
@@ -63530,28 +64596,6 @@ item(FEAT_HOUSES, item_toyoko, 59, HOUSE_SIZE_1X1){
 		default: 					switch_toyoko_sprites;
 		construction_check: 		switch_toyoko_con_check;
 		cargo_production: 			func_produce(10,2);
-	}
-}
-
-item(FEAT_HOUSES, item_yoshinoya_restaurant, 96, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				29;
-		name: 						string(NAME_YOSHINOYA_RESTAURANT);
-		population: 				60;
-		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1955,0xFFFF];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB, TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-		building_class:				3;
-				
-		}
-	graphics {
-		default: 					switch_yoshinoya_restaurant_k_sprites;
-		construction_check: 		switch_onsen_con_check;
-		cargo_production: 			func_produce(10,4);
 	}
 }
 

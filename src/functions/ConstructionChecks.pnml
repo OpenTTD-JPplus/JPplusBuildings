@@ -216,6 +216,18 @@
 		OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
 	) {return;}	
 
+// South 2x2
+	switch (FEAT_HOUSES, SELF, switch_south_con_check, 
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueHouse() && 						// Only one per city
+		OnGenerationOnly() //&& 					// Will only spawn when Map is generated - not realistic being built in modern times!
+		/*
+		((nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION )
+			&&	// Requires a road to the SE and SW to appear on southern corners
+		(nearby_tile_class(2,0) == TILE_CLASS_ROAD || nearby_tile_class(2,0) == TILE_CLASS_STATION ))
+		*/
+		) {return;}		
+
 // Temple
 	switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
 		IsCity() && 							// Can only appear in Cities

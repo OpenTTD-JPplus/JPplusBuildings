@@ -1,7 +1,7 @@
 
 // matsuo ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, random_bits % 24 ) { // Ref 1 
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_modern, random_bits % 24 ) { // Ref 4
 0: switch_matsuo_a_brown2_snow;
 1: switch_matsuo_a_dark_blue_snow;
 2: switch_matsuo_a_black_snow;
@@ -26,4 +26,24 @@ switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, random_bits % 24 ) { // Ref 
 21: switch_matsuo_d_red_brown_snow;
 22: switch_matsuo_d_maroon_snow;
 23: switch_matsuo_d_midgrey_snow;
+}
+
+// matsuo OLD colours
+
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_old, random_bits % 8 ) {
+0: switch_matsuo_a_brown2_snow;
+1: switch_matsuo_a_black_snow;
+2: switch_matsuo_b_brown2_snow;
+3: switch_matsuo_b_black_snow;
+4: switch_matsuo_c_brown2_snow;
+5: switch_matsuo_c_black_snow;
+6: switch_matsuo_d_brown2_snow;
+7: switch_matsuo_d_black_snow;
+}
+
+// matsuo switch to choose between old and modern colours
+
+switch (FEAT_HOUSES, SELF, switch_matsuo_h_sprites, current_year - age) {
+0..1959: switch_matsuo_h_old;
+switch_matsuo_h_modern;
 }

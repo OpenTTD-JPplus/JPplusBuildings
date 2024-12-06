@@ -506,6 +506,7 @@ buildings_dict = {
         }
 	},
     "matsuo" : {
+        "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d"],
         "heights" : {    
@@ -533,6 +534,7 @@ buildings_dict = {
         }
     },
     "miyazaki" : {
+        "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d"],
         "heights" : {    
@@ -609,6 +611,7 @@ buildings_dict = {
         }
 	},
     "nagai" : {
+        "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b", "c", "d"],
         "heights" : {    
@@ -673,6 +676,7 @@ buildings_dict = {
         }
 	},
     "nakasato" : {
+        "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a", "b"],
         "heights" : {    
@@ -988,6 +992,37 @@ buildings_dict = {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
                 "hide_sprite":  "1",
+                "construction_state" : "3"
+	        },
+            "east" : {
+		        "xoffset" : "0",   # -1
+		        "yoffset" : "0",    # -2
+                "construction_state" : "2"
+	        },
+            "west" : {
+		        "xoffset" : "0",    # 1
+		        "yoffset" : "0",
+                "construction_state" : "0"
+	        },
+            "south" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "1"
+	        }
+        }
+	},
+    "shirokiya" : {
+        "ground" : "spr_ground_concrete_all",
+        "levels" : ["x"],   # x since only one version of this 2X2
+        "heights" : {    
+            "k" : ["x"],    # k means landmark and 2X2
+        },
+        "shared_variant_gfx" : True,
+        "variants" : {    
+            "north" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                # "hide_sprite":  "1",
                 "construction_state" : "3"
 	        },
             "east" : {
@@ -1663,31 +1698,22 @@ buildings_dict = {
 	        }
         }
     },
-    "yoshinoya_restaurant" : {
-        "levels" : ["x"],
-        "heights" : {    
-            "k" : ["x"]
-        },
-        "variants" : {    
-            "x" : {
-		        "xoffset" : "0",
-		        "yoffset" : "1",
-	        }
-        }
-    },
     "yoshinoya_sushi_restaurant" : {
-        "levels" : ["x"],
+        "ground" : "spr_ground_concrete",
+        "levels" : ["a", "b", "c"],
         "heights" : {    
-            "k" : ["x"]
+            "k" : ["a", "b", "c"]
         },
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
     "yoshizawa" : {
+        "end_of_old_era" : 1959,
         "ground" : "spr_ground_grass",
         "levels" : ["a","b"],
         "heights" : {    
