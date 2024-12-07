@@ -1062,14 +1062,16 @@ buildings_dict = {
         }
 	},
     "shops_small" : {
-        "levels" : ["x"],
+        "ground" : "spr_ground_concrete",
+        "levels" : ["a", "b"],
         "heights" : {    
-            "k" : ["x"]
+            "k" : ["a", "b"]
         },
         "variants" : {    
             "x" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
     },
