@@ -1,0 +1,211 @@
+
+/* NORTHWEST */
+
+    /* One tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadNWOneTile, buildingclass,		
+
+        // Tile one tile away is a Road or Station tile
+        ( nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION ) 
+
+    && 	// AND
+
+        // Two tiles away in the same direction is either a Class 2 or Class 5 
+        ( nearby_tile_house_class ( 0,-2) == buildingclass)
+
+    ) {return;}
+
+    /* Two tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadNWTwoTiles, buildingclass,
+        // Tiles both one and two tiles away are Road tiles
+        (	
+            ( nearby_tile_class( 0,-1) == TILE_CLASS_ROAD  || nearby_tile_class( 0,-1) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0,-2) == TILE_CLASS_ROAD  || nearby_tile_class( 0,-2) == TILE_CLASS_STATION ) 
+        ) 
+                
+    && // AND
+                
+        // Three tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 0,-3) == buildingclass)
+            
+    ) {return;}
+
+    // Three tile wide road
+    switch (FEAT_HOUSES, SELF, AcrossRoadNWThreeTiles, buildingclass,
+        // Tiles one, two and three tiles away are all Road tiles
+        (		
+            ( nearby_tile_class( 0,-1) == TILE_CLASS_ROAD || nearby_tile_class( 0,-1) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0,-2) == TILE_CLASS_ROAD || nearby_tile_class( 0,-2) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0,-3) == TILE_CLASS_ROAD || nearby_tile_class( 0,-3) == TILE_CLASS_STATION )
+        )
+
+    && // AND
+        
+        // Four tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 0,-4) == buildingclass)
+            
+    ) {return;}
+
+
+    // Giving for NORTHWEST 
+    switch (FEAT_HOUSES, SELF, AcrossRoadNW, buildingclass ,AcrossRoadNWOneTile(buildingclass) || AcrossRoadNWTwoTiles(buildingclass) || AcrossRoadNWThreeTiles(buildingclass) ) {return;}
+
+/* SOUTHEAST */
+
+    /* One tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadSEOneTile, buildingclass, 		
+
+        // Tile one tile away is a Road or Station tile
+        ( nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION ) 
+
+    && 	// AND
+
+        // Two tiles away in the same direction is either a Class 2 or Class 5 
+        ( nearby_tile_house_class ( 0, 2) == buildingclass)
+
+    ) {return;}
+
+    /* Two tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadSETwoTiles, buildingclass,
+        // Tiles both one and two tiles away are Road tiles
+        (	
+            ( nearby_tile_class( 0, 1) == TILE_CLASS_ROAD  || nearby_tile_class( 0, 1) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0, 2) == TILE_CLASS_ROAD  || nearby_tile_class( 0, 2) == TILE_CLASS_STATION ) 
+        ) 
+                
+    && // AND
+                
+        // Three tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 0, 3) == buildingclass)
+            
+    ) {return;}
+
+    // Three tile wide road
+    switch (FEAT_HOUSES, SELF, AcrossRoadSEThreeTiles, buildingclass,
+        // Tiles one, two and three tiles away are all Road tiles
+        (		
+            ( nearby_tile_class( 0, 1) == TILE_CLASS_ROAD || nearby_tile_class( 0, 1) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0, 2) == TILE_CLASS_ROAD || nearby_tile_class( 0, 2) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 0, 3) == TILE_CLASS_ROAD || nearby_tile_class( 0, 3) == TILE_CLASS_STATION )
+        )
+
+    && // AND
+        
+        // Four tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 0, 4) == buildingclass)
+            
+    ) {return;}
+
+
+    // Giving for SOUTHEAST
+    switch (FEAT_HOUSES, SELF, AcrossRoadSE, buildingclass, AcrossRoadSEOneTile(buildingclass) || AcrossRoadSETwoTiles(buildingclass) || AcrossRoadSEThreeTiles(buildingclass) ) {return;}
+
+/* NORTHEAST */
+
+    /* One tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadNEOneTile, buildingclass,		
+
+        // Tile one tile away is a Road or Station tile
+        ( nearby_tile_class(-1, 0) == TILE_CLASS_ROAD || nearby_tile_class(-1, 0) == TILE_CLASS_STATION ) 
+
+    && 	// AND
+
+        // Two tiles away in the same direction is either a Class 2 or Class 5 
+        ( nearby_tile_house_class (-2, 0) == buildingclass)
+
+    ) {return;}
+
+    /* Two tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadNETwoTiles, buildingclass,
+        // Tiles both one and two tiles away are Road tiles
+        (	
+            ( nearby_tile_class(-1, 0) == TILE_CLASS_ROAD  || nearby_tile_class(-1, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class(-2, 0) == TILE_CLASS_ROAD  || nearby_tile_class(-2, 0) == TILE_CLASS_STATION ) 
+        ) 
+                
+    && // AND
+                
+        // Three tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class (-3, 0) == buildingclass)
+            
+    ) {return;}
+
+    // Three tile wide road
+    switch (FEAT_HOUSES, SELF, AcrossRoadNEThreeTiles, buildingclass,
+        // Tiles one, two and three tiles away are all Road tiles
+        (		
+            ( nearby_tile_class(-1, 0) == TILE_CLASS_ROAD || nearby_tile_class(-1, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class(-2, 0) == TILE_CLASS_ROAD || nearby_tile_class(-2, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class(-3, 0) == TILE_CLASS_ROAD || nearby_tile_class(-3, 0) == TILE_CLASS_STATION )
+        )
+
+    && // AND
+        
+        // Four tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class (-4, 0) == buildingclass)
+            
+    ) {return;}
+
+
+    // Giving for NORTHEAST
+    switch (FEAT_HOUSES, SELF, AcrossRoadNE, buildingclass, AcrossRoadNEOneTile(buildingclass) || AcrossRoadNETwoTiles(buildingclass) || AcrossRoadNEThreeTiles(buildingclass) ) {return;}
+
+// SOUTHWEST
+
+    /* One tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadSWOneTile, buildingclass,		
+
+        // Tile one tile away is a Road or Station tile
+        ( nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION ) 
+
+    && 	// AND
+
+        // Two tiles away in the same direction is either a Class 2 or Class 5 
+        ( nearby_tile_house_class ( 2, 0) == buildingclass)
+
+    ) {return;}
+
+    /* Two tile wide road */
+
+    switch (FEAT_HOUSES, SELF, AcrossRoadSWTwoTiles, buildingclass,
+        // Tiles both one and two tiles away are Road tiles
+        (	
+            ( nearby_tile_class( 1, 0) == TILE_CLASS_ROAD  || nearby_tile_class( 1, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 2, 0) == TILE_CLASS_ROAD  || nearby_tile_class( 2, 0) == TILE_CLASS_STATION ) 
+        ) 
+                
+    && // AND
+                
+        // Three tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 3, 0) == buildingclass)
+            
+    ) {return;}
+
+    // Three tile wide road
+    switch (FEAT_HOUSES, SELF, AcrossRoadSWThreeTiles, buildingclass,
+        // Tiles one, two and three tiles away are all Road tiles
+        (		
+            ( nearby_tile_class( 1, 0) == TILE_CLASS_ROAD || nearby_tile_class( 1, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 2, 0) == TILE_CLASS_ROAD || nearby_tile_class( 2, 0) == TILE_CLASS_STATION ) && 
+            ( nearby_tile_class( 3, 0) == TILE_CLASS_ROAD || nearby_tile_class( 3, 0) == TILE_CLASS_STATION )
+        )
+
+    && // AND
+        
+        // Four tiles away in the same direction is either a Class 2 or Class 5 
+        (nearby_tile_house_class ( 4, 0) == buildingclass)
+            
+    ) {return;}
+
+
+    // Giving for SOUTHWEST
+    switch (FEAT_HOUSES, SELF, AcrossRoadSW, buildingclass, AcrossRoadSWOneTile(buildingclass) || AcrossRoadSWTwoTiles(buildingclass) || AcrossRoadSWThreeTiles(buildingclass) ) {return;}
+
+// Combining All four
+switch (FEAT_HOUSES, SELF, AcrossRoads, buildingclass, AcrossRoadSE(buildingclass) || AcrossRoadNW(buildingclass) || AcrossRoadNE(buildingclass) || AcrossRoadSW(buildingclass) ) {return;}

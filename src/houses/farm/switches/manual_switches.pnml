@@ -2,83 +2,73 @@
 // Ground Tile
 
 spritelayout sprlay_farm_01_ground {
-	ground {
-		sprite: 4183;
-	}
-	building {
-		sprite: 4183;
-	}
+	ground {	sprite: 4183;}
+	building {	sprite: 4183;}
 }
 
 spritelayout sprlay_farm_01_ground_snow {
-	ground {
-		sprite: spr_ground_snow;
-	}
-	building {
-		sprite: spr_ground_snow;
-	}
+	ground {	sprite: spr_ground_snow;}
+	building {	sprite: spr_ground_snow;}
 }
 
+// Buildings
 
-// Building tile
+	// A
+	spritelayout sprlay_farm_01_a_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_01_building (0);}
+	}
 
-// A
-spritelayout sprlay_farm_01_a_building {
-	ground {
-		sprite: 4183;
+	spritelayout sprlay_farm_01_a_building_snow {
+		ground {	sprite: spr_ground_snow;}
+		building {	sprite: spr_build_farm_01_building_snow(0);}
 	}
-	building {
-		sprite: spr_build_farm_01_building (0);
-	}
-}
 
-spritelayout sprlay_farm_01_a_building_snow {
-	ground {
-		sprite: spr_ground_snow;
+	// B
+	spritelayout sprlay_farm_01_b_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_01_building (1);}
 	}
-	building {
-		sprite: spr_build_farm_01_building_snow(0);
-	}
-}
 
-// B
-spritelayout sprlay_farm_01_b_building {
-	ground {
-		sprite: 4183;
+	spritelayout sprlay_farm_01_b_building_snow {
+		ground {	sprite: spr_ground_snow;}
+		building {	sprite: spr_build_farm_01_building_snow(1);}
 	}
-	building {
-		sprite: spr_build_farm_01_building (1);
-	}
-}
 
-spritelayout sprlay_farm_01_b_building_snow {
-	ground {
-		sprite: spr_ground_snow;
+	// C
+	spritelayout sprlay_farm_01_c_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_01_building (2);}
 	}
-	building {
-		sprite: spr_build_farm_01_building_snow(1);
-	}
-}
 
-// C
-spritelayout sprlay_farm_01_c_building {
-	ground {
-		sprite: 4183;
+	spritelayout sprlay_farm_01_c_building_snow {
+		ground {	sprite: spr_ground_snow;}
+		building {	sprite: spr_build_farm_01_building_snow(2);}
 	}
-	building {
-		sprite: spr_build_farm_01_building (2);
-	}
-}
 
-spritelayout sprlay_farm_01_c_building_snow {
-	ground {
-		sprite: spr_ground_snow;
+	// D
+	spritelayout sprlay_farm_01_d_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_01_building (3);}
 	}
-	building {
-		sprite: spr_build_farm_01_building_snow(2);
-	}
-}
 
+	spritelayout sprlay_farm_01_d_building_snow {
+		ground {	sprite: spr_ground_snow;}
+		building {	sprite: spr_build_farm_01_building_snow(3);}
+	}
+
+// Fields
+	// A
+	spritelayout sprlay_farm_02_a_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_02_building (0);}
+	}
+
+	// B
+	spritelayout sprlay_farm_02_b_building {
+		ground {	sprite: 4183;}
+		building {	sprite: spr_build_farm_02_building (1);}
+	}
 
 // Choose between Normal Sprites and Snow Sprites
 switch(FEAT_HOUSES, SELF, switch_farm_01_ground_snow,terrain_type) {
@@ -101,10 +91,26 @@ switch(FEAT_HOUSES, SELF, switch_farm_01_c_building_snow,terrain_type) {
 	sprlay_farm_01_c_building;
 }
 
+switch(FEAT_HOUSES, SELF, switch_farm_01_d_building_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_d_building_snow;
+	sprlay_farm_01_d_building;
+}
+
+switch(FEAT_HOUSES, SELF, switch_farm_02_a_building_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_ground_snow;
+	sprlay_farm_02_a_building;
+}
+
+switch(FEAT_HOUSES, SELF, switch_farm_02_b_building_snow,terrain_type) {
+	TILETYPE_SNOW: sprlay_farm_01_ground_snow;
+	sprlay_farm_02_b_building;
+}
+
 random_switch (FEAT_HOUSES, SELF, switch_farm_01_building_snow) {
 	1: switch_farm_01_a_building_snow;
 	1: switch_farm_01_b_building_snow;
 	1: switch_farm_01_c_building_snow;
+	1: switch_farm_01_d_building_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_farm_north_sprites) {
@@ -112,6 +118,14 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_north_sprites) {
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_ground_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_farm_south_sprites) {
@@ -120,6 +134,14 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_south_sprites) {
 	1: switch_farm_01_building_snow;
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_ground_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_farm_east_sprites) {
@@ -128,6 +150,14 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_east_sprites) {
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_building_snow;
 	1: switch_farm_01_ground_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_b_building_snow;
 }
 
 random_switch (FEAT_HOUSES, SELF, switch_farm_west_sprites) {
@@ -135,5 +165,13 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_west_sprites) {
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_ground_snow;
 	1: switch_farm_01_ground_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_02_a_building_snow;
+	1: switch_farm_01_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
+	1: switch_farm_02_b_building_snow;
 	1: switch_farm_01_building_snow;
 }

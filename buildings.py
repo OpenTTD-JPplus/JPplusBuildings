@@ -1013,32 +1013,41 @@ buildings_dict = {
 	},
     "shirokiya" : {
         "ground" : "spr_ground_concrete_all",
-        "levels" : ["x"],   # x since only one version of this 2X2
+        "levels" : ["x"],  
         "heights" : {    
-            "k" : ["x"],    # k means landmark and 2X2
+            "h" : ["x"],    
         },
-        "shared_variant_gfx" : True,
+        #"shared_variant_gfx" : True,
         "variants" : {    
-            "north" : {
+            "a" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
-                # "hide_sprite":  "1",
                 "construction_state" : "3"
 	        },
-            "east" : {
-		        "xoffset" : "0",   # -1
-		        "yoffset" : "0",    # -2
-                "construction_state" : "2"
+            "b" : {
+		        "xoffset" : "0",  
+		        "yoffset" : "0",  
+                "construction_state" : "3"
 	        },
-            "west" : {
-		        "xoffset" : "0",    # 1
+            "e" : {
+		        "xoffset" : "0",    
 		        "yoffset" : "0",
-                "construction_state" : "0"
+                "construction_state" : "3"
 	        },
-            "south" : {
+            "n" : {
 		        "xoffset" : "0",
 		        "yoffset" : "0",
-                "construction_state" : "1"
+                "construction_state" : "3"
+	        },
+            "s" : {
+		        "xoffset" : "0",    #
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "w" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
 	        }
         }
 	},

@@ -204,6 +204,29 @@
 		OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
 		) {return;}	
 
+// Shirokiya
+
+	switch (FEAT_HOUSES, SELF, switch_shirokiya_across_road_con_check, 
+		//SpriteDirectionsABENSWCheck() &&		// Direction Check
+		AcrossRoads(355)
+	) {return;}	
+
+	// Check if there is same class within 5, otherwise don't build
+	switch (FEAT_HOUSES, SELF, switch_shirokiya_area_con_check, IsSameClassWithin(5) )
+		{1: switch_shirokiya_across_road_con_check; 0: return 0;}
+
+	// Check if same class witing 1 tile radius
+	switch (FEAT_HOUSES, SELF, switch_shirokiya_beside_con_check, IsSameClassWithin(1) )
+		{1: return 1; 0: switch_shirokiya_area_con_check;}
+
+	// Check if there is none in city already
+	switch (FEAT_HOUSES, SELF, switch_shirokiya_unique_con_check, IsUniqueClass() )
+		{1: return 1; 0: switch_shirokiya_beside_con_check;}
+
+	// Check if active passenger service
+	switch (FEAT_HOUSES, SELF, switch_shirokiya_con_check, FuncServicePASS() )
+		{1: switch_shirokiya_unique_con_check; 0: return 0;}
+
 // Shrine
 	switch (FEAT_HOUSES, SELF, switch_shrine_con_check, 
 		TileGapByType(30) 				// Cannot build within thirty tiles of another
@@ -215,18 +238,6 @@
 		IsUniqueHouse() &&					// Only one per town
 		OnGenerationOnly()					// Doesn't build during gamereplay, only upon map generation
 	) {return;}	
-
-// South 2x2
-	switch (FEAT_HOUSES, SELF, switch_south_con_check, 
-		IsCity() && 							// Can only appear in Cities
-		IsUniqueHouse() && 						// Only one per city
-		OnGenerationOnly() //&& 					// Will only spawn when Map is generated - not realistic being built in modern times!
-		/*
-		((nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION )
-			&&	// Requires a road to the SE and SW to appear on southern corners
-		(nearby_tile_class(2,0) == TILE_CLASS_ROAD || nearby_tile_class(2,0) == TILE_CLASS_STATION ))
-		*/
-		) {return;}		
 
 // Temple
 	switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
