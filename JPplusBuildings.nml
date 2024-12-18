@@ -153,6 +153,14 @@ item (FEAT_TOWN, town_cb, GENERIC_CALLBACK) {
 }
 */
 disable_item(FEAT_HOUSES);
+
+if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1)){
+	error( WARNING, string(GRF_JAPANSETBUILDINGS));
+}
+
+if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1)){
+	error( ERROR, string(GRF_JAPANSETBUILDINGS));
+}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/cargotable.pnml" 1
 /* Begin cargotable */
@@ -1447,7 +1455,7 @@ switch (FEAT_HOUSES, SELF, SpriteDirections,
 		switch_south_NE_Two_IsRoad()		// 0 or 8
 	){return;}
 
-/* EAST "Beast of the East" */
+/* EAST */
 
 	switch (FEAT_HOUSES, SELF, switch_east_NW_Two_IsBuilding, HasBuildingOneTileGapNW())
 		{1: return 1; return 0;}
@@ -1469,7 +1477,7 @@ switch (FEAT_HOUSES, SELF, SpriteDirections,
 		switch_east_SW_Two_IsRoad()			// 0 or 8
 	){return;}
 
-/* WEST "West is best" */
+/* WEST  */
 
 	switch (FEAT_HOUSES, SELF, switch_west_NE_Two_IsBuilding, HasBuildingOneTileGapNE())
 		{1: return 1; return 0;}
@@ -1491,7 +1499,7 @@ switch (FEAT_HOUSES, SELF, SpriteDirections,
 		switch_west_SE_Two_IsRoad()			// 0 or 8
 	){return;}
 
-/*  NORTH "the Norf" */
+/*  NORTH */
 
 	switch (FEAT_HOUSES, SELF, switch_north_SW_Two_IsBuilding, HasBuildingOneTileGapSW())
 		{1: return 1; return 0;}
@@ -1512,16 +1520,6 @@ switch (FEAT_HOUSES, SELF, SpriteDirections,
 		switch_north_SE_Two_IsBuilding() +	// 0 or 4
 		switch_north_SE_Two_IsRoad()		// 0 or 8
 	){return;}
-
-/* Spritedirections ABENSW Check */
-
-	switch (FEAT_HOUSES, SELF, SpriteDirectionsABENSWCheck, SpriteDirections() ) {
-		1..4:  	return 1;
-		6:  	return 1;
-		8..9:	return 1;
-		12: 	return 1;
-		return 0; 
-}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/functions/IfFirstSkyscraper.pnml" 1
 
@@ -63858,10 +63856,10 @@ item(FEAT_HOUSES, item_shirokiya, 97, HOUSE_SIZE_1X1){
 		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
 		local_authority_impact: 	80;
 		removal_cost_multiplier: 	80;
-		probability: 				12;
+		probability: 				5;
 		years_available: 			[1900,1950];
 		minimum_lifetime: 			15;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB ), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
 		building_class:				99;
 				
 		}
