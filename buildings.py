@@ -982,9 +982,9 @@ buildings_dict = {
 	},
     "shiro" : {
         "ground" : "spr_ground_shiro",
-        "levels" : ["x"],   # x since only one version of this 2X2
+        "levels" : ["p", "q"], 
         "heights" : {    
-            "k" : ["x"],    # k means landmark and 2X2
+            "k" : ["p", "q"], 
         },
         "shared_variant_gfx" : True,
         "variants" : {    
