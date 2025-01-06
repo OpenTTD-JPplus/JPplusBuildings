@@ -1376,11 +1376,12 @@ buildings_dict = {
         }
 	},
     "tokyo_tower" : {
-        "levels" : ["x"],   # x since only one version of this 2X2
-        "heights" : {    
-            "c" : ["x"],    # k means landmark and 2X2
-        },
+        "ground" : "spr_tokyo_tower_xL_ground",
         "shared_variant_gfx" : True,
+        "levels" : ["p", "q"],   
+        "heights" : {    
+            "k" : ["p", "q"],    # k means landmark and 2X2
+        },
         "variants" : {    
             "north" : {
 		        "xoffset" : "0",
