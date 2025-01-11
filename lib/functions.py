@@ -456,8 +456,31 @@ def CreateDirectionSwitches():
         else:
             print(b + " has an unrecognised variant #3")
 
+def CreateNameSwitches():
+    random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
+    name_switch_buildings = lists.HasNameSwitch()
+
+    for b in name_switch_buildings:
+        f = open("./src/houses/" + b + "/switches/name_switches.pnml", "w")
+        f.write("\n// " + b + " ALL Names\n")
+        f.close()
+        variants = list(buildings[b]["levels"])
+        f = open("./src/houses/" + b + "/switches/name_switches.pnml", "a")
+        f.write("\nswitch (FEAT_HOUSES, SELF, name_" + b + ", random_bits % " + str(random_bits_total_all_dict[b] * len(variants)) + " ) { // Ref functions.CreateNameSwitches() \n")
+        m = 0
+        for v in variants:
+            # When there are ranges
+            if random_bits_total_all_dict[b] > 1:
+                f.write("\t" + str(m) + ".." + str(m + random_bits_total_all_dict[b] - 1) + ": \treturn string(" + str(buildings[b]["names"][v]) + ");\n")
+                m = m + random_bits_total_all_dict[b]
+            # When there is single numbers
+            else:
+                f.write("\t" + str(m) + ": \treturn string(" + str(buildings[b]["names"][v]) + ");\n")
+                m = m + 1
+        f.write("}\n")
+        f.close()
+
 def PnmlCombiner():
-    
     folders = ["levels", "colours", "variants"]
 
     manual_gfx = copy.deepcopy(buildings)
@@ -518,6 +541,11 @@ def PnmlCombiner():
             f.write('\n#include "src/houses/' + b +'/switches/direction_switches.pnml"')
         else:
             print(b + " has an unrecognised variant #4 pnml_combiner.py")
+        # Name switches
+        if os.path.exists('./src/houses/' + b +'/switches/name_switches.pnml'):
+            f.write('\n#include "src/houses/' + b +'/switches/name_switches.pnml"')
+        else:
+            pass
         f.close()
 
 def CreateItems():
@@ -580,6 +608,7 @@ def CreateItems():
             data = data.replace('_cargo_mail_', str(all_buildings[b]["cargo_mail"]))
             data = data.replace('_accepted_cargoes_', str(all_buildings[b]["accepted_cargoes"]))
             data = data.replace('_protection_', str(all_buildings[b]["protection"]))
+            data = data.replace('_nameswitch_', str(all_buildings[b]["name_switch"]))
 
             if all_buildings[b]["con_check_override"] == "standard":
                 data = data.replace('_con_check_', str(all_buildings[b]["height"]))

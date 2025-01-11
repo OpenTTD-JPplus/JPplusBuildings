@@ -301,6 +301,7 @@ def ItemsTab():
         'recolour',
         'old_colours',
         'stringname', 
+        'name_switch', 
         'population', 
         'probability', 
         'substitute', 

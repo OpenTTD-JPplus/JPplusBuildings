@@ -986,6 +986,10 @@ buildings_dict = {
         "heights" : {    
             "k" : ["p", "q"], 
         },
+        "names" : {
+            "p" : "NAME_HIMEJI_SHIRO", 
+            "q" : "NAME_MATSUMOTO_SHIRO"
+            },
         "shared_variant_gfx" : True,
         "variants" : {    
             "north" : {
@@ -1378,7 +1382,11 @@ buildings_dict = {
     "tokyo_tower" : {
         "ground" : "spr_tokyo_tower_xL_ground",
         "shared_variant_gfx" : True,
-        "levels" : ["p", "q"],   
+        "levels" : ["p", "q"], 
+        "names" : {
+            "p" : "NAME_TOKYO_TOWER", 
+            "q" : "NAME_SAPPORO_TV_TOWER"
+            },
         "heights" : {    
             "k" : ["p", "q"],    # k means landmark and 2X2
         },

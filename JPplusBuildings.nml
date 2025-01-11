@@ -55467,6 +55467,13 @@ switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_c_sprites, random_bit
 
 # 1 "src/houses/tokyo_tower/gfx/tokyo_tower_sprites.pnml" 1
 
+// Name
+/*
+    switch (FEAT_HOUSES, SELF, name_tokyo_tower, random_bits % 2 ) { 
+        0: return string(STR_CONCAT_2, string(NAME_TOKYO_TOWER),string(SKY));
+        1: return string(STR_CONCAT_2, string(NAME_SAPPORO_TV_TOWER),string(SKY));
+    }
+*/
 // Building Sprites
 
     // Tokyo
@@ -55768,6 +55775,15 @@ switch (FEAT_HOUSES, SELF, switch_tokyo_tower_k_west_sprites, random_bits % 2 ) 
 switch (FEAT_HOUSES, SELF, switch_tokyo_tower_k_south_sprites, random_bits % 2 ) { // Ref 2
 0: switch_tokyo_tower_south_p_dark_blue_snow;
 1: switch_tokyo_tower_south_q_dark_blue_snow;
+}
+# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
+# 1 "src/houses/tokyo_tower/switches/name_switches.pnml" 1
+
+// tokyo_tower ALL Names
+
+switch (FEAT_HOUSES, SELF, name_tokyo_tower, random_bits % 2 ) { // Ref functions.CreateNameSwitches() 
+	0: 	return string(NAME_TOKYO_TOWER);
+	1: 	return string(NAME_SAPPORO_TV_TOWER);
 }
 # 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -59514,7 +59530,12 @@ switch (FEAT_HOUSES, SELF, switch_temple_k_south_sprites, random_bits % 10 ) { /
 // shiro
 
 # 1 "src/houses/shiro/gfx/shiro_sprites.pnml" 1
-
+/*
+switch (FEAT_HOUSES, SELF, name_shiro, random_bits % 18 ) { 
+        0..8: return string(NAME_HIMEJI_SHIRO);
+        9..17: return string(NAME_MATSUMOTO_SHIRO);
+    }
+*/
 spriteset (spr_shiro_p_norm, 					"src/houses/shiro/gfx/himeji.png") 						{template_house_200(1,1)}
 spriteset (spr_shiro_p_snow, 					"src/houses/shiro/gfx/himeji.png") 						{template_house_200(1,202)}
 
@@ -59651,6 +59672,68 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
 	    TILETYPE_SNOW: sprlay_shiro_north_p_black_snow;
 	    sprlay_shiro_north_p_black_norm;
     }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_north_p_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_p_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            hide_sprite: 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_north_p_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_p_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            hide_sprite: 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_north_p_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_north_p_light_black_snow;
+	    sprlay_shiro_north_p_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_north_p_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_p_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            hide_sprite: 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_north_p_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_p_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            hide_sprite: 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_north_p_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_north_p_midgrey_snow;
+	    sprlay_shiro_north_p_midgrey_norm;
+    }
 
 // shiro all colours
 
@@ -59769,6 +59852,64 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
     switch(FEAT_HOUSES, SELF, switch_shiro_east_p_black_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_shiro_east_p_black_snow;
 	    sprlay_shiro_east_p_black_norm;
+    }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_east_p_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_p_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_east_p_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_p_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_east_p_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_east_p_light_black_snow;
+	    sprlay_shiro_east_p_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_east_p_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_p_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_east_p_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_p_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_east_p_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_east_p_midgrey_snow;
+	    sprlay_shiro_east_p_midgrey_norm;
     }
 
 // shiro all colours
@@ -59889,6 +60030,64 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
 	    TILETYPE_SNOW: sprlay_shiro_west_p_black_snow;
 	    sprlay_shiro_west_p_black_norm;
     }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_west_p_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_p_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_west_p_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_p_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_west_p_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_west_p_light_black_snow;
+	    sprlay_shiro_west_p_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_west_p_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_p_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_west_p_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_p_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_west_p_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_west_p_midgrey_snow;
+	    sprlay_shiro_west_p_midgrey_norm;
+    }
 
 // shiro all colours
 
@@ -60007,6 +60206,64 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
     switch(FEAT_HOUSES, SELF, switch_shiro_south_p_black_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_shiro_south_p_black_snow;
 	    sprlay_shiro_south_p_black_norm;
+    }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_south_p_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_p_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_south_p_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_p_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_south_p_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_south_p_light_black_snow;
+	    sprlay_shiro_south_p_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_south_p_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_p_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_south_p_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_p_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_south_p_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_south_p_midgrey_snow;
+	    sprlay_shiro_south_p_midgrey_norm;
     }
 // shiro all colours
 
@@ -60134,6 +60391,68 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
 	    TILETYPE_SNOW: sprlay_shiro_north_q_black_snow;
 	    sprlay_shiro_north_q_black_norm;
     }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_north_q_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_q_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            hide_sprite: 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_north_q_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_q_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+            hide_sprite: 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_north_q_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_north_q_light_black_snow;
+	    sprlay_shiro_north_q_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_north_q_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_q_norm (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            hide_sprite: 1;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_north_q_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (3);
+        }
+        building {
+            sprite: spr_shiro_q_snow (3);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+            hide_sprite: 1;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_north_q_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_north_q_midgrey_snow;
+	    sprlay_shiro_north_q_midgrey_norm;
+    }
 
 // shiro all colours
 
@@ -60252,6 +60571,64 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
     switch(FEAT_HOUSES, SELF, switch_shiro_east_q_black_snow,terrain_type) {
 	    TILETYPE_SNOW: sprlay_shiro_east_q_black_snow;
 	    sprlay_shiro_east_q_black_norm;
+    }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_east_q_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_q_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_east_q_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_q_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_east_q_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_east_q_light_black_snow;
+	    sprlay_shiro_east_q_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_east_q_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_q_norm (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_east_q_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (2);
+        }
+        building {
+            sprite: spr_shiro_q_snow (2);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_east_q_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_east_q_midgrey_snow;
+	    sprlay_shiro_east_q_midgrey_norm;
     }
 
 // shiro all colours
@@ -60372,6 +60749,64 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
 	    TILETYPE_SNOW: sprlay_shiro_west_q_black_snow;
 	    sprlay_shiro_west_q_black_norm;
     }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_west_q_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_q_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_west_q_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_q_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_west_q_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_west_q_light_black_snow;
+	    sprlay_shiro_west_q_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_west_q_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_q_norm (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_west_q_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (0);
+        }
+        building {
+            sprite: spr_shiro_q_snow (0);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_west_q_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_west_q_midgrey_snow;
+	    sprlay_shiro_west_q_midgrey_norm;
+    }
 
 // shiro all colours
 
@@ -60491,53 +60926,136 @@ spriteset (spr_shiro_q_snow, 					"src/houses/shiro/gfx/matsumoto.png") 					{te
 	    TILETYPE_SNOW: sprlay_shiro_south_q_black_snow;
 	    sprlay_shiro_south_q_black_norm;
     }
+// _light_black_
+    // Norm Sprites
+    spritelayout sprlay_shiro_south_q_light_black_norm {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_q_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_south_q_light_black_snow {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_q_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 13;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_south_q_light_black_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_south_q_light_black_snow;
+	    sprlay_shiro_south_q_light_black_norm;
+    }
+// _midgrey_
+    // Norm Sprites
+    spritelayout sprlay_shiro_south_q_midgrey_norm {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_q_norm (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    // Snow Sprites
+    spritelayout sprlay_shiro_south_q_midgrey_snow {
+        ground {
+            sprite: spr_ground_shiro (1);
+        }
+        building {
+            sprite: spr_shiro_q_snow (1);
+            recolour_mode: RECOLOUR_REMAP; 
+            palette: recolour_remap + 14;
+        }
+    }
+
+    switch(FEAT_HOUSES, SELF, switch_shiro_south_q_midgrey_snow,terrain_type) {
+	    TILETYPE_SNOW: sprlay_shiro_south_q_midgrey_snow;
+	    sprlay_shiro_south_q_midgrey_norm;
+    }
 # 1 "src/houses/shiro/shiro.pnml" 4
 # 1 "src/houses/shiro/switches/colour_switches.pnml" 1
 
 // shiro ALL colours
 
-switch (FEAT_HOUSES, SELF, switch_shiro_k_north_sprites, random_bits % 8 ) { // Ref 2
+switch (FEAT_HOUSES, SELF, switch_shiro_k_north_sprites, random_bits % 18 ) { // Ref 2
 0: switch_shiro_north_p_grey_snow;
 1: switch_shiro_north_p_brown1_snow;
 2: switch_shiro_north_p_brown2_snow;
-3: switch_shiro_north_p_black_snow;
-4: switch_shiro_north_q_grey_snow;
-5: switch_shiro_north_q_brown1_snow;
-6: switch_shiro_north_q_brown2_snow;
-7: switch_shiro_north_q_black_snow;
+3..4: switch_shiro_north_p_black_snow;
+5..6: switch_shiro_north_p_light_black_snow;
+7..8: switch_shiro_north_p_midgrey_snow;
+9: switch_shiro_north_q_grey_snow;
+10: switch_shiro_north_q_brown1_snow;
+11: switch_shiro_north_q_brown2_snow;
+12..13: switch_shiro_north_q_black_snow;
+14..15: switch_shiro_north_q_light_black_snow;
+16..17: switch_shiro_north_q_midgrey_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_shiro_k_east_sprites, random_bits % 8 ) { // Ref 2
+switch (FEAT_HOUSES, SELF, switch_shiro_k_east_sprites, random_bits % 18 ) { // Ref 2
 0: switch_shiro_east_p_grey_snow;
 1: switch_shiro_east_p_brown1_snow;
 2: switch_shiro_east_p_brown2_snow;
-3: switch_shiro_east_p_black_snow;
-4: switch_shiro_east_q_grey_snow;
-5: switch_shiro_east_q_brown1_snow;
-6: switch_shiro_east_q_brown2_snow;
-7: switch_shiro_east_q_black_snow;
+3..4: switch_shiro_east_p_black_snow;
+5..6: switch_shiro_east_p_light_black_snow;
+7..8: switch_shiro_east_p_midgrey_snow;
+9: switch_shiro_east_q_grey_snow;
+10: switch_shiro_east_q_brown1_snow;
+11: switch_shiro_east_q_brown2_snow;
+12..13: switch_shiro_east_q_black_snow;
+14..15: switch_shiro_east_q_light_black_snow;
+16..17: switch_shiro_east_q_midgrey_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_shiro_k_west_sprites, random_bits % 8 ) { // Ref 2
+switch (FEAT_HOUSES, SELF, switch_shiro_k_west_sprites, random_bits % 18 ) { // Ref 2
 0: switch_shiro_west_p_grey_snow;
 1: switch_shiro_west_p_brown1_snow;
 2: switch_shiro_west_p_brown2_snow;
-3: switch_shiro_west_p_black_snow;
-4: switch_shiro_west_q_grey_snow;
-5: switch_shiro_west_q_brown1_snow;
-6: switch_shiro_west_q_brown2_snow;
-7: switch_shiro_west_q_black_snow;
+3..4: switch_shiro_west_p_black_snow;
+5..6: switch_shiro_west_p_light_black_snow;
+7..8: switch_shiro_west_p_midgrey_snow;
+9: switch_shiro_west_q_grey_snow;
+10: switch_shiro_west_q_brown1_snow;
+11: switch_shiro_west_q_brown2_snow;
+12..13: switch_shiro_west_q_black_snow;
+14..15: switch_shiro_west_q_light_black_snow;
+16..17: switch_shiro_west_q_midgrey_snow;
 }
 
-switch (FEAT_HOUSES, SELF, switch_shiro_k_south_sprites, random_bits % 8 ) { // Ref 2
+switch (FEAT_HOUSES, SELF, switch_shiro_k_south_sprites, random_bits % 18 ) { // Ref 2
 0: switch_shiro_south_p_grey_snow;
 1: switch_shiro_south_p_brown1_snow;
 2: switch_shiro_south_p_brown2_snow;
-3: switch_shiro_south_p_black_snow;
-4: switch_shiro_south_q_grey_snow;
-5: switch_shiro_south_q_brown1_snow;
-6: switch_shiro_south_q_brown2_snow;
-7: switch_shiro_south_q_black_snow;
+3..4: switch_shiro_south_p_black_snow;
+5..6: switch_shiro_south_p_light_black_snow;
+7..8: switch_shiro_south_p_midgrey_snow;
+9: switch_shiro_south_q_grey_snow;
+10: switch_shiro_south_q_brown1_snow;
+11: switch_shiro_south_q_brown2_snow;
+12..13: switch_shiro_south_q_black_snow;
+14..15: switch_shiro_south_q_light_black_snow;
+16..17: switch_shiro_south_q_midgrey_snow;
+}
+# 1 "src/houses/shiro/shiro.pnml" 4
+# 1 "src/houses/shiro/switches/name_switches.pnml" 1
+
+// shiro ALL Names
+
+switch (FEAT_HOUSES, SELF, name_shiro, random_bits % 18 ) { // Ref functions.CreateNameSwitches() 
+	0..8: 	return string(NAME_HIMEJI_SHIRO);
+	9..17: 	return string(NAME_MATSUMOTO_SHIRO);
 }
 # 1 "src/houses/shiro/shiro.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
@@ -65431,7 +65949,6 @@ item(FEAT_HOUSES, item_sugiyama_office_building, 87, HOUSE_SIZE_1X1){
 item(FEAT_HOUSES, item_tokyo_tower, 220, HOUSE_SIZE_2X2){
 	property {
 		substitute: 				20;
-		name: 						string(STR_CONCAT_2, string(NAME_TOKYO_TOWER),string(SKY));
         building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				200;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -65449,6 +65966,7 @@ item(FEAT_HOUSES, item_tokyo_tower, 220, HOUSE_SIZE_2X2){
 		graphics_east: 				switch_tokyo_tower_k_east_sprites;
         graphics_west: 			    switch_tokyo_tower_k_west_sprites;
 		graphics_south: 			switch_tokyo_tower_k_south_sprites;
+		name:						name_tokyo_tower;
 		construction_check: 		switch_skyscraper_con_check;
 		cargo_production: 			func_produce(24,10);
 	}
@@ -65811,7 +66329,6 @@ item(FEAT_HOUSES, item_police_station, 105, HOUSE_SIZE_1X2){
 item(FEAT_HOUSES, item_shiro, 216, HOUSE_SIZE_2X2){
 	property {
 		substitute: 				20;
-		name: 						string(NAME_SHIRO);
         building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 		population: 				100;
 		accepted_cargos: 			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
@@ -65829,6 +66346,7 @@ item(FEAT_HOUSES, item_shiro, 216, HOUSE_SIZE_2X2){
 		graphics_east: 				switch_shiro_k_east_sprites;
         graphics_west: 			    switch_shiro_k_west_sprites;
 		graphics_south: 			switch_shiro_k_south_sprites;
+		name:						name_shiro;
 		construction_check: 		switch_shiro_con_check;
 		cargo_production: 			func_produce(10,2);
 	}

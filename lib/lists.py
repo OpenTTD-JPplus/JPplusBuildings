@@ -63,3 +63,15 @@ def HasOldColours():
             old_colour_buildings.append(all_buildings[b]["folder"])
     old_colour_buildings = list(dict.fromkeys(old_colour_buildings))
     return old_colour_buildings
+
+# Create a list of buildings which have name switches
+def HasNameSwitch():
+    all_buildings = dictionaries.ItemsTab()
+    name_switch_buildings = []
+    for b in all_buildings:
+        if all_buildings[b]["name_switch"] == "none":
+            pass
+        else:
+            name_switch_buildings.append(all_buildings[b]["folder"])
+            name_switch_buildings = list(dict.fromkeys(name_switch_buildings))
+    return name_switch_buildings
