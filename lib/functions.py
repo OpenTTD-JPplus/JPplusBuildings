@@ -1,40 +1,210 @@
 from buildings import buildings_dict as buildings
-from lib import dictionaries, lists
+from lib import dictionaries
 import pandas as pd
 import json, copy, itertools, codecs, os, shutil
 
+def ExportToJSON(dictionary, target_file):
+    with open(target_file, 'w') as fp:
+        json.dump(dictionary, fp, indent=4)
+
+def LoadJSON(target_file):
+    with open(target_file, 'r') as file:
+        data = json.load(file)
+    return data
+
+def non_zero_value(item):
+    k, v = item
+    return v != 0
+
+def non_nan_value(item):
+    k, v = item
+    return v != 'nan'
+
+def NameColumnColour(x):
+    if 'old_colours' in x['name']:
+        return 'old'
+    else:
+        return 'all'
+
+recolour_codes  = {
+        'palette01': '0xC6: 0x', 
+        'palette02': '0xC7: 0x', 
+        'palette03': '0xC8: 0x', 
+        'palette04': '0xC9: 0x', 
+        'palette05': '0xCA: 0x', 
+        'palette06': '0xCB: 0x', 
+        'palette07': '0xCC: 0x', 
+        'palette08': '0xCD: 0x',
+        'palette09': '0x50: 0x', 
+        'palette10': '0x51: 0x', 
+        'palette11': '0x52: 0x', 
+        'palette12': '0x53: 0x', 
+        'palette13': '0x54: 0x', 
+        'palette14': '0x55: 0x', 
+        'palette15': '0x56: 0x', 
+        'palette16': '0x57: 0x', 
+        }
+
+palette_numbers = list(recolour_codes.keys())
+
+def CreateRemapJSON():
+    # convert excel spreadsheet into dataframe
+    df1 = pd.read_excel('docs/buildings.ods','colours')
+    df2 = df1[df1['name'].str.contains('remap|palette', case=False)]
+    df3 = df2.set_index('name').transpose()
+
+    all_columns = list(df3) # Creates list of all column headers
+    palette_columns = [x for x in all_columns if "palette" in x]
+    
+    for p in palette_columns:
+        df3[p] = df3[p].astype(str).str.zfill(2)
+
+    # convert dataframe into dictionary
+    raw_colour_profiles = df3.T.to_dict('dict')
+
+    colour_profiles = {}
+    for k, v in raw_colour_profiles.items():
+        if isinstance(v, dict):
+            colour_profiles[k] = dict(filter(non_nan_value, v.items()))
+        else:
+            colour_profiles[k] = v
+
+    ExportToJSON(colour_profiles, 'lib/recolour.json')
+
+def CreateBuildingPalettes():
+    # convert excel spreadsheet into dataframe
+    df_pal = pd.read_excel('docs/buildings.ods','colours')
+    df_pal = df_pal[~df_pal['name'].isin(palette_numbers)]
+    df_pal = df_pal[~df_pal['name'].isin(['remap', 'include'])]
+    df_pal['colours'] = df_pal.apply(NameColumnColour, axis=1)
+    df_pal['name'] = df_pal.name.str.removesuffix('_all_colours')
+    df_pal['name'] = df_pal.name.str.removesuffix('_old_colours')
+
+    building_palettes = df_pal.groupby('name').apply(lambda x: x.set_index('colours').to_dict(orient='index')).to_dict()
+    
+    # delete 0 probabilities and unnecessary names
+    for b in building_palettes:
+        # all colours
+        del building_palettes[b]["all"]["name"]
+        all_colours = list(building_palettes[b]["all"].keys())
+        for c in all_colours:
+            if building_palettes[b]["all"][c] == 0:
+                del building_palettes[b]["all"][c]
+        # old colours
+        try:
+            del building_palettes[b]["old"]["name"]
+            old_colours = list(building_palettes[b]["old"].keys())
+            for c in old_colours:
+                if building_palettes[b]["old"][c] == 0:
+                    del building_palettes[b]["old"][c]
+        except:
+            pass
+
+
+
+    ExportToJSON(building_palettes, 'lib/building_palettes.json')
+
 def CreateRecolourPnml():
-    colour_remaps = dictionaries.ColourRemapsDict()
-    palette = dictionaries.PaletteDict()
-    from lib.dictionaries import recolour_codes as recolour_codes
+    recolour_json = LoadJSON('lib/recolour.json')
 
     # Create Recolour.pnml file
     website1 = '// https://newgrf-specs.tt-wiki.net/wiki/NML:Recolour_sprites'
     website2 = '// https://newgrf-specs.tt-wiki.net/wiki/NML:Builtin_functions'
+
     
     with open('src/recolour.pnml', 'w') as f:
         f.write(website1)
         f.write('\n\n' + website2 + '\n\n')
-        f.write('recolour_remap = reserve_sprites(' + str(len(colour_remaps)) + ');\n\n')
+        f.write('recolour_remap = reserve_sprites(' + str(len(recolour_json)) + ');\n\n')
         f.write('replace(recolour_remap) {\n')
         f.close()
-    for c in colour_remaps:
+    for c in recolour_json:
+        replacements = list(recolour_json[c].keys())
+        replacements.remove('remap')
         with open('src/recolour.pnml', 'a') as f:
-            f.write('\n// ' + c + " +" + str(colour_remaps[c]))
+            f.write('\n// ' + c + " +" + str(recolour_json[c]["remap"]))
             f.write('\n\trecolour_sprite {')
-            for r in recolour_codes:
-                f.write('\n\t\t' + recolour_codes[r] + str(palette[r][c]) + ';')
+            for r in replacements:
+                f.write('\n\t\t' + recolour_codes[r] + str(recolour_json[c][r]) + ';')
             f.write("\n\t}")
             f.close()
     with open('src/recolour.pnml', 'a') as f:
         f.write("\n}")
         f.close()
 
+def CreateItemJSON():
+    # convert excel spreadsheet into dataframe
+    df_items = pd.read_excel('docs/buildings.ods','items')
+    df_items[['flags', 'building_flags']] = df_items[['flags', 'building_flags']].fillna(0)
+
+    items = df_items.set_index('name').T.to_dict('dict')
+    
+    ExportToJSON(items, 'lib/items.json')
+
+def CheckColourWeightingPresent():
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring_all = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+    buildings_recolouring_old = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    building_palettes_all = [x for x in building_palettes if 'all' in building_palettes[x].keys()]
+    building_palettes_old = [x for x in building_palettes if 'old' in building_palettes[x].keys()]
+   
+    missing_building_palettes_all = [x for x in buildings_recolouring_all if x not in building_palettes_all]
+    missing_building_palettes_old = [x for x in buildings_recolouring_old if x not in building_palettes_old]
+
+    if len(missing_building_palettes_all) > 0:
+        print(missing_building_palettes_all)
+        raise Exception("Missing building palette all")
+
+    if len(missing_building_palettes_old) > 0:
+        print(missing_building_palettes_old)
+        raise Exception("Missing building palette old")
+
+def CheckBuildingSchema():
+    items = LoadJSON('lib/items.json')
+    buildings = LoadJSON('lib/buildings.json')
+
+    folders = {items[x]["folder"] for x in items}
+    schema = [x for x in buildings]
+
+    check = [x for x in folders if x not in buildings]
+
+    if len(check) > 0:
+        print(check)
+        raise Exception("Building not in schema")
+
+def CreateProbabilitiesJSON():
+    items = LoadJSON('lib/items.json')
+    buildings = LoadJSON('lib/buildings.json')
+    building_palettes = LoadJSON('lib/building_palettes.json')
+
+    #initial_dict = {k: v for d in [d1, d2] for k, v in d.items()}
+
+    #print(initial_dict)
+
+def NumHeights():
+    schema = LoadJSON('lib/buildings.json')
+
+    buildings = {x: schema[x]["heights"] for x in schema}
+    for b in buildings:
+        heights = list(buildings[b].keys())
+        for h in heights:
+            buildings[b][h] = len(buildings[b][h])
+    print(buildings)
+
+    
+
 def CreateColourFiles():
-    buildings_no_recolouring = lists.NoRecolouring()
-    buildings_recolouring = lists.Recolouring()
-    colour_all_dict = dictionaries.ColourAllDict()
-    remap = dictionaries.ColourRemapsDict()
+    
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    items = LoadJSON('lib/items.json')
+
+    buildings_no_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == False }
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
+    recolour = LoadJSON('lib/recolour.json')
+    remap = {x: recolour[x]["remap"] for x in recolour}
 
     # For buildings which require recolouring
     for b in buildings_recolouring:
@@ -42,7 +212,7 @@ def CreateColourFiles():
             f.write('\n// '+ b +' all colours\n')
             f.close()
         
-        colours = colour_all_dict[b].keys()
+        colours = building_palettes[b]["all"].keys()
         #colours = list(buildings[b]["colours"].keys())
         
         for c in colours:
@@ -242,16 +412,18 @@ def CreateLevelsFiles():
             current_level.close()
 
 def CreateColourSwitches():
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    items = LoadJSON('lib/items.json')
+
+    buildings_no_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == False }
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
     # Import various dictionaries and lists
-    buildings_no_recolouring = lists.NoRecolouring()
-    buildings_recolouring = lists.Recolouring()
     random_bits_all_range = dictionaries.RandomBitsAllRange()
     random_bits_old_range = dictionaries.RandomBitsOldRange()
     random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
     random_bits_total_old_dict = dictionaries.RandomBitsTotalOldDict()
-    colour_all_dict = dictionaries.ColourAllDict()
-    colour_old_dict = dictionaries.ColourOldDict()
-    old_colour_buildings = lists.HasOldColours()
 
     # Add the lines for each colour option and it's random bit allocation
     for b in buildings_recolouring:
@@ -287,7 +459,7 @@ def CreateColourSwitches():
                 n = n + 1
                 m = 0
                 for l in levels:
-                    colours = colour_all_dict[b].keys()
+                    colours = building_palettes[b]["all"].keys()
                     for c in colours:
                         # Add the colours lines
                         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
@@ -328,7 +500,7 @@ def CreateColourSwitches():
                 n = n + 1
                 m = 0
                 for l in levels:
-                    old_colours = list(colour_old_dict[b].keys())
+                    old_colours = list(building_palettes[b]["old"].keys())
                     for c in old_colours:
                         # Add the colours lines
                         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
@@ -457,8 +629,11 @@ def CreateDirectionSwitches():
             print(b + " has an unrecognised variant #3")
 
 def CreateNameSwitches():
+    items = LoadJSON('lib/items.json')
+
+    name_switch_buildings = {items[x]["folder"] for x in items if items[x]["name_switch"] != 'none' }
+
     random_bits_total_all_dict = dictionaries.RandomBitsTotalAllDict()
-    name_switch_buildings = lists.HasNameSwitch()
 
     for b in name_switch_buildings:
         f = open("./src/houses/" + b + "/switches/name_switches.pnml", "w")
@@ -550,15 +725,18 @@ def PnmlCombiner():
 
 def CreateItems():
 
+    items = LoadJSON('lib/items.json')
+
+    active_building_names = [x for x in items if items[x]["include"] == True]
+    active_building_folders = {items[x]["folder"] for x in items if items[x]["include"] == True}
+    parameter_buildings = [x for x in items if items[x]["param_top"] != 'none']
+
     all_buildings = dictionaries.ItemsTab()
-    active_buildings = lists.ActiveBuildings()
-    active_building_items = lists.ActiveBuildingItems()
-    parameter_buildings = lists.ParameterBuildings()
 
     f = open("./src/houses.pnml", "w")
     f.write('\n// House pnml files\n')
     f.close()
-    for b in active_buildings:
+    for b in active_building_folders:
         f = open("./src/houses.pnml", "a")
         f.write('\n#include "src/houses/' + b + '/' + b + '.pnml"')
         f.close()
@@ -657,7 +835,7 @@ def CreateItems():
         stuff.close()
 
     # Append header stuff which should always be first
-    for b in active_building_items:
+    for b in active_building_names:
         append_variants(b)
 
     # Write the content of 'sections' into a file and save it

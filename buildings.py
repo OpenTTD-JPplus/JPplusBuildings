@@ -121,19 +121,22 @@ buildings_dict = {
         }
 	},
     "fire_station" : {
-        "levels" : ["a", "b", "c", "d"],
+        "ground" : "spr_ground_concrete",
+        "levels" : ["x"],
         "heights" : {    
-            "k" : ["a", "b", "c", "d"],
+            "k" : ["x"],
         },
         #"shared_variant_gfx" : True,
         "variants" : {    
             "north" : {
 		        "xoffset" : "1",
 		        "yoffset" : "1",
+                "construction_state" : "3"
 	        },
             "west" : {
 		        "xoffset" : "1",
 		        "yoffset" : "1",
+                "construction_state" : "3"
 	        },
         }
 	},
@@ -560,6 +563,46 @@ buildings_dict = {
 	        }
         }
     },
+    "moj" : {
+        "ground" : "spr_ground_concrete_all",
+        "levels" : ["x"],  
+        "heights" : {    
+            "h" : ["x"],    
+        },
+        #"shared_variant_gfx" : True,
+        "variants" : {    
+            "a" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "b" : {
+		        "xoffset" : "0",  
+		        "yoffset" : "0",  
+                "construction_state" : "3"
+	        },
+            "e" : {
+		        "xoffset" : "0",    
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "n" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "s" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        },
+            "w" : {
+		        "xoffset" : "0",
+		        "yoffset" : "0",
+                "construction_state" : "3"
+	        }
+        }
+	},
     "mori" : {
         "end_of_old_era" : 1964,
         "levels" : ["3L", "4L", "5L", "6L"],

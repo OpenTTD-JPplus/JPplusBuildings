@@ -1,141 +1,26 @@
-import copy, itertools
+import copy, itertools, json
 import pandas as pd
 from buildings import buildings_dict as buildings
-from lib import functions, lists
+from lib import functions
 
-def ColourRemapsDict():
-    # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.ods','colours')
-    # convert dataframe into dictionary
-    raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
-
-    # REMAPS - get colours with their remap number
-    colour_remaps = raw_colour_profiles['remap']
-    return colour_remaps
-
-recolour_codes  = {
-        'palette01': '0xC6: 0x', 
-        'palette02': '0xC7: 0x', 
-        'palette03': '0xC8: 0x', 
-        'palette04': '0xC9: 0x', 
-        'palette05': '0xCA: 0x', 
-        'palette06': '0xCB: 0x', 
-        'palette07': '0xCC: 0x', 
-        'palette08': '0xCD: 0x', 
-        }
-
-def PaletteDict():
-    # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.ods','colours')
-    # convert dataframe into dictionary
-    raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
-
-    keys = list(recolour_codes.keys())
-
-    palette = {}
-    for p in raw_colour_profiles:
-        if p in recolour_codes:
-            palette[p] = raw_colour_profiles[p]
-        else:
-            pass
-    
-    colour_remaps = ColourRemapsDict()
-
-    # Convert colour codes to two digit strings
-    for p in palette:
-        for c in colour_remaps:
-            if len(str(palette[p][c])) == 2:
-                palette[p][c] = str(palette[p][c])
-            else:
-                palette[p][c] = str("0" + str(palette[p][c]))
-    return palette
-
-def RecolourDict():
-    # convert excel spreadsheet into dataframe
-    df1 = pd.read_excel('docs/buildings.ods','colours')
-    # convert dataframe into dictionary
-    raw_colour_profiles = df1.set_index('name').T.to_dict('dict')
-
-    keys = list(recolour_codes.keys())
-    colour_profiles = {}
-    for i in raw_colour_profiles:
-        if i in keys or i == 'remap':
-            pass
-        else:
-            colour_profiles[i] = raw_colour_profiles[i]           
-    
-    # Remove colours with nil probability
-    for b in colour_profiles:
-        colour_profiles[b] = {keys:values for keys, values in colour_profiles[b].items() if values != 0}
-    return colour_profiles
-
-def ColourAllDict():
-    buildings_recolouring = lists.Recolouring()
-    colour_profiles = RecolourDict()
-
-    colour_all_dict = {}
-    for b in buildings_recolouring:
-        colour_all_dict[b] = colour_profiles[b + "_all_colours"]
-    # {'dense_townhouses': {'grey': 2, 'brown1': 2, 'brown2': 2, 'mauve': 1, 'peach': 1, 'black': 2, 'red_brown': 1},
-    return colour_all_dict
-
-def ColourOldDict():
-    old_colour_buildings = lists.HasOldColours()
-    colour_profiles = RecolourDict()
-
-    colour_old_dict = {}
-    for b in old_colour_buildings:
-        colour_old_dict[b] = colour_profiles[b + "_old_colours"]
-    # {'naganuma': {'grey': 2, 'brown1': 2, 'brown2': 2, 'mauve': 1, 'black': 2, 'red_brown': 1},
-    return colour_old_dict
-
-def ColourWeightingsAllDict():    
-    buildings_recolouring = lists.Recolouring()
-    colour_all_dict = ColourAllDict()
-
-    colour_weightings_all_dict = {}
-    for b in buildings_recolouring:
-        colours = list(colour_all_dict[b].keys())
-        for c in colours:
-            colour_weightings_all_dict[b] = list(colour_all_dict[b].values())
-    # {'aoki_office': [1, 2, 2, 2, 1, 1, 1, 1, 1, 1], 'aoyama_office': [1, 2, 2, 2, 1, 1, 1, 1, 1, 1], 'bank_building': [2, 1],
-    return colour_weightings_all_dict
-
-def ColourWeightingsOldDict():
-    old_colour_buildings = lists.HasOldColours()
-    colour_old_dict = ColourOldDict()
-
-    colour_weightings_old_dict = {}
-    for b in old_colour_buildings:
-        colours = list(colour_old_dict[b].keys())
-        for c in colours:
-            colour_weightings_old_dict[b] = list(colour_old_dict[b].values())
-    # {'naganuma': [2, 2, 2, 1, 2, 1], 'nishikawa': [1, 1, 1, 1, 1, 1, 1], 'aoki_office': [1, 2, 2, 2, 1, 1, 1],
-    return colour_weightings_old_dict
-
-def HeightsDict():
-    heights_dict = {}
-    for b in buildings:
-        heights = list(buildings[b]["heights"])
-        for h in heights:
-            heights_dict[b] = (buildings[b]["heights"])
-    # {'aoki_office': {'m': ['6L'], 'l': ['8L'], 'x': ['10L', '12L']},
-    return heights_dict
-
-def NumHeightsDict():
-    heights_dict = HeightsDict()
-    num_heights_dict = copy.deepcopy(heights_dict)
-    for b in heights_dict:
-        heights = list(heights_dict[b].keys())
-        for h in heights:
-            num_heights_dict[b][h] = len(heights_dict[b][h]) 
-    # {'fukuda': {'m': 1, 'l': 1}, 'harada': {'m': 1, 'l': 1}, 'hayashi': {'s': 2, 'm': 2}, 'hirano': {'s': 2, 'm': 2}}
-    return num_heights_dict
+def LoadJSON(target_file):
+    with open(target_file, 'r') as file:
+        data = json.load(file)
+    return data
 
 def ColoursAllWeightings():
-    buildings_recolouring = lists.Recolouring()
-    colour_weightings_all_dict = ColourWeightingsAllDict()
-    num_heights_dict = NumHeightsDict()
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
+    schema = LoadJSON('lib/buildings.json')
+    num_heights_dict = {x: schema[x]["heights"] for x in schema}
+    for b in num_heights_dict:
+        heights = list(num_heights_dict[b].keys())
+        for h in heights:
+            num_heights_dict[b][h] = len(num_heights_dict[b][h])
+
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    colour_weightings_all_dict = {b: list(building_palettes[b]["all"].values()) for b in building_palettes}
 
     colours_all_weightings = {}
     for b in buildings_recolouring:
@@ -147,9 +32,18 @@ def ColoursAllWeightings():
     return colours_all_weightings
 
 def ColoursOldWeightings():
-    old_colour_buildings = lists.HasOldColours()
-    colour_weightings_old_dict = ColourWeightingsOldDict()
-    num_heights_dict = NumHeightsDict()
+    items = LoadJSON('lib/items.json')
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
+    schema = LoadJSON('lib/buildings.json')
+    num_heights_dict = {x: schema[x]["heights"] for x in schema}
+    for b in num_heights_dict:
+        heights = list(num_heights_dict[b].keys())
+        for h in heights:
+            num_heights_dict[b][h] = len(num_heights_dict[b][h])
+
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    colour_weightings_old_dict = {b: list(building_palettes[b]["old"].values()) for b in building_palettes if "old" in building_palettes[b].keys() }
 
     colours_old_weightings = {}
     for b in old_colour_buildings:
@@ -161,7 +55,9 @@ def ColoursOldWeightings():
     return colours_old_weightings
 
 def EndPointAll():
-    buildings_recolouring = lists.Recolouring()
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
     colours_all_weightings = ColoursAllWeightings()
 
     end_point_all = {}
@@ -175,7 +71,9 @@ def EndPointAll():
     return end_point_all
 
 def EndPointOld():
-    old_colour_buildings = lists.HasOldColours()
+    items = LoadJSON('lib/items.json')
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
     colours_old_weightings = ColoursOldWeightings()
 
     end_point_old = {}
@@ -189,7 +87,9 @@ def EndPointOld():
     return end_point_old     
 
 def StartPointAll():
-    buildings_recolouring = lists.Recolouring()
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
     colours_all_weightings = ColoursAllWeightings()
     end_point_all = EndPointAll()
 
@@ -208,7 +108,9 @@ def StartPointAll():
     return start_point_all
 
 def StartPointOld():
-    old_colour_buildings = lists.HasOldColours()
+    items = LoadJSON('lib/items.json')
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
     colours_old_weightings = ColoursOldWeightings()
     end_point_old = EndPointOld()
 
@@ -226,7 +128,9 @@ def StartPointOld():
     return start_point_old
 
 def RandomBitsAllRange():
-    buildings_recolouring = lists.Recolouring()
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
     end_point_all = EndPointAll()
     start_point_all = StartPointAll()
 
@@ -248,7 +152,9 @@ def RandomBitsAllRange():
     return random_bits_all_range
 
 def RandomBitsOldRange():
-    old_colour_buildings = lists.HasOldColours()
+    items = LoadJSON('lib/items.json')
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+
     end_point_old = EndPointOld()
     start_point_old = StartPointOld()
     
@@ -270,8 +176,11 @@ def RandomBitsOldRange():
     return random_bits_old_range
 
 def RandomBitsTotalAllDict():
-    buildings_recolouring = lists.Recolouring()
-    colour_weightings_all_dict = ColourWeightingsAllDict()
+    items = LoadJSON('lib/items.json')
+    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    colour_weightings_all_dict = {b: list(building_palettes[b]["all"].values()) for b in building_palettes}
 
     random_bits_total_all_dict = {}
     for b in buildings_recolouring:
@@ -280,8 +189,11 @@ def RandomBitsTotalAllDict():
     return random_bits_total_all_dict
 
 def RandomBitsTotalOldDict():
-    old_colour_buildings = lists.HasOldColours()
-    colour_weightings_old_dict = ColourWeightingsOldDict()
+    items = LoadJSON('lib/items.json')
+    old_colour_buildings = {items[x]["folder"] for x in items if items[x]["old_colours"] == True }
+    
+    building_palettes = LoadJSON('lib/building_palettes.json')
+    colour_weightings_old_dict = {b: list(building_palettes[b]["old"].values()) for b in building_palettes if "old" in building_palettes[b].keys() }
     
     random_bits_total_old_dict = {}
     for b in old_colour_buildings:

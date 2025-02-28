@@ -7,6 +7,14 @@ from lib import functions
 
 print("Running jpplusbuildings.py")
 
+print("\tCreating JSONs")
+functions.CreateRemapJSON()
+functions.CreateBuildingPalettes()
+# Check if buildings in spreadsheet that shoyld have a recolour palette do
+functions.CheckColourWeightingPresent()
+# Check if buildings in spreadsheet have an entry in schema
+functions.CheckBuildingSchema()
+
 print("\tRunning CreateRecolourPnml")
 functions.CreateRecolourPnml()
 
