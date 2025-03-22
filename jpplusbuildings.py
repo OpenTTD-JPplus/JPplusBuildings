@@ -10,6 +10,7 @@ print("Running jpplusbuildings.py")
 print("\tCreating JSONs")
 functions.CreateRemapJSON()
 functions.CreateBuildingPalettes()
+functions.CreateItemJSON()
 # Check if buildings in spreadsheet that shoyld have a recolour palette do
 functions.CheckColourWeightingPresent()
 # Check if buildings in spreadsheet have an entry in schema

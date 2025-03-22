@@ -1,4 +1,4 @@
-from buildings import buildings_dict as buildings
+#from buildings import buildings_dict as buildings
 from lib import dictionaries
 import pandas as pd
 import json, copy, itertools, codecs, os, shutil
@@ -25,6 +25,102 @@ def NameColumnColour(x):
         return 'old'
     else:
         return 'all'
+
+def GraphicsDefault(x):
+    if x['tile_size'] != '1X1':
+        return 'none'
+    else:
+        if x['recolour'] == True:
+            if x['height'] == 'skyscraper':
+                return str(x['name'] + '_c')
+            elif x['height'] == 'landmark':
+                return str(x['name'] + '_k')
+            elif x['height'] == 'house':
+                return str(x['name'] + '_h')
+            else:
+                return str(x['name'])
+        else:
+            return str(x['name'])
+
+def GraphicsNorth(x):
+    if x['tile_size'] == '1X1':
+        return 'none'
+    else:
+        if x['recolour'] == True:
+            if x['height'] == 'skyscraper':
+                return str(x['name'] + '_c_north')
+            elif x['height'] == 'landmark':
+                return str(x['name'] + '_k_north')
+            elif x['height'] == 'house':
+                return str(x['name'] + '_h_north')
+            else:
+                return str(x['name'] + '_north')
+        else:
+            return str(x['name'] + '_north')
+
+def GraphicsEast(x):
+    if x['tile_size'] == '1X1' or x['tile_size'] == '2X1':
+        return 'none'
+    else:
+        if x['recolour'] == True:
+            if x['height'] == 'skyscraper':
+                return str(x['name'] + '_c_east')
+            elif x['height'] == 'landmark':
+                return str(x['name'] + '_k_east')
+            elif x['height'] == 'house':
+                return str(x['name'] + '_h_east')
+            else:
+                return str(x['name'] + '_east')
+        else:
+            return str(x['name'] + '_east')
+
+def GraphicsWest(x):
+    if x['tile_size'] == '1X1' or x['tile_size'] == '1X2':
+        return 'none'
+    else:
+        if x['recolour'] == True:
+            if x['height'] == 'skyscraper':
+                return str(x['name'] + '_c_west')
+            elif x['height'] == 'landmark':
+                return str(x['name'] + '_k_west')
+            elif x['height'] == 'house':
+                return str(x['name'] + '_h_west')
+            else:
+                return str(x['name'] + '_west')
+        else:
+            return str(x['name'] + '_west')
+
+def GraphicsSouth(x):
+    if x['tile_size'] != '2X2':
+        return 'none'
+    else:
+        if x['recolour'] == True:
+            if x['height'] == 'skyscraper':
+                return str(x['name'] + '_c_south')
+            elif x['height'] == 'landmark':
+                return str(x['name'] + '_k_south')
+            elif x['height'] == 'house':
+                return str(x['name'] + '_h_south')
+            else:
+                return str(x['name'] + '_south')
+        else:
+            return str(x['name'] + '_south')
+
+def TownZones(x):
+    townzones = {
+        "all" : "ALL_TOWNZONES",
+        "4,3,2,1" : "ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE)",
+        "4,3,2" : "bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB)",
+        "4,3" : "bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB)",
+        "4 only" : "bitmask(TOWNZONE_CENTRE)",
+        "3,2,1" : "bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB, TOWNZONE_OUTSKIRT)",
+        "3,2" : "bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB)",
+        "2,1,0" : "bitmask(TOWNZONE_OUTER_SUBURB , TOWNZONE_OUTSKIRT, TOWNZONE_EDGE)",
+        "2,1" : "bitmask(TOWNZONE_OUTER_SUBURB , TOWNZONE_OUTSKIRT)",
+        "1,0" : "bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE)",
+        "0 only" : "bitmask(TOWNZONE_EDGE)"
+        }
+    return townzones[x['townzone_number']]
 
 recolour_codes  = {
         'palette01': '0xC6: 0x', 
@@ -100,8 +196,6 @@ def CreateBuildingPalettes():
         except:
             pass
 
-
-
     ExportToJSON(building_palettes, 'lib/building_palettes.json')
 
 def CreateRecolourPnml():
@@ -136,6 +230,13 @@ def CreateItemJSON():
     # convert excel spreadsheet into dataframe
     df_items = pd.read_excel('docs/buildings.ods','items')
     df_items[['flags', 'building_flags']] = df_items[['flags', 'building_flags']].fillna(0)
+    df_items['graphics_default'] = df_items.apply(GraphicsDefault, axis=1)
+    df_items['graphics_north'] = df_items.apply(GraphicsNorth, axis=1)
+    df_items['graphics_east'] = df_items.apply(GraphicsEast, axis=1)
+    df_items['graphics_west'] = df_items.apply(GraphicsWest, axis=1)
+    df_items['graphics_south'] = df_items.apply(GraphicsSouth, axis=1)
+    df_items['townzones'] = df_items.apply(TownZones, axis=1)
+    df_items = df_items.drop(columns=['townzone_number', 'flags'])
 
     items = df_items.set_index('name').T.to_dict('dict')
     
@@ -174,27 +275,6 @@ def CheckBuildingSchema():
         print(check)
         raise Exception("Building not in schema")
 
-def CreateProbabilitiesJSON():
-    items = LoadJSON('lib/items.json')
-    buildings = LoadJSON('lib/buildings.json')
-    building_palettes = LoadJSON('lib/building_palettes.json')
-
-    #initial_dict = {k: v for d in [d1, d2] for k, v in d.items()}
-
-    #print(initial_dict)
-
-def NumHeights():
-    schema = LoadJSON('lib/buildings.json')
-
-    buildings = {x: schema[x]["heights"] for x in schema}
-    for b in buildings:
-        heights = list(buildings[b].keys())
-        for h in heights:
-            buildings[b][h] = len(buildings[b][h])
-    print(buildings)
-
-    
-
 def CreateColourFiles():
     
     building_palettes = LoadJSON('lib/building_palettes.json')
@@ -205,6 +285,8 @@ def CreateColourFiles():
 
     recolour = LoadJSON('lib/recolour.json')
     remap = {x: recolour[x]["remap"] for x in recolour}
+
+    schema = LoadJSON('lib/buildings.json')
 
     # For buildings which require recolouring
     for b in buildings_recolouring:
@@ -234,14 +316,14 @@ def CreateColourFiles():
                 data = file.read()
                 # Override for ground sprites e.g. 'spr_ground_grass'
                 try:
-                    ground_sprite = buildings[b]["ground"]
+                    ground_sprite = schema[b]["ground"]
                     data = data.replace(search_text_ground_snow, ground_sprite)
                     data = data.replace(search_text_ground, ground_sprite)            
                 except:
                     pass
                 # Override for building sprites
                 try:
-                    building_sprite = buildings[b]["building"]
+                    building_sprite = schema[b]["building"]
                     data = data.replace(search_text_building_snow, building_sprite + "_snow")
                     data = data.replace(search_text_building, building_sprite + "_norm")  
                 except:
@@ -290,14 +372,16 @@ def CreateColourFiles():
             file.write(data)
 
 def CreateVariantFiles():
-    for b in buildings:
-        variants = list(buildings[b]["variants"].keys())
+    schema = LoadJSON('lib/buildings.json')
+    
+    for b in schema:
+        variants = list(schema[b]["variants"].keys())
         for v in variants:
             template = open("./src/houses/" + b + "/colours/all.pnml", "rt")
             current_variant = open("./src/houses/" + b + "/variants/" + v +".pnml", "wt")
             for line in template:
                 try:
-                    if buildings[b]["shared_variant_gfx"] == True and ("spritelayout" in line or "sprlay_" in line or "FEAT_HOUSES" in line):
+                    if schema[b]["shared_variant_gfx"] == True and ("spritelayout" in line or "sprlay_" in line or "FEAT_HOUSES" in line):
                         current_variant.write(line.replace('_v_', str('_' + v +'_')))
                     else:
                         current_variant.write(line.replace('_v_', str('_'))) 
@@ -314,8 +398,8 @@ def CreateVariantFiles():
             search_text_y = "_yoff_"
             search_text_hide_sprite = "_hide_"
             search_text_construction_state = "_construction_state_"
-            xoff = buildings[b]["variants"][v]["xoffset"]
-            yoff = buildings[b]["variants"][v]["yoffset"]
+            xoff = schema[b]["variants"][v]["xoffset"]
+            yoff = schema[b]["variants"][v]["yoffset"]
             with open(r'./src/houses/' + b + '/variants/' + v +'.pnml', 'r') as file:
                 data = file.read()
                 # Offsets
@@ -323,14 +407,14 @@ def CreateVariantFiles():
                 data = data.replace(search_text_y, yoff)
                 # Hide Sprites
                 try: 
-                    hide_sprite = buildings[b]["variants"][v]["hide_sprite"]
+                    hide_sprite = schema[b]["variants"][v]["hide_sprite"]
                 except:    
                     data = data.replace(search_text_hide_sprite, "0")
                 else:
                     data = data.replace(search_text_hide_sprite, hide_sprite)
                 # Construction States
                 try:
-                    construction_state = buildings[b]["variants"][v]["construction_state"]
+                    construction_state = schema[b]["variants"][v]["construction_state"]
                 except:
                     data = data.replace(search_text_construction_state, "construction_state")
                 else:
@@ -381,9 +465,9 @@ def CreateVariantFiles():
     # COMBINE THE VARIANTS INTO AN 'ALL' FILE
 
     # Cycle through each building and combine each of it's variants
-    for b in buildings:
+    for b in schema:
         sections = []
-        variants = list(buildings[b]["variants"].keys())
+        variants = list(schema[b]["variants"].keys())
         for v in variants:
             variants_pnml_path = "src/houses/" + b + "/variants/all.pnml"
             filename = "src/houses/" + b + "/variants/" + v + ".pnml"
@@ -395,11 +479,12 @@ def CreateVariantFiles():
             processed_pnml_file.close()
 
 def CreateLevelsFiles():
-    for b in buildings:
+    schema = LoadJSON('lib/buildings.json')
+    for b in schema:
         levels_pnml = open("src/houses/" + b + "/levels/all.pnml", "wt")
         levels_pnml.write("\n// " + b + " levels\n")
         levels_pnml.close()
-        levels = list(buildings[b]["levels"])
+        levels = list(schema[b]["levels"])
         for l in levels:
             template = open("./src/houses/" + b + "/variants/all.pnml", "rt")
             current_level = open("./src/houses/" + b + "/levels/all.pnml", "a")
@@ -414,6 +499,7 @@ def CreateLevelsFiles():
 def CreateColourSwitches():
     building_palettes = LoadJSON('lib/building_palettes.json')
     items = LoadJSON('lib/items.json')
+    schema = LoadJSON('lib/buildings.json')
 
     buildings_no_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == False }
     buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
@@ -431,12 +517,12 @@ def CreateColourSwitches():
         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "w")
         f.write("\n// " + b + " ALL colours\n")
         f.close()
-        variants = list(buildings[b]["variants"])
+        variants = list(schema[b]["variants"])
         for v in variants:
-            heights = list(buildings[b]["heights"]) # 's', 'm', 'l' etc
+            heights = list(schema[b]["heights"]) # 's', 'm', 'l' etc
             n = 0
             for h in heights:
-                num_heights = len(buildings[b]["heights"][h])
+                num_heights = len(schema[b]["heights"][h])
                 # Add the switch line and update details
                 f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
                 # Modern Colours only
@@ -455,7 +541,7 @@ def CreateColourSwitches():
                     print("// Ref 6 - " + b + " not allocated to an option")
                 
                 f.close()
-                levels = list(buildings[b]["heights"].values())[n]
+                levels = list(schema[b]["heights"].values())[n]
                 n = n + 1
                 m = 0
                 for l in levels:
@@ -483,12 +569,12 @@ def CreateColourSwitches():
         f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
         f.write("\n// " + b + " OLD colours\n")
         f.close()
-        variants = list(buildings[b]["variants"])
+        variants = list(schema[b]["variants"])
         for v in variants:
-            heights = list(buildings[b]["heights"])
+            heights = list(schema[b]["heights"])
             n = 0
             for h in heights:
-                num_heights = len(buildings[b]["heights"][h])
+                num_heights = len(schema[b]["heights"][h])
                 # Add the switch line and update details
                 f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
                 if v == 'x':
@@ -496,7 +582,7 @@ def CreateColourSwitches():
                 else:
                     f.write("\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_old, random_bits % " + str(random_bits_total_old_dict[b] * num_heights) + " ) {\n")
                 f.close()
-                levels = list(buildings[b]["heights"].values())[n]
+                levels = list(schema[b]["heights"].values())[n]
                 n = n + 1
                 m = 0
                 for l in levels:
@@ -522,9 +608,9 @@ def CreateColourSwitches():
         else:
             f = open("./src/houses/" + b + "/switches/colour_switches.pnml", "a")
             f.write("\n// " + b + " switch to choose between old and modern colours")
-            variants = list(buildings[b]["variants"])
+            variants = list(schema[b]["variants"])
             for v in variants:
-                heights = list(buildings[b]["heights"])
+                heights = list(schema[b]["heights"])
                 n = 0
                 for h in heights:
                     # Add the switch line and update details
@@ -534,9 +620,9 @@ def CreateColourSwitches():
                     else:
                         f.write("\n\nswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + h + "_sprites, current_year - age) {")
                     if v == 'x':
-                        f.write("\n0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + h + "_old;")  
+                        f.write("\n0.." + str(schema[b]["end_of_old_era"]) + ": switch_" + b + "_" + h + "_old;")  
                     else:
-                        f.write("\n0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_" + h + "_old;")               
+                        f.write("\n0.." + str(schema[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_" + h + "_old;")               
                     if v == 'x':
                         f.write("\nswitch_" + b + "_" + h + "_modern;") 
                     else:
@@ -547,10 +633,11 @@ def CreateColourSwitches():
                     n = n + 1
 
 def CreateDirectionSwitches():
+    schema = LoadJSON('lib/buildings.json')
     # Create a spritedirection file for relevant buildings
-    for b in buildings:
-        heights = list(buildings[b]["heights"])
-        variants = list(buildings[b]["variants"].keys())
+    for b in schema:
+        heights = list(schema[b]["heights"])
+        variants = list(schema[b]["variants"].keys())
         if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
             pass
         elif variants == ['a', 'b']:    
@@ -593,10 +680,10 @@ def CreateDirectionSwitches():
             print(b + " has an unrecognised variant #1")
 
     # Combine into other switches file
-    for b in buildings:
+    for b in schema:
         sections = []
-        heights = list(buildings[b]["heights"])
-        variants = list(buildings[b]["variants"].keys())
+        heights = list(schema[b]["heights"])
+        variants = list(schema[b]["variants"].keys())
         if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
             pass
         elif variants == ['a', 'b'] or variants == ['a', 'b', 'c'] or variants == ['a', 'b', 's'] or variants == ['a', 'b', 'e', 'n', 's', 'w']:
@@ -613,9 +700,9 @@ def CreateDirectionSwitches():
             print(b + " has an unrecognised variant #2")
 
     # Delete variant files
-    for b in buildings:
-        heights = list(buildings[b]["heights"])
-        variants = list(buildings[b]["variants"].keys())
+    for b in schema:
+        heights = list(schema[b]["heights"])
+        variants = list(schema[b]["variants"].keys())
         if variants == ['x'] or variants == ['north', 'east', 'west', 'south'] or variants == ['north', 'east'] or variants == ['north', 'west']:
             pass
         elif variants == ['a', 'b'] or variants == ['a', 'b', 'c'] or variants == ['a', 'b', 's'] or variants == ['a', 'b', 'e', 'n', 's', 'w']:
@@ -630,6 +717,7 @@ def CreateDirectionSwitches():
 
 def CreateNameSwitches():
     items = LoadJSON('lib/items.json')
+    schema = LoadJSON('lib/buildings.json')
 
     name_switch_buildings = {items[x]["folder"] for x in items if items[x]["name_switch"] != 'none' }
 
@@ -639,18 +727,18 @@ def CreateNameSwitches():
         f = open("./src/houses/" + b + "/switches/name_switches.pnml", "w")
         f.write("\n// " + b + " ALL Names\n")
         f.close()
-        variants = list(buildings[b]["levels"])
+        variants = list(schema[b]["levels"])
         f = open("./src/houses/" + b + "/switches/name_switches.pnml", "a")
         f.write("\nswitch (FEAT_HOUSES, SELF, name_" + b + ", random_bits % " + str(random_bits_total_all_dict[b] * len(variants)) + " ) { // Ref functions.CreateNameSwitches() \n")
         m = 0
         for v in variants:
             # When there are ranges
             if random_bits_total_all_dict[b] > 1:
-                f.write("\t" + str(m) + ".." + str(m + random_bits_total_all_dict[b] - 1) + ": \treturn string(" + str(buildings[b]["names"][v]) + ");\n")
+                f.write("\t" + str(m) + ".." + str(m + random_bits_total_all_dict[b] - 1) + ": \treturn string(" + str(schema[b]["names"][v]) + ");\n")
                 m = m + random_bits_total_all_dict[b]
             # When there is single numbers
             else:
-                f.write("\t" + str(m) + ": \treturn string(" + str(buildings[b]["names"][v]) + ");\n")
+                f.write("\t" + str(m) + ": \treturn string(" + str(schema[b]["names"][v]) + ");\n")
                 m = m + 1
         f.write("}\n")
         f.close()
@@ -658,15 +746,17 @@ def CreateNameSwitches():
 def PnmlCombiner():
     folders = ["levels", "colours", "variants"]
 
-    manual_gfx = copy.deepcopy(buildings)
-    manual_switches = copy.deepcopy(buildings)
-    for b in buildings:
+    schema = LoadJSON('lib/buildings.json')
+
+    manual_gfx = copy.deepcopy(schema)
+    manual_switches = copy.deepcopy(schema)
+    for b in schema:
         try:
-            buildings[b]["manual_gfx"] == True
+            schema[b]["manual_gfx"] == True
         except:
             manual_gfx.pop(b)
         try:
-            buildings[b]["manual_switches"] == True
+            schema[b]["manual_switches"] == True
         except:
             manual_switches.pop(b)
 
@@ -691,8 +781,8 @@ def PnmlCombiner():
 
     # Create each buildings pnml file list
 
-    for b in buildings:
-        variants = list(buildings[b]["variants"].keys())
+    for b in schema:
+        variants = list(schema[b]["variants"].keys())
         f = open("./src/houses/" + b + "/" + b +".pnml", "w")
         f.write("\n// " + b + "\n")
         # Sprites
@@ -731,8 +821,6 @@ def CreateItems():
     active_building_folders = {items[x]["folder"] for x in items if items[x]["include"] == True}
     parameter_buildings = [x for x in items if items[x]["param_top"] != 'none']
 
-    all_buildings = dictionaries.ItemsTab()
-
     f = open("./src/houses.pnml", "w")
     f.write('\n// House pnml files\n')
     f.close()
@@ -753,7 +841,7 @@ def CreateItems():
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-    for b in all_buildings:
+    for b in items:
         # Create the files
         template = open("./src/templates/item_template.pnml", "rt")
         current_item = open("./src/items/" + b +".pnml", "wt")
@@ -764,34 +852,34 @@ def CreateItems():
         # Replace the placeholders with data from spreadsheet
         with open(r'./src/items/' + b +'.pnml', 'r') as file:
             data = file.read()
-            data = data.replace('_id_', str(all_buildings[b]["id"]))
-            data = data.replace('iXj', str(all_buildings[b]["tile_size"]))
-            data = data.replace('_stringname_', str(all_buildings[b]["stringname"]))
-            data = data.replace('_population_', str(all_buildings[b]["population"]))
-            data = data.replace('_probability_', str(all_buildings[b]["probability"]))
-            data = data.replace('_substitute_', str(all_buildings[b]["substitute"]))
-            data = data.replace('_building_class_', str(all_buildings[b]["building_class"]))
-            data = data.replace('_yearstart_', str(all_buildings[b]["yearstart"]))
-            data = data.replace('_yearend_', str(all_buildings[b]["yearend"]))
-            data = data.replace('_minimum_lifetime_', str(all_buildings[b]["minimum_lifetime"]))
-            data = data.replace('height', str(all_buildings[b]["height"]))
-            data = data.replace('_townzones_', str(all_buildings[b]["townzones"]))
-            data = data.replace('_building_flags_', str(all_buildings[b]["building_flags"]))
-            data = data.replace('graphics_default_snow', str(all_buildings[b]["graphics_default"]) + "_sprites")
-            data = data.replace('graphics_north_snow', str(all_buildings[b]["graphics_north"]) + "_sprites")
-            data = data.replace('graphics_east_snow', str(all_buildings[b]["graphics_east"]) + "_sprites")
-            data = data.replace('graphics_west_snow', str(all_buildings[b]["graphics_west"]) + "_sprites")
-            data = data.replace('graphics_south_snow', str(all_buildings[b]["graphics_south"]) + "_sprites")
-            data = data.replace('_cargo_pass_', str(all_buildings[b]["cargo_pass"]))
-            data = data.replace('_cargo_mail_', str(all_buildings[b]["cargo_mail"]))
-            data = data.replace('_accepted_cargoes_', str(all_buildings[b]["accepted_cargoes"]))
-            data = data.replace('_protection_', str(all_buildings[b]["protection"]))
-            data = data.replace('_nameswitch_', str(all_buildings[b]["name_switch"]))
+            data = data.replace('_id_', str(items[b]["id"]))
+            data = data.replace('iXj', str(items[b]["tile_size"]))
+            data = data.replace('_stringname_', str(items[b]["stringname"]))
+            data = data.replace('_population_', str(items[b]["population"]))
+            data = data.replace('_probability_', str(items[b]["probability"]))
+            data = data.replace('_substitute_', str(items[b]["substitute"]))
+            data = data.replace('_building_class_', str(items[b]["building_class"]))
+            data = data.replace('_yearstart_', str(items[b]["yearstart"]))
+            data = data.replace('_yearend_', str(items[b]["yearend"]))
+            data = data.replace('_minimum_lifetime_', str(items[b]["minimum_lifetime"]))
+            data = data.replace('height', str(items[b]["height"]))
+            data = data.replace('_townzones_', str(items[b]["townzones"]))
+            data = data.replace('_building_flags_', str(items[b]["building_flags"]))
+            data = data.replace('graphics_default_snow', str(items[b]["graphics_default"]) + "_sprites")
+            data = data.replace('graphics_north_snow', str(items[b]["graphics_north"]) + "_sprites")
+            data = data.replace('graphics_east_snow', str(items[b]["graphics_east"]) + "_sprites")
+            data = data.replace('graphics_west_snow', str(items[b]["graphics_west"]) + "_sprites")
+            data = data.replace('graphics_south_snow', str(items[b]["graphics_south"]) + "_sprites")
+            data = data.replace('_cargo_pass_', str(items[b]["cargo_pass"]))
+            data = data.replace('_cargo_mail_', str(items[b]["cargo_mail"]))
+            data = data.replace('_accepted_cargoes_', str(items[b]["accepted_cargoes"]))
+            data = data.replace('_protection_', str(items[b]["protection"]))
+            data = data.replace('_nameswitch_', str(items[b]["name_switch"]))
 
-            if all_buildings[b]["con_check_override"] == "standard":
-                data = data.replace('_con_check_', str(all_buildings[b]["height"]))
+            if items[b]["con_check_override"] == "standard":
+                data = data.replace('_con_check_', str(items[b]["height"]))
             else:
-                data = data.replace('_con_check_', str(all_buildings[b]["con_check_override"]))
+                data = data.replace('_con_check_', str(items[b]["con_check_override"]))
         
         with open(r'./src/items/' + b + '.pnml', 'w') as file:
             file.write(data)
@@ -808,8 +896,8 @@ def CreateItems():
     # Add Parameter to relevant buildings
 
     for b in parameter_buildings:
-        top =  all_buildings[b]["param_top"]
-        bottom =  all_buildings[b]["param_bottom"]
+        top =  items[b]["param_top"]
+        bottom =  items[b]["param_bottom"]
         with open('./src/items/' + b + '.pnml', 'r+') as file: 
             file_data = file.read()
             file.seek(0, 0)
