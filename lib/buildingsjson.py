@@ -33,19 +33,19 @@ def GraphicDefault(x):
 
 def GraphicNorth(x):
     if x['tile_size'] != '1X1':
-        return 'switch_' + str(x['name']) + '_north_sprites'
+        return 'switch_' + str(x['name']) + '_n_sprites'
 
 def GraphicEast(x):
     if x['tile_size'] == '2X2' or x['tile_size'] == '1x2':
-        return 'switch_' + str(x['name']) + '_east_sprites'
+        return 'switch_' + str(x['name']) + '_e_sprites'
 
 def GraphicWest(x):
     if x['tile_size'] == '2X2' or x['tile_size'] == '2x1':
-        return 'switch_' + str(x['name']) + '_west_sprites'
+        return 'switch_' + str(x['name']) + '_w_sprites'
 
 def GraphicSouth(x):
     if x['tile_size'] == '2X2':
-        return 'switch_' + str(x['name']) + '_south_sprites'
+        return 'switch_' + str(x['name']) + '_s_sprites'
 
 def TileSize(x):
     return 'HOUSE_SIZE_' + x['tile_size']

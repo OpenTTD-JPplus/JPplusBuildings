@@ -161,19 +161,19 @@ def CreateBuildingFiles():
                 file.write("\n\t\t\tdefault:\t\t\t\t\t" + str(buildings[b]["graphics"]["default"]) + ";")
             except:
                 try:
-                    file.write("\n\t\t\tgraphics_north:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_north"]) + ";")
+                    file.write("\n\t\t\tgraphics_north:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_north"]) + ";")
                 except:
                     pass
             try:
-                file.write("\n\t\t\tgraphics_east:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_east"]) + ";")
+                file.write("\n\t\t\tgraphics_east:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_east"]) + ";")
             except:
                 pass
             try:
-                file.write("\n\t\t\tgraphics_west:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_west"]) + ";")
+                file.write("\n\t\t\tgraphics_west:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_west"]) + ";")
             except:
                 pass
             try:
-                file.write("\n\t\t\tgraphics_south:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
+                file.write("\n\t\t\tgraphics_south:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
             except:
                 pass
             try:
