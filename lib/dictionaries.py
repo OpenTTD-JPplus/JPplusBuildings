@@ -2,18 +2,21 @@ import copy, itertools, json
 import pandas as pd
 from lib import functions
 
+buildingsJSON = 'lib/new_buildings.json'
+
 def LoadJSON(target_file):
     with open(target_file, 'r') as file:
         data = json.load(file)
     return data
 
-buildingsJSON = 'lib/new_buildings.json'
-buildings = LoadJSON(buildingsJSON)
-
-items = LoadJSON('lib/items.json')
-old_items = [x for x in items if buildings[x]["newjson"] != True  ]
 
 def ColoursAllWeightings():
+    
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
+
     buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     schema = LoadJSON('lib/buildings.json')
@@ -36,6 +39,10 @@ def ColoursAllWeightings():
     return colours_all_weightings
 
 def ColoursOldWeightings():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     old_colour_buildings = {items[x]["folder"] for x in old_items if items[x]["old_colours"] == True }
 
     schema = LoadJSON('lib/buildings.json')
@@ -58,6 +65,10 @@ def ColoursOldWeightings():
     return colours_old_weightings
 
 def EndPointAll():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     colours_all_weightings = ColoursAllWeightings()
@@ -73,6 +84,10 @@ def EndPointAll():
     return end_point_all
 
 def EndPointOld():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     old_colour_buildings = {items[x]["folder"] for x in old_items if items[x]["old_colours"] == True }
 
     colours_old_weightings = ColoursOldWeightings()
@@ -88,6 +103,10 @@ def EndPointOld():
     return end_point_old     
 
 def StartPointAll():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     colours_all_weightings = ColoursAllWeightings()
@@ -108,6 +127,10 @@ def StartPointAll():
     return start_point_all
 
 def StartPointOld():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     old_colour_buildings = {items[x]["folder"] for x in old_items if items[x]["old_colours"] == True }
 
     colours_old_weightings = ColoursOldWeightings()
@@ -127,6 +150,10 @@ def StartPointOld():
     return start_point_old
 
 def RandomBitsAllRange():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     end_point_all = EndPointAll()
@@ -150,6 +177,10 @@ def RandomBitsAllRange():
     return random_bits_all_range
 
 def RandomBitsOldRange():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     old_colour_buildings = {items[x]["folder"] for x in old_items if items[x]["old_colours"] == True }
 
     end_point_old = EndPointOld()
@@ -173,6 +204,10 @@ def RandomBitsOldRange():
     return random_bits_old_range
 
 def RandomBitsTotalAllDict():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     building_palettes = LoadJSON('lib/building_palettes.json')
@@ -185,6 +220,10 @@ def RandomBitsTotalAllDict():
     return random_bits_total_all_dict
 
 def RandomBitsTotalOldDict():
+    buildings = LoadJSON(buildingsJSON)
+
+    items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
     old_colour_buildings = {items[x]["folder"] for x in old_items if items[x]["old_colours"] == True }
     
     building_palettes = LoadJSON('lib/building_palettes.json')

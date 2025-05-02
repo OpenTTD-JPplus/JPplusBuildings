@@ -17,8 +17,6 @@ def LoadJSON(target_file):
         data = json.load(file)
     return data
 
-buildings = LoadJSON(buildingsJSON)
-
 def non_zero_value(item):
     k, v = item
     return v != 0
@@ -129,29 +127,6 @@ def GraphicsSouth(x):
         else:
             return str(x['name'] + '_south')
 
-def GraphicDefault(x):
-    if x['tile_size'] == '1X1':
-        return 'switch_' + str(x['name']) + '_sprites'
-
-def GraphicNorth(x):
-    if x['tile_size'] != '1X1':
-        return 'switch_' + str(x['name']) + '_north_sprites'
-
-def GraphicEast(x):
-    if x['tile_size'] == '2X2' or x['tile_size'] == '1x2':
-        return 'switch_' + str(x['name']) + '_east_sprites'
-
-def GraphicWest(x):
-    if x['tile_size'] == '2X2' or x['tile_size'] == '2x1':
-        return 'switch_' + str(x['name']) + '_west_sprites'
-
-def GraphicSouth(x):
-    if x['tile_size'] == '2X2':
-        return 'switch_' + str(x['name']) + '_south_sprites'
-
-def TileSize(x):
-    return 'HOUSE_SIZE_' + x['tile_size']
-
 def TownZones(x):
     townzones = {
         "all" : "ALL_TOWNZONES",
@@ -167,21 +142,6 @@ def TownZones(x):
         "0 only" : "bitmask(TOWNZONE_EDGE)"
         }
     return townzones[x['townzone_number']]
-
-def AvailabilityMask(x):
-    return '[' + x['townzones'] + ', bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)]'
-
-def ConstructionCheck(x):
-    if x['con_check_override'] == 'standard':
-        return 'switch_' + str(x['height']) + '_con_check'
-    elif x['con_check_override'] != 'none':
-        return 'switch_' + str(x['con_check_override']) + '_con_check'
-
-def CargoProduction(x):
-    return "func_produce(" + str(x['cargo_pass']) + "," + str(x['cargo_mail']) + ")"
-
-def YearsAvailable(x):
-    return '[' + str(x['yearstart']) + ',' + str(x['yearend']) + ']'
 
 def NumLevels(b):
     try:
@@ -334,6 +294,7 @@ def CreateItemJSON():
     ExportToJSON(items, 'lib/items.json')
 
 def CreateBuildingsJSON():
+    print("Running CreateBuildingsJSON")
     # Import the Dataframes
     df_items = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'folder', 'id', 'include', 'tile_size', 'height', 'newjson', 'recolour'])
     df_properties = pd.read_excel('docs/buildings.ods','items', 
@@ -343,6 +304,9 @@ def CreateBuildingsJSON():
     df_levels = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'levels'])
     df_variants = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'variants'], dtype={'variants':str})
     df_pal = pd.read_excel('docs/buildings.ods','colours')
+
+    print("#1")
+    print(df_variants)
 
     # Modify the data
     df_items['tile_size'] = df_items.apply(TileSize, axis=1)
@@ -366,6 +330,9 @@ def CreateBuildingsJSON():
     df_graphics['construction_check'] = df_graphics.apply(ConstructionCheck, axis=1)
     df_graphics['cargo_production'] = df_graphics.apply(CargoProduction, axis=1)
 
+    print("#2")
+    print(df_variants)
+
     # convert excel spreadsheet into dataframe
     df_pal = df_pal[~df_pal['name'].isin(palette_numbers)]
     df_pal = df_pal[~df_pal['name'].isin(['remap', 'include'])]
@@ -385,6 +352,10 @@ def CreateBuildingsJSON():
     building_palettes = df_pal.groupby('name').apply(lambda x: x.set_index('colours').to_dict(orient='index')).to_dict()
     properties = df_properties.set_index('name').T.to_dict('dict')
     graphics = df_graphics.set_index('name').T.to_dict('dict')
+
+    print("#3")
+    print(variants)
+
 
     # Combine dictionaries
     for b in old_era_end:
@@ -429,6 +400,7 @@ def CreateBuildingsJSON():
 
     ExportToJSON(buildings, 'lib/new_buildings.json')
 
+
 def CheckColourWeightingPresent():
     items = LoadJSON('lib/items.json')
     buildings_recolouring_all = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
@@ -450,12 +422,14 @@ def CheckColourWeightingPresent():
         raise Exception("Missing building palette old")
 
 def CreateColourFiles():
-    
-    building_palettes = LoadJSON('lib/building_palettes.json')
+    buildings = LoadJSON(buildingsJSON)
     items = LoadJSON('lib/items.json')
+    old_items = [x for x in items if buildings[x]["newjson"] != True  ]
 
-    buildings_no_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == False }
-    buildings_recolouring = {items[x]["folder"] for x in items if items[x]["recolour"] == True }
+    building_palettes = LoadJSON('lib/building_palettes.json')
+
+    buildings_no_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == False }
+    buildings_recolouring = {items[x]["folder"] for x in old_items if items[x]["recolour"] == True }
 
     recolour = LoadJSON('lib/recolour.json')
     remap = {x: recolour[x]["remap"] for x in recolour}
@@ -674,6 +648,7 @@ def CreateColourSwitches():
     building_palettes = LoadJSON('lib/building_palettes.json')
     items = LoadJSON('lib/items.json')
     schema = LoadJSON('lib/buildings.json')
+    buildings = LoadJSON(buildingsJSON)
 
     old_items = [x for x in items if buildings[x]["newjson"] != True  ]
 
@@ -992,6 +967,7 @@ def PnmlCombiner():
 def CreateItems():
 
     items = LoadJSON('lib/items.json')
+    buildings = LoadJSON(buildingsJSON)
 
     newjsonbuildings = [x for x in buildings if buildings[x]["newjson"] == True ]
 
@@ -1104,138 +1080,3 @@ def CreateItems():
     processed_pnml_file.close()
 
     print("Items created")
-
-def CreateBuildingFiles():
-    recolour = LoadJSON(recolourJSON)
-
-    newjsonbuildings = [x for x in buildings if buildings[x]["newjson"] == True ]
-
-    # Create Building PNML File
-    for b in newjsonbuildings:
-        with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'w') as file:
-            file.write("\n" + "// " + b + "\n")
-            file.close()
-
-    # Create Spritelayouts
-    climates = ["norm","snow"]
-
-    for b in newjsonbuildings:
-         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-            file.write("\n// Spritelayouts")
-            for v in buildings[b]["variants"]:
-                file.write("\n\t// " + v)
-                for l in buildings[b]["levels"]:
-                    file.write("\n\t\t// " + l)
-                    for c in buildings[b]["all"]:
-                        file.write("\n\t\t\t// " + c)
-                        for k in climates:
-                            file.write("\n\t\t\t\t// " + k)
-                            file.write("\n\t\t\t\tspritelayout sprlay_" + b + "_" + v + "_" + l + "_" + c + "_" + k + " {\n\t\t\t\t\tground {")
-                            file.write("\n\t\t\t\t\t\tsprite: spr_" + buildings[b]["folder"] + "_" + v + "_ground_" + k)
-                            try:
-                                file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
-                            except:
-                                file.write(" (construction_state);")
-                            file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
-                            try:
-                                file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
-                            except:
-                                file.write(" (construction_state);")
-                            file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
-                            file.write("\n\t\t\t\t\t\tpalette: recolour_remap + " + str(recolour[c]["remap"]) + ";")
-                            file.write("\n\t\t\t\t\t}\n\t\t\t}\n")
-                        file.write("\n\t\t\t\tswitch(FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + l + "_" + c + "_snow, terrain_type) {\n\t\t\t\t\tTILETYPE_SNOW: sprlay_" + b + "_" + v + "_" + l + "_" + c + "_snow;\n\t\t\t\t\tsprlay_" + b + "_" + v + "_" + l + "_" + c + "_norm;\n\t\t\t\t}\n")
-            file.write("\n")
-            file.close()
-
-    # Create Colour Switches
-    for b in newjsonbuildings:
-        if b in [b for b in buildings if buildings[b]["recolour"] == True]:
-            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-                file.write("\n// Colour Switches")
-                if "end_of_old_era" in buildings[b]:
-                    colour_options = ["all","old"]   
-                else:
-                    colour_options = ["sprites"]
-                for v in buildings[b]["variants"]:
-                    for o in colour_options:
-                        if o == "all" or o =="sprites":
-                            points = GetPoints(b,"all")
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
-                            i = 0
-                            for l in buildings[b]["levels"]:
-                                for c in buildings[b]["all"]:
-                                    file.write("\n\t\t" + points[i] + ":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
-                                    i = i + 1
-                        else:
-                            points = GetPoints(b,"old")
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["old"].values())) + " ) { ")
-                            i = 0
-                            for l in buildings[b]["levels"]:
-                                for c in buildings[b]["old"]:
-                                    file.write("\n\t\t" + points[i] +":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
-                                    i = i + 1
-                        file.write("\n\t}")
-                
-                # Switches
-                if "end_of_old_era" in buildings[b]:
-                    for  v in buildings[b]["variants"]:
-                        file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
-
-                file.write("\n")
-                file.close()
-
-    # Create Directions Switches
-    for b in newjsonbuildings:
-        # For A and B variants
-        if list(buildings[b]["variants"].keys()) == ["a", "b"]:
-            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-                file.write("\n// Direction Switches")
-                file.write("\n\t"+ SpriteDirectionsAB(b))
-                file.close()
-
-
-    # Create Item Block
-    for b in newjsonbuildings:
-        with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-            file.write("\n// Item Block\n\titem(FEAT_HOUSES, item_" + b + ", " + str(buildings[b]["id"]) + ", " + str(buildings[b]["tile_size"])  + "){")
-            file.write("\n\t\tproperty {")
-            file.write("\n\t\t\tsubstitute:\t\t\t\t\t" + str(buildings[b]["properties"]["substitute"]) + ";")
-            file.write("\n\t\t\tname:\t\t\t\t\t\t" + str(buildings[b]["properties"]["stringname"]) + ";")
-            file.write("\n\t\t\tpopulation:\t\t\t\t\t" + str(buildings[b]["properties"]["population"]) + ";")
-            file.write("\n\t\t\taccepted_cargos:\t\t\t" + str(buildings[b]["properties"]["accepted_cargos"]) + ";")
-            file.write("\n\t\t\tlocal_authority_impact:\t\t" + str(buildings[b]["properties"]["local_authority_impact"]) + ";")
-            file.write("\n\t\t\tremoval_cost_multiplier:\t" + str(buildings[b]["properties"]["removal_cost_multiplier"]) + ";")
-            file.write("\n\t\t\tprobability:\t\t\t\t" + str(buildings[b]["properties"]["probability"]) + ";")
-            file.write("\n\t\t\tyears_available:\t\t\t" + str(buildings[b]["properties"]["years_available"]) + ";")
-            file.write("\n\t\t\tminimum_lifetime:\t\t\t" + str(buildings[b]["properties"]["minimum_lifetime"]) + ";")
-            file.write("\n\t\t\tavailability_mask:\t\t\t" + str(buildings[b]["properties"]["availability_mask"]) + ";")
-            file.write("\n\t\t\tbuilding_class:\t\t\t\t" + str(buildings[b]["properties"]["building_class"]) + ";")
-            file.write("\n\t\t\t}\n\t\tgraphics {")
-            try:
-                file.write("\n\t\t\tdefault:\t\t\t\t\t" + str(buildings[b]["graphics"]["default"]) + ";")
-            except:
-                try:
-                    file.write("\n\t\t\tgraphics_north:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_north"]) + ";")
-                except:
-                    pass
-            try:
-                file.write("\n\t\t\tgraphics_east:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_east"]) + ";")
-            except:
-                pass
-            try:
-                file.write("\n\t\t\tgraphics_west:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_west"]) + ";")
-            except:
-                pass
-            try:
-                file.write("\n\t\t\tgraphics_south:\t\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
-            except:
-                pass
-            try:
-                file.write("\n\t\t\tconstruction_check:\t\t\t" + str(buildings[b]["graphics"]["construction_check"]) + ";")
-            except:
-                pass
-            file.write("\n\t\t\tcargo_production:\t\t\t" + str(buildings[b]["graphics"]["cargo_production"]) + ";")
-
-            file.write("\n\t\t}\n}\n")
-            file.close()

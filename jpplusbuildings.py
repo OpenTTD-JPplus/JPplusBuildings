@@ -1,5 +1,5 @@
 
-from lib import functions
+from lib import functions, buildingsjson, buildingsfiles
 
 # This file creates the majority of building related pnml files, the exception being graphics ('gfx') pnml files
 # It does not create centalised pnml files e.g. header.pnml  or src/functions files
@@ -11,14 +11,14 @@ print("\tCreating JSONs")
 functions.CreateRemapJSON()
 functions.CreateBuildingPalettes()
 # New Function
-functions.CreateBuildingsJSON()
+buildingsjson.CreateBuildingsJSON()
 # Old Function
 functions.CreateItemJSON()
 # Check if buildings in spreadsheet that shoyld have a recolour palette do
 functions.CheckColourWeightingPresent()
 
 print("\tRunning CreateBuildingFiles")
-functions.CreateBuildingFiles()
+buildingsfiles.CreateBuildingFiles()
 
 print("\tRunning CreateRecolourPnml")
 functions.CreateRecolourPnml()
