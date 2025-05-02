@@ -43,6 +43,27 @@ def SpriteDirectionsAB(b):
 
     return random_switch + south_direction_ab + east_direction_ab + west_direction_ab + north_direction_ab + direction_ab
 
+def SpriteDirectionsABENSW(b):
+    random_switch = "\n\trandom_switch (FEAT_HOUSES, SELF, switch_" + b + "_random_sprites) {\n\t\t1: switch_" + b + "_a_sprites;\n\t\t1: switch_" + b +"_b_sprites;\n\t}\n"
+    direction_abensw = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, SpriteDirections() ) {" + \
+        "\n\t\t1:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t2:  switch_" + b + "_b_sprites;" + \
+        "\n\t\t3:  switch_" + b + "_s_sprites;" + \
+        "\n\t\t4:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t5:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t6:  switch_" + b + "_w_sprites;" + \
+        "\n\t\t7:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t8:  switch_" + b + "_b_sprites;" + \
+        "\n\t\t9:  switch_" + b + "_e_sprites;" + \
+        "\n\t\t10: switch_" + b + "_b_sprites;" + \
+        "\n\t\t11: switch_" + b + "_b_sprites;" + \
+        "\n\t\t12: switch_" + b + "_n_sprites;" + \
+        "\n\t\t13: switch_" + b + "_a_sprites;" + \
+        "\n\t\t14: switch_" + b + "_b_sprites;" + \
+        "\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
+
+    return random_switch + direction_abensw
+
 def CreateBuildingFiles():
     newjsonbuildings = [x for x in buildings if buildings[x]["newjson"] == True ]
 
@@ -161,7 +182,12 @@ def CreateBuildingFiles():
                 file.write("\n// Direction Switches")
                 file.write("\n\t"+ SpriteDirectionsAB(b))
                 file.close()
-
+        # For A, B, E, N, S and W variants
+        if list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]:
+            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                file.write("\n// Direction Switches")
+                file.write("\n\t"+ SpriteDirectionsABENSW(b))
+                file.close()
 
     # Create Item Block
     for b in newjsonbuildings:
@@ -199,8 +225,14 @@ def CreateBuildingFiles():
                 file.write("\n\t\t\tgraphics_south:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
             except:
                 pass
+            # Construction Check
             try:
                 file.write("\n\t\t\tconstruction_check:\t\t\t" + str(buildings[b]["graphics"]["construction_check"]) + ";")
+            except:
+                pass
+            # Protection Check
+            try:
+                file.write("\n\t\t\tprotection:\t\t\t\t\t" + str(buildings[b]["graphics"]["protection"]) + ";")
             except:
                 pass
             file.write("\n\t\t\tcargo_production:\t\t\t" + str(buildings[b]["graphics"]["cargo_production"]) + ";")
