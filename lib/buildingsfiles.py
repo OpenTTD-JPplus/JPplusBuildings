@@ -139,21 +139,26 @@ def CreateBuildingFiles():
         if b in [b for b in buildings if buildings[b]["recolour"] == True]:
             with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
                 file.write("\n// Colour Switches")
-                if "end_of_old_era" in buildings[b]:
+                if "end_of_old_era" in buildings[b]: # Those with old colours have two runs
                     colour_options = ["all","old"]   
                 else:
                     colour_options = ["sprites"]
                 for v in buildings[b]["variants"]:
                     for o in colour_options:
-                        if o == "all" or o =="sprites":
+                        if o == "all" or o =="sprites": # When colour option is 'all' or 'sprites'
                             points = GetPoints(b,"all")
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                            # Switch header
+                            if "end_of_old_era" in buildings[b] or list(buildings[b]["variants"].keys()) == ["a", "b"] or list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]or list(buildings[b]["variants"].keys()) == ["n", "e", "w", "s"]:
+                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                            else:
+                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                            # Each line in switch
                             i = 0
                             for l in buildings[b]["levels"]:
                                 for c in buildings[b]["all"]:
                                     file.write("\n\t\t" + points[i] + ":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
                                     i = i + 1
-                        else:
+                        else: # When colour option is 'old'
                             points = GetPoints(b,"old")
                             file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["old"].values())) + " ) { ")
                             i = 0
@@ -161,9 +166,8 @@ def CreateBuildingFiles():
                                 for c in buildings[b]["old"]:
                                     file.write("\n\t\t" + points[i] +":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
                                     i = i + 1
-                        file.write("\n\t}")
-                
-                # Switches
+                        file.write("\n\t}")     
+                # Switches for All vs Old 
                 if "end_of_old_era" in buildings[b]:
                     if b == buildings[b]["folder"]:
                         for v in buildings[b]["variants"]:
@@ -171,10 +175,14 @@ def CreateBuildingFiles():
                     else:
                         for v in buildings[b]["variants"]:
                             file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+                else:
+                    pass #print("Check here #001 - " + b)
                 file.write("\n")
                 file.close()
+        else:
+            print("Check here #002 - " + b)  
 
-    # Create Directions Switches
+    # Create Directions Switches - REMEMBER TO ADD ANY NEW ABOVE!!
     for b in newjsonbuildings:
         # For A and B variants
         if list(buildings[b]["variants"].keys()) == ["a", "b"]:
