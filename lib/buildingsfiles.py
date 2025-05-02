@@ -174,7 +174,10 @@ def CreateBuildingFiles():
                             file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
                     else:
                         for v in buildings[b]["variants"]:
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+                            if v == 'h':
+                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+                            else:
+                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
                 else:
                     pass #print("Check here #001 - " + b)
                 file.write("\n")
