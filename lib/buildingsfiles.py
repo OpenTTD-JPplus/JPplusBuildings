@@ -74,17 +74,40 @@ def CreateBuildingFiles():
                                 file.write("\n\t\t\t\t\t\tsprite: " + buildings[b]["ground_override"] + "_" + k)
                             except:
                                 file.write("\n\t\t\t\t\t\tsprite: spr_" + buildings[b]["folder"] + "_" + v + "_ground_" + k)
+                            # Ground Construction State
                             try:
                                 file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
                             except:
                                 file.write(" (construction_state);")
-                            file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
+                            # Building Sprites
+                            try:
+                                if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
+                                    file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l +"_" + k)
+                            except:    
+                                file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
+                            # Buildings Constructiion State
                             try:
                                 file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
                             except:
                                 file.write(" (construction_state);")
+                            # Colour Remapping
                             file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
                             file.write("\n\t\t\t\t\t\tpalette: recolour_remap + " + str(recolour[c]["remap"]) + ";")
+                            # Hide Sprite Check
+                            try: 
+                                file.write("\n\t\t\t\t\t\thide_sprite: " + str(buildings[b]["variants"][v]["hide_sprite"]) + ";")
+                            except:
+                                pass
+                            # X Offset Check
+                            try: 
+                                file.write("\n\t\t\t\t\t\txoffset: " + str(buildings[b]["variants"][v]["xoffset"]) + ";")
+                            except:
+                                pass
+                            # Y Offset Check
+                            try: 
+                                file.write("\n\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
+                            except:
+                                pass
                             file.write("\n\t\t\t\t\t}\n\t\t\t}\n")
                         file.write("\n\t\t\t\tswitch(FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + l + "_" + c + "_snow, terrain_type) {\n\t\t\t\t\tTILETYPE_SNOW: sprlay_" + b + "_" + v + "_" + l + "_" + c + "_snow;\n\t\t\t\t\tsprlay_" + b + "_" + v + "_" + l + "_" + c + "_norm;\n\t\t\t\t}\n")
             file.write("\n")

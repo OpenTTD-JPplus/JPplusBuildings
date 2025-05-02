@@ -118,6 +118,7 @@ def CreateBuildingsJSON():
     df_graphics = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'con_check_override', 'cargo_pass', 'cargo_mail', 'height', 'tile_size'])
     df_old_era = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'old_era_end'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
+    df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
     df_levels = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'levels'])
     df_variants = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'variants'], dtype={'variants':str})
     df_pal = pd.read_excel('docs/buildings.ods','colours')
@@ -127,9 +128,14 @@ def CreateBuildingsJSON():
     df_old_era = df_old_era.dropna()
     df_old_era['old_era_end'] = df_old_era['old_era_end'].astype(int)
     df_ground = df_ground.dropna()
+    df_shared_gfx = df_shared_gfx.dropna()
+    df_shared_gfx['shared_gfx'] = True
     df_levels = df_levels.dropna()
     df_variants = df_variants.dropna()
+    df_variants['variants'] = df_variants['variants'].str.replace('X','xoffset')
+    df_variants['variants'] = df_variants['variants'].str.replace('Y','yoffset')
     df_variants['variants'] = df_variants['variants'].str.replace('$','construction_state')
+    df_variants['variants'] = df_variants['variants'].str.replace('#','hide_sprite')
     df_properties['stringname'] = 'string(' + df_properties['stringname'] + ')'
     df_properties['accepted_cargos'] = '[' + df_properties['accepted_cargos'] + ']'
     df_properties['local_authority_impact'] = 80
@@ -160,6 +166,7 @@ def CreateBuildingsJSON():
     buildings = df_items.set_index('name').T.to_dict('dict')
     old_era_end = df_old_era.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
+    shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
     levels = df_levels.set_index('name').T.to_dict('dict')
     variants = df_variants.set_index('name').T.to_dict('dict')
     building_palettes = df_pal.groupby('name').apply(lambda x: x.set_index('colours').to_dict(orient='index')).to_dict()
@@ -172,6 +179,9 @@ def CreateBuildingsJSON():
 
     for b in ground:
         buildings[b]["ground_override"] = ground[b]["ground_override"]
+
+    for b in shared_gfx:
+        buildings[b]["shared_gfx"] = shared_gfx[b]["shared_gfx"]
 
     for b in levels:
         buildings[b]["levels"] = levels[b]["levels"].split(",")
