@@ -118,8 +118,10 @@ def CreateBuildingsJSON():
     # Import the Dataframes
     df_items = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'folder', 'id', 'include', 'tile_size', 'height', 'newjson', 'recolour'])
     df_properties = pd.read_excel('docs/buildings.ods','items', 
-        usecols=['name', 'substitute', 'stringname', 'population', 'accepted_cargos', 'probability', 'yearstart', 'yearend', 'minimum_lifetime', 'townzone_number', 'building_class'])
+        usecols=['name', 'substitute', 'population', 'accepted_cargos', 'probability', 'yearstart', 'yearend', 'minimum_lifetime', 'townzone_number', 'building_class'])
     df_graphics = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'con_check_override', 'cargo_pass', 'cargo_mail', 'height', 'tile_size'])
+    df_name_via_prop = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'stringname'])
+    df_name_switch = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'name_switch'])
     df_old_era = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'old_era_end'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
     df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
@@ -130,6 +132,9 @@ def CreateBuildingsJSON():
 
     # Modify the data
     df_items['tile_size'] = df_items.apply(TileSize, axis=1)
+    df_name_via_prop = df_name_via_prop.dropna()
+    df_name_via_prop['stringname'] = 'string(' + df_name_via_prop['stringname'] + ')'
+    df_name_switch = df_name_switch.dropna()
     df_old_era = df_old_era.dropna()
     df_old_era['old_era_end'] = df_old_era['old_era_end'].astype(int)
     df_ground = df_ground.dropna()
@@ -143,7 +148,6 @@ def CreateBuildingsJSON():
     df_variants['variants'] = df_variants['variants'].str.replace('Y','yoffset')
     df_variants['variants'] = df_variants['variants'].str.replace('$','construction_state')
     df_variants['variants'] = df_variants['variants'].str.replace('#','hide_sprite')
-    df_properties['stringname'] = 'string(' + df_properties['stringname'] + ')'
     df_properties['accepted_cargos'] = '[' + df_properties['accepted_cargos'] + ']'
     df_properties['local_authority_impact'] = 80
     df_properties['removal_cost_multiplier'] = 80
@@ -171,6 +175,8 @@ def CreateBuildingsJSON():
 
     # Convert to dictionaries
     buildings = df_items.set_index('name').T.to_dict('dict')
+    name_via_prop = df_name_via_prop.set_index('name').T.to_dict('dict')
+    name_switch = df_name_switch.set_index('name').T.to_dict('dict')
     old_era_end = df_old_era.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
     shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
@@ -229,6 +235,13 @@ def CreateBuildingsJSON():
     for b in protection:
         buildings[b]["graphics"]["protection"] = protection[b]["protection"]
 
+    for b in name_via_prop:
+        buildings[b]["properties"]["name"] = name_via_prop[b]["stringname"]
+    
+    for b in name_switch:
+        buildings[b]["graphics"]["name"] = eval(name_switch[b]["name_switch"])
+        for level in buildings[b]["graphics"]["name"]["names"]:
+            buildings[b]["graphics"]["name"]["names"][level] = 'return string(' + str(buildings[b]["graphics"]["name"]["names"][level]) + ')'
     
     buildings = CleanNones(buildings)
 

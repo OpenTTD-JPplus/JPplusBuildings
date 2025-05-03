@@ -31,6 +31,20 @@ def GetPoints(b,colour_era):
             bits.append(str(start_points[i]) + ".." + str(end_points[i] -1))
     return bits
 
+def GetPointsLevels(b,colour_era):
+    width_of_level = sum(buildings[b][colour_era].values())
+    number_of_levels = NumLevels(b)
+    bits = []
+    s = 0
+    for i in range(number_of_levels):
+        if width_of_level > 1:
+            bits.append(str(s) + '..' + str(s + width_of_level - 1) + ':')
+            s = s + width_of_level
+        else:
+            bits.append(str(s) + ':')
+            s = s + width_of_level
+    return bits
+
 def SpriteDirectionsAB(b):
     random_switch = "\n\trandom_switch (FEAT_HOUSES, SELF, switch_" + b + "_random_sprites) {\n\t\t1: switch_" + b + "_a_sprites;\n\t\t1: switch_" + b +"_b_sprites;\n\t}\n"
     south_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_south_check, SpriteDirectionsSouth()) {\n\t\t4: switch_" + b + "_a_sprites;\n\t\t6: switch_" + b + "_a_sprites;\n\t\t9: switch_" + b + "_b_sprites;\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
@@ -91,9 +105,14 @@ def CreateBuildingFiles():
                             file.write("\n\t\t\t\t// " + k)
                             file.write("\n\t\t\t\tspritelayout sprlay_" + b + "_" + v + "_" + l + "_" + c + "_" + k + " {\n\t\t\t\t\tground {")
                             # Ground Override
-                            try:
-                                file.write("\n\t\t\t\t\t\tsprite: " + buildings[b]["ground_override"] + "_" + k)
-                            except:
+                            if 'ground_override' in buildings[b].keys():
+                                if '[level]' in buildings[b]["ground_override"]:
+                                    level_override = buildings[b]["ground_override"]
+                                    level_override = level_override.replace("[level]",l)
+                                    file.write("\n\t\t\t\t\t\tsprite: " + level_override + "_" + k)
+                                else:
+                                    file.write("\n\t\t\t\t\t\tsprite: " + buildings[b]["ground_override"] + "_" + k)
+                            else:
                                 file.write("\n\t\t\t\t\t\tsprite: spr_" + buildings[b]["folder"] + "_" + v + "_ground_" + k)
                             # Ground Construction State
                             try:
@@ -200,13 +219,31 @@ def CreateBuildingFiles():
                 file.write("\n\t"+ SpriteDirectionsABENSW(b))
                 file.close()
 
+    # Name Switches
+    name_switchers = [b for b in buildings if 'name' in buildings[b]["graphics"].keys()]
+    for b in name_switchers:
+        with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                file.write("\n// Name Switches")
+                if buildings[b]["graphics"]["name"]["convention"] == 'levels':
+                    file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_name, random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                    points = GetPointsLevels(b,"all")
+                    i = 0
+                    for level in buildings[b]["levels"]:
+                        file.write("\n\t\t" + points[i])
+                        file.write("\t" + buildings[b]["graphics"]["name"]["names"][level] + ";")
+                        i = i + 1
+                    file.write("\n\t}\n")
+                file.close()
+
     # Create Item Block
     for b in newjsonbuildings:
         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
             file.write("\n// Item Block\n\titem(FEAT_HOUSES, item_" + b + ", " + str(buildings[b]["id"]) + ", " + str(buildings[b]["tile_size"])  + "){")
+            # Properties Block
             file.write("\n\t\tproperty {")
             file.write("\n\t\t\tsubstitute:\t\t\t\t\t" + str(buildings[b]["properties"]["substitute"]) + ";")
-            file.write("\n\t\t\tname:\t\t\t\t\t\t" + str(buildings[b]["properties"]["stringname"]) + ";")
+            if b not in name_switchers:
+                file.write("\n\t\t\tname:\t\t\t\t\t\t" + str(buildings[b]["properties"]["name"]) + ";")
             file.write("\n\t\t\tpopulation:\t\t\t\t\t" + str(buildings[b]["properties"]["population"]) + ";")
             file.write("\n\t\t\taccepted_cargos:\t\t\t" + str(buildings[b]["properties"]["accepted_cargos"]) + ";")
             file.write("\n\t\t\tlocal_authority_impact:\t\t" + str(buildings[b]["properties"]["local_authority_impact"]) + ";")
@@ -216,6 +253,7 @@ def CreateBuildingFiles():
             file.write("\n\t\t\tminimum_lifetime:\t\t\t" + str(buildings[b]["properties"]["minimum_lifetime"]) + ";")
             file.write("\n\t\t\tavailability_mask:\t\t\t" + str(buildings[b]["properties"]["availability_mask"]) + ";")
             file.write("\n\t\t\tbuilding_class:\t\t\t\t" + str(buildings[b]["properties"]["building_class"]) + ";")
+            # Graphics Block
             file.write("\n\t\t\t}\n\t\tgraphics {")
             try:
                 file.write("\n\t\t\tdefault:\t\t\t\t\t" + str(buildings[b]["graphics"]["default"]) + ";")
@@ -236,6 +274,9 @@ def CreateBuildingFiles():
                 file.write("\n\t\t\tgraphics_south:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
             except:
                 pass
+            # Name
+            if b in name_switchers:
+                file.write("\n\t\t\tname:\t\t\t\t\t\tswitch_" + b + "_name;")
             # Construction Check
             try:
                 file.write("\n\t\t\tconstruction_check:\t\t\t" + str(buildings[b]["graphics"]["construction_check"]) + ";")

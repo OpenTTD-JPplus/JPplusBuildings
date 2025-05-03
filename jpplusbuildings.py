@@ -38,8 +38,8 @@ functions.CreateColourSwitches()
 print("\tRunning CreateDirectionSwitches")
 functions.CreateDirectionSwitches()
 
-print("\tRunning CreateNameSwitches")
-functions.CreateNameSwitches()
+'''print("\tRunning CreateNameSwitches")
+functions.CreateNameSwitches()'''
 
 print("\tRunning PnmlCombiner")
 functions.PnmlCombiner()

@@ -866,7 +866,7 @@ def CreateDirectionSwitches():
         else:
             print(b + " has an unrecognised variant #3")
 
-def CreateNameSwitches():
+'''def CreateNameSwitches():
     items = LoadJSON('lib/items.json')
     schema = LoadJSON('lib/buildings.json')
 
@@ -893,7 +893,7 @@ def CreateNameSwitches():
                 m = m + 1
         f.write("}\n")
         f.close()
-
+'''
 def PnmlCombiner():
     folders = ["levels", "colours", "variants"]
 
@@ -957,11 +957,11 @@ def PnmlCombiner():
             f.write('\n#include "src/houses/' + b +'/switches/direction_switches.pnml"')
         else:
             print(b + " has an unrecognised variant #4 pnml_combiner.py")
-        # Name switches
+        '''# Name switches
         if os.path.exists('./src/houses/' + b +'/switches/name_switches.pnml'):
             f.write('\n#include "src/houses/' + b +'/switches/name_switches.pnml"')
         else:
-            pass
+            pass'''
         f.close()
 
 def CreateItems():
