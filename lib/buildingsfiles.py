@@ -89,135 +89,145 @@ def CreateBuildingFiles():
                 file.write('\n#include "src/houses/' + b + '/gfx/' + b + '_sprites.pnml"\n')
             file.close()
 
+    # Manual Switches
+    manual_switchers = [b for b in buildings if 'manual' in buildings[b].keys()]
+    for b in manual_switchers:
+        with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+            file.write('\n#include "src/houses/' + buildings[b]["folder"] + '/' + b + '_manual_switches.pnml"\n')
+            file.close()
+
     # Create Spritelayouts
     climates = ["norm","snow"]
 
     for b in newjsonbuildings:
-         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-            file.write("\n// Spritelayouts")
-            for v in buildings[b]["variants"]:
-                file.write("\n\t// " + v)
-                for l in buildings[b]["levels"]:
-                    file.write("\n\t\t// " + l)
-                    for c in buildings[b]["all"]:
-                        file.write("\n\t\t\t// " + c)
-                        for k in climates:
-                            file.write("\n\t\t\t\t// " + k)
-                            file.write("\n\t\t\t\tspritelayout sprlay_" + b + "_" + v + "_" + l + "_" + c + "_" + k + " {\n\t\t\t\t\tground {")
-                            # Ground Override
-                            if 'ground_override' in buildings[b].keys():
-                                if '[level]' in buildings[b]["ground_override"]:
-                                    level_override = buildings[b]["ground_override"]
-                                    level_override = level_override.replace("[level]",l)
-                                    file.write("\n\t\t\t\t\t\tsprite: " + level_override + "_" + k)
+        if b not in manual_switchers:
+            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                file.write("\n// Spritelayouts")
+                for v in buildings[b]["variants"]:
+                    file.write("\n\t// " + v)
+                    for l in buildings[b]["levels"]:
+                        file.write("\n\t\t// " + l)
+                        for c in buildings[b]["all"]:
+                            file.write("\n\t\t\t// " + c)
+                            for k in climates:
+                                file.write("\n\t\t\t\t// " + k)
+                                file.write("\n\t\t\t\tspritelayout sprlay_" + b + "_" + v + "_" + l + "_" + c + "_" + k + " {\n\t\t\t\t\tground {")
+                                # Ground Override
+                                if 'ground_override' in buildings[b].keys():
+                                    if '[level]' in buildings[b]["ground_override"]:
+                                        level_override = buildings[b]["ground_override"]
+                                        level_override = level_override.replace("[level]",l)
+                                        file.write("\n\t\t\t\t\t\tsprite: " + level_override + "_" + k)
+                                    else:
+                                        file.write("\n\t\t\t\t\t\tsprite: " + buildings[b]["ground_override"] + "_" + k)
                                 else:
-                                    file.write("\n\t\t\t\t\t\tsprite: " + buildings[b]["ground_override"] + "_" + k)
-                            else:
-                                file.write("\n\t\t\t\t\t\tsprite: spr_" + buildings[b]["folder"] + "_" + v + "_ground_" + k)
-                            # Ground Construction State
-                            try:
-                                file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
-                            except:
-                                file.write(" (construction_state);")
-                            # Building Sprites
-                            try:
-                                if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
-                                    file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l +"_" + k)
-                            except:    
-                                file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
-                            # Buildings Constructiion State
-                            try:
-                                file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
-                            except:
-                                file.write(" (construction_state);")
-                            # Colour Remapping
-                            file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
-                            file.write("\n\t\t\t\t\t\tpalette: recolour_remap + " + str(recolour[c]["remap"]) + ";")
-                            # Hide Sprite Check
-                            try: 
-                                file.write("\n\t\t\t\t\t\thide_sprite: " + str(buildings[b]["variants"][v]["hide_sprite"]) + ";")
-                            except:
-                                pass
-                            # X Offset Check
-                            try: 
-                                file.write("\n\t\t\t\t\t\txoffset: " + str(buildings[b]["variants"][v]["xoffset"]) + ";")
-                            except:
-                                pass
-                            # Y Offset Check
-                            try: 
-                                file.write("\n\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
-                            except:
-                                pass
-                            file.write("\n\t\t\t\t\t}\n\t\t\t}\n")
-                        file.write("\n\t\t\t\tswitch(FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + l + "_" + c + "_snow, terrain_type) {\n\t\t\t\t\tTILETYPE_SNOW: sprlay_" + b + "_" + v + "_" + l + "_" + c + "_snow;\n\t\t\t\t\tsprlay_" + b + "_" + v + "_" + l + "_" + c + "_norm;\n\t\t\t\t}\n")
-            file.write("\n")
-            file.close()
+                                    file.write("\n\t\t\t\t\t\tsprite: spr_" + buildings[b]["folder"] + "_" + v + "_ground_" + k)
+                                # Ground Construction State
+                                try:
+                                    file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
+                                except:
+                                    file.write(" (construction_state);")
+                                # Building Sprites
+                                try:
+                                    if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
+                                        file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l +"_" + k)
+                                except:    
+                                    file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
+                                # Buildings Constructiion State
+                                try:
+                                    file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
+                                except:
+                                    file.write(" (construction_state);")
+                                # Colour Remapping
+                                file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
+                                file.write("\n\t\t\t\t\t\tpalette: recolour_remap + " + str(recolour[c]["remap"]) + ";")
+                                # Hide Sprite Check
+                                try: 
+                                    file.write("\n\t\t\t\t\t\thide_sprite: " + str(buildings[b]["variants"][v]["hide_sprite"]) + ";")
+                                except:
+                                    pass
+                                # X Offset Check
+                                try: 
+                                    file.write("\n\t\t\t\t\t\txoffset: " + str(buildings[b]["variants"][v]["xoffset"]) + ";")
+                                except:
+                                    pass
+                                # Y Offset Check
+                                try: 
+                                    file.write("\n\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
+                                except:
+                                    pass
+                                file.write("\n\t\t\t\t\t}\n\t\t\t}\n")
+                            file.write("\n\t\t\t\tswitch(FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + l + "_" + c + "_snow, terrain_type) {\n\t\t\t\t\tTILETYPE_SNOW: sprlay_" + b + "_" + v + "_" + l + "_" + c + "_snow;\n\t\t\t\t\tsprlay_" + b + "_" + v + "_" + l + "_" + c + "_norm;\n\t\t\t\t}\n")
+                file.write("\n")
+                file.close()
 
     # Create Colour Switches
     for b in newjsonbuildings:
-        if b in [b for b in buildings if buildings[b]["recolour"] == True]:
-            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-                file.write("\n// Colour Switches")
-                if "end_of_old_era" in buildings[b]: # Those with old colours have two runs
-                    colour_options = ["all","old"]   
-                else:
-                    colour_options = ["sprites"]
-                for v in buildings[b]["variants"]:
-                    for o in colour_options:
-                        if o == "all" or o =="sprites": # When colour option is 'all' or 'sprites'
-                            points = GetPoints(b,"all")
-                            # Switch header
-                            if "end_of_old_era" in buildings[b] or list(buildings[b]["variants"].keys()) == ["a", "b"] or list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]or list(buildings[b]["variants"].keys()) == ["n", "e", "w", "s"]:
-                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
-                            else:
-                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
-                            # Each line in switch
-                            i = 0
-                            for l in buildings[b]["levels"]:
-                                for c in buildings[b]["all"]:
-                                    file.write("\n\t\t" + points[i] + ":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
-                                    i = i + 1
-                        else: # When colour option is 'old'
-                            points = GetPoints(b,"old")
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["old"].values())) + " ) { ")
-                            i = 0
-                            for l in buildings[b]["levels"]:
-                                for c in buildings[b]["old"]:
-                                    file.write("\n\t\t" + points[i] +":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
-                                    i = i + 1
-                        file.write("\n\t}")     
-                # Switches for All vs Old 
-                if "end_of_old_era" in buildings[b]:
-                    if b == buildings[b]["folder"]:
-                        for v in buildings[b]["variants"]:
-                            file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+        if b not in manual_switchers:
+            if b in [b for b in buildings if buildings[b]["recolour"] == True]:
+                with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                    file.write("\n// Colour Switches")
+                    if "end_of_old_era" in buildings[b]: # Those with old colours have two runs
+                        colour_options = ["all","old"]   
                     else:
-                        for v in buildings[b]["variants"]:
-                            if v == 'h':
+                        colour_options = ["sprites"]
+                    for v in buildings[b]["variants"]:
+                        for o in colour_options:
+                            if o == "all" or o =="sprites": # When colour option is 'all' or 'sprites'
+                                points = GetPoints(b,"all")
+                                # Switch header
+                                if "end_of_old_era" in buildings[b] or list(buildings[b]["variants"].keys()) == ["a", "b"] or list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]or list(buildings[b]["variants"].keys()) == ["n", "e", "w", "s"]:
+                                    file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                                else:
+                                    file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
+                                # Each line in switch
+                                i = 0
+                                for l in buildings[b]["levels"]:
+                                    for c in buildings[b]["all"]:
+                                        file.write("\n\t\t" + points[i] + ":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
+                                        i = i + 1
+                            else: # When colour option is 'old'
+                                points = GetPoints(b,"old")
+                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["old"].values())) + " ) { ")
+                                i = 0
+                                for l in buildings[b]["levels"]:
+                                    for c in buildings[b]["old"]:
+                                        file.write("\n\t\t" + points[i] +":\tswitch_" + b + "_" + v + "_" + l +"_" + c + "_snow;")
+                                        i = i + 1
+                            file.write("\n\t}")     
+                    # Switches for All vs Old 
+                    if "end_of_old_era" in buildings[b]:
+                        if b == buildings[b]["folder"]:
+                            for v in buildings[b]["variants"]:
                                 file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
-                            else:
-                                file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
-                else:
-                    pass #print("Check here #001 - " + b)
-                file.write("\n")
-                file.close()
-        else:
-            print("Check here #002 - " + b)  
+                        else:
+                            for v in buildings[b]["variants"]:
+                                if v == 'h':
+                                    file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+                                else:
+                                    file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_sprites, current_year - age) {\n\t\t0.." + str(buildings[b]["end_of_old_era"]) + ": switch_" + b + "_" + v + "_old;\n\t\tswitch_" + b + "_" + v + "_all;\n\t}")
+                    else:
+                        pass #print("Check here #001 - " + b)
+                    file.write("\n")
+                    file.close()
+            else:
+                print("Check here #002 - " + b)  
 
     # Create Directions Switches - REMEMBER TO ADD ANY NEW ABOVE!!
     for b in newjsonbuildings:
-        # For A and B variants
-        if list(buildings[b]["variants"].keys()) == ["a", "b"]:
-            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-                file.write("\n// Direction Switches")
-                file.write("\n\t"+ SpriteDirectionsAB(b))
-                file.close()
-        # For A, B, E, N, S and W variants
-        if list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]:
-            with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
-                file.write("\n// Direction Switches")
-                file.write("\n\t"+ SpriteDirectionsABENSW(b))
-                file.close()
+        if b not in manual_switchers:
+            # For A and B variants
+            if list(buildings[b]["variants"].keys()) == ["a", "b"]:
+                with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                    file.write("\n// Direction Switches")
+                    file.write("\n\t"+ SpriteDirectionsAB(b))
+                    file.close()
+            # For A, B, E, N, S and W variants
+            if list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]:
+                with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                    file.write("\n// Direction Switches")
+                    file.write("\n\t"+ SpriteDirectionsABENSW(b))
+                    file.close()
 
     # Name Switches
     name_switchers = [b for b in buildings if 'name' in buildings[b]["graphics"].keys()]

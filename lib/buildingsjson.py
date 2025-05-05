@@ -123,6 +123,7 @@ def CreateBuildingsJSON():
     df_name_via_prop = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'stringname'])
     df_name_switch = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'name_switch'])
     df_old_era = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'old_era_end'])
+    df_manual = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'manual'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
     df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
     df_protection = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'protection'])
@@ -137,6 +138,8 @@ def CreateBuildingsJSON():
     df_name_switch = df_name_switch.dropna()
     df_old_era = df_old_era.dropna()
     df_old_era['old_era_end'] = df_old_era['old_era_end'].astype(int)
+    df_manual = df_manual.dropna()
+    df_manual['manual'] = True
     df_ground = df_ground.dropna()
     df_shared_gfx = df_shared_gfx.dropna()
     df_shared_gfx['shared_gfx'] = True
@@ -178,6 +181,7 @@ def CreateBuildingsJSON():
     name_via_prop = df_name_via_prop.set_index('name').T.to_dict('dict')
     name_switch = df_name_switch.set_index('name').T.to_dict('dict')
     old_era_end = df_old_era.set_index('name').T.to_dict('dict')
+    manual = df_manual.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
     shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
     protection = df_protection.set_index('name').T.to_dict('dict')
@@ -190,6 +194,9 @@ def CreateBuildingsJSON():
     # Combine dictionaries
     for b in old_era_end:
         buildings[b]["end_of_old_era"] = old_era_end[b]["old_era_end"]
+
+    for b in manual:
+        buildings[b]["manual"] = manual[b]["manual"]
 
     for b in ground:
         buildings[b]["ground_override"] = ground[b]["ground_override"]
