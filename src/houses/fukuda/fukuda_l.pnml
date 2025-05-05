@@ -1,0 +1,94 @@
+
+// fukuda_l
+
+// Spritelayouts
+	// h
+		// 8L
+			// grey
+				// norm
+				spritelayout sprlay_fukuda_l_h_8L_grey_norm {
+					ground {
+						sprite: spr_fukuda_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_fukuda_l_h_8L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_fukuda_l_h_8L_grey_snow {
+					ground {
+						sprite: spr_fukuda_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_fukuda_l_h_8L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_fukuda_l_h_8L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_fukuda_l_h_8L_grey_snow;
+					sprlay_fukuda_l_h_8L_grey_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_fukuda_l_h_8L_midgrey_norm {
+					ground {
+						sprite: spr_fukuda_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_fukuda_l_h_8L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_fukuda_l_h_8L_midgrey_snow {
+					ground {
+						sprite: spr_fukuda_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_fukuda_l_h_8L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_fukuda_l_h_8L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_fukuda_l_h_8L_midgrey_snow;
+					sprlay_fukuda_l_h_8L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_fukuda_l_sprites, random_bits % 3 ) { 
+		0..1:	switch_fukuda_l_h_8L_grey_snow;
+		2:	switch_fukuda_l_h_8L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_fukuda_l, 23, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_FUKUDA),string(LARGE));
+			population:					125;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1945,1980];
+			minimum_lifetime:			10;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				31;
+			}
+		graphics {
+			default:					switch_fukuda_l_sprites;
+			construction_check:			switch_large_con_check;
+			cargo_production:			func_produce(0,0);
+		}
+}

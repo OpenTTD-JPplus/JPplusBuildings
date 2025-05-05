@@ -46,14 +46,44 @@ def GetPointsLevels(b,colour_era):
     return bits
 
 def SpriteDirectionsAB(b):
-    random_switch = "\n\trandom_switch (FEAT_HOUSES, SELF, switch_" + b + "_random_sprites) {\n\t\t1: switch_" + b + "_a_sprites;\n\t\t1: switch_" + b +"_b_sprites;\n\t}\n"
-    south_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_south_check, SpriteDirectionsSouth()) {\n\t\t4: switch_" + b + "_a_sprites;\n\t\t6: switch_" + b + "_a_sprites;\n\t\t9: switch_" + b + "_b_sprites;\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
-    east_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_east_check, SpriteDirectionsEast()) {\n\t\t4: switch_" + b + "_a_sprites;\n\t\t6: switch_" + b + "_a_sprites;\n\t\t9: switch_" + b + "_b_sprites;\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
-    west_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_west_check, SpriteDirectionsWest()) {\n\t\t6: switch_" + b + "_b_sprites;\n\t\t9: switch_" + b + "_a_sprites;\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
-    north_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_north_check, SpriteDirectionsNorth()) {\n\t\t6: switch_" + b + "_b_sprites;\n\t\t9: switch_" + b + "_a_sprites;\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
-    direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, SpriteDirections() ) {\n\t\t1: switch_" + b + "_a_sprites;\n\t\t2: switch_" + b + "_b_sprites;\n\t\t3: switch_" + b + \
-        "_south_check;\n\t\t4: switch_" + b + "_a_sprites;\n\t\t5: switch_" + b + "_a_sprites;\n\t\t6: switch_" + b + "_west_check;\n\t\t8: switch_" + b + "_b_sprites;\n\t\t9: switch_" + b + \
-        "_east_check;\n\t\t10: switch_" + b + "_b_sprites;\n\t\t12: switch_" + b + "_north_check;\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
+    random_switch = "\n\trandom_switch (FEAT_HOUSES, SELF, switch_" + b + "_random_sprites) {" + \
+        "\n\t\t1: switch_" + b + "_a_sprites;" + \
+        "\n\t\t1: switch_" + b +"_b_sprites;\n\t}\n"
+    
+    south_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_south_check, SpriteDirectionsSouth()) {" + \
+        "\n\t\t4: switch_" + b + "_a_sprites;" + \
+        "\n\t\t6: switch_" + b + "_a_sprites;" + \
+        "\n\t\t9: switch_" + b + "_b_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    east_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_east_check, SpriteDirectionsEast()) {" + \
+        "\n\t\t4: switch_" + b + "_a_sprites;" + \
+        "\n\t\t6: switch_" + b + "_a_sprites;" + \
+        "\n\t\t9: switch_" + b + "_b_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    west_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_west_check, SpriteDirectionsWest()) {" + \
+        "\n\t\t6: switch_" + b + "_b_sprites;" + \
+        "\n\t\t9: switch_" + b + "_a_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    north_direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_north_check, SpriteDirectionsNorth()) {" + \
+        "\n\t\t6: switch_" + b + "_b_sprites;" + \
+        "\n\t\t9: switch_" + b + "_a_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    direction_ab = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, SpriteDirections() ) {" + \
+        "\n\t\t1: switch_" + b + "_a_sprites;" + \
+        "\n\t\t2: switch_" + b + "_b_sprites;" + \
+        "\n\t\t3: switch_" + b + "_south_check;" + \
+        "\n\t\t4: switch_" + b + "_a_sprites;" + \
+        "\n\t\t5: switch_" + b + "_a_sprites;" + \
+        "\n\t\t6: switch_" + b + "_west_check;" + \
+        "\n\t\t8: switch_" + b + "_b_sprites;" + \
+        "\n\t\t9: switch_" + b + "_east_check;" + \
+        "\n\t\t10: switch_" + b + "_b_sprites;" + \
+        "\n\t\t12: switch_" + b + "_north_check;" + \
+        "\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
 
     return random_switch + south_direction_ab + east_direction_ab + west_direction_ab + north_direction_ab + direction_ab
 
@@ -77,6 +107,44 @@ def SpriteDirectionsABENSW(b):
         "\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
 
     return random_switch + direction_abensw
+
+def SpriteDirectionsABS(b):
+    random_switch = "\n\trandom_switch (FEAT_HOUSES, SELF, switch_" + b + "_random_sprites) {\n\t\t1: switch_" + b + "_a_sprites;\n\t\t1: switch_" + b +"_b_sprites;\n\t}\n"
+    
+    east_direction_abs = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_east_check, SpriteDirectionsEast()) {" + \
+        "\n\t\t4: switch_" + b + "_a_sprites;" + \
+        "\n\t\t6: switch_" + b + "_a_sprites;" + \
+        "\n\t\t9: switch_" + b + "_b_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    west_direction_abs = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_west_check, SpriteDirectionsWest()) {" + \
+        "\n\t\t6: switch_" + b + "_b_sprites;" + \
+        "\n\t\t9: switch_" + b + "_a_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+    
+    north_direction_abs = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_north_check, SpriteDirectionsNorth()) {" + \
+        "\n\t\t6: switch_" + b + "_b_sprites;" + \
+        "\n\t\t9: switch_" + b + "_a_sprites;" + \
+        "\n\t\tswitch_" + b +"_random_sprites;\n\t}\n"
+
+    direction_abs = "\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, SpriteDirections() ) {" + \
+        "\n\t\t1:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t2:  switch_" + b + "_b_sprites;" + \
+        "\n\t\t3:  switch_" + b + "_s_sprites;" + \
+        "\n\t\t4:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t5:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t6:  switch_" + b + "_west_check;" + \
+        "\n\t\t7:  switch_" + b + "_a_sprites;" + \
+        "\n\t\t8:  switch_" + b + "_b_sprites;" + \
+        "\n\t\t9:  switch_" + b + "_east_check;" + \
+        "\n\t\t10: switch_" + b + "_b_sprites;" + \
+        "\n\t\t11: switch_" + b + "_b_sprites;" + \
+        "\n\t\t12: switch_" + b + "_north_check;" + \
+        "\n\t\t13: switch_" + b + "_a_sprites;" + \
+        "\n\t\t14: switch_" + b + "_b_sprites;" + \
+        "\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
+
+    return random_switch + east_direction_abs + west_direction_abs + north_direction_abs + direction_abs
 
 def CreateBuildingFiles():
     newjsonbuildings = [x for x in buildings if buildings[x]["newjson"] == True ]
@@ -176,7 +244,8 @@ def CreateBuildingFiles():
                             if o == "all" or o =="sprites": # When colour option is 'all' or 'sprites'
                                 points = GetPoints(b,"all")
                                 # Switch header
-                                if "end_of_old_era" in buildings[b] or list(buildings[b]["variants"].keys()) == ["a", "b"] or list(buildings[b]["variants"].keys()) == ["a", "b", "e", "n", "s", "w"]or list(buildings[b]["variants"].keys()) == ["n", "e", "w", "s"]:
+                                keys = list(buildings[b]["variants"].keys())
+                                if "end_of_old_era" in buildings[b] or keys == ['a', 'b'] or keys == ['a', 'b', 'e', 'n', 's', 'w'] or keys == ['n', 'e', 'w', 's'] or keys == ['n', 'w'] or keys == ['n', 'e'] or keys == ['a', 'b', 's']:
                                     file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
                                 else:
                                     file.write("\n\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_" + o + ", random_bits % " + str(len(buildings[b]["levels"]) * sum(buildings[b]["all"].values())) + " ) { ")
@@ -227,6 +296,12 @@ def CreateBuildingFiles():
                 with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
                     file.write("\n// Direction Switches")
                     file.write("\n\t"+ SpriteDirectionsABENSW(b))
+                    file.close()
+            # For A, B and S variants
+            if list(buildings[b]["variants"].keys()) == ["a", "b", "s"]:
+                with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+                    file.write("\n// Direction Switches")
+                    file.write("\n\t"+ SpriteDirectionsABS(b))
                     file.close()
 
     # Name Switches

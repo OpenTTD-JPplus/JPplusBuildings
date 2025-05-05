@@ -40,7 +40,7 @@ def GraphicEast(x):
         return 'switch_' + str(x['name']) + '_e_sprites'
 
 def GraphicWest(x):
-    if x['tile_size'] == '2X2' or x['tile_size'] == '2x1':
+    if x['tile_size'] == '2X2' or x['tile_size'] == '2X1':
         return 'switch_' + str(x['name']) + '_w_sprites'
 
 def GraphicSouth(x):
