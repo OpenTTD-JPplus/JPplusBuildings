@@ -2,5 +2,95 @@
 // bank_building
 
 #include "src/houses/bank_building/gfx/bank_building_sprites.pnml"
-#include "src/houses/bank_building/levels/all.pnml"
-#include "src/houses/bank_building/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// black
+				// norm
+				spritelayout sprlay_bank_building_h_L_black_norm {
+					ground {
+						sprite: spr_bank_building_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_bank_building_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_bank_building_h_L_black_snow {
+					ground {
+						sprite: spr_bank_building_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_bank_building_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_bank_building_h_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_bank_building_h_L_black_snow;
+					sprlay_bank_building_h_L_black_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_bank_building_h_L_midgrey_norm {
+					ground {
+						sprite: spr_bank_building_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_bank_building_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_bank_building_h_L_midgrey_snow {
+					ground {
+						sprite: spr_bank_building_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_bank_building_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_bank_building_h_L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_bank_building_h_L_midgrey_snow;
+					sprlay_bank_building_h_L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_bank_building_sprites, random_bits % 3 ) { 
+		0..1:	switch_bank_building_h_L_black_snow;
+		2:	switch_bank_building_h_L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
+		property {
+			substitute:					90;
+			name:						string(STR_CONCAT_2, string(NAME_BANK_BUILDING),string(SKY));
+			population:					220;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			25;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				5;
+			}
+		graphics {
+			default:					switch_bank_building_sprites;
+			construction_check:			switch_skyscraper_con_check;
+			cargo_production:			func_produce(16,6);
+		}
+}

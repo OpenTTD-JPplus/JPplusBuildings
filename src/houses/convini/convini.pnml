@@ -2,5 +2,95 @@
 // convini
 
 #include "src/houses/convini/gfx/convini_sprites.pnml"
-#include "src/houses/convini/levels/all.pnml"
-#include "src/houses/convini/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// black
+				// norm
+				spritelayout sprlay_convini_h_L_black_norm {
+					ground {
+						sprite: spr_convini_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_convini_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_convini_h_L_black_snow {
+					ground {
+						sprite: spr_convini_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_convini_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_convini_h_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_convini_h_L_black_snow;
+					sprlay_convini_h_L_black_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_convini_h_L_midgrey_norm {
+					ground {
+						sprite: spr_convini_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_convini_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_convini_h_L_midgrey_snow {
+					ground {
+						sprite: spr_convini_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_convini_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_convini_h_L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_convini_h_L_midgrey_snow;
+					sprlay_convini_h_L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_convini_sprites, random_bits % 2 ) { 
+		0:	switch_convini_h_L_black_snow;
+		1:	switch_convini_h_L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_convini, 95, HOUSE_SIZE_1X1){
+		property {
+			substitute:					29;
+			name:						string(NAME_CONVINI);
+			population:					50;
+			accepted_cargos:			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1950,0xFFFF];
+			minimum_lifetime:			5;
+			availability_mask:			[bitmask(TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB, TOWNZONE_OUTSKIRT), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				3;
+			}
+		graphics {
+			default:					switch_convini_sprites;
+			construction_check:			switch_onsen_con_check;
+			cargo_production:			func_produce(5,3);
+		}
+}

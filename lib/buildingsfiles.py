@@ -255,39 +255,25 @@ def CreateBuildingFiles():
             file.write("\n\t\t\tbuilding_class:\t\t\t\t" + str(buildings[b]["properties"]["building_class"]) + ";")
             # Graphics Block
             file.write("\n\t\t\t}\n\t\tgraphics {")
-            try:
+            if 'default' in buildings[b]["graphics"].keys(): 
                 file.write("\n\t\t\tdefault:\t\t\t\t\t" + str(buildings[b]["graphics"]["default"]) + ";")
-            except:
-                try:
-                    file.write("\n\t\t\tgraphics_north:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_north"]) + ";")
-                except:
-                    pass
-            try:
+            if 'graphics_north' in buildings[b]["graphics"].keys():  
+                file.write("\n\t\t\tgraphics_north:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_north"]) + ";")
+            if 'graphics_east' in buildings[b]["graphics"].keys():  
                 file.write("\n\t\t\tgraphics_east:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_east"]) + ";")
-            except:
-                pass
-            try:
+            if 'graphics_west' in buildings[b]["graphics"].keys():   
                 file.write("\n\t\t\tgraphics_west:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_west"]) + ";")
-            except:
-                pass
-            try:
+            if 'graphics_south' in buildings[b]["graphics"].keys():   
                 file.write("\n\t\t\tgraphics_south:\t\t\t\t" + str(buildings[b]["graphics"]["graphics_south"]) + ";")
-            except:
-                pass
             # Name
             if b in name_switchers:
                 file.write("\n\t\t\tname:\t\t\t\t\t\tswitch_" + b + "_name;")
             # Construction Check
-            try:
+            if 'construction_check' in buildings[b]["graphics"].keys():
                 file.write("\n\t\t\tconstruction_check:\t\t\t" + str(buildings[b]["graphics"]["construction_check"]) + ";")
-            except:
-                pass
             # Protection Check
-            try:
+            if 'protection' in buildings[b]["graphics"].keys():
                 file.write("\n\t\t\tprotection:\t\t\t\t\t" + str(buildings[b]["graphics"]["protection"]) + ";")
-            except:
-                pass
             file.write("\n\t\t\tcargo_production:\t\t\t" + str(buildings[b]["graphics"]["cargo_production"]) + ";")
-
             file.write("\n\t\t}\n}\n")
             file.close()

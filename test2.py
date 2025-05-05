@@ -13,8 +13,9 @@ def LoadJSON(target_file):
 recolour = LoadJSON(recolourJSON)
 buildings = LoadJSON(buildingsJSON)
 
-points = GetPointsLevels("shiro","all")
-print(points)
+keys = buildings["temple"]["variants"]["e"].keys()
 
+
+print(keys)
 
 
