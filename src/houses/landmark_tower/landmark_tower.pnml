@@ -2,5 +2,126 @@
 // landmark_tower
 
 #include "src/houses/landmark_tower/gfx/landmark_tower_sprites.pnml"
-#include "src/houses/landmark_tower/levels/all.pnml"
-#include "src/houses/landmark_tower/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// white
+				// norm
+				spritelayout sprlay_landmark_tower_h_L_white_norm {
+					ground {
+						sprite: spr_landmark_tower_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_landmark_tower_h_L_white_snow {
+					ground {
+						sprite: spr_landmark_tower_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_landmark_tower_h_L_white_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_landmark_tower_h_L_white_snow;
+					sprlay_landmark_tower_h_L_white_norm;
+				}
+
+			// grey
+				// norm
+				spritelayout sprlay_landmark_tower_h_L_grey_norm {
+					ground {
+						sprite: spr_landmark_tower_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_landmark_tower_h_L_grey_snow {
+					ground {
+						sprite: spr_landmark_tower_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_landmark_tower_h_L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_landmark_tower_h_L_grey_snow;
+					sprlay_landmark_tower_h_L_grey_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_landmark_tower_h_L_midgrey_norm {
+					ground {
+						sprite: spr_landmark_tower_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_landmark_tower_h_L_midgrey_snow {
+					ground {
+						sprite: spr_landmark_tower_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_landmark_tower_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_landmark_tower_h_L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_landmark_tower_h_L_midgrey_snow;
+					sprlay_landmark_tower_h_L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_landmark_tower_sprites, random_bits % 3 ) { 
+		0:	switch_landmark_tower_h_L_white_snow;
+		1:	switch_landmark_tower_h_L_grey_snow;
+		2:	switch_landmark_tower_h_L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_landmark_tower, 80, HOUSE_SIZE_1X1){
+		property {
+			substitute:					4;
+			name:						string(STR_CONCAT_2, string(NAME_LANDMARK_TOWER),string(SKY));
+			population:					250;
+			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1993,0xFFFF];
+			minimum_lifetime:			25;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				5;
+			}
+		graphics {
+			default:					switch_landmark_tower_sprites;
+			construction_check:			switch_skyscraper_con_check;
+			cargo_production:			func_produce(24,10);
+		}
+}
