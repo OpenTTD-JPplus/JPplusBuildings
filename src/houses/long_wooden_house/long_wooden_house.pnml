@@ -2,5 +2,157 @@
 // long_wooden_house
 
 #include "src/houses/long_wooden_house/gfx/long_wooden_house_sprites.pnml"
-#include "src/houses/long_wooden_house/levels/all.pnml"
-#include "src/houses/long_wooden_house/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// f
+			// brown1
+				// norm
+				spritelayout sprlay_long_wooden_house_h_f_brown1_norm {
+					ground {
+						sprite: spr_ground_grass_norm (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_f_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_long_wooden_house_h_f_brown1_snow {
+					ground {
+						sprite: spr_ground_grass_snow (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_f_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_long_wooden_house_h_f_brown1_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_long_wooden_house_h_f_brown1_snow;
+					sprlay_long_wooden_house_h_f_brown1_norm;
+				}
+
+			// brown2
+				// norm
+				spritelayout sprlay_long_wooden_house_h_f_brown2_norm {
+					ground {
+						sprite: spr_ground_grass_norm (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_f_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_long_wooden_house_h_f_brown2_snow {
+					ground {
+						sprite: spr_ground_grass_snow (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_f_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_long_wooden_house_h_f_brown2_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_long_wooden_house_h_f_brown2_snow;
+					sprlay_long_wooden_house_h_f_brown2_norm;
+				}
+
+		// g
+			// brown1
+				// norm
+				spritelayout sprlay_long_wooden_house_h_g_brown1_norm {
+					ground {
+						sprite: spr_ground_grass_norm (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_g_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_long_wooden_house_h_g_brown1_snow {
+					ground {
+						sprite: spr_ground_grass_snow (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_g_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_long_wooden_house_h_g_brown1_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_long_wooden_house_h_g_brown1_snow;
+					sprlay_long_wooden_house_h_g_brown1_norm;
+				}
+
+			// brown2
+				// norm
+				spritelayout sprlay_long_wooden_house_h_g_brown2_norm {
+					ground {
+						sprite: spr_ground_grass_norm (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_g_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_long_wooden_house_h_g_brown2_snow {
+					ground {
+						sprite: spr_ground_grass_snow (construction_state);
+					}
+				building {
+						sprite: spr_long_wooden_house_h_g_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_long_wooden_house_h_g_brown2_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_long_wooden_house_h_g_brown2_snow;
+					sprlay_long_wooden_house_h_g_brown2_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_long_wooden_house_sprites, random_bits % 4 ) { 
+		0:	switch_long_wooden_house_h_f_brown1_snow;
+		1:	switch_long_wooden_house_h_f_brown2_snow;
+		2:	switch_long_wooden_house_h_g_brown1_snow;
+		3:	switch_long_wooden_house_h_g_brown2_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_long_wooden_house, 13, HOUSE_SIZE_1X1){
+		property {
+			substitute:					6;
+			name:						string(NAME_LONG_WOODEN_HOUSE);
+			population:					20;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1700,1944];
+			minimum_lifetime:			5;
+			availability_mask:			[bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				0;
+			}
+		graphics {
+			default:					switch_long_wooden_house_sprites;
+			cargo_production:			func_produce(1,1);
+		}
+}
