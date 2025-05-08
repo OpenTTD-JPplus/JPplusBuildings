@@ -1,0 +1,94 @@
+
+// obuilding_l
+
+// Spritelayouts
+	// h
+		// 10L
+			// light_blue
+				// norm
+				spritelayout sprlay_obuilding_l_h_10L_light_blue_norm {
+					ground {
+						sprite: spr_obuilding_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_obuilding_l_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 9;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_obuilding_l_h_10L_light_blue_snow {
+					ground {
+						sprite: spr_obuilding_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_obuilding_l_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 9;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_obuilding_l_h_10L_light_blue_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_obuilding_l_h_10L_light_blue_snow;
+					sprlay_obuilding_l_h_10L_light_blue_norm;
+				}
+
+			// dark_blue
+				// norm
+				spritelayout sprlay_obuilding_l_h_10L_dark_blue_norm {
+					ground {
+						sprite: spr_obuilding_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_obuilding_l_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_obuilding_l_h_10L_dark_blue_snow {
+					ground {
+						sprite: spr_obuilding_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_obuilding_l_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_obuilding_l_h_10L_dark_blue_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_obuilding_l_h_10L_dark_blue_snow;
+					sprlay_obuilding_l_h_10L_dark_blue_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_obuilding_l_sprites, random_bits % 2 ) { 
+		0:	switch_obuilding_l_h_10L_light_blue_snow;
+		1:	switch_obuilding_l_h_10L_dark_blue_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_obuilding_l, 48, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_OBUILDING),string(LARGE));
+			population:					125;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			10;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				54;
+			}
+		graphics {
+			default:					switch_obuilding_l_sprites;
+			construction_check:			switch_large_con_check;
+			cargo_production:			func_produce(14,5);
+		}
+}
