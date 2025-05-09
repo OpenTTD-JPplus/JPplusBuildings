@@ -2,4 +2,95 @@
 // toyoko
 
 #include "src/houses/toyoko/gfx/toyoko_sprites.pnml"
-#include "src/houses/toyoko/levels/all.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// white
+				// norm
+				spritelayout sprlay_toyoko_h_L_white_norm {
+					ground {
+						sprite: spr_toyoko_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_toyoko_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_toyoko_h_L_white_snow {
+					ground {
+						sprite: spr_toyoko_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_toyoko_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_toyoko_h_L_white_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_toyoko_h_L_white_snow;
+					sprlay_toyoko_h_L_white_norm;
+				}
+
+			// grey
+				// norm
+				spritelayout sprlay_toyoko_h_L_grey_norm {
+					ground {
+						sprite: spr_toyoko_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_toyoko_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_toyoko_h_L_grey_snow {
+					ground {
+						sprite: spr_toyoko_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_toyoko_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_toyoko_h_L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_toyoko_h_L_grey_snow;
+					sprlay_toyoko_h_L_grey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_toyoko_sprites, random_bits % 2 ) { 
+		0:	switch_toyoko_h_L_white_snow;
+		1:	switch_toyoko_h_L_grey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_toyoko, 59, HOUSE_SIZE_1X1){
+		property {
+			substitute:					29;
+			name:						string(NAME_TOYOKO_INN);
+			population:					150;
+			accepted_cargos:			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1986,0xFFFF];
+			minimum_lifetime:			20;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				3;
+			}
+		graphics {
+			default:					switch_toyoko_sprites;
+			construction_check:			switch_toyoko_con_check;
+			cargo_production:			func_produce(10,2);
+		}
+}
