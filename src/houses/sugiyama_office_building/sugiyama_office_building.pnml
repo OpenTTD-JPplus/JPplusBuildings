@@ -2,5 +2,99 @@
 // sugiyama_office_building
 
 #include "src/houses/sugiyama_office_building/gfx/sugiyama_office_building_sprites.pnml"
-#include "src/houses/sugiyama_office_building/levels/all.pnml"
-#include "src/houses/sugiyama_office_building/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// black
+				// norm
+				spritelayout sprlay_sugiyama_office_building_h_L_black_norm {
+					ground {
+						sprite: spr_sugiyama_office_building_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_sugiyama_office_building_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						yoffset: -1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_sugiyama_office_building_h_L_black_snow {
+					ground {
+						sprite: spr_sugiyama_office_building_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_sugiyama_office_building_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						yoffset: -1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_sugiyama_office_building_h_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_sugiyama_office_building_h_L_black_snow;
+					sprlay_sugiyama_office_building_h_L_black_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_sugiyama_office_building_h_L_midgrey_norm {
+					ground {
+						sprite: spr_sugiyama_office_building_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_sugiyama_office_building_h_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+						yoffset: -1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_sugiyama_office_building_h_L_midgrey_snow {
+					ground {
+						sprite: spr_sugiyama_office_building_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_sugiyama_office_building_h_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+						yoffset: -1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_sugiyama_office_building_h_L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_sugiyama_office_building_h_L_midgrey_snow;
+					sprlay_sugiyama_office_building_h_L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_sugiyama_office_building_sprites, random_bits % 3 ) { 
+		0..1:	switch_sugiyama_office_building_h_L_black_snow;
+		2:	switch_sugiyama_office_building_h_L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_sugiyama_office_building, 87, HOUSE_SIZE_1X1){
+		property {
+			substitute:					4;
+			name:						string(STR_CONCAT_2, string(NAME_SUGIYAMA_OFFICE_BUILDING),string(SKY));
+			population:					200;
+			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1990,0xFFFF];
+			minimum_lifetime:			25;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				5;
+			}
+		graphics {
+			default:					switch_sugiyama_office_building_sprites;
+			construction_check:			switch_skyscraper_con_check;
+			cargo_production:			func_produce(24,10);
+		}
+}
