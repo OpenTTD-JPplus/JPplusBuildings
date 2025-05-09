@@ -2,5 +2,165 @@
 // pagoda
 
 #include "src/houses/pagoda/gfx/pagoda_sprites.pnml"
-#include "src/houses/pagoda/levels/all.pnml"
-#include "src/houses/pagoda/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// grey
+				// norm
+				spritelayout sprlay_pagoda_h_L_grey_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+						xoffset: 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_L_grey_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+						xoffset: 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_L_grey_snow;
+					sprlay_pagoda_h_L_grey_norm;
+				}
+
+			// brown1
+				// norm
+				spritelayout sprlay_pagoda_h_L_brown1_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+						xoffset: 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_L_brown1_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+						xoffset: 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_brown1_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_L_brown1_snow;
+					sprlay_pagoda_h_L_brown1_norm;
+				}
+
+			// brown2
+				// norm
+				spritelayout sprlay_pagoda_h_L_brown2_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+						xoffset: 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_L_brown2_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+						xoffset: 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_brown2_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_L_brown2_snow;
+					sprlay_pagoda_h_L_brown2_norm;
+				}
+
+			// black
+				// norm
+				spritelayout sprlay_pagoda_h_L_black_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						xoffset: 3;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_L_black_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+				building {
+						sprite: spr_pagoda_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						xoffset: 3;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_L_black_snow;
+					sprlay_pagoda_h_L_black_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_pagoda_sprites, random_bits % 4 ) { 
+		0:	switch_pagoda_h_L_grey_snow;
+		1:	switch_pagoda_h_L_brown1_snow;
+		2:	switch_pagoda_h_L_brown2_snow;
+		3:	switch_pagoda_h_L_black_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_pagoda, 131, HOUSE_SIZE_1X1){
+		property {
+			substitute:					6;
+			name:						string(NAME_PAGODA);
+			population:					5;
+			accepted_cargos:			[[PASS, 4]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[0,0xFFFF];
+			minimum_lifetime:			50;
+			availability_mask:			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				3;
+			}
+		graphics {
+			default:					switch_pagoda_sprites;
+			construction_check:			switch_shrine_prohibition_con_check;
+			cargo_production:			func_produce(10,2);
+		}
+}

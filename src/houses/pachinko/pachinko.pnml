@@ -2,5 +2,103 @@
 // pachinko
 
 #include "src/houses/pachinko/gfx/pachinko_sprites.pnml"
-#include "src/houses/pachinko/levels/all.pnml"
-#include "src/houses/pachinko/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// h
+		// L
+			// black
+				// norm
+				spritelayout sprlay_pachinko_h_L_black_norm {
+					ground {
+						sprite: spr_pachinko_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_pachinko_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						xoffset: 3;
+						yoffset: -1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pachinko_h_L_black_snow {
+					ground {
+						sprite: spr_pachinko_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_pachinko_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+						xoffset: 3;
+						yoffset: -1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pachinko_h_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pachinko_h_L_black_snow;
+					sprlay_pachinko_h_L_black_norm;
+				}
+
+			// midgrey
+				// norm
+				spritelayout sprlay_pachinko_h_L_midgrey_norm {
+					ground {
+						sprite: spr_pachinko_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_pachinko_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+						xoffset: 3;
+						yoffset: -1;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pachinko_h_L_midgrey_snow {
+					ground {
+						sprite: spr_pachinko_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_pachinko_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+						xoffset: 3;
+						yoffset: -1;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pachinko_h_L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pachinko_h_L_midgrey_snow;
+					sprlay_pachinko_h_L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_pachinko_sprites, random_bits % 2 ) { 
+		0:	switch_pachinko_h_L_black_snow;
+		1:	switch_pachinko_h_L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_pachinko, 11, HOUSE_SIZE_1X1){
+		property {
+			substitute:					29;
+			name:						string(NAME_PACHINKO);
+			population:					50;
+			accepted_cargos:			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				3;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			10;
+			availability_mask:			[ALL_TOWNZONES & ~bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				3;
+			}
+		graphics {
+			default:					switch_pachinko_sprites;
+			construction_check:			switch_pachinko_con_check;
+			cargo_production:			func_produce(20,5);
+		}
+}
