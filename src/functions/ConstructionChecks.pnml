@@ -29,9 +29,9 @@
 		(current_year >= 1945 && !FuncServicePASS() )
 	) {return;}	
 
-// Small Height
+// Tiny Height
 
-	switch (FEAT_HOUSES, SELF, switch_small_wide_roads_con_check, 	
+	switch (FEAT_HOUSES, SELF, switch_tiny_wide_roads_con_check, 	
 
 		!WideRoads() &&
 		(
@@ -51,26 +51,20 @@
 	) {return;}
 
 	// Prevent building beside same class (i.e. stop two hiranos being beside each other)
-	switch(FEAT_HOUSES, SELF, switch_small_class_check, TileGapByClass(1) ) {
+	switch(FEAT_HOUSES, SELF, switch_tiny_class_check, TileGapByClass(1) ) {
 			0:return 0;
-			return switch_small_wide_roads_con_check;
+			return switch_tiny_wide_roads_con_check;
 		}
 
 	// However, if there is no PASS service, exception allowed for Centre Zone in Large Cities
-	switch (FEAT_HOUSES, SELF, switch_small_centre_exception_con_check, 	
+	switch (FEAT_HOUSES, SELF, switch_tiny_centre_exception_con_check, 	
 		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() && TileGapByClass(1)
 	) {return;}
 
 	// First check if there is Passenger service #failfast
-	switch(FEAT_HOUSES, SELF, switch_small_con_check, FuncServicePASS() ) {
-			0:return switch_small_centre_exception_con_check;
-			return switch_small_class_check;
-		}
-
-	// First check if there is Passenger service #failfast
 	switch(FEAT_HOUSES, SELF, switch_tiny_con_check, FuncServicePASS() ) {
-			0:return switch_small_centre_exception_con_check;
-			return switch_small_class_check;
+			0:return switch_tiny_centre_exception_con_check;
+			return switch_tiny_class_check;
 		}
 
 // Medium Height
