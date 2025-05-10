@@ -50088,401 +50088,443 @@ switch (FEAT_HOUSES, SELF, switch_shibuyat_l_sprites, SpriteDirections() ) {
 # 1 "src/houses/suzuki/gfx/suzuki_sprites.pnml" 1
 
 // Ground Sprites
-spriteset (spr_suzuki_a_ground, 		"src/houses/suzuki/gfx/ground_a.png") 		{template_ground(1,1)}
+spriteset (spr_suzuki_a_ground_norm, 	"src/houses/suzuki/gfx/ground_a.png") 		{template_ground(1,1)}
 spriteset (spr_suzuki_a_ground_snow, 	"src/houses/suzuki/gfx/ground_a.png") 		{template_ground(1,33)}
 
-spriteset (spr_suzuki_b_ground, 		"src/houses/suzuki/gfx/ground_b.png") 		{template_ground(1,1)}
+spriteset (spr_suzuki_b_ground_norm, 	"src/houses/suzuki/gfx/ground_b.png") 		{template_ground(1,1)}
 spriteset (spr_suzuki_b_ground_snow, 	"src/houses/suzuki/gfx/ground_b.png") 		{template_ground(1,33)}
 
 // Buildings
-spriteset (spr_suzuki_a_6L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,1)}
-spriteset (spr_suzuki_a_6L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,1)}
+spriteset (spr_suzuki_m_a_6L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,1)}
+spriteset (spr_suzuki_m_a_6L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,1)}
 
-spriteset (spr_suzuki_a_8L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,82)}
-spriteset (spr_suzuki_a_8L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,82)}
+spriteset (spr_suzuki_l_a_8L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,82)}
+spriteset (spr_suzuki_l_a_8L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,82)}
 
-spriteset (spr_suzuki_b_6L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,163)}
-spriteset (spr_suzuki_b_6L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,163)}
+spriteset (spr_suzuki_m_b_6L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,163)}
+spriteset (spr_suzuki_m_b_6L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,163)}
 
-spriteset (spr_suzuki_b_8L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,244)}
-spriteset (spr_suzuki_b_8L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,244)}
+spriteset (spr_suzuki_l_b_8L_norm, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(1,244)}
+spriteset (spr_suzuki_l_b_8L_snow, 		"src/houses/suzuki/gfx/building.png") 		{template_house_80(400,244)}
 # 1 "src/houses/suzuki/suzuki.pnml" 4
-# 1 "src/houses/suzuki/levels/all.pnml" 1
+# 1 "src/houses/suzuki/suzuki_m.pnml" 1
 
-// suzuki levels
+// suzuki_m
 
-// suzuki all colours
+// Spritelayouts
+	// a
+		// 6L
+			// mix01
+				// norm
+				spritelayout sprlay_suzuki_m_a_6L_mix01_norm {
+					ground {
+						sprite: spr_suzuki_a_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_m_a_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-// _mix01_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_a_6L_mix01_norm {
-        ground {
-            sprite: spr_suzuki_a_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_a_6L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+				// snow
+				spritelayout sprlay_suzuki_m_a_6L_mix01_snow {
+					ground {
+						sprite: spr_suzuki_a_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_m_a_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_a_6L_mix01_snow {
-        ground {
-            sprite: spr_suzuki_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_a_6L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_suzuki_m_a_6L_mix01_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_m_a_6L_mix01_snow;
+					sprlay_suzuki_m_a_6L_mix01_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_a_6L_mix01_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_a_6L_mix01_snow;
-	    sprlay_suzuki_a_6L_mix01_norm;
-    }
-// _mix02_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_a_6L_mix02_norm {
-        ground {
-            sprite: spr_suzuki_a_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_a_6L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+			// mix02
+				// norm
+				spritelayout sprlay_suzuki_m_a_6L_mix02_norm {
+					ground {
+						sprite: spr_suzuki_a_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_m_a_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_a_6L_mix02_snow {
-        ground {
-            sprite: spr_suzuki_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_a_6L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+				// snow
+				spritelayout sprlay_suzuki_m_a_6L_mix02_snow {
+					ground {
+						sprite: spr_suzuki_a_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_m_a_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_a_6L_mix02_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_a_6L_mix02_snow;
-	    sprlay_suzuki_a_6L_mix02_norm;
-    }
+				switch(FEAT_HOUSES, SELF, switch_suzuki_m_a_6L_mix02_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_m_a_6L_mix02_snow;
+					sprlay_suzuki_m_a_6L_mix02_norm;
+				}
 
-// suzuki all colours
+	// b
+		// 6L
+			// mix01
+				// norm
+				spritelayout sprlay_suzuki_m_b_6L_mix01_norm {
+					ground {
+						sprite: spr_suzuki_b_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_m_b_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-// _mix01_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_b_6L_mix01_norm {
-        ground {
-            sprite: spr_suzuki_b_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_b_6L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+				// snow
+				spritelayout sprlay_suzuki_m_b_6L_mix01_snow {
+					ground {
+						sprite: spr_suzuki_b_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_m_b_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_b_6L_mix01_snow {
-        ground {
-            sprite: spr_suzuki_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_b_6L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_suzuki_m_b_6L_mix01_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_m_b_6L_mix01_snow;
+					sprlay_suzuki_m_b_6L_mix01_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_b_6L_mix01_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_b_6L_mix01_snow;
-	    sprlay_suzuki_b_6L_mix01_norm;
-    }
-// _mix02_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_b_6L_mix02_norm {
-        ground {
-            sprite: spr_suzuki_b_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_b_6L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+			// mix02
+				// norm
+				spritelayout sprlay_suzuki_m_b_6L_mix02_norm {
+					ground {
+						sprite: spr_suzuki_b_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_m_b_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_b_6L_mix02_snow {
-        ground {
-            sprite: spr_suzuki_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_b_6L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+				// snow
+				spritelayout sprlay_suzuki_m_b_6L_mix02_snow {
+					ground {
+						sprite: spr_suzuki_b_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_m_b_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_b_6L_mix02_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_b_6L_mix02_snow;
-	    sprlay_suzuki_b_6L_mix02_norm;
-    }
-// suzuki all colours
+				switch(FEAT_HOUSES, SELF, switch_suzuki_m_b_6L_mix02_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_m_b_6L_mix02_snow;
+					sprlay_suzuki_m_b_6L_mix02_norm;
+				}
 
-// _mix01_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_a_8L_mix01_norm {
-        ground {
-            sprite: spr_suzuki_a_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_a_8L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_a_8L_mix01_snow {
-        ground {
-            sprite: spr_suzuki_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_a_8L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_a_sprites, random_bits % 2 ) { 
+		0:	switch_suzuki_m_a_6L_mix01_snow;
+		1:	switch_suzuki_m_a_6L_mix02_snow;
+	}
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_b_sprites, random_bits % 2 ) { 
+		0:	switch_suzuki_m_b_6L_mix01_snow;
+		1:	switch_suzuki_m_b_6L_mix02_snow;
+	}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_a_8L_mix01_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_a_8L_mix01_snow;
-	    sprlay_suzuki_a_8L_mix01_norm;
-    }
-// _mix02_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_a_8L_mix02_norm {
-        ground {
-            sprite: spr_suzuki_a_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_a_8L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+// Direction Switches
+	
+	random_switch (FEAT_HOUSES, SELF, switch_suzuki_m_random_sprites) {
+		1: switch_suzuki_m_a_sprites;
+		1: switch_suzuki_m_b_sprites;
+	}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_a_8L_mix02_snow {
-        ground {
-            sprite: spr_suzuki_a_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_a_8L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_south_check, SpriteDirectionsSouth()) {
+		4: switch_suzuki_m_a_sprites;
+		6: switch_suzuki_m_a_sprites;
+		9: switch_suzuki_m_b_sprites;
+		switch_suzuki_m_random_sprites;
+	}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_a_8L_mix02_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_a_8L_mix02_snow;
-	    sprlay_suzuki_a_8L_mix02_norm;
-    }
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_east_check, SpriteDirectionsEast()) {
+		4: switch_suzuki_m_a_sprites;
+		6: switch_suzuki_m_a_sprites;
+		9: switch_suzuki_m_b_sprites;
+		switch_suzuki_m_random_sprites;
+	}
 
-// suzuki all colours
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_west_check, SpriteDirectionsWest()) {
+		6: switch_suzuki_m_b_sprites;
+		9: switch_suzuki_m_a_sprites;
+		switch_suzuki_m_random_sprites;
+	}
 
-// _mix01_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_b_8L_mix01_norm {
-        ground {
-            sprite: spr_suzuki_b_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_b_8L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_north_check, SpriteDirectionsNorth()) {
+		6: switch_suzuki_m_b_sprites;
+		9: switch_suzuki_m_a_sprites;
+		switch_suzuki_m_random_sprites;
+	}
 
-    // Snow Sprites
-    spritelayout sprlay_suzuki_b_8L_mix01_snow {
-        ground {
-            sprite: spr_suzuki_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_b_8L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 19;
-        }
-    }
+	switch (FEAT_HOUSES, SELF, switch_suzuki_m_sprites, SpriteDirections() ) {
+		1: switch_suzuki_m_a_sprites;
+		2: switch_suzuki_m_b_sprites;
+		3: switch_suzuki_m_south_check;
+		4: switch_suzuki_m_a_sprites;
+		5: switch_suzuki_m_a_sprites;
+		6: switch_suzuki_m_west_check;
+		8: switch_suzuki_m_b_sprites;
+		9: switch_suzuki_m_east_check;
+		10: switch_suzuki_m_b_sprites;
+		12: switch_suzuki_m_north_check;
+		switch_suzuki_m_random_sprites;
+	}
 
-    switch(FEAT_HOUSES, SELF, switch_suzuki_b_8L_mix01_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_b_8L_mix01_snow;
-	    sprlay_suzuki_b_8L_mix01_norm;
-    }
-// _mix02_
-    // Norm Sprites
-    spritelayout sprlay_suzuki_b_8L_mix02_norm {
-        ground {
-            sprite: spr_suzuki_b_ground (3);
-        }
-        building {
-            sprite: spr_suzuki_b_8L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
-
-    // Snow Sprites
-    spritelayout sprlay_suzuki_b_8L_mix02_snow {
-        ground {
-            sprite: spr_suzuki_b_ground_snow (3);
-        }
-        building {
-            sprite: spr_suzuki_b_8L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 20;
-        }
-    }
-
-    switch(FEAT_HOUSES, SELF, switch_suzuki_b_8L_mix02_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_suzuki_b_8L_mix02_snow;
-	    sprlay_suzuki_b_8L_mix02_norm;
-    }
+// Item Block
+	item(FEAT_HOUSES, item_suzuki_m, 136, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_SUZUKI),string(MEDIUM));
+			population:					100;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				2;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			7;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				45;
+			}
+		graphics {
+			default:					switch_suzuki_m_sprites;
+			construction_check:			switch_medium_south_con_check;
+			cargo_production:			func_produce(10,4);
+		}
+	}
 # 1 "src/houses/suzuki/suzuki.pnml" 4
-# 1 "src/houses/suzuki/switches/colour_switches.pnml" 1
+# 1 "src/houses/suzuki/suzuki_l.pnml" 1
 
-// suzuki ALL colours
+// suzuki_l
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_a_m_sprites, random_bits % 2 ) { // Ref 3
-0: switch_suzuki_a_6L_mix01_snow;
-1: switch_suzuki_a_6L_mix02_snow;
-}
+// Spritelayouts
+	// a
+		// 8L
+			// mix01
+				// norm
+				spritelayout sprlay_suzuki_l_a_8L_mix01_norm {
+					ground {
+						sprite: spr_suzuki_a_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_l_a_8L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_a_l_sprites, random_bits % 2 ) { // Ref 3
-0: switch_suzuki_a_8L_mix01_snow;
-1: switch_suzuki_a_8L_mix02_snow;
-}
+				// snow
+				spritelayout sprlay_suzuki_l_a_8L_mix01_snow {
+					ground {
+						sprite: spr_suzuki_a_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_l_a_8L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_b_m_sprites, random_bits % 2 ) { // Ref 3
-0: switch_suzuki_b_6L_mix01_snow;
-1: switch_suzuki_b_6L_mix02_snow;
-}
+				switch(FEAT_HOUSES, SELF, switch_suzuki_l_a_8L_mix01_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_l_a_8L_mix01_snow;
+					sprlay_suzuki_l_a_8L_mix01_norm;
+				}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_b_l_sprites, random_bits % 2 ) { // Ref 3
-0: switch_suzuki_b_8L_mix01_snow;
-1: switch_suzuki_b_8L_mix02_snow;
-}
-# 1 "src/houses/suzuki/suzuki.pnml" 4
-# 1 "src/houses/suzuki/switches/direction_switches.pnml" 1
+			// mix02
+				// norm
+				spritelayout sprlay_suzuki_l_a_8L_mix02_norm {
+					ground {
+						sprite: spr_suzuki_a_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_l_a_8L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-random_switch (FEAT_HOUSES, SELF, switch_suzuki_random_m_sprites) {
-	1: switch_suzuki_a_m_sprites;
-	1: switch_suzuki_b_m_sprites;
-}
+				// snow
+				spritelayout sprlay_suzuki_l_a_8L_mix02_snow {
+					ground {
+						sprite: spr_suzuki_a_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_l_a_8L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-// Selection which direction
+				switch(FEAT_HOUSES, SELF, switch_suzuki_l_a_8L_mix02_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_l_a_8L_mix02_snow;
+					sprlay_suzuki_l_a_8L_mix02_norm;
+				}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_m_south_check, SpriteDirectionsSouth()) {
-	4: switch_suzuki_a_m_sprites;
-	5: switch_suzuki_random_m_sprites;
-	6: switch_suzuki_a_m_sprites;
-	9: switch_suzuki_b_m_sprites;
-	switch_suzuki_random_m_sprites;
-}
+	// b
+		// 8L
+			// mix01
+				// norm
+				spritelayout sprlay_suzuki_l_b_8L_mix01_norm {
+					ground {
+						sprite: spr_suzuki_b_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_l_b_8L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_m_east_check, SpriteDirectionsEast()) {
-	4: switch_suzuki_a_m_sprites;
-	6: switch_suzuki_a_m_sprites;
-	9: switch_suzuki_b_m_sprites;
-	10: switch_suzuki_random_m_sprites;
-	switch_suzuki_random_m_sprites;
-}
+				// snow
+				spritelayout sprlay_suzuki_l_b_8L_mix01_snow {
+					ground {
+						sprite: spr_suzuki_b_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_l_b_8L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 19;
+					}
+			}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_m_west_check, SpriteDirectionsWest()) {
-	6: switch_suzuki_b_m_sprites;
-	9: switch_suzuki_a_m_sprites;
-	10: switch_suzuki_random_m_sprites;
-	switch_suzuki_random_m_sprites;
-}
+				switch(FEAT_HOUSES, SELF, switch_suzuki_l_b_8L_mix01_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_l_b_8L_mix01_snow;
+					sprlay_suzuki_l_b_8L_mix01_norm;
+				}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_m_north_check, SpriteDirectionsNorth()) {
-	5: switch_suzuki_random_m_sprites;
-	6: switch_suzuki_b_m_sprites;
-	9: switch_suzuki_a_m_sprites;
-	10: switch_suzuki_random_m_sprites;
-	switch_suzuki_random_m_sprites;
-}
+			// mix02
+				// norm
+				spritelayout sprlay_suzuki_l_b_8L_mix02_norm {
+					ground {
+						sprite: spr_suzuki_b_ground_norm (3);
+					}
+				building {
+						sprite: spr_suzuki_l_b_8L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_m_sprites, SpriteDirections() ) {
-	1:  switch_suzuki_a_m_sprites;
-	2:  switch_suzuki_b_m_sprites;
-	3:  switch_suzuki_m_south_check;
-	4:  switch_suzuki_a_m_sprites;
-	5:  switch_suzuki_a_m_sprites;
-	6:  switch_suzuki_m_west_check;
-	8:  switch_suzuki_b_m_sprites;
-	9:  switch_suzuki_m_east_check;
-	10: switch_suzuki_b_m_sprites;
-	12: switch_suzuki_m_north_check;
-	switch_suzuki_random_m_sprites;
-}
+				// snow
+				spritelayout sprlay_suzuki_l_b_8L_mix02_snow {
+					ground {
+						sprite: spr_suzuki_b_ground_snow (3);
+					}
+				building {
+						sprite: spr_suzuki_l_b_8L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 20;
+					}
+			}
 
-random_switch (FEAT_HOUSES, SELF, switch_suzuki_random_l_sprites) {
-	1: switch_suzuki_a_l_sprites;
-	1: switch_suzuki_b_l_sprites;
-}
+				switch(FEAT_HOUSES, SELF, switch_suzuki_l_b_8L_mix02_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_suzuki_l_b_8L_mix02_snow;
+					sprlay_suzuki_l_b_8L_mix02_norm;
+				}
 
-// Selection which direction
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_l_south_check, SpriteDirectionsSouth()) {
-	4: switch_suzuki_a_l_sprites;
-	5: switch_suzuki_random_l_sprites;
-	6: switch_suzuki_a_l_sprites;
-	9: switch_suzuki_b_l_sprites;
-	switch_suzuki_random_l_sprites;
-}
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_a_sprites, random_bits % 2 ) { 
+		0:	switch_suzuki_l_a_8L_mix01_snow;
+		1:	switch_suzuki_l_a_8L_mix02_snow;
+	}
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_b_sprites, random_bits % 2 ) { 
+		0:	switch_suzuki_l_b_8L_mix01_snow;
+		1:	switch_suzuki_l_b_8L_mix02_snow;
+	}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_l_east_check, SpriteDirectionsEast()) {
-	4: switch_suzuki_a_l_sprites;
-	6: switch_suzuki_a_l_sprites;
-	9: switch_suzuki_b_l_sprites;
-	10: switch_suzuki_random_l_sprites;
-	switch_suzuki_random_l_sprites;
-}
+// Direction Switches
+	
+	random_switch (FEAT_HOUSES, SELF, switch_suzuki_l_random_sprites) {
+		1: switch_suzuki_l_a_sprites;
+		1: switch_suzuki_l_b_sprites;
+	}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_l_west_check, SpriteDirectionsWest()) {
-	6: switch_suzuki_b_l_sprites;
-	9: switch_suzuki_a_l_sprites;
-	10: switch_suzuki_random_l_sprites;
-	switch_suzuki_random_l_sprites;
-}
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_south_check, SpriteDirectionsSouth()) {
+		4: switch_suzuki_l_a_sprites;
+		6: switch_suzuki_l_a_sprites;
+		9: switch_suzuki_l_b_sprites;
+		switch_suzuki_l_random_sprites;
+	}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_l_north_check, SpriteDirectionsNorth()) {
-	5: switch_suzuki_random_l_sprites;
-	6: switch_suzuki_b_l_sprites;
-	9: switch_suzuki_a_l_sprites;
-	10: switch_suzuki_random_l_sprites;
-	switch_suzuki_random_l_sprites;
-}
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_east_check, SpriteDirectionsEast()) {
+		4: switch_suzuki_l_a_sprites;
+		6: switch_suzuki_l_a_sprites;
+		9: switch_suzuki_l_b_sprites;
+		switch_suzuki_l_random_sprites;
+	}
 
-switch (FEAT_HOUSES, SELF, switch_suzuki_l_sprites, SpriteDirections() ) {
-	1:  switch_suzuki_a_l_sprites;
-	2:  switch_suzuki_b_l_sprites;
-	3:  switch_suzuki_l_south_check;
-	4:  switch_suzuki_a_l_sprites;
-	5:  switch_suzuki_a_l_sprites;
-	6:  switch_suzuki_l_west_check;
-	8:  switch_suzuki_b_l_sprites;
-	9:  switch_suzuki_l_east_check;
-	10: switch_suzuki_b_l_sprites;
-	12: switch_suzuki_l_north_check;
-	switch_suzuki_random_l_sprites;
-}
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_west_check, SpriteDirectionsWest()) {
+		6: switch_suzuki_l_b_sprites;
+		9: switch_suzuki_l_a_sprites;
+		switch_suzuki_l_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_north_check, SpriteDirectionsNorth()) {
+		6: switch_suzuki_l_b_sprites;
+		9: switch_suzuki_l_a_sprites;
+		switch_suzuki_l_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_suzuki_l_sprites, SpriteDirections() ) {
+		1: switch_suzuki_l_a_sprites;
+		2: switch_suzuki_l_b_sprites;
+		3: switch_suzuki_l_south_check;
+		4: switch_suzuki_l_a_sprites;
+		5: switch_suzuki_l_a_sprites;
+		6: switch_suzuki_l_west_check;
+		8: switch_suzuki_l_b_sprites;
+		9: switch_suzuki_l_east_check;
+		10: switch_suzuki_l_b_sprites;
+		12: switch_suzuki_l_north_check;
+		switch_suzuki_l_random_sprites;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_suzuki_l, 137, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_SUZUKI),string(LARGE));
+			population:					125;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				2;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			10;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				45;
+			}
+		graphics {
+			default:					switch_suzuki_l_sprites;
+			construction_check:			switch_large_south_con_check;
+			protection:					switch_akiba_large_protection;
+			cargo_production:			func_produce(14,5);
+		}
+	}
 # 1 "src/houses/suzuki/suzuki.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/takada/takada.pnml" 1
@@ -50491,205 +50533,233 @@ switch (FEAT_HOUSES, SELF, switch_suzuki_l_sprites, SpriteDirections() ) {
 
 # 1 "src/houses/takada/gfx/takada_sprites.pnml" 1
 
-spriteset (spr_takada_18L_norm, 			"src/houses/takada/gfx/building.png") 				{template_house_200(1,1)}
-spriteset (spr_takada_18L_snow, 			"src/houses/takada/gfx/building.png") 				{template_house_200(400,1)}
+// Buildings
+spriteset (spr_takada_x_h_18L_norm, 			"src/houses/takada/gfx/building.png") 				{template_house_200(1,1)}
+spriteset (spr_takada_x_h_18L_snow, 			"src/houses/takada/gfx/building.png") 				{template_house_200(400,1)}
 
-spriteset (spr_takada_ground, 				"src/houses/takada/gfx/ground.png") 				{template_ground(1,1)}
-spriteset (spr_takada_ground_snow, 			"src/houses/takada/gfx/ground.png") 				{template_ground(1,33)}
+// Ground tiles
+spriteset (spr_takada_h_ground_norm, 			"src/houses/takada/gfx/ground.png") 				{template_ground(1,1)}
+spriteset (spr_takada_h_ground_snow, 			"src/houses/takada/gfx/ground.png") 				{template_ground(1,33)}
 # 1 "src/houses/takada/takada.pnml" 4
-# 1 "src/houses/takada/levels/all.pnml" 1
+# 1 "src/houses/takada/takada_x.pnml" 1
 
-// takada levels
+// takada_x
 
-// takada all colours
+// Spritelayouts
+	// h
+		// 18L
+			// white
+				// norm
+				spritelayout sprlay_takada_x_h_18L_white_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
 
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_white_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
+				// snow
+				spritelayout sprlay_takada_x_h_18L_white_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_white_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_white_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_white_snow;
+					sprlay_takada_x_h_18L_white_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_white_snow;
-	    sprlay_takada_18L_white_norm;
-    }
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_grey_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
+			// grey
+				// norm
+				spritelayout sprlay_takada_x_h_18L_grey_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_grey_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
+				// snow
+				spritelayout sprlay_takada_x_h_18L_grey_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_grey_snow;
-	    sprlay_takada_18L_grey_norm;
-    }
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_brown1_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_grey_snow;
+					sprlay_takada_x_h_18L_grey_norm;
+				}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_brown1_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
+			// brown1
+				// norm
+				spritelayout sprlay_takada_x_h_18L_brown1_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_brown1_snow;
-	    sprlay_takada_18L_brown1_norm;
-    }
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_brown2_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
+				// snow
+				spritelayout sprlay_takada_x_h_18L_brown1_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_brown2_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_brown1_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_brown1_snow;
+					sprlay_takada_x_h_18L_brown1_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_brown2_snow;
-	    sprlay_takada_18L_brown2_norm;
-    }
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_black_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 12;
-        }
-    }
+			// brown2
+				// norm
+				spritelayout sprlay_takada_x_h_18L_brown2_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_black_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 12;
-        }
-    }
+				// snow
+				spritelayout sprlay_takada_x_h_18L_brown2_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_black_snow;
-	    sprlay_takada_18L_black_norm;
-    }
-// _midgrey_
-    // Norm Sprites
-    spritelayout sprlay_takada_18L_midgrey_norm {
-        ground {
-            sprite: spr_takada_ground (3);
-        }
-        building {
-            sprite: spr_takada_18L_norm (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 14;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_brown2_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_brown2_snow;
+					sprlay_takada_x_h_18L_brown2_norm;
+				}
 
-    // Snow Sprites
-    spritelayout sprlay_takada_18L_midgrey_snow {
-        ground {
-            sprite: spr_takada_ground_snow (3);
-        }
-        building {
-            sprite: spr_takada_18L_snow (3);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 14;
-        }
-    }
+			// black
+				// norm
+				spritelayout sprlay_takada_x_h_18L_black_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takada_18L_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takada_18L_midgrey_snow;
-	    sprlay_takada_18L_midgrey_norm;
-    }
-# 1 "src/houses/takada/takada.pnml" 4
-# 1 "src/houses/takada/switches/colour_switches.pnml" 1
+				// snow
+				spritelayout sprlay_takada_x_h_18L_black_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
 
-// takada ALL colours
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_black_snow;
+					sprlay_takada_x_h_18L_black_norm;
+				}
 
-switch (FEAT_HOUSES, SELF, switch_takada_x_sprites, random_bits % 9 ) { // Ref 1 
-0: switch_takada_18L_white_snow;
-1..2: switch_takada_18L_grey_snow;
-3..4: switch_takada_18L_brown1_snow;
-5..6: switch_takada_18L_brown2_snow;
-7: switch_takada_18L_black_snow;
-8: switch_takada_18L_midgrey_snow;
-}
+			// midgrey
+				// norm
+				spritelayout sprlay_takada_x_h_18L_midgrey_norm {
+					ground {
+						sprite: spr_takada_h_ground_norm (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_takada_x_h_18L_midgrey_snow {
+					ground {
+						sprite: spr_takada_h_ground_snow (3);
+					}
+				building {
+						sprite: spr_takada_x_h_18L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_takada_x_h_18L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takada_x_h_18L_midgrey_snow;
+					sprlay_takada_x_h_18L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_takada_x_sprites, random_bits % 9 ) { 
+		0:	switch_takada_x_h_18L_white_snow;
+		1..2:	switch_takada_x_h_18L_grey_snow;
+		3..4:	switch_takada_x_h_18L_brown1_snow;
+		5..6:	switch_takada_x_h_18L_brown2_snow;
+		7:	switch_takada_x_h_18L_black_snow;
+		8:	switch_takada_x_h_18L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_takada_x, 10, HOUSE_SIZE_1X1){
+		property {
+			substitute:					5;
+			name:						string(STR_CONCAT_2, string(NAME_TAKADA),string(XTRA));
+			population:					150;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[2000,0xFFFF];
+			minimum_lifetime:			15;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				60;
+			}
+		graphics {
+			default:					switch_takada_x_sprites;
+			construction_check:			switch_xtra_con_check;
+			cargo_production:			func_produce(16,6);
+		}
+	}
 # 1 "src/houses/takada/takada.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/takagi/takagi.pnml" 1
@@ -50698,208 +50768,233 @@ switch (FEAT_HOUSES, SELF, switch_takada_x_sprites, random_bits % 9 ) { // Ref 1
 
 # 1 "src/houses/takagi/gfx/takagi_sprites.pnml" 1
 
-spriteset (spr_takagi_10L_norm, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(1,1)}
-spriteset (spr_takagi_10L_snow, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(400,1)}
-/*
-spriteset (spr_takagi_11L_norm, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(1,152)}
-spriteset (spr_takagi_11L_snow, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(400,152)}
-*/
-spriteset (spr_takagi_ground, 				"src/houses/takagi/gfx/ground.png") 					{template_ground(1,1)}
-spriteset (spr_takagi_ground_snow, 			"src/houses/takagi/gfx/ground.png") 					{template_ground(1,33)}
+// Buildings
+spriteset (spr_takagi_x_h_10L_norm, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(1,1)}
+spriteset (spr_takagi_x_h_10L_snow, 			"src/houses/takagi/gfx/building.png") 				{template_house_150_wide(400,1)}
+
+// Ground tiles
+spriteset (spr_takagi_h_ground_norm, 			"src/houses/takagi/gfx/ground.png") 					{template_ground(1,1)}
+spriteset (spr_takagi_h_ground_snow, 			"src/houses/takagi/gfx/ground.png") 					{template_ground(1,33)}
 # 1 "src/houses/takagi/takagi.pnml" 4
-# 1 "src/houses/takagi/levels/all.pnml" 1
+# 1 "src/houses/takagi/takagi_x.pnml" 1
 
-// takagi levels
+// takagi_x
 
-// takagi all colours
+// Spritelayouts
+	// h
+		// 10L
+			// white
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_white_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
 
-// _white_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_white_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_white_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 0;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_white_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 0;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_white_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_white_snow;
+					sprlay_takagi_x_h_10L_white_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_white_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_white_snow;
-	    sprlay_takagi_10L_white_norm;
-    }
-// _grey_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_grey_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
+			// grey
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_grey_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_grey_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 1;
-        }
-    }
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_grey_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 1;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_grey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_grey_snow;
-	    sprlay_takagi_10L_grey_norm;
-    }
-// _brown1_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_brown1_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_grey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_grey_snow;
+					sprlay_takagi_x_h_10L_grey_norm;
+				}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_brown1_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 2;
-        }
-    }
+			// brown1
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_brown1_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_brown1_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_brown1_snow;
-	    sprlay_takagi_10L_brown1_norm;
-    }
-// _brown2_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_brown2_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_brown1_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 2;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_brown2_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 3;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_brown1_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_brown1_snow;
+					sprlay_takagi_x_h_10L_brown1_norm;
+				}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_brown2_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_brown2_snow;
-	    sprlay_takagi_10L_brown2_norm;
-    }
-// _black_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_black_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 12;
-        }
-    }
+			// brown2
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_brown2_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_black_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 12;
-        }
-    }
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_brown2_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 3;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_black_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_black_snow;
-	    sprlay_takagi_10L_black_norm;
-    }
-// _midgrey_
-    // Norm Sprites
-    spritelayout sprlay_takagi_10L_midgrey_norm {
-        ground {
-            sprite: spr_takagi_ground (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_norm (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 14;
-        }
-    }
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_brown2_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_brown2_snow;
+					sprlay_takagi_x_h_10L_brown2_norm;
+				}
 
-    // Snow Sprites
-    spritelayout sprlay_takagi_10L_midgrey_snow {
-        ground {
-            sprite: spr_takagi_ground_snow (construction_state);
-        }
-        building {
-            sprite: spr_takagi_10L_snow (construction_state);
-            recolour_mode: RECOLOUR_REMAP; 
-            palette: recolour_remap + 14;
-        }
-    }
+			// black
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_black_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
 
-    switch(FEAT_HOUSES, SELF, switch_takagi_10L_midgrey_snow,terrain_type) {
-	    TILETYPE_SNOW: sprlay_takagi_10L_midgrey_snow;
-	    sprlay_takagi_10L_midgrey_norm;
-    }
-# 1 "src/houses/takagi/takagi.pnml" 4
-# 1 "src/houses/takagi/switches/colour_switches.pnml" 1
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_black_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
 
-// takagi ALL colours
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_black_snow;
+					sprlay_takagi_x_h_10L_black_norm;
+				}
 
-switch (FEAT_HOUSES, SELF, switch_takagi_x_sprites, random_bits % 9 ) { // Ref 1 
-0: switch_takagi_10L_white_snow;
-1..2: switch_takagi_10L_grey_snow;
-3..4: switch_takagi_10L_brown1_snow;
-5..6: switch_takagi_10L_brown2_snow;
-7: switch_takagi_10L_black_snow;
-8: switch_takagi_10L_midgrey_snow;
-}
+			// midgrey
+				// norm
+				spritelayout sprlay_takagi_x_h_10L_midgrey_norm {
+					ground {
+						sprite: spr_takagi_h_ground_norm (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_takagi_x_h_10L_midgrey_snow {
+					ground {
+						sprite: spr_takagi_h_ground_snow (construction_state);
+					}
+				building {
+						sprite: spr_takagi_x_h_10L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 14;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_takagi_x_h_10L_midgrey_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_takagi_x_h_10L_midgrey_snow;
+					sprlay_takagi_x_h_10L_midgrey_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_takagi_x_sprites, random_bits % 9 ) { 
+		0:	switch_takagi_x_h_10L_white_snow;
+		1..2:	switch_takagi_x_h_10L_grey_snow;
+		3..4:	switch_takagi_x_h_10L_brown1_snow;
+		5..6:	switch_takagi_x_h_10L_brown2_snow;
+		7:	switch_takagi_x_h_10L_black_snow;
+		8:	switch_takagi_x_h_10L_midgrey_snow;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_takagi_x, 154, HOUSE_SIZE_1X1){
+		property {
+			substitute:					5;
+			name:						string(STR_CONCAT_2, string(NAME_TAKAGI),string(XTRA));
+			population:					150;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1980,0xFFFF];
+			minimum_lifetime:			15;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				60;
+			}
+		graphics {
+			default:					switch_takagi_x_sprites;
+			construction_check:			switch_xtra_con_check;
+			cargo_production:			func_produce(16,6);
+		}
+	}
 # 1 "src/houses/takagi/takagi.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/takemaru_shopping_centre/takemaru_shopping_centre.pnml" 1
@@ -67282,96 +67377,6 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_w_sprites) {
 
 
 # 1 "src/items.pnml" 1
-
-item(FEAT_HOUSES, item_suzuki_m, 136, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				27;
-		name: 						string(STR_CONCAT_2, string(NAME_SUZUKI),string(MEDIUM));
-		population: 				100;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				2;
-		years_available: 			[1980,0xFFFF];
-		minimum_lifetime: 			7;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-		building_class:				45;
-				
-		}
-	graphics {
-		default: 					switch_suzuki_m_sprites;
-		construction_check: 		switch_medium_south_con_check;
-		cargo_production: 			func_produce(10,4);
-	}
-}
-
-item(FEAT_HOUSES, item_suzuki_l, 137, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				27;
-		name: 						string(STR_CONCAT_2, string(NAME_SUZUKI),string(LARGE));
-		population: 				125;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				2;
-		years_available: 			[1980,0xFFFF];
-		minimum_lifetime: 			10;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-		building_class:				45;
-				
-		}
-	graphics {
-		default: 					switch_suzuki_l_sprites;
-		construction_check: 		switch_large_south_con_check;
-		protection:					switch_akiba_large_protection;
-		cargo_production: 			func_produce(14,5);
-	}
-}
-
-item(FEAT_HOUSES, item_takada_x, 10, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				5;
-		name: 						string(STR_CONCAT_2, string(NAME_TAKADA),string(XTRA));
-        building_flags: 			bitmask(HOUSE_FLAG_NOT_SLOPED);
-		population: 				150;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[2000,0xFFFF];
-		minimum_lifetime: 			15;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-		building_class:				60;
-				
-		}
-	graphics {
-		default: 					switch_takada_x_sprites;
-		construction_check: 		switch_xtra_con_check;
-		cargo_production: 			func_produce(16,6);
-	}
-}
-
-item(FEAT_HOUSES, item_takagi_x, 154, HOUSE_SIZE_1X1){
-	property {
-		substitute: 				5;
-		name: 						string(STR_CONCAT_2, string(NAME_TAKAGI),string(XTRA));
-		population: 				150;
-		accepted_cargos: 			[[PASS, 4],[MAIL, 2]];
-		local_authority_impact: 	80;
-		removal_cost_multiplier: 	80;
-		probability: 				1;
-		years_available: 			[1980,0xFFFF];
-		minimum_lifetime: 			15;
-		availability_mask: 			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-		building_class:				60;
-				
-		}
-	graphics {
-		default: 					switch_takagi_x_sprites;
-		construction_check: 		switch_xtra_con_check;
-		cargo_production: 			func_produce(16,6);
-	}
-}
 
 item(FEAT_HOUSES, item_takemaru_shopping_centre_l, 79, HOUSE_SIZE_1X1){
 	property {
