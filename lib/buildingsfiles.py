@@ -365,7 +365,7 @@ def CreateBuildingFiles():
             file.write("\n\t\t\tcargo_production:\t\t\t" + str(buildings[b]["graphics"]["cargo_production"]) + ";")
             # Parameter
             if 'parameter'in buildings[b].keys():
-                file.write("\n\t\t}\n}\n}\n")
-            else:
-                file.write("\n\t\t}\n}\n")
+                file.write("\n\t\t}\n\t}\n\t}\n")
+            else: # Normal Item Block Closing
+                file.write("\n\t\t}\n\t}\n")
             file.close()
