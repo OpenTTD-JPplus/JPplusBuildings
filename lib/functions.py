@@ -975,7 +975,7 @@ def CreateItems():
 
     active_building_names = [x for x in old_items if items[x]["include"] == True]
     active_building_folders = {items[x]["folder"] for x in old_items if items[x]["include"] == True}
-    parameter_buildings = [x for x in old_items if items[x]["param_top"] != 'none']
+    #parameter_buildings = [x for x in old_items if items[x]["param_top"] != 'none']
 
     # delete out items folder before starting
     folder = './src/items/'
@@ -1043,7 +1043,7 @@ def CreateItems():
                 
     # Add Parameter to relevant buildings
 
-    for b in parameter_buildings:
+    '''for b in parameter_buildings:
         top =  items[b]["param_top"]
         bottom =  items[b]["param_bottom"]
         with open('./src/items/' + b + '.pnml', 'r+') as file: 
@@ -1053,7 +1053,7 @@ def CreateItems():
             file.close()
         with open('./src/items/' + b + '.pnml', 'a') as file: 
             file.write('\n' + bottom)
-            file.close()
+            file.close()'''
 
     # MERGE THE ITEMS
 

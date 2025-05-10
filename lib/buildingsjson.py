@@ -127,6 +127,7 @@ def CreateBuildingsJSON():
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
     df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
     df_protection = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'protection'])
+    df_parameter = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'parameter'])
     df_levels = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'levels'])
     df_variants = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'variants'], dtype={'variants':str})
     df_pal = pd.read_excel('docs/buildings.ods','colours')
@@ -145,6 +146,7 @@ def CreateBuildingsJSON():
     df_shared_gfx['shared_gfx'] = True
     df_protection = df_protection.dropna()
     df_protection['protection'] = df_protection.apply(Protection, axis=1)
+    df_parameter = df_parameter.dropna()
     df_levels = df_levels.dropna()
     df_variants = df_variants.dropna()
     df_variants['variants'] = df_variants['variants'].str.replace('X','xoffset')
@@ -185,6 +187,7 @@ def CreateBuildingsJSON():
     ground = df_ground.set_index('name').T.to_dict('dict')
     shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
     protection = df_protection.set_index('name').T.to_dict('dict')
+    parameter = df_parameter.set_index('name').T.to_dict('dict')
     levels = df_levels.set_index('name').T.to_dict('dict')
     variants = df_variants.set_index('name').T.to_dict('dict')
     building_palettes = df_pal.groupby('name').apply(lambda x: x.set_index('colours').to_dict(orient='index')).to_dict()
@@ -241,6 +244,9 @@ def CreateBuildingsJSON():
 
     for b in protection:
         buildings[b]["graphics"]["protection"] = protection[b]["protection"]
+    
+    for b in parameter:
+        buildings[b]["parameter"] = parameter[b]["parameter"]
 
     for b in name_via_prop:
         buildings[b]["properties"]["name"] = name_via_prop[b]["stringname"]

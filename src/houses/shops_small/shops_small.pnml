@@ -2,5 +2,208 @@
 // shops_small
 
 #include "src/houses/shops_small/gfx/shops_small_sprites.pnml"
-#include "src/houses/shops_small/levels/all.pnml"
-#include "src/houses/shops_small/switches/colour_switches.pnml"
+
+// Spritelayouts
+	// a
+		// L
+			// dark_blue
+				// norm
+				spritelayout sprlay_shops_small_a_L_dark_blue_norm {
+					ground {
+						sprite: spr_ground_concrete_norm (3);
+					}
+				building {
+						sprite: spr_shops_small_a_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shops_small_a_L_dark_blue_snow {
+					ground {
+						sprite: spr_ground_concrete_snow (3);
+					}
+				building {
+						sprite: spr_shops_small_a_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shops_small_a_L_dark_blue_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shops_small_a_L_dark_blue_snow;
+					sprlay_shops_small_a_L_dark_blue_norm;
+				}
+
+			// black
+				// norm
+				spritelayout sprlay_shops_small_a_L_black_norm {
+					ground {
+						sprite: spr_ground_concrete_norm (3);
+					}
+				building {
+						sprite: spr_shops_small_a_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shops_small_a_L_black_snow {
+					ground {
+						sprite: spr_ground_concrete_snow (3);
+					}
+				building {
+						sprite: spr_shops_small_a_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shops_small_a_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shops_small_a_L_black_snow;
+					sprlay_shops_small_a_L_black_norm;
+				}
+
+	// b
+		// L
+			// dark_blue
+				// norm
+				spritelayout sprlay_shops_small_b_L_dark_blue_norm {
+					ground {
+						sprite: spr_ground_concrete_norm (3);
+					}
+				building {
+						sprite: spr_shops_small_b_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shops_small_b_L_dark_blue_snow {
+					ground {
+						sprite: spr_ground_concrete_snow (3);
+					}
+				building {
+						sprite: spr_shops_small_b_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 10;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shops_small_b_L_dark_blue_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shops_small_b_L_dark_blue_snow;
+					sprlay_shops_small_b_L_dark_blue_norm;
+				}
+
+			// black
+				// norm
+				spritelayout sprlay_shops_small_b_L_black_norm {
+					ground {
+						sprite: spr_ground_concrete_norm (3);
+					}
+				building {
+						sprite: spr_shops_small_b_L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shops_small_b_L_black_snow {
+					ground {
+						sprite: spr_ground_concrete_snow (3);
+					}
+				building {
+						sprite: spr_shops_small_b_L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 12;
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shops_small_b_L_black_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shops_small_b_L_black_snow;
+					sprlay_shops_small_b_L_black_norm;
+				}
+
+
+// Colour Switches
+	switch (FEAT_HOUSES, SELF, switch_shops_small_a_sprites, random_bits % 2 ) { 
+		0:	switch_shops_small_a_L_dark_blue_snow;
+		1:	switch_shops_small_a_L_black_snow;
+	}
+	switch (FEAT_HOUSES, SELF, switch_shops_small_b_sprites, random_bits % 2 ) { 
+		0:	switch_shops_small_b_L_dark_blue_snow;
+		1:	switch_shops_small_b_L_black_snow;
+	}
+
+// Direction Switches
+	
+	random_switch (FEAT_HOUSES, SELF, switch_shops_small_random_sprites) {
+		1: switch_shops_small_a_sprites;
+		1: switch_shops_small_b_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_shops_small_south_check, SpriteDirectionsSouth()) {
+		4: switch_shops_small_a_sprites;
+		6: switch_shops_small_a_sprites;
+		9: switch_shops_small_b_sprites;
+		switch_shops_small_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_shops_small_east_check, SpriteDirectionsEast()) {
+		4: switch_shops_small_a_sprites;
+		6: switch_shops_small_a_sprites;
+		9: switch_shops_small_b_sprites;
+		switch_shops_small_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_shops_small_west_check, SpriteDirectionsWest()) {
+		6: switch_shops_small_b_sprites;
+		9: switch_shops_small_a_sprites;
+		switch_shops_small_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_shops_small_north_check, SpriteDirectionsNorth()) {
+		6: switch_shops_small_b_sprites;
+		9: switch_shops_small_a_sprites;
+		switch_shops_small_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_shops_small_sprites, SpriteDirections() ) {
+		1: switch_shops_small_a_sprites;
+		2: switch_shops_small_b_sprites;
+		3: switch_shops_small_south_check;
+		4: switch_shops_small_a_sprites;
+		5: switch_shops_small_a_sprites;
+		6: switch_shops_small_west_check;
+		8: switch_shops_small_b_sprites;
+		9: switch_shops_small_east_check;
+		10: switch_shops_small_b_sprites;
+		12: switch_shops_small_north_check;
+		switch_shops_small_random_sprites;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_shops_small, 7, HOUSE_SIZE_1X1){
+		property {
+			substitute:					29;
+			name:						string(NAME_SHOPS_SMALL);
+			population:					50;
+			accepted_cargos:			[[PASS, 8],[MAIL, 1],[FOOD, 8],[BEER, 8]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1965,0xFFFF];
+			minimum_lifetime:			10;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				3;
+			}
+		graphics {
+			default:					switch_shops_small_sprites;
+			construction_check:			switch_onsen_con_check;
+			cargo_production:			func_produce(10,2);
+		}
+}

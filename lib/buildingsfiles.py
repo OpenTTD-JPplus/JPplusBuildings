@@ -323,6 +323,9 @@ def CreateBuildingFiles():
     # Create Item Block
     for b in newjsonbuildings:
         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
+            # Parameter if needed
+            if 'parameter'in buildings[b].keys():
+                file.write("\n" + buildings[b]["parameter"])
             file.write("\n// Item Block\n\titem(FEAT_HOUSES, item_" + b + ", " + str(buildings[b]["id"]) + ", " + str(buildings[b]["tile_size"])  + "){")
             # Properties Block
             file.write("\n\t\tproperty {")
@@ -360,5 +363,9 @@ def CreateBuildingFiles():
             if 'protection' in buildings[b]["graphics"].keys():
                 file.write("\n\t\t\tprotection:\t\t\t\t\t" + str(buildings[b]["graphics"]["protection"]) + ";")
             file.write("\n\t\t\tcargo_production:\t\t\t" + str(buildings[b]["graphics"]["cargo_production"]) + ";")
-            file.write("\n\t\t}\n}\n")
+            # Parameter
+            if 'parameter'in buildings[b].keys():
+                file.write("\n\t\t}\n}\n}\n")
+            else:
+                file.write("\n\t\t}\n}\n")
             file.close()
