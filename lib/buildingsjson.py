@@ -10,6 +10,7 @@ def LoadJSON(target_file):
 def ExportToJSON(dictionary, target_file):
     with open(target_file, 'w') as fp:
         json.dump(dictionary, fp, indent=4)
+        fp.close()
 
 def CleanNones(value):
     """
