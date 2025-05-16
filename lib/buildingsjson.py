@@ -113,7 +113,7 @@ def NameColumnColour(x):
     if 'old_colours' in x['name']:
         return 'old'
     else:
-        return 'all'
+        return 'new'
 
 def CreateBuildingsJSON():
     # Import the Dataframes
@@ -174,7 +174,7 @@ def CreateBuildingsJSON():
     df_pal = df_pal[~df_pal['name'].isin(palette_numbers)]
     df_pal = df_pal[~df_pal['name'].isin(['remap', 'include'])]
     df_pal['colours'] = df_pal.apply(NameColumnColour, axis=1)
-    df_pal['name'] = df_pal.name.str.removesuffix('_all_colours')
+    df_pal['name'] = df_pal.name.str.removesuffix('_new_colours')
     df_pal['name'] = df_pal.name.str.removesuffix('_old_colours')
 
     # Drop columns
@@ -222,12 +222,12 @@ def CreateBuildingsJSON():
 
     # delete 0 probabilities and unnecessary names
     for b in building_palettes:
-        # all colours
-        del building_palettes[b]["all"]["name"]
-        all_colours = list(building_palettes[b]["all"].keys())
-        for c in all_colours:
-            if building_palettes[b]["all"][c] == 0:
-                del building_palettes[b]["all"][c]
+        # new colours
+        del building_palettes[b]["new"]["name"]
+        new_colours = list(building_palettes[b]["new"].keys())
+        for c in new_colours:
+            if building_palettes[b]["new"][c] == 0:
+                del building_palettes[b]["new"][c]
         # old colours
         try:
             del building_palettes[b]["old"]["name"]
@@ -241,7 +241,7 @@ def CreateBuildingsJSON():
     for b in buildings:
         if buildings[b]["recolour"] == True:
             folder = buildings[b]["folder"]
-            buildings[b]["all"] = building_palettes[buildings[b]["folder"]]["all"]
+            buildings[b]["new"] = building_palettes[buildings[b]["folder"]]["new"]
         if b in old_era_end:
             buildings[b]["old"] = building_palettes[buildings[b]["folder"]]["old"]
 
