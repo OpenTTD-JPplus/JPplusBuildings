@@ -2,7 +2,7 @@
 import json
 from itertools import accumulate
 
-buildingsJSON = 'lib/new_buildings.json'
+buildingsJSON = 'lib/buildings.json'
 recolourJSON = 'lib/recolour.json'
 
 def LoadJSON(target_file):
@@ -147,10 +147,8 @@ def SpriteDirectionsABS(b):
     return random_switch + east_direction_abs + west_direction_abs + north_direction_abs + direction_abs
 
 def CreateBuildingFiles():
-    newjsonbuildings = [x for x in buildings if buildings[x]["newjson"] == True ]
-
     # Create Building PNML File
-    for b in newjsonbuildings:
+    for b in buildings:
         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'w') as file:
             file.write("\n" + "// " + b + "\n")
             if buildings[b]["folder"] == b:
@@ -167,7 +165,7 @@ def CreateBuildingFiles():
     # Create Spritelayouts
     climates = ["norm","snow"]
 
-    for b in newjsonbuildings:
+    for b in buildings:
         if b not in manual_switchers:
             with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
                 file.write("\n// Spritelayouts")
@@ -224,13 +222,24 @@ def CreateBuildingFiles():
                                     file.write("\n\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
                                 except:
                                     pass
-                                file.write("\n\t\t\t\t\t}\n\t\t\t}\n")
+                                file.write("\n\t\t\t\t\t}")
+                                # Childsprite
+                                if 'childsprite' in list(buildings[b].keys()):
+                                    file.write("\n\t\t\t\t\tchildsprite {")
+                                    if buildings[b]["childsprite"]["basis"] == 'levels':
+                                        file.write("\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l + "_" + buildings[b]["childsprite"]["position"] + "_" + k)
+                                    try: 
+                                        file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
+                                    except:
+                                        file.write(" (construction_state);")
+                                    file.write("\n\t\t\t\t\t}")
+                                file.write("\n\t\t\t}\n")
                             file.write("\n\t\t\t\tswitch(FEAT_HOUSES, SELF, switch_" + b + "_" + v + "_" + l + "_" + c + "_snow, terrain_type) {\n\t\t\t\t\tTILETYPE_SNOW: sprlay_" + b + "_" + v + "_" + l + "_" + c + "_snow;\n\t\t\t\t\tsprlay_" + b + "_" + v + "_" + l + "_" + c + "_norm;\n\t\t\t\t}\n")
                 file.write("\n")
                 file.close()
 
     # Create Colour Switches
-    for b in newjsonbuildings:
+    for b in buildings:
         if b not in manual_switchers:
             if b in [b for b in buildings if buildings[b]["recolour"] == True]:
                 with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
@@ -283,7 +292,7 @@ def CreateBuildingFiles():
                 print("Check here #002 - " + b)  
 
     # Create Directions Switches - REMEMBER TO ADD ANY NEW ABOVE!!
-    for b in newjsonbuildings:
+    for b in buildings:
         if b not in manual_switchers:
             # For A and B variants
             if list(buildings[b]["variants"].keys()) == ["a", "b"]:
@@ -321,7 +330,7 @@ def CreateBuildingFiles():
                 file.close()
 
     # Create Item Block
-    for b in newjsonbuildings:
+    for b in buildings:
         with open(r'./src/houses/' + buildings[b]["folder"] + '/' + b + '.pnml', 'a') as file:
             # Parameter if needed
             if 'parameter'in buildings[b].keys():

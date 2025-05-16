@@ -126,6 +126,7 @@ def CreateBuildingsJSON():
     df_old_era = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'old_era_end'])
     df_manual = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'manual'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
+    df_childsprite = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'childsprite'])
     df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
     df_protection = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'protection'])
     df_parameter = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'parameter'])
@@ -143,6 +144,7 @@ def CreateBuildingsJSON():
     df_manual = df_manual.dropna()
     df_manual['manual'] = True
     df_ground = df_ground.dropna()
+    df_childsprite = df_childsprite.dropna()
     df_shared_gfx = df_shared_gfx.dropna()
     df_shared_gfx['shared_gfx'] = True
     df_protection = df_protection.dropna()
@@ -186,6 +188,7 @@ def CreateBuildingsJSON():
     old_era_end = df_old_era.set_index('name').T.to_dict('dict')
     manual = df_manual.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
+    childsprite = df_childsprite.set_index('name').T.to_dict('dict')
     shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
     protection = df_protection.set_index('name').T.to_dict('dict')
     parameter = df_parameter.set_index('name').T.to_dict('dict')
@@ -204,6 +207,9 @@ def CreateBuildingsJSON():
 
     for b in ground:
         buildings[b]["ground_override"] = ground[b]["ground_override"]
+
+    for b in childsprite:
+        buildings[b]["childsprite"] = eval(childsprite[b]["childsprite"])
 
     for b in shared_gfx:
         buildings[b]["shared_gfx"] = shared_gfx[b]["shared_gfx"]
@@ -259,4 +265,4 @@ def CreateBuildingsJSON():
     
     buildings = CleanNones(buildings)
 
-    ExportToJSON(buildings, 'lib/new_buildings.json')
+    ExportToJSON(buildings, 'lib/buildings.json')
