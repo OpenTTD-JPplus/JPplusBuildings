@@ -13,6 +13,9 @@ def LoadJSON(target_file):
 recolour = LoadJSON(recolourJSON)
 buildings = LoadJSON(buildingsJSON)
 
+def list_to_ordered_set(lst):
+    return set(dict.fromkeys(lst))
+
 def NumLevels(b):
     try:
         return len(buildings[b]["levels"])
@@ -173,7 +176,14 @@ def CreateBuildingFiles():
                     file.write("\n\t// " + v)
                     for l in buildings[b]["levels"]:
                         file.write("\n\t\t// " + l)
-                        for c in buildings[b]["new"]:
+                        new_colours = list(buildings[b]["new"].keys())
+                        if 'old' in list(buildings[b].keys()):
+                            old_colours = list(buildings[b]["old"].keys())
+                            all_colours = list(set(new_colours + old_colours))
+                        else:
+                            all_colours = new_colours
+                        all_colours.sort()
+                        for c in all_colours:
                             file.write("\n\t\t\t// " + c)
                             for k in climates:
                                 file.write("\n\t\t\t\t// " + k)
