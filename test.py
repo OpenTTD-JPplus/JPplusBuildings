@@ -1,8 +1,8 @@
 
 from lib.buildingsjson import CreateBuildingsJSON as CreateBuildingsJSON
 
-#CreateBuildingsJSON()
+CreateBuildingsJSON()
 
 from lib.buildingsfiles import CreateBuildingFiles as CreateBuildingFiles
 
-CreateBuildingFiles()
+#CreateBuildingFiles()

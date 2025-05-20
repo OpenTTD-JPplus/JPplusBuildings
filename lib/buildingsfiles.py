@@ -206,9 +206,9 @@ def CreateBuildingFiles():
                                 # Building Sprites
                                 try:
                                     if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
-                                        file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l +"_" + k)
+                                        file.write("\n\t\t\t\t\t}\n\t\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l +"_" + k)
                                 except:    
-                                    file.write("\n\t\t\t\t\t}\n\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
+                                    file.write("\n\t\t\t\t\t}\n\t\t\t\t\tbuilding {\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l +"_" + k)
                                 # Buildings Constructiion State
                                 try:
                                     file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
@@ -237,7 +237,10 @@ def CreateBuildingFiles():
                                 if 'childsprite' in list(buildings[b].keys()):
                                     file.write("\n\t\t\t\t\tchildsprite {")
                                     if buildings[b]["childsprite"]["basis"] == 'levels':
-                                        file.write("\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l + "_" + buildings[b]["childsprite"]["position"] + "_" + k)
+                                        if 'shared_gfx' in list(buildings[b].keys()):
+                                            file.write("\n\t\t\t\t\t\tsprite: spr_" + b + "_" + l + "_" + buildings[b]["childsprite"]["position"] + "_" + k)
+                                        else:
+                                            file.write("\n\t\t\t\t\t\tsprite: spr_" + b + "_" + v + "_" + l + "_" + buildings[b]["childsprite"]["position"] + "_" + k)
                                     try: 
                                         file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + ");")
                                     except:
