@@ -112,18 +112,20 @@ palette_numbers = list(recolour_codes.keys())
 def NameColumnColour(x):
     if 'old_colours' in x['name']:
         return 'old'
-    else:
+    elif 'new_colours' in x['name']:
         return 'new'
+    else:
+        return 'custom'
 
 def CreateBuildingsJSON():
     # Import the Dataframes
-    df_items = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'folder', 'id', 'include', 'tile_size', 'height', 'newjson', 'recolour'])
+    df_items = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'folder', 'id', 'include', 'tile_size', 'height'])
+    df_colours = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'colours'])
     df_properties = pd.read_excel('docs/buildings.ods','items', 
         usecols=['name', 'substitute', 'population', 'accepted_cargos', 'probability', 'yearstart', 'yearend', 'minimum_lifetime', 'townzone_number', 'building_class'])
     df_graphics = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'con_check_override', 'cargo_pass', 'cargo_mail', 'height', 'tile_size'])
     df_name_via_prop = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'stringname'])
     df_name_switch = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'name_switch'])
-    df_old_era = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'old_era_end'])
     df_manual = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'manual'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
     df_childsprite = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'childsprite'])
@@ -132,15 +134,13 @@ def CreateBuildingsJSON():
     df_parameter = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'parameter'])
     df_levels = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'levels'])
     df_variants = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'variants'], dtype={'variants':str})
-    df_pal = pd.read_excel('docs/buildings.ods','colours')
-
+    
     # Modify the data
     df_items['tile_size'] = df_items.apply(TileSize, axis=1)
+    df_colours = df_colours.dropna()
     df_name_via_prop = df_name_via_prop.dropna()
     df_name_via_prop['stringname'] = 'string(' + df_name_via_prop['stringname'] + ')'
     df_name_switch = df_name_switch.dropna()
-    df_old_era = df_old_era.dropna()
-    df_old_era['old_era_end'] = df_old_era['old_era_end'].astype(int)
     df_manual = df_manual.dropna()
     df_manual['manual'] = True
     df_ground = df_ground.dropna()
@@ -170,12 +170,18 @@ def CreateBuildingsJSON():
     df_graphics['construction_check'] = df_graphics.apply(ConstructionCheck, axis=1)
     df_graphics['cargo_production'] = df_graphics.apply(CargoProduction, axis=1)
 
-    # convert excel spreadsheet into dataframe
+    # Colour Option Import
+    df_pal = pd.read_excel('docs/buildings.ods','colours')
     df_pal = df_pal[~df_pal['name'].isin(palette_numbers)]
     df_pal = df_pal[~df_pal['name'].isin(['remap', 'include'])]
-    df_pal['colours'] = df_pal.apply(NameColumnColour, axis=1)
-    df_pal['name'] = df_pal.name.str.removesuffix('_new_colours')
-    df_pal['name'] = df_pal.name.str.removesuffix('_old_colours')
+    colour_options = {n: grp.loc[n].to_dict('index') for n, grp in df_pal.set_index(['name', 'option']).groupby(level='name')}
+
+    # Remove 0s
+    for b in colour_options:
+        for o in list(colour_options[b].keys()):
+            for c in list(colour_options[b][o].keys()):
+                if colour_options[b][o][c] == 0:
+                    del colour_options[b][o][c]
 
     # Drop columns
     df_properties = df_properties.drop(columns=['yearstart', 'yearend','townzone_number','townzones'])
@@ -185,7 +191,6 @@ def CreateBuildingsJSON():
     buildings = df_items.set_index('name').T.to_dict('dict')
     name_via_prop = df_name_via_prop.set_index('name').T.to_dict('dict')
     name_switch = df_name_switch.set_index('name').T.to_dict('dict')
-    old_era_end = df_old_era.set_index('name').T.to_dict('dict')
     manual = df_manual.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
     childsprite = df_childsprite.set_index('name').T.to_dict('dict')
@@ -194,13 +199,13 @@ def CreateBuildingsJSON():
     parameter = df_parameter.set_index('name').T.to_dict('dict')
     levels = df_levels.set_index('name').T.to_dict('dict')
     variants = df_variants.set_index('name').T.to_dict('dict')
-    building_palettes = df_pal.groupby('name').apply(lambda x: x.set_index('colours').to_dict(orient='index')).to_dict()
+    colours = df_colours.set_index('name').T.to_dict('dict')
     properties = df_properties.set_index('name').T.to_dict('dict')
     graphics = df_graphics.set_index('name').T.to_dict('dict')
 
     # Combine dictionaries
-    for b in old_era_end:
-        buildings[b]["end_of_old_era"] = old_era_end[b]["old_era_end"]
+    for b in colours:
+        buildings[b]["colours"] = eval(colours[b]["colours"])
 
     for b in manual:
         buildings[b]["manual"] = manual[b]["manual"]
@@ -220,30 +225,11 @@ def CreateBuildingsJSON():
     for b in variants:
         buildings[b]["variants"] = eval(variants[b]["variants"])
 
-    # delete 0 probabilities and unnecessary names
-    for b in building_palettes:
-        # new colours
-        del building_palettes[b]["new"]["name"]
-        new_colours = list(building_palettes[b]["new"].keys())
-        for c in new_colours:
-            if building_palettes[b]["new"][c] == 0:
-                del building_palettes[b]["new"][c]
-        # old colours
-        try:
-            del building_palettes[b]["old"]["name"]
-            old_colours = list(building_palettes[b]["old"].keys())
-            for c in old_colours:
-                if building_palettes[b]["old"][c] == 0:
-                    del building_palettes[b]["old"][c]
-        except:
-            pass
-
     for b in buildings:
-        if buildings[b]["recolour"] == True:
-            folder = buildings[b]["folder"]
-            buildings[b]["new"] = building_palettes[buildings[b]["folder"]]["new"]
-        if b in old_era_end:
-            buildings[b]["old"] = building_palettes[buildings[b]["folder"]]["old"]
+        if buildings[b]["colours"]["recolour"] == True:
+            f = buildings[b]["folder"]
+            for o in list(colour_options[f].keys()):
+                buildings[b]["colours"][o] = colour_options[f][o]
 
     for b in buildings:
         buildings[b]["properties"] = properties[b]

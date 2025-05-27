@@ -40,17 +40,18 @@ palette_numbers = list(recolour_codes.keys())
 def CreateRemapJSON():
     # convert excel spreadsheet into dataframe
     df1 = pd.read_excel('docs/buildings.ods','colours')
-    df2 = df1[df1['name'].str.contains('remap|palette', case=False)]
-    df3 = df2.set_index('name').transpose()
+    df2 = df1.drop('option', axis=1)
+    df3 = df2[df2['name'].str.contains('remap|palette', case=False)]
+    df4 = df3.set_index('name').transpose()
 
-    all_columns = list(df3) # Creates list of all column headers
+    all_columns = list(df4) # Creates list of all column headers
     palette_columns = [x for x in all_columns if "palette" in x]
     
     for p in palette_columns:
-        df3[p] = df3[p].astype(str).str.zfill(2)
+        df4[p] = df4[p].astype(str).str.zfill(2)
 
     # convert dataframe into dictionary
-    raw_colour_profiles = df3.T.to_dict('dict')
+    raw_colour_profiles = df4.T.to_dict('dict')
 
     colour_profiles = {}
     for k, v in raw_colour_profiles.items():

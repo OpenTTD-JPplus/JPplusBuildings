@@ -3,6 +3,6 @@ from lib.buildingsjson import CreateBuildingsJSON as CreateBuildingsJSON
 
 CreateBuildingsJSON()
 
-from lib.buildingsfiles import CreateBuildingFiles as CreateBuildingFiles
+from lib.buildingsfiles2 import CreateBuildingFiles as CreateBuildingFiles
 
-#CreateBuildingFiles()
+CreateBuildingFiles()
