@@ -199,7 +199,7 @@ switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE
 
 // https://newgrf-specs.tt-wiki.net/wiki/NML:Builtin_functions
 
-recolour_remap = reserve_sprites(56);
+recolour_remap = reserve_sprites(57);
 
 replace(recolour_remap) {
 
@@ -1011,6 +1011,25 @@ replace(recolour_remap) {
 		0x56: 0x4C;
 		0x57: 0x4D;
 	}
+// mar282Dbla0106 +56
+	recolour_sprite {
+		0xC6: 0xBB;
+		0xC7: 0xBC;
+		0xC8: 0x28;
+		0xC9: 0x29;
+		0xCA: 0x2A;
+		0xCB: 0x2B;
+		0xCC: 0x2C;
+		0xCD: 0x2D;
+		0x50: 0x9F;
+		0x51: 0xA0;
+		0x52: 0x01;
+		0x53: 0x02;
+		0x54: 0x03;
+		0x55: 0x04;
+		0x56: 0x05;
+		0x57: 0x06;
+	}
 }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/sprite_templates.pnml" 1
@@ -1148,6 +1167,14 @@ template template_child_80(x, y) {
     sw: [ x+65,		y,		64,		80,		0,		0,  NOCROP | ANIM]
     nw: [ x+130,	y,		64,		80,		0,		0,	NOCROP | ANIM]
     ne: [ x+195,	y,		64,		80,		0,		0,	NOCROP | ANIM]
+}
+
+template template_child_128(x, y) {
+    //left_x, upper_y, width, height, offset_x, offset_y
+    se: [ x,		y,		64,		128,	0,		0,	NOCROP | ANIM]
+    sw: [ x+65,		y,		64,		128,	0,		0,	NOCROP | ANIM]
+    nw: [ x+130,	y,		64,		128,	0,		0,	NOCROP | ANIM]
+    ne: [ x+195,	y,		64,		128,	0,		0,	NOCROP | ANIM]
 }
 
 template template_child_200(x, y) {
@@ -63153,148 +63180,471 @@ spriteset (spr_pachinko_h_ground_snow, 			"src/houses/pachinko/gfx/ground.png") 
 # 1 "src/houses/pagoda/gfx/pagoda_sprites.pnml" 1
 
 // Buildings
-spriteset (spr_pagoda_h_L_norm, 		"src/houses/pagoda/gfx/building.png") 		{template_house_80(1,1)}
-spriteset (spr_pagoda_h_L_snow, 		"src/houses/pagoda/gfx/building.png") 		{template_house_80(400,1)}
+spriteset (spr_pagoda_h_p_norm, 		"src/houses/pagoda/gfx/building.png") 		{template_house_128(1,1)}
+spriteset (spr_pagoda_h_p_snow, 		"src/houses/pagoda/gfx/building.png") 		{template_house_128(400,1)}
+
+spriteset (spr_pagoda_h_q_norm, 		"src/houses/pagoda/gfx/building.png") 		{template_house_128(1,130)}
+spriteset (spr_pagoda_h_q_snow, 		"src/houses/pagoda/gfx/building.png") 		{template_house_128(400,130)}
+
+// Childsprite (Trees / Ground)
+spriteset (spr_pagoda_h_p_front_norm, 	"src/houses/pagoda/gfx/trees.png") 		    {template_child_128(1,1)}
+spriteset (spr_pagoda_h_p_front_snow, 	"src/houses/pagoda/gfx/trees.png") 		    {template_child_128(400,1)}
+
+spriteset (spr_pagoda_h_q_front_norm, 	"src/houses/pagoda/gfx/trees.png") 		    {template_child_128(1,130)}
+spriteset (spr_pagoda_h_q_front_snow, 	"src/houses/pagoda/gfx/trees.png") 		    {template_child_128(400,130)}
 # 1 "src/houses/pagoda/pagoda.pnml" 4
 
 // Spritelayouts
 	// h
-		// L
-			// black
+		// p
+			// brn2126bla0106
 				// norm
-				spritelayout sprlay_pagoda_h_L_black_norm {
+				spritelayout sprlay_pagoda_h_p_brn2126bla0106_norm {
 					ground {
 						sprite: spr_ground_temple_norm (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_norm (construction_state);
+						sprite: spr_pagoda_h_p_norm (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 9;
-						xoffset: 3;
+						palette: recolour_remap + 54;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
 					}
 			}
 
 				// snow
-				spritelayout sprlay_pagoda_h_L_black_snow {
+				spritelayout sprlay_pagoda_h_p_brn2126bla0106_snow {
 					ground {
 						sprite: spr_ground_temple_snow (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_snow (construction_state);
+						sprite: spr_pagoda_h_p_snow (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 9;
-						xoffset: 3;
+						palette: recolour_remap + 54;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
 					}
 			}
 
-				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_black_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_pagoda_h_L_black_snow;
-					sprlay_pagoda_h_L_black_norm;
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_brn2126bla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_brn2126bla0106_snow;
+					sprlay_pagoda_h_p_brn2126bla0106_norm;
 				}
 
-			// brown1
+			// brn2126rbn484D
 				// norm
-				spritelayout sprlay_pagoda_h_L_brown1_norm {
+				spritelayout sprlay_pagoda_h_p_brn2126rbn484D_norm {
 					ground {
 						sprite: spr_ground_temple_norm (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_norm (construction_state);
+						sprite: spr_pagoda_h_p_norm (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 2;
-						xoffset: 3;
+						palette: recolour_remap + 55;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
 					}
 			}
 
 				// snow
-				spritelayout sprlay_pagoda_h_L_brown1_snow {
+				spritelayout sprlay_pagoda_h_p_brn2126rbn484D_snow {
 					ground {
 						sprite: spr_ground_temple_snow (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_snow (construction_state);
+						sprite: spr_pagoda_h_p_snow (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 2;
-						xoffset: 3;
+						palette: recolour_remap + 55;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
 					}
 			}
 
-				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_brown1_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_pagoda_h_L_brown1_snow;
-					sprlay_pagoda_h_L_brown1_norm;
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_brn2126rbn484D_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_brn2126rbn484D_snow;
+					sprlay_pagoda_h_p_brn2126rbn484D_norm;
 				}
 
-			// brown2
+			// brn6A6Fbla0106
 				// norm
-				spritelayout sprlay_pagoda_h_L_brown2_norm {
+				spritelayout sprlay_pagoda_h_p_brn6A6Fbla0106_norm {
 					ground {
 						sprite: spr_ground_temple_norm (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_norm (construction_state);
+						sprite: spr_pagoda_h_p_norm (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 3;
-						xoffset: 3;
+						palette: recolour_remap + 37;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
 					}
 			}
 
 				// snow
-				spritelayout sprlay_pagoda_h_L_brown2_snow {
+				spritelayout sprlay_pagoda_h_p_brn6A6Fbla0106_snow {
 					ground {
 						sprite: spr_ground_temple_snow (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_snow (construction_state);
+						sprite: spr_pagoda_h_p_snow (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 3;
-						xoffset: 3;
+						palette: recolour_remap + 37;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
 					}
 			}
 
-				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_brown2_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_pagoda_h_L_brown2_snow;
-					sprlay_pagoda_h_L_brown2_norm;
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_brn6A6Fbla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_brn6A6Fbla0106_snow;
+					sprlay_pagoda_h_p_brn6A6Fbla0106_norm;
 				}
 
-			// grey
+			// brn6A6Fbrn686D
 				// norm
-				spritelayout sprlay_pagoda_h_L_grey_norm {
+				spritelayout sprlay_pagoda_h_p_brn6A6Fbrn686D_norm {
 					ground {
 						sprite: spr_ground_temple_norm (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_norm (construction_state);
+						sprite: spr_pagoda_h_p_norm (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 1;
-						xoffset: 3;
+						palette: recolour_remap + 40;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
 					}
 			}
 
 				// snow
-				spritelayout sprlay_pagoda_h_L_grey_snow {
+				spritelayout sprlay_pagoda_h_p_brn6A6Fbrn686D_snow {
 					ground {
 						sprite: spr_ground_temple_snow (construction_state);
 					}
 					building {
-						sprite: spr_pagoda_h_L_snow (construction_state);
+						sprite: spr_pagoda_h_p_snow (construction_state);
 						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 1;
-						xoffset: 3;
+						palette: recolour_remap + 40;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
 					}
 			}
 
-				switch(FEAT_HOUSES, SELF, switch_pagoda_h_L_grey_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_pagoda_h_L_grey_snow;
-					sprlay_pagoda_h_L_grey_norm;
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_brn6A6Fbrn686D_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_brn6A6Fbrn686D_snow;
+					sprlay_pagoda_h_p_brn6A6Fbrn686D_norm;
+				}
+
+			// mar282Dbla0106
+				// norm
+				spritelayout sprlay_pagoda_h_p_mar282Dbla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_p_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 56;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_p_mar282Dbla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_p_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 56;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_mar282Dbla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_mar282Dbla0106_snow;
+					sprlay_pagoda_h_p_mar282Dbla0106_norm;
+				}
+
+			// sil1116bla0106
+				// norm
+				spritelayout sprlay_pagoda_h_p_sil1116bla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_p_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 49;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_p_sil1116bla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_p_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 49;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_p_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_p_sil1116bla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_p_sil1116bla0106_snow;
+					sprlay_pagoda_h_p_sil1116bla0106_norm;
+				}
+
+		// q
+			// brn2126bla0106
+				// norm
+				spritelayout sprlay_pagoda_h_q_brn2126bla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 54;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_brn2126bla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 54;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_brn2126bla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_brn2126bla0106_snow;
+					sprlay_pagoda_h_q_brn2126bla0106_norm;
+				}
+
+			// brn2126rbn484D
+				// norm
+				spritelayout sprlay_pagoda_h_q_brn2126rbn484D_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 55;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_brn2126rbn484D_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 55;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_brn2126rbn484D_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_brn2126rbn484D_snow;
+					sprlay_pagoda_h_q_brn2126rbn484D_norm;
+				}
+
+			// brn6A6Fbla0106
+				// norm
+				spritelayout sprlay_pagoda_h_q_brn6A6Fbla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 37;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_brn6A6Fbla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 37;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_brn6A6Fbla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_brn6A6Fbla0106_snow;
+					sprlay_pagoda_h_q_brn6A6Fbla0106_norm;
+				}
+
+			// brn6A6Fbrn686D
+				// norm
+				spritelayout sprlay_pagoda_h_q_brn6A6Fbrn686D_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 40;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_brn6A6Fbrn686D_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 40;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_brn6A6Fbrn686D_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_brn6A6Fbrn686D_snow;
+					sprlay_pagoda_h_q_brn6A6Fbrn686D_norm;
+				}
+
+			// mar282Dbla0106
+				// norm
+				spritelayout sprlay_pagoda_h_q_mar282Dbla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 56;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_mar282Dbla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 56;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_mar282Dbla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_mar282Dbla0106_snow;
+					sprlay_pagoda_h_q_mar282Dbla0106_norm;
+				}
+
+			// sil1116bla0106
+				// norm
+				spritelayout sprlay_pagoda_h_q_sil1116bla0106_norm {
+					ground {
+						sprite: spr_ground_temple_norm (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 49;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_norm (construction_state);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_pagoda_h_q_sil1116bla0106_snow {
+					ground {
+						sprite: spr_ground_temple_snow (construction_state);
+					}
+					building {
+						sprite: spr_pagoda_h_q_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 49;
+					}
+					childsprite {
+						sprite: spr_pagoda_h_q_front_snow (construction_state);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_pagoda_h_q_sil1116bla0106_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_pagoda_h_q_sil1116bla0106_snow;
+					sprlay_pagoda_h_q_sil1116bla0106_norm;
 				}
 
 
 // Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_pagoda_sprites, random_bits % 4 ) { 
-		0:	switch_pagoda_h_L_grey_snow;
-		1:	switch_pagoda_h_L_brown1_snow;
-		2:	switch_pagoda_h_L_brown2_snow;
-		3:	switch_pagoda_h_L_black_snow;
+	switch (FEAT_HOUSES, SELF, switch_pagoda_sprites, random_bits % 14 ) { 
+		0:	switch_pagoda_h_p_brn6A6Fbla0106_snow;
+		1:	switch_pagoda_h_p_brn6A6Fbrn686D_snow;
+		2:	switch_pagoda_h_p_sil1116bla0106_snow;
+		3:	switch_pagoda_h_p_brn2126bla0106_snow;
+		4:	switch_pagoda_h_p_brn2126rbn484D_snow;
+		5..6:	switch_pagoda_h_p_mar282Dbla0106_snow;
+		7:	switch_pagoda_h_q_brn6A6Fbla0106_snow;
+		8:	switch_pagoda_h_q_brn6A6Fbrn686D_snow;
+		9:	switch_pagoda_h_q_sil1116bla0106_snow;
+		10:	switch_pagoda_h_q_brn2126bla0106_snow;
+		11:	switch_pagoda_h_q_brn2126rbn484D_snow;
+		12..13:	switch_pagoda_h_q_mar282Dbla0106_snow;
 	}
 
 // Item Block
@@ -65640,53 +65990,15 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 
 // Kumamoto
     spriteset (spr_shiro_r_norm, 					"src/houses/shiro/gfx/kumamoto.png") 					{template_house_200(1,1)}
-    spriteset (spr_shiro_r_snow, 					"src/houses/shiro/gfx/kumamoto_snow.png") 				{template_house_200(1,202)}
+    spriteset (spr_shiro_r_snow, 					"src/houses/shiro/gfx/kumamoto_snow.png") 				{template_house_200(1,1)}
 
     spriteset (spr_shiro_r_front_norm, 				"src/houses/shiro/gfx/kumamoto_trees.png") 			    {template_child_200(1,1)}
-    spriteset (spr_shiro_r_front_snow, 				"src/houses/shiro/gfx/kumamoto_trees_snow.png") 		{template_child_200(1,202)}
+    spriteset (spr_shiro_r_front_snow, 				"src/houses/shiro/gfx/kumamoto_trees_snow.png") 		{template_child_200(1,1)}
 # 1 "src/houses/shiro/shiro.pnml" 4
 
 // Spritelayouts
 	// n
 		// p
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_n_p_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (3);
-					}
-					building {
-						sprite: spr_shiro_p_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-						hide_sprite: 1;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_norm (3);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_n_p_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (3);
-					}
-					building {
-						sprite: spr_shiro_p_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-						hide_sprite: 1;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_snow (3);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_n_p_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_n_p_whi080Dbla0308_snow;
-					sprlay_shiro_n_p_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_n_p_whi080Dbla0106_norm {
@@ -65763,6 +66075,44 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 					sprlay_shiro_n_p_whi080Dbla050A_norm;
 				}
 
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_n_p_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (3);
+					}
+					building {
+						sprite: spr_shiro_p_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+						hide_sprite: 1;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_norm (3);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_n_p_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (3);
+					}
+					building {
+						sprite: spr_shiro_p_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+						hide_sprite: 1;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_snow (3);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_n_p_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_n_p_whi080Dbla0308_snow;
+					sprlay_shiro_n_p_whi080Dbla0308_norm;
+				}
+
 			// whi080Dbrn686D
 				// norm
 				spritelayout sprlay_shiro_n_p_whi080Dbrn686D_norm {
@@ -65802,44 +66152,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				}
 
 		// q
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_n_q_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (3);
-					}
-					building {
-						sprite: spr_shiro_q_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-						hide_sprite: 1;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_norm (3);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_n_q_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (3);
-					}
-					building {
-						sprite: spr_shiro_q_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-						hide_sprite: 1;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_snow (3);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_n_q_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_n_q_whi080Dbla0308_snow;
-					sprlay_shiro_n_q_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_n_q_whi080Dbla0106_norm {
@@ -65914,6 +66226,44 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				switch(FEAT_HOUSES, SELF, switch_shiro_n_q_whi080Dbla050A_snow, terrain_type) {
 					TILETYPE_SNOW: sprlay_shiro_n_q_whi080Dbla050A_snow;
 					sprlay_shiro_n_q_whi080Dbla050A_norm;
+				}
+
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_n_q_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (3);
+					}
+					building {
+						sprite: spr_shiro_q_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+						hide_sprite: 1;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_norm (3);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_n_q_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (3);
+					}
+					building {
+						sprite: spr_shiro_q_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+						hide_sprite: 1;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_snow (3);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_n_q_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_n_q_whi080Dbla0308_snow;
+					sprlay_shiro_n_q_whi080Dbla0308_norm;
 				}
 
 			// whi080Dbrn686D
@@ -66071,42 +66421,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 
 	// e
 		// p
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_e_p_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (2);
-					}
-					building {
-						sprite: spr_shiro_p_norm (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_norm (2);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_e_p_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (2);
-					}
-					building {
-						sprite: spr_shiro_p_snow (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_snow (2);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_e_p_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_e_p_whi080Dbla0308_snow;
-					sprlay_shiro_e_p_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_e_p_whi080Dbla0106_norm {
@@ -66179,6 +66493,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 					sprlay_shiro_e_p_whi080Dbla050A_norm;
 				}
 
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_e_p_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (2);
+					}
+					building {
+						sprite: spr_shiro_p_norm (2);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_norm (2);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_e_p_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (2);
+					}
+					building {
+						sprite: spr_shiro_p_snow (2);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_snow (2);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_e_p_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_e_p_whi080Dbla0308_snow;
+					sprlay_shiro_e_p_whi080Dbla0308_norm;
+				}
+
 			// whi080Dbrn686D
 				// norm
 				spritelayout sprlay_shiro_e_p_whi080Dbrn686D_norm {
@@ -66216,42 +66566,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				}
 
 		// q
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_e_q_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (2);
-					}
-					building {
-						sprite: spr_shiro_q_norm (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_norm (2);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_e_q_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (2);
-					}
-					building {
-						sprite: spr_shiro_q_snow (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_snow (2);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_e_q_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_e_q_whi080Dbla0308_snow;
-					sprlay_shiro_e_q_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_e_q_whi080Dbla0106_norm {
@@ -66322,6 +66636,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				switch(FEAT_HOUSES, SELF, switch_shiro_e_q_whi080Dbla050A_snow, terrain_type) {
 					TILETYPE_SNOW: sprlay_shiro_e_q_whi080Dbla050A_snow;
 					sprlay_shiro_e_q_whi080Dbla050A_norm;
+				}
+
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_e_q_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (2);
+					}
+					building {
+						sprite: spr_shiro_q_norm (2);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_norm (2);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_e_q_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (2);
+					}
+					building {
+						sprite: spr_shiro_q_snow (2);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_snow (2);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_e_q_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_e_q_whi080Dbla0308_snow;
+					sprlay_shiro_e_q_whi080Dbla0308_norm;
 				}
 
 			// whi080Dbrn686D
@@ -66471,42 +66821,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 
 	// w
 		// p
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_w_p_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (0);
-					}
-					building {
-						sprite: spr_shiro_p_norm (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_norm (0);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_w_p_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (0);
-					}
-					building {
-						sprite: spr_shiro_p_snow (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_snow (0);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_w_p_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_w_p_whi080Dbla0308_snow;
-					sprlay_shiro_w_p_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_w_p_whi080Dbla0106_norm {
@@ -66579,6 +66893,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 					sprlay_shiro_w_p_whi080Dbla050A_norm;
 				}
 
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_w_p_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (0);
+					}
+					building {
+						sprite: spr_shiro_p_norm (0);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_norm (0);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_w_p_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (0);
+					}
+					building {
+						sprite: spr_shiro_p_snow (0);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_snow (0);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_w_p_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_w_p_whi080Dbla0308_snow;
+					sprlay_shiro_w_p_whi080Dbla0308_norm;
+				}
+
 			// whi080Dbrn686D
 				// norm
 				spritelayout sprlay_shiro_w_p_whi080Dbrn686D_norm {
@@ -66616,42 +66966,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				}
 
 		// q
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_w_q_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (0);
-					}
-					building {
-						sprite: spr_shiro_q_norm (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_norm (0);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_w_q_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (0);
-					}
-					building {
-						sprite: spr_shiro_q_snow (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_snow (0);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_w_q_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_w_q_whi080Dbla0308_snow;
-					sprlay_shiro_w_q_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_w_q_whi080Dbla0106_norm {
@@ -66722,6 +67036,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				switch(FEAT_HOUSES, SELF, switch_shiro_w_q_whi080Dbla050A_snow, terrain_type) {
 					TILETYPE_SNOW: sprlay_shiro_w_q_whi080Dbla050A_snow;
 					sprlay_shiro_w_q_whi080Dbla050A_norm;
+				}
+
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_w_q_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (0);
+					}
+					building {
+						sprite: spr_shiro_q_norm (0);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_norm (0);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_w_q_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (0);
+					}
+					building {
+						sprite: spr_shiro_q_snow (0);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_snow (0);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_w_q_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_w_q_whi080Dbla0308_snow;
+					sprlay_shiro_w_q_whi080Dbla0308_norm;
 				}
 
 			// whi080Dbrn686D
@@ -66871,42 +67221,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 
 	// s
 		// p
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_s_p_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (1);
-					}
-					building {
-						sprite: spr_shiro_p_norm (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_norm (1);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_s_p_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (1);
-					}
-					building {
-						sprite: spr_shiro_p_snow (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_p_front_snow (1);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_s_p_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_s_p_whi080Dbla0308_snow;
-					sprlay_shiro_s_p_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_s_p_whi080Dbla0106_norm {
@@ -66979,6 +67293,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 					sprlay_shiro_s_p_whi080Dbla050A_norm;
 				}
 
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_s_p_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (1);
+					}
+					building {
+						sprite: spr_shiro_p_norm (1);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_norm (1);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_s_p_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (1);
+					}
+					building {
+						sprite: spr_shiro_p_snow (1);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_p_front_snow (1);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_s_p_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_s_p_whi080Dbla0308_snow;
+					sprlay_shiro_s_p_whi080Dbla0308_norm;
+				}
+
 			// whi080Dbrn686D
 				// norm
 				spritelayout sprlay_shiro_s_p_whi080Dbrn686D_norm {
@@ -67016,42 +67366,6 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				}
 
 		// q
-			// whi080Dbla0308
-				// norm
-				spritelayout sprlay_shiro_s_q_whi080Dbla0308_norm {
-					ground {
-						sprite: spr_ground_shiro_norm (1);
-					}
-					building {
-						sprite: spr_shiro_q_norm (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_norm (1);
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiro_s_q_whi080Dbla0308_snow {
-					ground {
-						sprite: spr_ground_shiro_snow (1);
-					}
-					building {
-						sprite: spr_shiro_q_snow (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 46;
-					}
-					childsprite {
-						sprite: spr_shiro_q_front_snow (1);
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiro_s_q_whi080Dbla0308_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiro_s_q_whi080Dbla0308_snow;
-					sprlay_shiro_s_q_whi080Dbla0308_norm;
-				}
-
 			// whi080Dbla0106
 				// norm
 				spritelayout sprlay_shiro_s_q_whi080Dbla0106_norm {
@@ -67122,6 +67436,42 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 				switch(FEAT_HOUSES, SELF, switch_shiro_s_q_whi080Dbla050A_snow, terrain_type) {
 					TILETYPE_SNOW: sprlay_shiro_s_q_whi080Dbla050A_snow;
 					sprlay_shiro_s_q_whi080Dbla050A_norm;
+				}
+
+			// whi080Dbla0308
+				// norm
+				spritelayout sprlay_shiro_s_q_whi080Dbla0308_norm {
+					ground {
+						sprite: spr_ground_shiro_norm (1);
+					}
+					building {
+						sprite: spr_shiro_q_norm (1);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_norm (1);
+					}
+			}
+
+				// snow
+				spritelayout sprlay_shiro_s_q_whi080Dbla0308_snow {
+					ground {
+						sprite: spr_ground_shiro_snow (1);
+					}
+					building {
+						sprite: spr_shiro_q_snow (1);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + 46;
+					}
+					childsprite {
+						sprite: spr_shiro_q_front_snow (1);
+					}
+			}
+
+				switch(FEAT_HOUSES, SELF, switch_shiro_s_q_whi080Dbla0308_snow, terrain_type) {
+					TILETYPE_SNOW: sprlay_shiro_s_q_whi080Dbla0308_snow;
+					sprlay_shiro_s_q_whi080Dbla0308_norm;
 				}
 
 			// whi080Dbrn686D
