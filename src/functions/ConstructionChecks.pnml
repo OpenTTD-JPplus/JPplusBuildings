@@ -196,11 +196,14 @@
 		TileGapByType(30)						// Can't appear within 30 tiles of another
 	) {return;}	
 
+//
+
+
 // Shiro
 	switch (FEAT_HOUSES, PARENT, switch_shiro_con_check, 
 		IsCity() && 				// Can only appear in Cities
 		IsUniqueHouse() && 			// Only one Shiro per city
-		//town_index % 4 == 0 && 		// Proportion of cities
+		EveryNthTown(3) && 			// Proportion of cities
 		OnGenerationOnly() 			// Will only spawn when Map is generated - not realistic being built in modern times!
 		) {return;}	
 
