@@ -29,6 +29,7 @@ def CreateBuildingFiles():
         recolour_buildings = [b for b in buildings if buildings[b]["colours"]["recolour"] == True]
         name_switchers = [b for b in buildings if 'name' in buildings[b]["graphics"].keys()]
         log.write('\nname switchers = ' + str(name_switchers))
+        building_flaggers = [b for b in buildings if 'building_flags' in list(buildings[b]["properties"].keys())]
 
         # Building by Building
         log.write('\n\nBUILDINGS')
@@ -278,6 +279,8 @@ def CreateBuildingFiles():
                 if b not in name_switchers:
                     file.write("\n\t\t\tname:\t\t\t\t\t\t" +        str(buildings[b]["properties"]["name"]) + ";")
                 file.write("\n\t\t\tpopulation:\t\t\t\t\t" +        str(buildings[b]["properties"]["population"]) + ";")
+                if b in building_flaggers:
+                    file.write("\n\t\t\tbuilding_flags:\t\t\t\t" +      str(buildings[b]["properties"]["building_flags"]) + ";")
                 file.write("\n\t\t\taccepted_cargos:\t\t\t" +       str(buildings[b]["properties"]["accepted_cargos"]) + ";")
                 file.write("\n\t\t\tlocal_authority_impact:\t\t" +  str(buildings[b]["properties"]["local_authority_impact"]) + ";")
                 file.write("\n\t\t\tremoval_cost_multiplier:\t" +   str(buildings[b]["properties"]["removal_cost_multiplier"]) + ";")
