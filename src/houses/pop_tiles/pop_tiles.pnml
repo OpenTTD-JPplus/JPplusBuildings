@@ -1,0 +1,43 @@
+
+// pop_tiles
+
+spriteset (spr_pop_tiles_1, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_house_80(0,0)}
+spriteset (spr_pop_tiles_2, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_house_80(65,0)}
+spriteset (spr_pop_tiles_3, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_house_80(130,0)}
+spriteset (spr_pop_tiles_4, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_house_80(195,0)}
+spriteset (spr_pop_tiles_ground, 	"src/houses/shrine/gfx/ground.png") 			{template_ground(0,0)}
+
+random_switch(FEAT_HOUSES,SELF,spr_pop_tiles){
+  1:spr_pop_tiles_1;
+  1:spr_pop_tiles_2;
+  1:spr_pop_tiles_3;
+  1:spr_pop_tiles_4;
+}
+
+// Spritelayouts
+  spritelayout sprlay_pop_tiles {
+    ground {sprite: spr_pop_tiles_ground;}
+    building {sprite: spr_pop_tiles;}
+  }
+
+// Item Block
+	item(FEAT_HOUSES, item_pop_tiles, 160, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_MORI),string(MEDIUM));
+			population:					255;
+			accepted_cargos:			[[PASS, 20],[MAIL, 10]];
+			local_authority_impact:		0;
+			removal_cost_multiplier:	0;
+			probability:				0;
+			years_available:			[0,0xFFFF];
+			minimum_lifetime:			200;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				22;
+			}
+		graphics {
+			default:					sprlay_pop_tiles;
+			construction_check:			switch_small_con_check;
+			cargo_production:			func_produce(50,10);
+		}
+	}
