@@ -1,0 +1,23 @@
+
+switch(FEAT_HOUSES,SELF,SeasonNorth, current_day_of_year){
+            97..117:    return 0;   // Spring   
+            118..304:   return 1;   // Summer
+            305..330:   return 2;   // Autumn
+                        return 3;   // Winter
+          }
+
+switch(FEAT_HOUSES,SELF,SeasonSouth, current_day_of_year){
+            97..117:    return 2;   // Autumn 
+            118..304:   return 3;   // Winter
+            305..330:   return 0;   // Spring
+                        return 1;   // Summer
+          }
+
+switch (FEAT_HOUSES,SELF,Season ,param_seasons) {
+          1:    SeasonSouth;
+          2:    return 0;
+          3:    return 1;
+          4:    return 2;
+          5:    return 3;
+                SeasonNorth;
+        }

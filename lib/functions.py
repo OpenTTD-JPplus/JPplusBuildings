@@ -25,6 +25,18 @@ def GetPoints(buildings,b,colour_era):
             bits.append(str(start_points[i]) + ".." + str(end_points[i] -1))
     return bits
 
+def GetPointsBravo(buildings,b,colour_era):
+    weightings_all_levels = list(buildings[b]["colours"][colour_era].values())
+    end_points = list(accumulate(weightings_all_levels))
+    start_points = [x - y for x, y in zip(end_points, weightings_all_levels)]
+    bits = []
+    for i in range(len(weightings_all_levels)):
+        if weightings_all_levels[i] == 1:
+            bits.append(str(start_points[i]))
+        else:
+            bits.append(str(start_points[i]) + ".." + str(end_points[i] -1))
+    return bits
+
 def GetPointsComboLevels(buildings,b,levels):
     #weightings_all_levels = list(buildings[b]["colours"][colour_era].values())
     end_points = list(accumulate(levels))
@@ -151,3 +163,15 @@ def SpriteDirectionsABS(b):
         "\n\t\tswitch_" + b + "_random_sprites;\n\t}\n"
 
     return random_switch + east_direction_abs + west_direction_abs + north_direction_abs + direction_abs
+
+def BitsRequired(n):
+    if n <= 2:
+        return 1
+    elif n <= 4:
+        return 2
+    elif n <= 8:
+        return 3
+    elif n <= 16:
+        return 4
+    else:
+        return 5

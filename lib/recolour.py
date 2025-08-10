@@ -32,7 +32,15 @@ recolour_codes  = {
         'palette13': '0x54: 0x', 
         'palette14': '0x55: 0x', 
         'palette15': '0x56: 0x', 
-        'palette16': '0x57: 0x', 
+        'palette16': '0x57: 0x',
+        'palette17': '0x88: 0x',
+        'palette18': '0x89: 0x',
+        'palette19': '0x8A: 0x',
+        'palette20': '0x8B: 0x',
+        'palette21': '0x8C: 0x',
+        'palette22': '0x8D: 0x',
+        'palette23': '0x8E: 0x',
+        'palette24': '0x8F: 0x',
         }
 
 palette_numbers = list(recolour_codes.keys())
