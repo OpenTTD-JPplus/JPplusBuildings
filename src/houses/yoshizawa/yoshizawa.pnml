@@ -91,12 +91,14 @@ Getbits Allocation
 ==================
 Childsprites: {'fence': {'conditions': ['single', 'remap']}, 'trees': {'conditions': ['seasonal', 'variant']}}
 
-8 Old Colours: ['brn686Dbla0308', 'brn686Dgry050A', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'brn6A6Fbla050A', 'brn6A6Fbrn686D', 'brn2025bla0106', 'brn2025bla0308']
-8 New Colours: ['gry050Abla0106', 'sil1116bla0106', 'sil1116brn686D', 'sil1116pea7378', 'sil1116mar292E', 'sil1116pea595E', 'brn2025bla0106', 'brn2025brn484D']
-✅ Same number of New and Old colours, with acceptable number
+8 unique Old Colours, Probabilities summing to 8 ✅
+['brn686Dbla0308', 'brn686Dgry050A', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'brn6A6Fbla050A', 'brn6A6Fbrn686D', 'brn2025bla0106', 'brn2025bla0308']
 
-4 Fence Colrs: ['whi0A0Fbla0106', 'whi0A0Fbla0308', 'whi080Dbla0106', 'brn2227bla0106']
-✅ 4 Fence colours (due to hardcoding)
+8 unique New Colours, Probabilities summing to 8 ✅
+['gry050Abla0106', 'sil1116bla0106', 'sil1116brn686D', 'sil1116pea7378', 'sil1116mar292E', 'sil1116pea595E', 'brn2025bla0106', 'brn2025brn484D']
+
+4 Fence colours (due to hardcoding) ✅
+['whi0A0Fbla0106', 'whi0A0Fbla0308', 'whi080Dbla0106', 'brn2227bla0106']
 
 Feature		Num		Start	Bits	Storage
 ------------------------------------------------------------------
@@ -135,20 +137,21 @@ Fence 🎨	4		4		2		LOAD_TEMP(2)
 				return 76;
 		}
 // Spritelayout Switches
-	// f
-		switch (FEAT_HOUSES,SELF, switch_yoshizawa_h_f_sprites, [
-			STORE_TEMP((current_year - age) < 1959 ? yoshizawa_build_clr_old() : yoshizawa_build_clr_new(), 0),
-			STORE_TEMP(yoshizawa_fence_clr(), 2),
-			STORE_TEMP(Season(), 3),
-			terrain_type == TILETYPE_SNOW]) 
-			{1: sprlay_yoshizawa_h_f_snow; sprlay_yoshizawa_h_f_norm; }
-	// g
-		switch (FEAT_HOUSES,SELF, switch_yoshizawa_h_g_sprites, [
-			STORE_TEMP((current_year - age) < 1959 ? yoshizawa_build_clr_old() : yoshizawa_build_clr_new(), 0),
-			STORE_TEMP(yoshizawa_fence_clr(), 2),
-			STORE_TEMP(Season(), 3),
-			terrain_type == TILETYPE_SNOW]) 
-			{1: sprlay_yoshizawa_h_g_snow; sprlay_yoshizawa_h_g_norm; }
+	// h
+		// f
+			switch (FEAT_HOUSES,SELF, switch_yoshizawa_h_f_sprites, [
+				STORE_TEMP((current_year - age) < 1959 ? yoshizawa_build_clr_old() : yoshizawa_build_clr_new(), 0),
+				STORE_TEMP(yoshizawa_fence_clr(), 2),
+				STORE_TEMP(Season(), 3),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_yoshizawa_h_f_snow; sprlay_yoshizawa_h_f_norm; }
+		// g
+			switch (FEAT_HOUSES,SELF, switch_yoshizawa_h_g_sprites, [
+				STORE_TEMP((current_year - age) < 1959 ? yoshizawa_build_clr_old() : yoshizawa_build_clr_new(), 0),
+				STORE_TEMP(yoshizawa_fence_clr(), 2),
+				STORE_TEMP(Season(), 3),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_yoshizawa_h_g_snow; sprlay_yoshizawa_h_g_norm; }
 
 	// Level Selection
 		switch (FEAT_HOUSES, SELF, switch_yoshizawa_sprites, getbits(random_bits, 0, 1)) {
