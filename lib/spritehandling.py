@@ -4,6 +4,7 @@ from lib.functions import LoadJSON as LoadJSON
 from lib.functions import BitsRequired as BitsRequired
 from lib.functions import GetPointsBravo as GetPointsBravo
 from lib.functions import SpriteDirectionsAB as SpriteDirectionsAB
+from lib.functions import SpriteDirectionsABENSW as SpriteDirectionsABENSW
 from lib.functions import GetPointsComboLevels as GetPointsComboLevels
 
 buildingsJSON = 'lib/buildings.json'
@@ -315,8 +316,11 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                         i = i + 1
                     file.write("\n\t\t}\n")
         if variants == ['a','b']:
-            file.write("\n\t// Variant Selection for " + str(variants) + " using SpriteDirectionsAB()")
+            file.write(f"\n\t// Variant Selection for {variants} using SpriteDirectionsAB()")
             file.write("\n\t"+ SpriteDirectionsAB(b))
+        elif variants == ['a','b','e','n','s','w']:
+            file.write(f"\n\t// Variant Selection for {variants} using SpriteDirectionsABENSW()")
+            file.write("\n\t" + SpriteDirectionsABENSW(b))
 
         # NAME SWITCHES
         if 'name' in buildings[b]["graphics"].keys():

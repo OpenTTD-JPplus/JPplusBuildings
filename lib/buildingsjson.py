@@ -127,7 +127,6 @@ def CreateBuildingsJSON():
     df_name_via_prop = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'stringname'])
     df_name_switch = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'name_switch'])
     df_ground = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'ground_override'])
-    df_childsprite = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'childsprite'])
     df_childsprites = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'childsprites'])
     df_shared_gfx = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'shared_gfx'])
     df_protection = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'protection'])
@@ -145,7 +144,6 @@ def CreateBuildingsJSON():
     df_name_switch = df_name_switch.dropna()
     df_ground = df_ground.dropna()
     df_building_flags = df_building_flags.dropna()
-    df_childsprite = df_childsprite.dropna()
     df_childsprites = df_childsprites.dropna()
     df_shared_gfx = df_shared_gfx.dropna()
     df_shared_gfx['shared_gfx'] = True
@@ -196,7 +194,6 @@ def CreateBuildingsJSON():
     name_switch = df_name_switch.set_index('name').T.to_dict('dict')
     ground = df_ground.set_index('name').T.to_dict('dict')
     building_flags = df_building_flags.set_index('name').T.to_dict('dict')
-    childsprite = df_childsprite.set_index('name').T.to_dict('dict')
     childsprites = df_childsprites.set_index('name').T.to_dict('dict')
     shared_gfx = df_shared_gfx.set_index('name').T.to_dict('dict')
     protection = df_protection.set_index('name').T.to_dict('dict')
@@ -214,9 +211,6 @@ def CreateBuildingsJSON():
 
     for b in ground:
         buildings[b]["ground_override"] = ground[b]["ground_override"]
-
-    for b in childsprite:
-        buildings[b]["childsprite"] = eval(childsprite[b]["childsprite"])
 
     for b in childsprites:
         buildings[b]["childsprites"] = eval(childsprites[b]["childsprites"])
