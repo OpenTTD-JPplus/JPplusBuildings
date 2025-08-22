@@ -2,266 +2,132 @@
 // shiroi_m
 
 // Spritelayouts
+
+	// A variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_shiroi_m_a_6L_norm {
+					ground {
+						sprite:spr_shiroi_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_shiroi_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // roofs
+						sprite: spr_shiroi_m_a_6L_roofs_norm (construction_state); // Same as building
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(4);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_shiroi_m_a_6L_snow {
+					ground {
+						sprite:spr_shiroi_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_shiroi_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // roofs
+						sprite: spr_shiroi_m_a_6L_roofs_snow (construction_state); // Same as building
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(4);
+					}
+				}
+
+	// B variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_shiroi_m_b_6L_norm {
+					ground {
+						sprite:spr_shiroi_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_shiroi_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // roofs
+						sprite: spr_shiroi_m_b_6L_roofs_norm (construction_state); // Same as building
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(4);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_shiroi_m_b_6L_snow {
+					ground {
+						sprite:spr_shiroi_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_shiroi_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // roofs
+						sprite: spr_shiroi_m_b_6L_roofs_snow (construction_state); // Same as building
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(4);
+					}
+				}
+
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: {'roofs': {'conditions': ['single', 'variant', 'norm_only', 'remap']}}
+
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'roofs': {'sum_prob': 4, 'count': 4}}
+	✅ new colour profile has 8 unique colours, with probabilities summing to 8
+	✅ roofs colour profile has 4 unique colours, with probabilities summing to 4
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	8		0		3		LOAD_TEMP(0)
+Roof 🎨		4		3		2		LOAD_TEMP(4)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, shiroi_m_build_clr_new, getbits(random_bits, 0, 3)) {
+			0:	return 37;
+			1:	return 38;
+			2:	return 48;
+			3:	return 56;
+			4:	return 57;
+			5:	return 68;
+			6:	return 83;
+				return 84;
+		}
+	// Roof Colours
+		switch (FEAT_HOUSES, SELF, shiroi_m_roofs_clr, getbits(random_bits, 3, 2)) {
+			0:	return 45;
+			1:	return 56;
+			2:	return 57;
+				return 63;
+		}
+// Spritelayout Switches
 	// a
 		// 6L
-			// mix01
-				// norm
-				spritelayout sprlay_shiroi_m_a_6L_mix01_norm {
-					ground {
-						sprite: spr_shiroi_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_a_6L_mix01_snow {
-					ground {
-						sprite: spr_shiroi_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_a_6L_mix01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_a_6L_mix01_snow;
-					sprlay_shiroi_m_a_6L_mix01_norm;
-				}
-
-			// mix02
-				// norm
-				spritelayout sprlay_shiroi_m_a_6L_mix02_norm {
-					ground {
-						sprite: spr_shiroi_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_a_6L_mix02_snow {
-					ground {
-						sprite: spr_shiroi_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_a_6L_mix02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_a_6L_mix02_snow;
-					sprlay_shiroi_m_a_6L_mix02_norm;
-				}
-
-			// mix03
-				// norm
-				spritelayout sprlay_shiroi_m_a_6L_mix03_norm {
-					ground {
-						sprite: spr_shiroi_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_a_6L_mix03_snow {
-					ground {
-						sprite: spr_shiroi_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_a_6L_mix03_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_a_6L_mix03_snow;
-					sprlay_shiroi_m_a_6L_mix03_norm;
-				}
-
-			// mix04
-				// norm
-				spritelayout sprlay_shiroi_m_a_6L_mix04_norm {
-					ground {
-						sprite: spr_shiroi_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_a_6L_mix04_snow {
-					ground {
-						sprite: spr_shiroi_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_a_6L_mix04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_a_6L_mix04_snow;
-					sprlay_shiroi_m_a_6L_mix04_norm;
-				}
+			switch (FEAT_HOUSES,SELF, switch_shiroi_m_a_sprites, [
+				STORE_TEMP(shiroi_m_build_clr_new(), 0),
+				STORE_TEMP(shiroi_m_roofs_clr(), 4),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_shiroi_m_a_6L_snow; sprlay_shiroi_m_a_6L_norm; }
 
 	// b
 		// 6L
-			// mix01
-				// norm
-				spritelayout sprlay_shiroi_m_b_6L_mix01_norm {
-					ground {
-						sprite: spr_shiroi_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
+			switch (FEAT_HOUSES,SELF, switch_shiroi_m_b_sprites, [
+				STORE_TEMP(shiroi_m_build_clr_new(), 0),
+				STORE_TEMP(shiroi_m_roofs_clr(), 4),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_shiroi_m_b_6L_snow; sprlay_shiroi_m_b_6L_norm; }
 
-				// snow
-				spritelayout sprlay_shiroi_m_b_6L_mix01_snow {
-					ground {
-						sprite: spr_shiroi_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_b_6L_mix01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_b_6L_mix01_snow;
-					sprlay_shiroi_m_b_6L_mix01_norm;
-				}
-
-			// mix02
-				// norm
-				spritelayout sprlay_shiroi_m_b_6L_mix02_norm {
-					ground {
-						sprite: spr_shiroi_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_b_6L_mix02_snow {
-					ground {
-						sprite: spr_shiroi_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_b_6L_mix02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_b_6L_mix02_snow;
-					sprlay_shiroi_m_b_6L_mix02_norm;
-				}
-
-			// mix03
-				// norm
-				spritelayout sprlay_shiroi_m_b_6L_mix03_norm {
-					ground {
-						sprite: spr_shiroi_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_b_6L_mix03_snow {
-					ground {
-						sprite: spr_shiroi_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_b_6L_mix03_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_b_6L_mix03_snow;
-					sprlay_shiroi_m_b_6L_mix03_norm;
-				}
-
-			// mix04
-				// norm
-				spritelayout sprlay_shiroi_m_b_6L_mix04_norm {
-					ground {
-						sprite: spr_shiroi_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_shiroi_m_b_6L_mix04_snow {
-					ground {
-						sprite: spr_shiroi_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_shiroi_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_shiroi_m_b_6L_mix04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_shiroi_m_b_6L_mix04_snow;
-					sprlay_shiroi_m_b_6L_mix04_norm;
-				}
-
-
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_shiroi_m_a_sprites, random_bits % 4 ) { 
-		0:	switch_shiroi_m_a_6L_mix01_snow;
-		1:	switch_shiroi_m_a_6L_mix02_snow;
-		2:	switch_shiroi_m_a_6L_mix03_snow;
-		3:	switch_shiroi_m_a_6L_mix04_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_shiroi_m_b_sprites, random_bits % 4 ) { 
-		0:	switch_shiroi_m_b_6L_mix01_snow;
-		1:	switch_shiroi_m_b_6L_mix02_snow;
-		2:	switch_shiroi_m_b_6L_mix03_snow;
-		3:	switch_shiroi_m_b_6L_mix04_snow;
-	}
-
-// Direction Switches
+	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
 	
 	random_switch (FEAT_HOUSES, SELF, switch_shiroi_m_random_sprites) {
 		1: switch_shiroi_m_a_sprites;
