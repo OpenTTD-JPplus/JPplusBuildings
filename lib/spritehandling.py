@@ -1,11 +1,12 @@
 
-import json
 from lib.functions import LoadJSON as LoadJSON
 from lib.functions import BitsRequired as BitsRequired
 from lib.functions import GetPointsBravo as GetPointsBravo
 from lib.functions import SpriteDirectionsAB as SpriteDirectionsAB
+from lib.functions import SpriteDirectionsABS as SpriteDirectionsABS
 from lib.functions import SpriteDirectionsABENSW as SpriteDirectionsABENSW
 from lib.functions import GetPointsComboLevels as GetPointsComboLevels
+from lib.functions import GetPointsLevels as GetPointsLevels
 
 buildingsJSON = 'lib/buildings.json'
 recolourJSON = 'lib/recolour.json'
@@ -21,7 +22,6 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         # Spritelayouts
         file.write("\n" + "// Spritelayouts\n")
         climates = ['norm', 'snow']
-        num_childsprites = len(buildings[b]["childsprites"])
 
         for v in variants:
             file.write(f"\n\t// {v.upper()} variant")
@@ -90,65 +90,74 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                             dontcloseout = 0
                             noconstructionstates = 0
                             
-                            # Childsprite graphics
-                            if '2x2' in conditions:
-                                file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                file.write(f"spr_{b}_{l}_{c}")
-                                if 'single_climate' not in conditions:
-                                    file.write("_" + k)
-                            elif direction_removals.get(v) in conditions:
-                                file.write(f"\n\t\t\t\t\t// No Childsprite for {c} for {v}")
-                            elif 'level_driven' in conditions:
-                                if direction_removals.get(v) not in list(buildings[b]['childsprites'][c]['level'][l]):
+                            if 'norm_only' not in conditions or ('norm_only' in conditions and k == 'norm'):
+
+                                # Childsprite graphics
+                                if '2x2' in conditions:
+                                    file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                    file.write(f"spr_{b}_{l}_{c}")
+                                    if 'single_climate' not in conditions:
+                                        file.write("_" + k)
+                                elif direction_removals.get(v) in conditions:
+                                    file.write(f"\n\t\t\t\t\t// No Childsprite for {c} for {v}")
+                                elif 'level_driven' in conditions:
+                                    if direction_removals.get(v) not in list(buildings[b]['childsprites'][c]['level'][l]):
+                                        file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                        file.write(f"spr_{b}_{v}_{l}_{c}")
+                                        if 'single_climate' not in conditions:
+                                            file.write(f"_{k}")
+                                    else:
+                                        dontcloseout += 1
+                                        noconstructionstates += 1
+                                else:
                                     file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
                                     file.write(f"spr_{b}_{v}_{l}_{c}")
                                     if 'single_climate' not in conditions:
                                         file.write(f"_{k}")
-                                else:
-                                    dontcloseout += 1
-                                    noconstructionstates += 1
-                            else:
-                                file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                file.write(f"spr_{b}_{v}_{l}_{c}")
-                                if 'single_climate' not in conditions:
-                                    file.write(f"_{k}")
 
-                            # Childsprite Construction States
-                            if 'single' in conditions:  # If just the one, match what the building does
-                                try:
-                                    file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + "); // Same as building")
-                                except:
-                                    file.write(" (construction_state); // Same as building")
-                            elif 'seasonal' in conditions:
-                                if direction_removals.get(v) in conditions:
-                                    file.write(f"No construction states either")
-                                elif noconstructionstates > 0:
-                                    noconstructionstates += 1
-                                else:
-                                    # Norm or Snow?
-                                    if k == 'norm':
-                                        file.write(" (LOAD_TEMP(3)); // Seasonal")
+                                # Childsprite Construction States
+                                if 'single' in conditions:  # If just the one, match what the building does
+                                    try:
+                                        file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + "); // Same as building")
+                                    except:
+                                        file.write(" (construction_state); // Same as building")
+                                elif 'seasonal' in conditions:
+                                    if direction_removals.get(v) in conditions:
+                                        file.write(f"No construction states either")
+                                    elif noconstructionstates > 0:
+                                        noconstructionstates += 1
                                     else:
-                                        file.write(" (3); // Seasonal, but winter tree in the snow")
-                            elif '2x2' in conditions:
-                                variant_mapping = {'w':0,'s':1,'e':2,'n':3}
-                                file.write(" ("+ str(variant_mapping[v]) +");")
-                            elif direction_removals.get(v) in conditions:
-                                file.write(" and no construction state either")
-                            else:
-                                print("Loose End @ Childsprite Construction States")
-                            
-                            # Childsprite Recolouring
-                            if 'remap' in conditions:
-                                if c == 'fence':
-                                    file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(2);")
-                                elif c == 'roofs':
-                                    file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(4);")
+                                        # Norm or Snow?
+                                        if k == 'norm':
+                                            file.write(" (LOAD_TEMP(3)); // Seasonal")
+                                        else:
+                                            file.write(" (3); // Seasonal, but winter tree in the snow")
+                                elif '2x2' in conditions:
+                                    variant_mapping = {'w':0,'s':1,'e':2,'n':3}
+                                    file.write(" ("+ str(variant_mapping[v]) +");")
+                                elif direction_removals.get(v) in conditions:
+                                    file.write(" and no construction state either")
+                                elif '4choices' in conditions:
+                                    if c == 'roofs':
+                                        file.write(f" (LOAD_TEMP(5));")
+                                    else:
+                                        print("loose end @ 4choices in Childsprite Construction States")
                                 else:
-                                    print(f"❌ Unclosed loop in childsprites recolouring for building {b}")
-                            # End the childsprites
-                            if (direction_removals.get(v) not in conditions) and (dontcloseout == 0):
-                                file.write(f"\n\t\t\t\t\t}}")
+                                    print("Loose End @ Childsprite Construction States")
+                                
+                                # Childsprite Recolouring
+                                if 'remap' in conditions:
+                                    if c == 'fence':
+                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(2);")
+                                    elif c == 'roofs':
+                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(4);")
+                                    elif c == 'signs':
+                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(6);")
+                                    else:
+                                        print(f"❌ Unclosed loop in childsprites recolouring for building {b}")
+                                # End the childsprites
+                                if (direction_removals.get(v) not in conditions) and (dontcloseout == 0):
+                                    file.write(f"\n\t\t\t\t\t}}")
                     
                     # End the Spritelayout            
                     file.write(f"\n\t\t\t\t}}\n")
@@ -201,18 +210,22 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         if len(levels) > 1:
             file.write("\nLevels\t\t" + str(len(levels)) + "\t\t" + str(start_point) + "\t\t" + str(BitsRequired(len(levels))) + "\t\t🚫")
             level_start_point = start_point
-            start_point = start_point + BitsRequired(len(levels))
+            #start_point += BitsRequired(len(levels))
+            start_point += 1
+        
         # Building Colours
         if buildings[b]['colours']['basis'] == 'standard':
             if colour_dict['new']['sum_prob'] > 0:
                 file.write("\nBuilding\t" + str(colour_dict['new']['sum_prob']) + "\t\t" + str(start_point) + "\t\t" + str(BitsRequired(colour_dict['new']['sum_prob'])) + "\t\tLOAD_TEMP(0)" )
                 building_colour_start_point = start_point
-                start_point = start_point + BitsRequired(colour_dict['new']['sum_prob'])
+                #start_point = start_point + BitsRequired(colour_dict['new']['sum_prob'])
+                start_point += 1
         elif buildings[b]['colours']['basis'] == 'levels':
             if colour_dict[first_level]['sum_prob'] > 0:
                 file.write("\nBuilding\t" + str(colour_dict[first_level]['sum_prob']) + "\t\t" + str(start_point) + "\t\t" + str(BitsRequired(colour_dict[first_level]['sum_prob'])) + "\t\tLOAD_TEMP(0)" )
                 building_colour_start_point = start_point
-                start_point = start_point + BitsRequired(colour_dict[first_level]['sum_prob'])
+                #start_point = start_point + BitsRequired(colour_dict[first_level]['sum_prob'])
+                start_point += 1
         else:
             print("❌ Unclosed loop for " + b)
 
@@ -221,15 +234,32 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
             if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
                 file.write("\nFence 🎨\t" + str(4) + "\t\t" + str(start_point) + "\t\t" + str(2) + "\t\tLOAD_TEMP(2)")
                 fence_colour_start_point = start_point
-                start_point = start_point + 2
+                #start_point += 2
+                start_point += 1
             
-        # Roof Colours
+        # Roof 
         if 'roofs' in list(buildings[b]['childsprites'].keys()):
+            # Roof Colours
             if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
-                file.write(f"\nRoof 🎨\t\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(4)")
+                file.write(f"\nRoof 🎨\t\t{colour_dict['new']['sum_prob']}\t\t{start_point}\t\t{BitsRequired(colour_dict['roofs_new']['sum_prob'])}\t\tLOAD_TEMP(4)")
                 roofs_colour_start_point = start_point
-                start_point += 2
+                #start_point += BitsRequired(colour_dict['roofs']['sum_prob'])
+                start_point += 1
 
+            # Roof Variations
+            if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
+                file.write(f"\nRoof Var\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(5)")
+                roofs_variations_start_point = start_point
+                #start_point += 2
+                start_point += 1
+
+        # Sign Colours
+        if 'signs' in list(buildings[b]['childsprites'].keys()):
+            if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                file.write(f"\nSigns 🎨\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(6)")
+                signs_colour_start_point = start_point
+                #start_point += 2
+                start_point += 1
 
         file.write("\n*/\n")
 
@@ -238,14 +268,14 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         file.write("\n\t// Building Colours")
 
         # Building Colours
-        building_colour_profiles = [p for p in colour_profiles if p not in ['fence','trees','roofs']]
+        building_colour_profiles = [p for p in colour_profiles if p not in ['fence','trees','roofs_new','roofs_old','signs']]
         for p in building_colour_profiles:
             file.write("\n\t\tswitch (FEAT_HOUSES, SELF, " + b + "_build_clr_" + p + ", getbits(random_bits, " + str(building_colour_start_point) + ", " + str(BitsRequired(colour_dict[p]['sum_prob'])) + ")) {")
             points = GetPointsBravo(buildings,b,p)
             i = 0
             for c in list(buildings[b]['colours'][p].keys()):
                 if i == len(list(buildings[b]['colours'][p].keys())) - 1:
-                    file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
+                    file.write(f"\n\t\t\t\treturn {recolour[c]['remap']};")
                 else:
                     file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
                 i = i + 1
@@ -266,15 +296,33 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                     i = i + 1
                 file.write("\n\t\t}")
 
-        # Roof Colours
+        # Roofs
         if 'roofs' in list(buildings[b]['childsprites'].keys()):
+            # Colours
             if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
                 file.write("\n\t// Roof Colours")
-                file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_roofs_clr, getbits(random_bits, {roofs_colour_start_point}, {2})) {{")
-                points = GetPointsBravo(buildings,b,"roofs")
+                roof_colour_profiles = [item for item in buildings[b]['colours'] if "roofs" in item]
+                for rcp in roof_colour_profiles:
+                    file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_{rcp}, getbits(random_bits, {roofs_colour_start_point}, {BitsRequired(colour_dict[rcp]['sum_prob'])})) {{")
+                    points = GetPointsBravo(buildings,b,rcp)
+                    i = 0
+                    for c in list(buildings[b]['colours'][rcp].keys()):
+                        if i == len(list(buildings[b]['colours'][rcp].keys())) - 1:
+                            file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
+                        else:
+                            file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
+                        i = i + 1
+                    file.write("\n\t\t}")
+
+        # Sign Colours
+        if 'signs' in list(buildings[b]['childsprites'].keys()):
+            if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                file.write("\n\t// Sign Colours")
+                file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_signs_clr, getbits(random_bits, {signs_colour_start_point}, {2})) {{")
+                points = GetPointsBravo(buildings,b,"signs")
                 i = 0
-                for c in list(buildings[b]['colours']['roofs'].keys()):
-                    if i == len(list(buildings[b]['colours']['roofs'].keys())) - 1:
+                for c in list(buildings[b]['colours']['signs'].keys()):
+                    if i == len(list(buildings[b]['colours']['signs'].keys())) - 1:
                         file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
                     else:
                         file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
@@ -296,7 +344,7 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                 # Building Colours
                 if buildings[b]['colours']['basis'] == 'standard':
                     if 'old_era_end' in buildings[b]['colours']:
-                        file.write("\n\t\t\t\tSTORE_TEMP((current_year - age) < " + str(buildings[b]['colours']['old_era_end']) + " ? " + b + "_build_clr_old() : " + b +"_build_clr_new(), 0),")
+                        file.write(f"\n\t\t\t\tSTORE_TEMP((current_year - age) < {buildings[b]['colours']['old_era_end']} ? {b}_build_clr_old() : {b}_build_clr_new(), 0),")
                     else:
                         file.write("\n\t\t\t\tSTORE_TEMP(" + b +"_build_clr_new(), 0),")  
                 elif buildings[b]['colours']['basis'] == 'levels':
@@ -307,10 +355,21 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                 if 'fence' in list(buildings[b]['childsprites'].keys()):
                     if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
                         file.write("\n\t\t\t\tSTORE_TEMP(" + b + "_fence_clr(), 2),")
-                # Roof Colours
+                # Roof
                 if 'roofs' in list(buildings[b]['childsprites'].keys()):
+                    # Roof Colours
                     if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
-                        file.write(f"\n\t\t\t\tSTORE_TEMP({b}_roofs_clr(), 4),")
+                        if 'old_colours' in buildings[b]['childsprites']['roofs']['conditions']:
+                            file.write(f"\n\t\t\t\tSTORE_TEMP((current_year - age) < {buildings[b]['colours']['old_era_end']} ? {b}_roofs_old() : {b}_roofs_new(), 4),")
+                        else:
+                            file.write(f"\n\t\t\t\tSTORE_TEMP({b}_roofs_new(), 4),")
+                    # Roof Variants
+                    if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
+                        file.write(f"\n\t\t\t\tSTORE_TEMP(getbits(random_bits, {roofs_variations_start_point}, {2}), 5),")
+                # Sign Colours
+                if 'signs' in list(buildings[b]['childsprites'].keys()):
+                    if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                        file.write(f"\n\t\t\t\tSTORE_TEMP({b}_signs_clr(), 6),")
                 # Tree Seasonality
                 if 'trees' in list(buildings[b]['childsprites'].keys()):
                     if 'seasonal' in buildings[b]['childsprites']['trees']['conditions']:
@@ -323,16 +382,20 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         if buildings[b]['tile_size'] == 'HOUSE_SIZE_1X1':
             if len(levels) > 1:
                 file.write("\n\t// Level Selection")
-                file.write("\n\t\tswitch (FEAT_HOUSES, SELF, switch_" + b + "_sprites, getbits(random_bits, " + str(level_start_point) + ", " + str(BitsRequired(len(levels))) + ")) {")
-                # Line for each level
-                i = 0
-                for l in levels:
-                    if i == len(levels) - 1:
-                        file.write("\n\t\t\t\tswitch_" + b + "_" + v + "_" + l + "_sprites;")
+                for v in variants:
+                    if len(variants) > 1:
+                        file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, switch_{b}_{v}_sprites, getbits(random_bits, {level_start_point}, {BitsRequired(len(levels))})) {{")
                     else:
-                        file.write("\n\t\t\t" + str(i) + ":\tswitch_" + b + "_" + v + "_" + l + "_sprites;")
-                    i = i + 1
-                file.write("\n\t\t}\n")
+                        file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, switch_{b}_sprites, getbits(random_bits, {level_start_point}, {BitsRequired(len(levels))})) {{")
+                    # Line for each level
+                    i = 0
+                    for l in levels:
+                        if i == len(levels) - 1:
+                            file.write(f"\n\t\t\t\tswitch_{b}_{v}_{l}_sprites;")
+                        else:
+                            file.write(f"\n\t\t\t{i}:\tswitch_{b}_{v}_{l}_sprites;")
+                        i = i + 1
+                    file.write("\n\t\t}\n")
         elif buildings[b]['tile_size'] == 'HOUSE_SIZE_2X2':
             if len(levels) > 1:
                 file.write("\n\t// Level Selection")
@@ -350,6 +413,9 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         if variants == ['a','b']:
             file.write(f"\n\t// Variant Selection for {variants} using SpriteDirectionsAB()")
             file.write("\n\t"+ SpriteDirectionsAB(b))
+        elif variants == ['a','b','s']:
+            file.write(f"\n\t// Variant Selection for {variants} using SpriteDirectionsABS()")
+            file.write("\n\t"+ SpriteDirectionsABS(b))
         elif variants == ['a','b','e','n','s','w']:
             file.write(f"\n\t// Variant Selection for {variants} using SpriteDirectionsABENSW()")
             file.write("\n\t" + SpriteDirectionsABENSW(b))

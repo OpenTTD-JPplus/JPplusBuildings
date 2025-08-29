@@ -32,11 +32,6 @@
 						recolour_mode: RECOLOUR_REMAP;
 						palette: recolour_remap + LOAD_TEMP(0);
 					}
-					childsprite { // roofs
-						sprite: spr_shiroi_m_a_6L_roofs_snow (construction_state); // Same as building
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(4);
-					}
 				}
 
 	// B variant
@@ -68,11 +63,6 @@
 						recolour_mode: RECOLOUR_REMAP;
 						palette: recolour_remap + LOAD_TEMP(0);
 					}
-					childsprite { // roofs
-						sprite: spr_shiroi_m_b_6L_roofs_snow (construction_state); // Same as building
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(4);
-					}
 				}
 
 /*
@@ -81,41 +71,41 @@ Getbits Allocation
 ==================
 Childsprites: {'roofs': {'conditions': ['single', 'variant', 'norm_only', 'remap']}}
 
-Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'roofs': {'sum_prob': 4, 'count': 4}}
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'roofs_new': {'sum_prob': 4, 'count': 4}}
 	✅ new colour profile has 8 unique colours, with probabilities summing to 8
-	✅ roofs colour profile has 4 unique colours, with probabilities summing to 4
+	✅ roofs_new colour profile has 4 unique colours, with probabilities summing to 4
 
 Feature		Num		Start	Bits	Storage
 ------------------------------------------------------------------
 Building	8		0		3		LOAD_TEMP(0)
-Roof 🎨		4		3		2		LOAD_TEMP(4)
+Roof 🎨		8		1		2		LOAD_TEMP(4)
 */
 
 // Random Switches
 	// Building Colours
 		switch (FEAT_HOUSES, SELF, shiroi_m_build_clr_new, getbits(random_bits, 0, 3)) {
-			0:	return 37;
-			1:	return 38;
-			2:	return 48;
-			3:	return 56;
-			4:	return 57;
-			5:	return 68;
-			6:	return 83;
-				return 84;
+			0:	return 40;
+			1:	return 41;
+			2:	return 53;
+			3:	return 61;
+			4:	return 62;
+			5:	return 73;
+			6:	return 90;
+				return 93;
 		}
 	// Roof Colours
-		switch (FEAT_HOUSES, SELF, shiroi_m_roofs_clr, getbits(random_bits, 3, 2)) {
-			0:	return 45;
-			1:	return 56;
-			2:	return 57;
-				return 63;
+		switch (FEAT_HOUSES, SELF, shiroi_m_roofs_new, getbits(random_bits, 1, 2)) {
+			0:	return 50;
+			1:	return 61;
+			2:	return 62;
+				return 68;
 		}
 // Spritelayout Switches
 	// a
 		// 6L
 			switch (FEAT_HOUSES,SELF, switch_shiroi_m_a_sprites, [
 				STORE_TEMP(shiroi_m_build_clr_new(), 0),
-				STORE_TEMP(shiroi_m_roofs_clr(), 4),
+				STORE_TEMP(shiroi_m_roofs_new(), 4),
 				terrain_type == TILETYPE_SNOW]) 
 				{1: sprlay_shiroi_m_a_6L_snow; sprlay_shiroi_m_a_6L_norm; }
 
@@ -123,7 +113,7 @@ Roof 🎨		4		3		2		LOAD_TEMP(4)
 		// 6L
 			switch (FEAT_HOUSES,SELF, switch_shiroi_m_b_sprites, [
 				STORE_TEMP(shiroi_m_build_clr_new(), 0),
-				STORE_TEMP(shiroi_m_roofs_clr(), 4),
+				STORE_TEMP(shiroi_m_roofs_new(), 4),
 				terrain_type == TILETYPE_SNOW]) 
 				{1: sprlay_shiroi_m_b_6L_snow; sprlay_shiroi_m_b_6L_norm; }
 
