@@ -16,7 +16,7 @@ buildings = LoadJSON(buildingsJSON)
 
 direction_removals = {'n': 'no_north','s': 'no_south','e': 'no_east','w': 'no_west'}
 
-def SpriteHandling(b,building_file,variants,levels,childsprites):
+def SpriteHandling(b,building_file,variants,levels,childsprites=None):
     with open(building_file, 'a') as file:
         
         # Spritelayouts
@@ -34,20 +34,29 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                     
                     # GROUND
                     # Ground graphics incl overrides
-                    if 'ground_override' in buildings[b].keys():
-                        if '[level]' in buildings[b]["ground_override"]:
-                            level_override = buildings[b]["ground_override"]
-                            level_override = level_override.replace("[level]",l)
-                            file.write(level_override + "_" + k)
+                    if 'ground' in buildings[b].keys():
+                        # Overrides
+                        if 'override' in buildings[b]['ground'].keys():
+                            if '[level]' in buildings[b]["ground"]["override"]:
+                                level_override = buildings[b]["ground"]["override"]
+                                level_override = level_override.replace("[level]",l)
+                                file.write(f"{level_override}_{k}")
+                            else:
+                                file.write(f"{buildings[b]['ground']['override']}_{k};")
                         else:
-                            file.write(f"{buildings[b]['ground_override']}_{k}")
+                            file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
                     else:
                         file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
+
                     # Ground Construction State
-                    try:
-                        file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
-                    except:
-                        file.write(" (construction_state);")
+                    if 'ground' in list(buildings[b].keys()):
+                        if 'road_aware' in list(buildings[b]['ground'].keys()):
+                            file.write("(LOAD_TEMP(8));")
+                    else:
+                        try:
+                            file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
+                        except:
+                            file.write(" (construction_state);")
                     file.write(f"\n\t\t\t\t\t}}")
 
                     # BUILDING
@@ -229,48 +238,47 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
         else:
             print("❌ Unclosed loop for " + b)
 
-        # Fence Colours
-        if 'fence' in list(buildings[b]['childsprites'].keys()):
-            if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
-                file.write("\nFence 🎨\t" + str(4) + "\t\t" + str(start_point) + "\t\t" + str(2) + "\t\tLOAD_TEMP(2)")
-                fence_colour_start_point = start_point
-                #start_point += 2
-                start_point += 1
-            
-        # Roof 
-        if 'roofs' in list(buildings[b]['childsprites'].keys()):
-            # Roof Colours
-            if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
-                file.write(f"\nRoof 🎨\t\t{colour_dict['new']['sum_prob']}\t\t{start_point}\t\t{BitsRequired(colour_dict['roofs_new']['sum_prob'])}\t\tLOAD_TEMP(4)")
-                roofs_colour_start_point = start_point
-                #start_point += BitsRequired(colour_dict['roofs']['sum_prob'])
-                start_point += 1
+        # Childsprites
+        if childsprites != None:
+        
+            # Fence Colours
+            if 'fence' in list(buildings[b]['childsprites'].keys()):
+                if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
+                    file.write("\nFence 🎨\t" + str(4) + "\t\t" + str(start_point) + "\t\t" + str(2) + "\t\tLOAD_TEMP(2)")
+                    fence_colour_start_point = start_point
+                    start_point += 1
+                
+            # Roof 
+            if 'roofs' in list(buildings[b]['childsprites'].keys()):
+                # Roof Colours
+                if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
+                    file.write(f"\nRoof 🎨\t\t{colour_dict['new']['sum_prob']}\t\t{start_point}\t\t{BitsRequired(colour_dict['roofs_new']['sum_prob'])}\t\tLOAD_TEMP(4)")
+                    roofs_colour_start_point = start_point
+                    start_point += 1
 
-            # Roof Variations
-            if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
-                file.write(f"\nRoof Var\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(5)")
-                roofs_variations_start_point = start_point
-                #start_point += 2
-                start_point += 1
+                # Roof Variations
+                if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
+                    file.write(f"\nRoof Var\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(5)")
+                    roofs_variations_start_point = start_point
+                    start_point += 1
 
-        # Sign Colours
-        if 'signs' in list(buildings[b]['childsprites'].keys()):
-            if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
-                file.write(f"\nSigns 🎨\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(6)")
-                signs_colour_start_point = start_point
-                #start_point += 2
-                start_point += 1
+            # Sign Colours
+            if 'signs' in list(buildings[b]['childsprites'].keys()):
+                if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                    file.write(f"\nSigns 🎨\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(6)")
+                    signs_colour_start_point = start_point
+                    start_point += 1
 
         file.write("\n*/\n")
 
+        # RANDOM SWITCHES
         file.write("\n// Random Switches")
         
-        file.write("\n\t// Building Colours")
-
         # Building Colours
+        file.write("\n\t// Building Colours")
         building_colour_profiles = [p for p in colour_profiles if p not in ['fence','trees','roofs_new','roofs_old','signs']]
         for p in building_colour_profiles:
-            file.write("\n\t\tswitch (FEAT_HOUSES, SELF, " + b + "_build_clr_" + p + ", getbits(random_bits, " + str(building_colour_start_point) + ", " + str(BitsRequired(colour_dict[p]['sum_prob'])) + ")) {")
+            file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_build_clr_{p}, getbits(random_bits, {building_colour_start_point}, {BitsRequired(colour_dict[p]['sum_prob'])})) {{")
             points = GetPointsBravo(buildings,b,p)
             i = 0
             for c in list(buildings[b]['colours'][p].keys()):
@@ -281,66 +289,71 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                 i = i + 1
             file.write("\n\t\t}")
 
-        # Fence Colours
-        if 'fence' in list(buildings[b]['childsprites'].keys()):
-            if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
-                file.write("\n\t// Fence Colours")
-                file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_fence_clr, getbits(random_bits, {fence_colour_start_point}, {2})) {{")
-                points = GetPointsBravo(buildings,b,"fence")
-                i = 0
-                for c in list(buildings[b]['colours']['fence'].keys()):
-                    if i == len(list(buildings[b]['colours']['fence'].keys())) - 1:
-                        file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
-                    else:
-                        file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
-                    i = i + 1
-                file.write("\n\t\t}")
+        # Childsprites
+        if childsprites != None:
 
-        # Roofs
-        if 'roofs' in list(buildings[b]['childsprites'].keys()):
-            # Colours
-            if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
-                file.write("\n\t// Roof Colours")
-                roof_colour_profiles = [item for item in buildings[b]['colours'] if "roofs" in item]
-                for rcp in roof_colour_profiles:
-                    file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_{rcp}, getbits(random_bits, {roofs_colour_start_point}, {BitsRequired(colour_dict[rcp]['sum_prob'])})) {{")
-                    points = GetPointsBravo(buildings,b,rcp)
+            # Fence Colours
+            if 'fence' in childsprites:
+                if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
+                    file.write("\n\t// Fence Colours")
+                    file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_fence_clr, getbits(random_bits, {fence_colour_start_point}, {2})) {{")
+                    points = GetPointsBravo(buildings,b,"fence")
                     i = 0
-                    for c in list(buildings[b]['colours'][rcp].keys()):
-                        if i == len(list(buildings[b]['colours'][rcp].keys())) - 1:
+                    for c in list(buildings[b]['colours']['fence'].keys()):
+                        if i == len(list(buildings[b]['colours']['fence'].keys())) - 1:
                             file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
                         else:
                             file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
                         i = i + 1
                     file.write("\n\t\t}")
 
-        # Sign Colours
-        if 'signs' in list(buildings[b]['childsprites'].keys()):
-            if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
-                file.write("\n\t// Sign Colours")
-                file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_signs_clr, getbits(random_bits, {signs_colour_start_point}, {2})) {{")
-                points = GetPointsBravo(buildings,b,"signs")
-                i = 0
-                for c in list(buildings[b]['colours']['signs'].keys()):
-                    if i == len(list(buildings[b]['colours']['signs'].keys())) - 1:
-                        file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
-                    else:
-                        file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
-                    i = i + 1
-                file.write("\n\t\t}")
+            # Roofs
+            if 'roofs' in childsprites:
+                # Colours
+                if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
+                    file.write("\n\t// Roof Colours")
+                    roof_colour_profiles = [item for item in buildings[b]['colours'] if "roofs" in item]
+                    for rcp in roof_colour_profiles:
+                        file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_{rcp}, getbits(random_bits, {roofs_colour_start_point}, {BitsRequired(colour_dict[rcp]['sum_prob'])})) {{")
+                        points = GetPointsBravo(buildings,b,rcp)
+                        i = 0
+                        for c in list(buildings[b]['colours'][rcp].keys()):
+                            if i == len(list(buildings[b]['colours'][rcp].keys())) - 1:
+                                file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
+                            else:
+                                file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
+                            i = i + 1
+                        file.write("\n\t\t}")
 
-        # Switches
+            # Sign Colours
+            if 'signs' in childsprites:
+                if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                    file.write("\n\t// Sign Colours")
+                    file.write(f"\n\t\tswitch (FEAT_HOUSES, SELF, {b}_signs_clr, getbits(random_bits, {signs_colour_start_point}, {2})) {{")
+                    points = GetPointsBravo(buildings,b,"signs")
+                    i = 0
+                    for c in list(buildings[b]['colours']['signs'].keys()):
+                        if i == len(list(buildings[b]['colours']['signs'].keys())) - 1:
+                            file.write("\n\t\t\t\treturn " + str(recolour[c]['remap']) + ";")
+                        else:
+                            file.write("\n\t\t\t" + points[i] + ":\treturn " + str(recolour[c]['remap']) + ";")
+                        i = i + 1
+                    file.write("\n\t\t}")
+
+        # SPRITELAYOUT SWITCH
         file.write("\n// Spritelayout Switches")
         
         for v in variants:
             file.write("\n\t// " + v)
             for l in levels:
                 file.write("\n\t\t// " + l)
+                
                 #Header
                 if len(levels) > 1:  # If only 1 level, include level in name
                     file.write("\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_" + b + "_" + v + "_" + l + "_sprites, [")
                 else:               # Else include level in name
                     file.write("\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_" + b + "_" + v + "_sprites, [")
+                
                 # Building Colours
                 if buildings[b]['colours']['basis'] == 'standard':
                     if 'old_era_end' in buildings[b]['colours']:
@@ -351,29 +364,37 @@ def SpriteHandling(b,building_file,variants,levels,childsprites):
                     file.write("\n\t\t\t\tSTORE_TEMP(" + b +"_build_clr_" + l + "(), 0),")  
                 else:
                     print("❌ Unclosed loop for " + b + " at spritelayout switches")
-                # Fence Colours
-                if 'fence' in list(buildings[b]['childsprites'].keys()):
-                    if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
-                        file.write("\n\t\t\t\tSTORE_TEMP(" + b + "_fence_clr(), 2),")
-                # Roof
-                if 'roofs' in list(buildings[b]['childsprites'].keys()):
-                    # Roof Colours
-                    if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
-                        if 'old_colours' in buildings[b]['childsprites']['roofs']['conditions']:
-                            file.write(f"\n\t\t\t\tSTORE_TEMP((current_year - age) < {buildings[b]['colours']['old_era_end']} ? {b}_roofs_old() : {b}_roofs_new(), 4),")
-                        else:
-                            file.write(f"\n\t\t\t\tSTORE_TEMP({b}_roofs_new(), 4),")
-                    # Roof Variants
-                    if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
-                        file.write(f"\n\t\t\t\tSTORE_TEMP(getbits(random_bits, {roofs_variations_start_point}, {2}), 5),")
-                # Sign Colours
-                if 'signs' in list(buildings[b]['childsprites'].keys()):
-                    if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
-                        file.write(f"\n\t\t\t\tSTORE_TEMP({b}_signs_clr(), 6),")
-                # Tree Seasonality
-                if 'trees' in list(buildings[b]['childsprites'].keys()):
-                    if 'seasonal' in buildings[b]['childsprites']['trees']['conditions']:
-                        file.write("\n\t\t\t\tSTORE_TEMP(Season(), 3),")
+                
+                # Ground Sprites
+                if 'ground' in list(buildings[b].keys()):
+                    if 'road_aware' in list(buildings[b]['ground'].keys()):
+                        file.write(f"\n\t\t\t\tSTORE_TEMP(GroundRoadAware(), 8),")
+
+                # Childsprites
+                if childsprites != None:
+                    # Fence Colours
+                    if 'fence' in list(buildings[b]['childsprites'].keys()):
+                        if 'remap' in buildings[b]['childsprites']['fence']['conditions']:
+                            file.write("\n\t\t\t\tSTORE_TEMP(" + b + "_fence_clr(), 2),")
+                    # Roof
+                    if 'roofs' in list(buildings[b]['childsprites'].keys()):
+                        # Roof Colours
+                        if 'remap' in buildings[b]['childsprites']['roofs']['conditions']:
+                            if 'old_colours' in buildings[b]['childsprites']['roofs']['conditions']:
+                                file.write(f"\n\t\t\t\tSTORE_TEMP((current_year - age) < {buildings[b]['colours']['old_era_end']} ? {b}_roofs_old() : {b}_roofs_new(), 4),")
+                            else:
+                                file.write(f"\n\t\t\t\tSTORE_TEMP({b}_roofs_new(), 4),")
+                        # Roof Variants
+                        if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
+                            file.write(f"\n\t\t\t\tSTORE_TEMP(getbits(random_bits, {roofs_variations_start_point}, {2}), 5),")
+                    # Sign Colours
+                    if 'signs' in list(buildings[b]['childsprites'].keys()):
+                        if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
+                            file.write(f"\n\t\t\t\tSTORE_TEMP({b}_signs_clr(), 6),")
+                    # Tree Seasonality
+                    if 'trees' in list(buildings[b]['childsprites'].keys()):
+                        if 'seasonal' in buildings[b]['childsprites']['trees']['conditions']:
+                            file.write("\n\t\t\t\tSTORE_TEMP(Season(), 3),")
                 # Snow and switch closeout
                 file.write("\n\t\t\t\tterrain_type == TILETYPE_SNOW]) ")
                 file.write("\n\t\t\t\t{1: sprlay_" + b + "_" + v + "_" + l + "_snow; sprlay_" + b + "_" + v + "_" + l + "_norm; }")

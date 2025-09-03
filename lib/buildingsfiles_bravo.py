@@ -51,9 +51,13 @@ def CreateBuildingFilesBravo(b):
 
         # SPRITEHANDLING
         log.write("\n\tSPRITE HANDLING")
-        childsprites = buildings[b]["childsprites"]
-        log.write("\n\t\tChildsprites: \t\t" + str(childsprites) )
-        SpriteHandling(b,building_file, variants, levels, childsprites)
+        if 'childsprites' in list(buildings[b].keys()):
+            childsprites = buildings[b]["childsprites"]
+            log.write(f"\n\t\tChildsprites: \t\t{childsprites}")
+            SpriteHandling(b,building_file, variants, levels, childsprites)
+        else:
+            log.write(f"\n\t\tNo Childsprites")
+            SpriteHandling(b,building_file, variants, levels)
         
         # ITEM BLOCK
         log.write("\n\n\tITEM BLOCK")

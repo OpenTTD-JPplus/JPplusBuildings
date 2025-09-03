@@ -1,0 +1,35 @@
+
+	switch (FEAT_HOUSES, SELF, GroundTileEastCheck, SpriteDirectionsEast()) {
+		4:  return 3;
+		6:  return 3;
+		    return 2;
+	}
+
+	switch (FEAT_HOUSES, SELF, GroundTileWestCheck, SpriteDirectionsWest()) {
+		6:  return 3;
+		    return 2;
+	}
+
+	switch (FEAT_HOUSES, SELF, GroundTileCheck, SpriteDirections() ) {
+		1:  return 3;                       // Since will be A due to having road
+		2:  return 3;                       // Since will be B due to having road
+		3:  return 3;                       // Since A & B will have access
+		4:  return 2;                       // Since no SE or SW road
+		5:  return 3;                       // Since will be A with SE road
+		6:  GroundTileWestCheck;            // WEST
+        7:  return 3;                       // Since has SE and SW road
+		8:  return 2;                       // Since NE only
+		9:  GroundTileEastCheck;            // EAST
+		10: return 3;                       // Since will be B with SW road
+        11: return 3;                       // Since has SE and SW road
+		12: return 2;                       // Since no SE or SW road
+        13: return 3;                       // Guess
+        14: return 3;                       // Guess
+        15: return 3;                       // Since A & B will have access
+		    return 2;                       // Default to no road
+	}
+
+switch (FEAT_HOUSES,SELF,GroundRoadAware, construction_state) {
+    3:  GroundTileCheck;
+        return 0;
+    }
