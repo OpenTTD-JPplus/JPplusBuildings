@@ -118,6 +118,11 @@ def SpriteHandling(b,building_file,variants,levels,childsprites=None):
                                     else:
                                         dontcloseout += 1
                                         noconstructionstates += 1
+                                elif 'levels_share' in conditions:
+                                    file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                    file.write(f"spr_{buildings[b]['folder']}_{v}_{c}")
+                                    if 'single_climate' not in conditions:
+                                        file.write("_" + k)
                                 else:
                                     file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
                                     file.write(f"spr_{b}_{v}_{l}_{c}")
@@ -125,7 +130,9 @@ def SpriteHandling(b,building_file,variants,levels,childsprites=None):
                                         file.write(f"_{k}")
 
                                 # Childsprite Construction States
-                                if 'single' in conditions:  # If just the one, match what the building does
+                                if '3only' in conditions:
+                                    file.write(" (3); // Three only condition")
+                                elif 'single' in conditions:  # If just the one, match what the building does
                                     try:
                                         file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + "); // Same as building")
                                     except:
