@@ -134,6 +134,7 @@ def CreateBuildingsJSON():
     df_parameter = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'parameter'])
     df_levels = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'levels'])
     df_variants = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'variants'], dtype={'variants':str})
+    df_construction_layouts = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'construction_layouts'])
     df_building_flags = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'building_flags'])
     df_foundations = pd.read_excel('docs/buildings.ods','items', usecols=['name', 'foundations'])
     
@@ -159,6 +160,7 @@ def CreateBuildingsJSON():
     df_variants['variants'] = df_variants['variants'].str.replace('Y','yoffset')
     df_variants['variants'] = df_variants['variants'].str.replace('$','construction_state')
     df_variants['variants'] = df_variants['variants'].str.replace('#','hide_sprite')
+    df_construction_layouts = df_construction_layouts.dropna()
     df_properties['accepted_cargos'] = '[' + df_properties['accepted_cargos'] + ']'
     df_properties['local_authority_impact'] = 80
     df_properties['removal_cost_multiplier'] = 80
@@ -204,6 +206,7 @@ def CreateBuildingsJSON():
     foundations = df_foundations.set_index('name').T.to_dict('dict')
     levels = df_levels.set_index('name').T.to_dict('dict')
     variants = df_variants.set_index('name').T.to_dict('dict')
+    construction_layouts = df_construction_layouts.set_index('name').T.to_dict('dict')
     colours = df_colours.set_index('name').T.to_dict('dict')
     properties = df_properties.set_index('name').T.to_dict('dict')
     graphics = df_graphics.set_index('name').T.to_dict('dict')
@@ -229,6 +232,9 @@ def CreateBuildingsJSON():
 
     for b in variants:
         buildings[b]["variants"] = eval(variants[b]["variants"])
+
+    for b in construction_layouts:
+        buildings[b]["construction_layouts"] = construction_layouts[b]["construction_layouts"].split(",")
 
     for b in buildings:
         if buildings[b]["colours"]["recolour"] == True:

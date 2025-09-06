@@ -16,7 +16,7 @@ buildings = LoadJSON(buildingsJSON)
 
 direction_removals = {'n': 'no_north','s': 'no_south','e': 'no_east','w': 'no_west'}
 
-def SpriteHandling(b,building_file,variants,levels,childsprites=None):
+def SpriteHandling(b,building_file,variants,levels,construction_layouts,childsprites=None):
     with open(building_file, 'a') as file:
         
         # Spritelayouts
@@ -27,156 +27,173 @@ def SpriteHandling(b,building_file,variants,levels,childsprites=None):
             file.write(f"\n\t// {v.upper()} variant")
             for l in levels:
                 file.write(f"\n\t\t// {l.upper()} level")
-                for k in climates:
-                    file.write(f"\n\t\t\t// {k.capitalize()}")
-                    file.write(f"\n\t\t\t\tspritelayout sprlay_{b}_{v}_{l}_{k} {{")
-                    file.write("\n\t\t\t\t\tground {\n\t\t\t\t\t\tsprite:")
-                    
-                    # GROUND
-                    # Ground graphics incl overrides
-                    if 'ground' in buildings[b].keys():
-                        # Overrides
-                        if 'override' in buildings[b]['ground'].keys():
-                            if '[level]' in buildings[b]["ground"]["override"]:
-                                level_override = buildings[b]["ground"]["override"]
-                                level_override = level_override.replace("[level]",l)
-                                file.write(f"{level_override}_{k}")
+                for csl in construction_layouts:
+                
+                    for k in climates:
+                        file.write(f"\n\t\t\t// {k.capitalize()}")
+                        # Spritelayout name
+                        if construction_layouts == ['con','fin']:
+                            file.write(f"\n\t\t\t\tspritelayout sprlay_{b}_{v}_{l}_{csl}_{k} {{")
+                        else:
+                            file.write(f"\n\t\t\t\tspritelayout sprlay_{b}_{v}_{l}_{k} {{")
+                        file.write("\n\t\t\t\t\tground {\n\t\t\t\t\t\tsprite:")
+                        
+                        # GROUND
+                        # Ground graphics incl overrides
+                        if 'ground' in buildings[b].keys():
+                            # Overrides
+                            if 'override' in buildings[b]['ground'].keys():
+                                if '[level]' in buildings[b]["ground"]["override"]:
+                                    level_override = buildings[b]["ground"]["override"]
+                                    level_override = level_override.replace("[level]",l)
+                                    file.write(f"{level_override}_{k}")
+                                else:
+                                    file.write(f"{buildings[b]['ground']['override']}_{k};")
                             else:
-                                file.write(f"{buildings[b]['ground']['override']}_{k};")
+                                file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
                         else:
                             file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
-                    else:
-                        file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
 
-                    # Ground Construction State
-                    if 'ground' in list(buildings[b].keys()):
-                        if 'road_aware' in list(buildings[b]['ground'].keys()):
-                            file.write("(LOAD_TEMP(8));")
-                    else:
+                        # Ground Construction State
+                        if 'ground' in list(buildings[b].keys()):
+                            if 'road_aware' in list(buildings[b]['ground'].keys()):
+                                file.write("(LOAD_TEMP(8));")
+                        else:
+                            try:
+                                file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
+                            except:
+                                file.write(" (construction_state);")
+                        file.write(f"\n\t\t\t\t\t}}")
+
+                        # BUILDING
+                        # Building Sprites
+                        try:
+                            if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
+                                file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{l}_{k}")
+                        except:    
+                            file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{v}_{l}_{k}")
+                        # Buildings Constructiion State
                         try:
                             file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
                         except:
                             file.write(" (construction_state);")
-                    file.write(f"\n\t\t\t\t\t}}")
+                        # Colour Remapping
+                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
+                        file.write("\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(0);")
+                        # Hide Sprite Check
+                        try: 
+                            file.write("\n\t\t\t\t\t\thide_sprite: " + str(buildings[b]["variants"][v]["hide_sprite"]) + ";")
+                        except:
+                            pass
+                        # X Offset Check
+                        try: 
+                            file.write("\n\t\t\t\t\t\t\txoffset: " + str(buildings[b]["variants"][v]["xoffset"]) + ";")
+                        except:
+                            pass
+                        # Y Offset Check
+                        try: 
+                            file.write("\n\t\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
+                        except:
+                            pass
+                        file.write(f"\n\t\t\t\t\t}}")
+                        
+                        # CHILDSPRITES
+                        # Childsprites
+                        if csl == 'fin':
+                            if 'childsprites' in list(buildings[b].keys()):
+                                for c in childsprites:
+                                    conditions = list(buildings[b]["childsprites"][c]["conditions"])
+                                    dontcloseout = 0
+                                    noconstructionstates = 0
+                                    
+                                    if 'norm_only' not in conditions or ('norm_only' in conditions and k == 'norm'):
 
-                    # BUILDING
-                    # Building Sprites
-                    try:
-                        if b in [x for x in buildings if buildings[b]["shared_gfx"] == True]:
-                            file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{l}_{k}")
-                    except:    
-                        file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{v}_{l}_{k}")
-                    # Buildings Constructiion State
-                    try:
-                        file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
-                    except:
-                        file.write(" (construction_state);")
-                    # Colour Remapping
-                    file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;")
-                    file.write("\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(0);")
-                    # Hide Sprite Check
-                    try: 
-                        file.write("\n\t\t\t\t\t\thide_sprite: " + str(buildings[b]["variants"][v]["hide_sprite"]) + ";")
-                    except:
-                        pass
-                    # X Offset Check
-                    try: 
-                        file.write("\n\t\t\t\t\t\t\txoffset: " + str(buildings[b]["variants"][v]["xoffset"]) + ";")
-                    except:
-                        pass
-                    # Y Offset Check
-                    try: 
-                        file.write("\n\t\t\t\t\t\t\tyoffset: " + str(buildings[b]["variants"][v]["yoffset"]) + ";")
-                    except:
-                        pass
-                    file.write(f"\n\t\t\t\t\t}}")
-                    
-                    # CHILDSPRITES
-                    # Childsprites
-                    if 'childsprites' in list(buildings[b].keys()):
-                        for c in childsprites:
-                            conditions = list(buildings[b]["childsprites"][c]["conditions"])
-                            dontcloseout = 0
-                            noconstructionstates = 0
-                            
-                            if 'norm_only' not in conditions or ('norm_only' in conditions and k == 'norm'):
-
-                                # Childsprite graphics
-                                if '2x2' in conditions:
-                                    file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                    file.write(f"spr_{b}_{l}_{c}")
-                                    if 'single_climate' not in conditions:
-                                        file.write("_" + k)
-                                elif direction_removals.get(v) in conditions:
-                                    file.write(f"\n\t\t\t\t\t// No Childsprite for {c} for {v}")
-                                elif 'level_driven' in conditions:
-                                    if direction_removals.get(v) not in list(buildings[b]['childsprites'][c]['level'][l]):
-                                        file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                        file.write(f"spr_{b}_{v}_{l}_{c}")
-                                        if 'single_climate' not in conditions:
-                                            file.write(f"_{k}")
-                                    else:
-                                        dontcloseout += 1
-                                        noconstructionstates += 1
-                                elif 'levels_share' in conditions:
-                                    file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                    file.write(f"spr_{buildings[b]['folder']}_{v}_{c}")
-                                    if 'single_climate' not in conditions:
-                                        file.write("_" + k)
-                                else:
-                                    file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
-                                    file.write(f"spr_{b}_{v}_{l}_{c}")
-                                    if 'single_climate' not in conditions:
-                                        file.write(f"_{k}")
-
-                                # Childsprite Construction States
-                                if '3only' in conditions:
-                                    file.write(" (3); // Three only condition")
-                                elif 'single' in conditions:  # If just the one, match what the building does
-                                    try:
-                                        file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + "); // Same as building")
-                                    except:
-                                        file.write(" (construction_state); // Same as building")
-                                elif 'seasonal' in conditions:
-                                    if direction_removals.get(v) in conditions:
-                                        file.write(f"No construction states either")
-                                    elif noconstructionstates > 0:
-                                        noconstructionstates += 1
-                                    else:
-                                        # Norm or Snow?
-                                        if k == 'norm':
-                                            file.write(" (LOAD_TEMP(3)); // Seasonal")
+                                        # Childsprite graphics
+                                        if '2x2' in conditions:
+                                            file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                            file.write(f"spr_{b}_{l}_{c}")
+                                            if 'single_climate' not in conditions:
+                                                file.write("_" + k)
+                                        elif direction_removals.get(v) in conditions:
+                                            file.write(f"\n\t\t\t\t\t// No Childsprite for {c} for {v}")
+                                        elif 'level_driven' in conditions:
+                                            if direction_removals.get(v) not in list(buildings[b]['childsprites'][c]['level'][l]):
+                                                file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                                file.write(f"spr_{b}_{v}_{l}_{c}")
+                                                if 'single_climate' not in conditions:
+                                                    file.write(f"_{k}")
+                                            else:
+                                                dontcloseout += 1
+                                                noconstructionstates += 1
+                                        elif 'levels_share' in conditions:
+                                            file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                            file.write(f"spr_{buildings[b]['folder']}_{v}_{c}")
+                                            if 'single_climate' not in conditions:
+                                                file.write("_" + k)
                                         else:
-                                            file.write(" (3); // Seasonal, but winter tree in the snow")
-                                elif '2x2' in conditions:
-                                    variant_mapping = {'w':0,'s':1,'e':2,'n':3}
-                                    file.write(" ("+ str(variant_mapping[v]) +");")
-                                elif direction_removals.get(v) in conditions:
-                                    file.write(" and no construction state either")
-                                elif '4choices' in conditions:
-                                    if c == 'roofs':
-                                        file.write(f" (LOAD_TEMP(5));")
-                                    else:
-                                        print("loose end @ 4choices in Childsprite Construction States")
-                                else:
-                                    print("Loose End @ Childsprite Construction States")
-                                
-                                # Childsprite Recolouring
-                                if 'remap' in conditions:
-                                    if c == 'fence':
-                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(2);")
-                                    elif c == 'roofs':
-                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(4);")
-                                    elif c == 'signs':
-                                        file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(6);")
-                                    else:
-                                        print(f"❌ Unclosed loop in childsprites recolouring for building {b}")
-                                # End the childsprites
-                                if (direction_removals.get(v) not in conditions) and (dontcloseout == 0):
-                                    file.write(f"\n\t\t\t\t\t}}")
+                                            file.write(f"\n\t\t\t\t\tchildsprite {{ // {c}\n\t\t\t\t\t\tsprite: ")
+                                            file.write(f"spr_{b}_{v}_{l}_{c}")
+                                            if 'single_climate' not in conditions:
+                                                file.write(f"_{k}")
+
+                                        # Childsprite Construction States
+                                        if '3only' in conditions:
+                                            file.write(" (3); // Three only condition")
+                                        elif 'single' in conditions:  # If just the one, match what the building does
+                                            try:
+                                                file.write(" (" + str(buildings[b]["variants"][v]["construction_state"]) + "); // Same as building")
+                                            except:
+                                                file.write(" (construction_state); // Same as building")
+                                        elif 'seasonal' in conditions:
+                                            if direction_removals.get(v) in conditions:
+                                                file.write(f"No construction states either")
+                                            elif noconstructionstates > 0:
+                                                noconstructionstates += 1
+                                            else:
+                                                # Norm or Snow?
+                                                if k == 'norm':
+                                                    file.write(" (LOAD_TEMP(3)); // Seasonal")
+                                                else:
+                                                    file.write(" (3); // Seasonal, but winter tree in the snow")
+                                        elif '2x2' in conditions:
+                                            variant_mapping = {'w':0,'s':1,'e':2,'n':3}
+                                            file.write(" ("+ str(variant_mapping[v]) +");")
+                                        elif direction_removals.get(v) in conditions:
+                                            file.write(" and no construction state either")
+                                        elif '4choices' in conditions:
+                                            if c == 'roofs':
+                                                file.write(f" (LOAD_TEMP(5));")
+                                            elif c == 'signs':
+                                                file.write(f" (LOAD_TEMP(7));")
+                                            else:
+                                                print("loose end @ 4choices in Childsprite Construction States")
+                                        else:
+                                            print("Loose End @ Childsprite Construction States")
+                                        
+                                        # Childsprite Recolouring
+                                        if 'remap' in conditions:
+                                            if c == 'fence':
+                                                file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(2);")
+                                            elif c == 'roofs':
+                                                file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(4);")
+                                            elif c == 'signs':
+                                                file.write("\n\t\t\t\t\t\trecolour_mode: RECOLOUR_REMAP;\n\t\t\t\t\t\tpalette: recolour_remap + LOAD_TEMP(6);")
+                                            else:
+                                                print(f"❌ Unclosed loop in childsprites recolouring for building {b}")
+                                        # End the childsprites
+                                        if (direction_removals.get(v) not in conditions) and (dontcloseout == 0):
+                                            file.write(f"\n\t\t\t\t\t}}")
                     
-                    # End the Spritelayout            
-                    file.write(f"\n\t\t\t\t}}\n")
+                        # End the Spritelayout            
+                        file.write(f"\n\t\t\t\t}}\n")
+
+        if construction_layouts == ['con','fin']:
+            file.write("\n// Construction State Switches\n")
+            for v in variants:
+                for l in levels:
+                    for k in climates:
+                        file.write(f"\n\tswitch(FEAT_HOUSES, SELF, sprlay_{b}_{v}_{l}_{k}, construction_state) {{")
+                        file.write(f"\n\t\t3: sprlay_{b}_{v}_{l}_fin_{k};\n\tsprlay_{b}_{v}_{l}_con_{k};\n\t}}")
 
         # Getbits resolving
         colour_profiles = [b for b in list(buildings[b]["colours"].keys()) if b not in ['recolour', 'basis', 'old_era_end']]
@@ -271,10 +288,17 @@ def SpriteHandling(b,building_file,variants,levels,childsprites=None):
 
             # Sign Colours
             if 'signs' in list(buildings[b]['childsprites'].keys()):
+                # Sign Colours
                 if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
                     file.write(f"\nSigns 🎨\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(6)")
                     signs_colour_start_point = start_point
                     start_point += 1
+                # Sign Variations
+                if '4choices' in buildings[b]['childsprites']['signs']['conditions']:
+                    file.write(f"\nSign Var\t{4}\t\t{start_point}\t\t{2}\t\tLOAD_TEMP(7)")
+                    signs_variations_start_point = start_point
+                    start_point += 1
+                
 
         file.write("\n*/\n")
 
@@ -394,10 +418,14 @@ def SpriteHandling(b,building_file,variants,levels,childsprites=None):
                         # Roof Variants
                         if '4choices' in buildings[b]['childsprites']['roofs']['conditions']:
                             file.write(f"\n\t\t\t\tSTORE_TEMP(getbits(random_bits, {roofs_variations_start_point}, {2}), 5),")
-                    # Sign Colours
+                    # Signs
                     if 'signs' in list(buildings[b]['childsprites'].keys()):
+                        # Sign colours
                         if 'remap' in buildings[b]['childsprites']['signs']['conditions']:
                             file.write(f"\n\t\t\t\tSTORE_TEMP({b}_signs_clr(), 6),")
+                        # Sign variants
+                        if '4choices' in buildings[b]['childsprites']['signs']['conditions']:
+                            file.write(f"\n\t\t\t\tSTORE_TEMP(getbits(random_bits, {signs_variations_start_point}, {2}), 7),")
                     # Tree Seasonality
                     if 'trees' in list(buildings[b]['childsprites'].keys()):
                         if 'seasonal' in buildings[b]['childsprites']['trees']['conditions']:

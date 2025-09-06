@@ -27,6 +27,9 @@ def CreateBuildingFilesBravo(b):
             # Levels
             levels = list(buildings[b]["levels"])
             log.write('\n\t\tLevels:\t\t\t\t' + str(levels))
+            # Construction states
+            construction_layouts = list(buildings[b]["construction_layouts"])
+            log.write(f'\n\t\tColour Profiles:\t{construction_layouts}')
             # Colour Profiles, e.g. 'new', 'old', ...
             colour_profile = [b for b in list(buildings[b]["colours"].keys()) if b not in ['recolour', 'basis', 'old_era_end']]
             log.write('\n\t\tColour Profiles:\t' + str(colour_profile))
@@ -54,10 +57,10 @@ def CreateBuildingFilesBravo(b):
         if 'childsprites' in list(buildings[b].keys()):
             childsprites = buildings[b]["childsprites"]
             log.write(f"\n\t\tChildsprites: \t\t{childsprites}")
-            SpriteHandling(b,building_file, variants, levels, childsprites)
+            SpriteHandling(b,building_file, variants, levels, construction_layouts, childsprites)
         else:
             log.write(f"\n\t\tNo Childsprites")
-            SpriteHandling(b,building_file, variants, levels)
+            SpriteHandling(b,building_file, variants, levels, construction_layouts)
         
         # ITEM BLOCK
         log.write("\n\n\tITEM BLOCK")
