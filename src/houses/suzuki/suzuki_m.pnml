@@ -6,7 +6,31 @@
 	// A variant
 		// 6L level
 			// Norm
-				spritelayout sprlay_suzuki_m_a_6L_norm {
+				spritelayout sprlay_suzuki_m_a_6L_con_norm {
+					ground {
+						sprite:spr_suzuki_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_suzuki_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_suzuki_m_a_6L_con_snow {
+					ground {
+						sprite:spr_suzuki_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_suzuki_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_suzuki_m_a_6L_fin_norm {
 					ground {
 						sprite:spr_suzuki_a_ground_norm (construction_state);
 					}
@@ -23,7 +47,7 @@
 				}
 
 			// Snow
-				spritelayout sprlay_suzuki_m_a_6L_snow {
+				spritelayout sprlay_suzuki_m_a_6L_fin_snow {
 					ground {
 						sprite:spr_suzuki_a_ground_snow (construction_state);
 					}
@@ -42,7 +66,31 @@
 	// B variant
 		// 6L level
 			// Norm
-				spritelayout sprlay_suzuki_m_b_6L_norm {
+				spritelayout sprlay_suzuki_m_b_6L_con_norm {
+					ground {
+						sprite:spr_suzuki_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_suzuki_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_suzuki_m_b_6L_con_snow {
+					ground {
+						sprite:spr_suzuki_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_suzuki_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_suzuki_m_b_6L_fin_norm {
 					ground {
 						sprite:spr_suzuki_b_ground_norm (construction_state);
 					}
@@ -59,7 +107,7 @@
 				}
 
 			// Snow
-				spritelayout sprlay_suzuki_m_b_6L_snow {
+				spritelayout sprlay_suzuki_m_b_6L_fin_snow {
 					ground {
 						sprite:spr_suzuki_b_ground_snow (construction_state);
 					}
@@ -75,6 +123,24 @@
 					}
 				}
 
+// Construction State Switches
+
+	switch(FEAT_HOUSES, SELF, sprlay_suzuki_m_a_6L_norm, construction_state) {
+		3: sprlay_suzuki_m_a_6L_fin_norm;
+	sprlay_suzuki_m_a_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_suzuki_m_a_6L_snow, construction_state) {
+		3: sprlay_suzuki_m_a_6L_fin_snow;
+	sprlay_suzuki_m_a_6L_con_snow;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_suzuki_m_b_6L_norm, construction_state) {
+		3: sprlay_suzuki_m_b_6L_fin_norm;
+	sprlay_suzuki_m_b_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_suzuki_m_b_6L_snow, construction_state) {
+		3: sprlay_suzuki_m_b_6L_fin_snow;
+	sprlay_suzuki_m_b_6L_con_snow;
+	}
 /*
 ==================
 Getbits Allocation
@@ -95,21 +161,21 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 // Random Switches
 	// Building Colours
 		switch (FEAT_HOUSES, SELF, suzuki_m_build_clr_new, getbits(random_bits, 0, 3)) {
-			0:	return 62;
-			1:	return 65;
-			2:	return 67;
-			3:	return 73;
-			4:	return 78;
-			5:	return 90;
-			6:	return 93;
-				return 99;
+			0:	return 58;
+			1:	return 61;
+			2:	return 63;
+			3:	return 69;
+			4:	return 74;
+			5:	return 86;
+			6:	return 89;
+				return 95;
 		}
 	// Sign Colours
 		switch (FEAT_HOUSES, SELF, suzuki_m_signs_clr, getbits(random_bits, 1, 2)) {
-			0:	return 101;
-			1:	return 102;
-			2:	return 103;
-				return 104;
+			0:	return 97;
+			1:	return 98;
+			2:	return 99;
+				return 100;
 		}
 // Spritelayout Switches
 	// a
