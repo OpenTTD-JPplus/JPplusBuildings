@@ -2,142 +2,209 @@
 // inoue_m
 
 // Spritelayouts
+
+	// A variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_inoue_m_a_6L_con_norm {
+					ground {
+						sprite:spr_inoue_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_inoue_m_a_6L_con_snow {
+					ground {
+						sprite:spr_inoue_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_inoue_m_a_6L_fin_norm {
+					ground {
+						sprite:spr_inoue_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_inoue_m_a_6L_signs (LOAD_TEMP(7));
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_inoue_m_a_6L_fin_snow {
+					ground {
+						sprite:spr_inoue_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_inoue_m_a_6L_signs (LOAD_TEMP(7));
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+	// B variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_inoue_m_b_6L_con_norm {
+					ground {
+						sprite:spr_inoue_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_inoue_m_b_6L_con_snow {
+					ground {
+						sprite:spr_inoue_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_inoue_m_b_6L_fin_norm {
+					ground {
+						sprite:spr_inoue_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_inoue_m_b_6L_signs (LOAD_TEMP(7));
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_inoue_m_b_6L_fin_snow {
+					ground {
+						sprite:spr_inoue_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_inoue_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_inoue_m_b_6L_signs (LOAD_TEMP(7));
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+// Construction State Switches
+
+	switch(FEAT_HOUSES, SELF, sprlay_inoue_m_a_6L_norm, construction_state) {
+		3: sprlay_inoue_m_a_6L_fin_norm;
+	sprlay_inoue_m_a_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_inoue_m_a_6L_snow, construction_state) {
+		3: sprlay_inoue_m_a_6L_fin_snow;
+	sprlay_inoue_m_a_6L_con_snow;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_inoue_m_b_6L_norm, construction_state) {
+		3: sprlay_inoue_m_b_6L_fin_norm;
+	sprlay_inoue_m_b_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_inoue_m_b_6L_snow, construction_state) {
+		3: sprlay_inoue_m_b_6L_fin_snow;
+	sprlay_inoue_m_b_6L_con_snow;
+	}
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: {'signs': {'conditions': ['4choices', 'variant', 'single_climate', 'remap']}}
+
+Colour Profiles: {'new': {'sum_prob': 16, 'count': 16}, 'signs': {'sum_prob': 4, 'count': 4}}
+	✅ new colour profile has 16 unique colours, with probabilities summing to 16
+	✅ signs colour profile has 4 unique colours, with probabilities summing to 4
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	16		0		4		LOAD_TEMP(0)
+Signs 🎨	4		1		2		LOAD_TEMP(6)
+Sign Var	4		2		2		LOAD_TEMP(7)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, inoue_m_build_clr_new, getbits(random_bits, 0, 4)) {
+			0:	return 42;
+			1:	return 45;
+			2:	return 47;
+			3:	return 48;
+			4:	return 56;
+			5:	return 60;
+			6:	return 66;
+			7:	return 67;
+			8:	return 72;
+			9:	return 73;
+			10:	return 76;
+			11:	return 77;
+			12:	return 83;
+			13:	return 84;
+			14:	return 89;
+				return 93;
+		}
+	// Sign Colours
+		switch (FEAT_HOUSES, SELF, inoue_m_signs_clr, getbits(random_bits, 1, 2)) {
+			0:	return 97;
+			1:	return 98;
+			2:	return 99;
+				return 100;
+		}
+// Spritelayout Switches
 	// a
 		// 6L
-			// half01
-				// norm
-				spritelayout sprlay_inoue_m_a_6L_half01_norm {
-					ground {
-						sprite: spr_inoue_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_inoue_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_inoue_m_a_6L_half01_snow {
-					ground {
-						sprite: spr_inoue_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_inoue_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_inoue_m_a_6L_half01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_inoue_m_a_6L_half01_snow;
-					sprlay_inoue_m_a_6L_half01_norm;
-				}
-
-			// half02
-				// norm
-				spritelayout sprlay_inoue_m_a_6L_half02_norm {
-					ground {
-						sprite: spr_inoue_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_inoue_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_inoue_m_a_6L_half02_snow {
-					ground {
-						sprite: spr_inoue_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_inoue_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_inoue_m_a_6L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_inoue_m_a_6L_half02_snow;
-					sprlay_inoue_m_a_6L_half02_norm;
-				}
+			switch (FEAT_HOUSES,SELF, switch_inoue_m_a_sprites, [
+				STORE_TEMP(inoue_m_build_clr_new(), 0),
+				STORE_TEMP(inoue_m_signs_clr(), 6),
+				STORE_TEMP(getbits(random_bits, 2, 2), 7),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_inoue_m_a_6L_snow; sprlay_inoue_m_a_6L_norm; }
 
 	// b
 		// 6L
-			// half01
-				// norm
-				spritelayout sprlay_inoue_m_b_6L_half01_norm {
-					ground {
-						sprite: spr_inoue_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_inoue_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
+			switch (FEAT_HOUSES,SELF, switch_inoue_m_b_sprites, [
+				STORE_TEMP(inoue_m_build_clr_new(), 0),
+				STORE_TEMP(inoue_m_signs_clr(), 6),
+				STORE_TEMP(getbits(random_bits, 2, 2), 7),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_inoue_m_b_6L_snow; sprlay_inoue_m_b_6L_norm; }
 
-				// snow
-				spritelayout sprlay_inoue_m_b_6L_half01_snow {
-					ground {
-						sprite: spr_inoue_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_inoue_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_inoue_m_b_6L_half01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_inoue_m_b_6L_half01_snow;
-					sprlay_inoue_m_b_6L_half01_norm;
-				}
-
-			// half02
-				// norm
-				spritelayout sprlay_inoue_m_b_6L_half02_norm {
-					ground {
-						sprite: spr_inoue_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_inoue_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_inoue_m_b_6L_half02_snow {
-					ground {
-						sprite: spr_inoue_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_inoue_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_inoue_m_b_6L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_inoue_m_b_6L_half02_snow;
-					sprlay_inoue_m_b_6L_half02_norm;
-				}
-
-
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_inoue_m_a_sprites, random_bits % 2 ) { 
-		0:	switch_inoue_m_a_6L_half01_snow;
-		1:	switch_inoue_m_a_6L_half02_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_inoue_m_b_sprites, random_bits % 2 ) { 
-		0:	switch_inoue_m_b_6L_half01_snow;
-		1:	switch_inoue_m_b_6L_half02_snow;
-	}
-
-// Direction Switches
+	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
 	
 	random_switch (FEAT_HOUSES, SELF, switch_inoue_m_random_sprites) {
 		1: switch_inoue_m_a_sprites;
