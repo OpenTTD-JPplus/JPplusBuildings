@@ -2,762 +2,101 @@
 // tokyo_m
 
 // Spritelayouts
+
+	// A variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_tokyo_m_a_6L_norm {
+					ground {
+						sprite:spr_tokyo_a_ground_norm (3);
+					}
+					building {
+						sprite: spr_tokyo_m_a_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_tokyo_m_a_6L_snow {
+					ground {
+						sprite:spr_tokyo_a_ground_snow (3);
+					}
+					building {
+						sprite: spr_tokyo_m_a_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+	// B variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_tokyo_m_b_6L_norm {
+					ground {
+						sprite:spr_tokyo_b_ground_norm (3);
+					}
+					building {
+						sprite: spr_tokyo_m_b_6L_norm (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_tokyo_m_b_6L_snow {
+					ground {
+						sprite:spr_tokyo_b_ground_snow (3);
+					}
+					building {
+						sprite: spr_tokyo_m_b_6L_snow (3);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: 🚫
+
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}}
+	✅ new colour profile has 8 unique colours, with probabilities summing to 8
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	8		0		3		LOAD_TEMP(0)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, tokyo_m_build_clr_new, getbits(random_bits, 0, 3)) {
+			0:	return 30;
+			1:	return 31;
+			2:	return 36;
+			3:	return 37;
+			4:	return 54;
+			5:	return 55;
+			6:	return 67;
+				return 72;
+		}
+// Spritelayout Switches
 	// a
 		// 6L
-			// half01
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half01_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half01_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half01_snow;
-					sprlay_tokyo_m_a_6L_half01_norm;
-				}
-
-			// half02
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half02_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half02_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half02_snow;
-					sprlay_tokyo_m_a_6L_half02_norm;
-				}
-
-			// half03
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half03_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half03_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half03_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half03_snow;
-					sprlay_tokyo_m_a_6L_half03_norm;
-				}
-
-			// half04
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half04_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half04_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half04_snow;
-					sprlay_tokyo_m_a_6L_half04_norm;
-				}
-
-			// half05
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half05_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 19;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half05_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 19;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half05_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half05_snow;
-					sprlay_tokyo_m_a_6L_half05_norm;
-				}
-
-			// half06
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half06_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 20;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half06_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 20;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half06_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half06_snow;
-					sprlay_tokyo_m_a_6L_half06_norm;
-				}
-
-			// half07
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half07_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half07_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half07_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half07_snow;
-					sprlay_tokyo_m_a_6L_half07_norm;
-				}
-
-			// half08
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half08_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 22;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half08_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 22;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half08_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half08_snow;
-					sprlay_tokyo_m_a_6L_half08_norm;
-				}
-
-			// half09
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half09_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half09_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half09_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half09_snow;
-					sprlay_tokyo_m_a_6L_half09_norm;
-				}
-
-			// half10
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half10_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half10_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half10_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half10_snow;
-					sprlay_tokyo_m_a_6L_half10_norm;
-				}
-
-			// half11
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half11_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half11_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half11_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half11_snow;
-					sprlay_tokyo_m_a_6L_half11_norm;
-				}
-
-			// half12
-				// norm
-				spritelayout sprlay_tokyo_m_a_6L_half12_norm {
-					ground {
-						sprite: spr_tokyo_a_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_a_6L_half12_snow {
-					ground {
-						sprite: spr_tokyo_a_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_a_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_a_6L_half12_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_a_6L_half12_snow;
-					sprlay_tokyo_m_a_6L_half12_norm;
-				}
+			switch (FEAT_HOUSES,SELF, switch_tokyo_m_a_sprites, [
+				STORE_TEMP(tokyo_m_build_clr_new(), 0),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_tokyo_m_a_6L_snow; sprlay_tokyo_m_a_6L_norm; }
 
 	// b
 		// 6L
-			// half01
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half01_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
+			switch (FEAT_HOUSES,SELF, switch_tokyo_m_b_sprites, [
+				STORE_TEMP(tokyo_m_build_clr_new(), 0),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_tokyo_m_b_6L_snow; sprlay_tokyo_m_b_6L_norm; }
 
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half01_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 15;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half01_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half01_snow;
-					sprlay_tokyo_m_b_6L_half01_norm;
-				}
-
-			// half02
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half02_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half02_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half02_snow;
-					sprlay_tokyo_m_b_6L_half02_norm;
-				}
-
-			// half03
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half03_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half03_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 17;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half03_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half03_snow;
-					sprlay_tokyo_m_b_6L_half03_norm;
-				}
-
-			// half04
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half04_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half04_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half04_snow;
-					sprlay_tokyo_m_b_6L_half04_norm;
-				}
-
-			// half05
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half05_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 19;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half05_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 19;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half05_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half05_snow;
-					sprlay_tokyo_m_b_6L_half05_norm;
-				}
-
-			// half06
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half06_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 20;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half06_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 20;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half06_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half06_snow;
-					sprlay_tokyo_m_b_6L_half06_norm;
-				}
-
-			// half07
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half07_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half07_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half07_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half07_snow;
-					sprlay_tokyo_m_b_6L_half07_norm;
-				}
-
-			// half08
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half08_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 22;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half08_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 22;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half08_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half08_snow;
-					sprlay_tokyo_m_b_6L_half08_norm;
-				}
-
-			// half09
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half09_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half09_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half09_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half09_snow;
-					sprlay_tokyo_m_b_6L_half09_norm;
-				}
-
-			// half10
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half10_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half10_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half10_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half10_snow;
-					sprlay_tokyo_m_b_6L_half10_norm;
-				}
-
-			// half11
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half11_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half11_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half11_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half11_snow;
-					sprlay_tokyo_m_b_6L_half11_norm;
-				}
-
-			// half12
-				// norm
-				spritelayout sprlay_tokyo_m_b_6L_half12_norm {
-					ground {
-						sprite: spr_tokyo_b_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_m_b_6L_half12_snow {
-					ground {
-						sprite: spr_tokyo_b_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_m_b_6L_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_m_b_6L_half12_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_m_b_6L_half12_snow;
-					sprlay_tokyo_m_b_6L_half12_norm;
-				}
-
-
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_tokyo_m_a_sprites, random_bits % 12 ) { 
-		0:	switch_tokyo_m_a_6L_half01_snow;
-		1:	switch_tokyo_m_a_6L_half02_snow;
-		2:	switch_tokyo_m_a_6L_half03_snow;
-		3:	switch_tokyo_m_a_6L_half04_snow;
-		4:	switch_tokyo_m_a_6L_half05_snow;
-		5:	switch_tokyo_m_a_6L_half06_snow;
-		6:	switch_tokyo_m_a_6L_half07_snow;
-		7:	switch_tokyo_m_a_6L_half08_snow;
-		8:	switch_tokyo_m_a_6L_half09_snow;
-		9:	switch_tokyo_m_a_6L_half10_snow;
-		10:	switch_tokyo_m_a_6L_half11_snow;
-		11:	switch_tokyo_m_a_6L_half12_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_tokyo_m_b_sprites, random_bits % 12 ) { 
-		0:	switch_tokyo_m_b_6L_half01_snow;
-		1:	switch_tokyo_m_b_6L_half02_snow;
-		2:	switch_tokyo_m_b_6L_half03_snow;
-		3:	switch_tokyo_m_b_6L_half04_snow;
-		4:	switch_tokyo_m_b_6L_half05_snow;
-		5:	switch_tokyo_m_b_6L_half06_snow;
-		6:	switch_tokyo_m_b_6L_half07_snow;
-		7:	switch_tokyo_m_b_6L_half08_snow;
-		8:	switch_tokyo_m_b_6L_half09_snow;
-		9:	switch_tokyo_m_b_6L_half10_snow;
-		10:	switch_tokyo_m_b_6L_half11_snow;
-		11:	switch_tokyo_m_b_6L_half12_snow;
-	}
-
-// Direction Switches
+	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
 	
 	random_switch (FEAT_HOUSES, SELF, switch_tokyo_m_random_sprites) {
 		1: switch_tokyo_m_a_sprites;
