@@ -2,467 +2,114 @@
 // old_office_building_l
 
 // Spritelayouts
+
+	// H variant
+		// 7L level
+			// Norm
+				spritelayout sprlay_old_office_building_l_h_7L_norm {
+					ground {
+						sprite:spr_old_office_building_h_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_old_office_building_l_h_7L_snow {
+					ground {
+						sprite:spr_old_office_building_h_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+		// 8L level
+			// Norm
+				spritelayout sprlay_old_office_building_l_h_8L_norm {
+					ground {
+						sprite:spr_old_office_building_h_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_old_office_building_l_h_8L_snow {
+					ground {
+						sprite:spr_old_office_building_h_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: 🚫
+
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}}
+	✅ new colour profile has 8 unique colours, with probabilities summing to 8
+	✅ old colour profile has 8 unique colours, with probabilities summing to 8
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Levels		2		0		1		🚫
+Building	8		1		3		LOAD_TEMP(0)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, old_office_building_l_build_clr_new, getbits(random_bits, 1, 3)) {
+			0:	return 48;
+			1:	return 49;
+			2:	return 54;
+			3:	return 55;
+			4:	return 66;
+			5:	return 67;
+			6:	return 79;
+				return 83;
+		}
+		switch (FEAT_HOUSES, SELF, old_office_building_l_build_clr_old, getbits(random_bits, 1, 3)) {
+			0:	return 48;
+			1:	return 49;
+			2:	return 54;
+			3:	return 55;
+			4:	return 66;
+			5:	return 67;
+			6:	return 83;
+				return 84;
+		}
+// Spritelayout Switches
 	// h
 		// 7L
-			// half02
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half02_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half02_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half02_snow;
-					sprlay_old_office_building_l_h_7L_half02_norm;
-				}
-
-			// half04
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half04_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half04_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half04_snow;
-					sprlay_old_office_building_l_h_7L_half04_norm;
-				}
-
-			// half07
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half07_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half07_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half07_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half07_snow;
-					sprlay_old_office_building_l_h_7L_half07_norm;
-				}
-
-			// half09
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half09_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half09_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half09_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half09_snow;
-					sprlay_old_office_building_l_h_7L_half09_norm;
-				}
-
-			// half10
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half10_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half10_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half10_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half10_snow;
-					sprlay_old_office_building_l_h_7L_half10_norm;
-				}
-
-			// half11
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half11_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half11_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half11_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half11_snow;
-					sprlay_old_office_building_l_h_7L_half11_norm;
-				}
-
-			// half12
-				// norm
-				spritelayout sprlay_old_office_building_l_h_7L_half12_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_7L_half12_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_7L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_7L_half12_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_7L_half12_snow;
-					sprlay_old_office_building_l_h_7L_half12_norm;
-				}
-
+			switch (FEAT_HOUSES,SELF, switch_old_office_building_l_h_7L_sprites, [
+				STORE_TEMP((current_year - age) < 1959 ? old_office_building_l_build_clr_old() : old_office_building_l_build_clr_new(), 0),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_old_office_building_l_h_7L_snow; sprlay_old_office_building_l_h_7L_norm; }
 		// 8L
-			// half02
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half02_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
+			switch (FEAT_HOUSES,SELF, switch_old_office_building_l_h_8L_sprites, [
+				STORE_TEMP((current_year - age) < 1959 ? old_office_building_l_build_clr_old() : old_office_building_l_build_clr_new(), 0),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_old_office_building_l_h_8L_snow; sprlay_old_office_building_l_h_8L_norm; }
 
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half02_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 16;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half02_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half02_snow;
-					sprlay_old_office_building_l_h_8L_half02_norm;
-				}
-
-			// half04
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half04_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half04_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 18;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half04_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half04_snow;
-					sprlay_old_office_building_l_h_8L_half04_norm;
-				}
-
-			// half07
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half07_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half07_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 21;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half07_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half07_snow;
-					sprlay_old_office_building_l_h_8L_half07_norm;
-				}
-
-			// half09
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half09_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half09_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 23;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half09_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half09_snow;
-					sprlay_old_office_building_l_h_8L_half09_norm;
-				}
-
-			// half10
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half10_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half10_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 24;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half10_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half10_snow;
-					sprlay_old_office_building_l_h_8L_half10_norm;
-				}
-
-			// half11
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half11_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half11_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 25;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half11_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half11_snow;
-					sprlay_old_office_building_l_h_8L_half11_norm;
-				}
-
-			// half12
-				// norm
-				spritelayout sprlay_old_office_building_l_h_8L_half12_norm {
-					ground {
-						sprite: spr_old_office_building_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_old_office_building_l_h_8L_half12_snow {
-					ground {
-						sprite: spr_old_office_building_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_old_office_building_l_h_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 26;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_old_office_building_l_h_8L_half12_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_old_office_building_l_h_8L_half12_snow;
-					sprlay_old_office_building_l_h_8L_half12_norm;
-				}
-
-
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_old_office_building_l_h_new, random_bits % 14 ) { 
-		0:	switch_old_office_building_l_h_7L_half02_snow;
-		1:	switch_old_office_building_l_h_7L_half04_snow;
-		2:	switch_old_office_building_l_h_7L_half07_snow;
-		3:	switch_old_office_building_l_h_7L_half09_snow;
-		4:	switch_old_office_building_l_h_7L_half10_snow;
-		5:	switch_old_office_building_l_h_7L_half11_snow;
-		6:	switch_old_office_building_l_h_7L_half12_snow;
-		7:	switch_old_office_building_l_h_8L_half02_snow;
-		8:	switch_old_office_building_l_h_8L_half04_snow;
-		9:	switch_old_office_building_l_h_8L_half07_snow;
-		10:	switch_old_office_building_l_h_8L_half09_snow;
-		11:	switch_old_office_building_l_h_8L_half10_snow;
-		12:	switch_old_office_building_l_h_8L_half11_snow;
-		13:	switch_old_office_building_l_h_8L_half12_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_old_office_building_l_h_old, random_bits % 14 ) { 
-		0:	switch_old_office_building_l_h_7L_half02_snow;
-		1:	switch_old_office_building_l_h_7L_half04_snow;
-		2:	switch_old_office_building_l_h_7L_half07_snow;
-		3:	switch_old_office_building_l_h_7L_half09_snow;
-		4:	switch_old_office_building_l_h_7L_half10_snow;
-		5:	switch_old_office_building_l_h_7L_half11_snow;
-		6:	switch_old_office_building_l_h_7L_half12_snow;
-		7:	switch_old_office_building_l_h_8L_half02_snow;
-		8:	switch_old_office_building_l_h_8L_half04_snow;
-		9:	switch_old_office_building_l_h_8L_half07_snow;
-		10:	switch_old_office_building_l_h_8L_half09_snow;
-		11:	switch_old_office_building_l_h_8L_half10_snow;
-		12:	switch_old_office_building_l_h_8L_half11_snow;
-		13:	switch_old_office_building_l_h_8L_half12_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_old_office_building_l_sprites, current_year - age) {
-		0..1959: switch_old_office_building_l_h_old;
-		switch_old_office_building_l_h_new;
-	}
+	// Level Selection
+		switch (FEAT_HOUSES, SELF, switch_old_office_building_l_sprites, getbits(random_bits, 0, 1)) {
+			0:	switch_old_office_building_l_h_7L_sprites;
+				switch_old_office_building_l_h_8L_sprites;
+		}
 
 // Item Block
 	item(FEAT_HOUSES, item_old_office_building_l, 116, HOUSE_SIZE_1X1){
