@@ -90,12 +90,13 @@
 ==================
 Getbits Allocation
 ==================
-Childsprites: {'fence': {'conditions': ['single', 'remap', 'single_climate']}, 'trees': {'conditions': ['seasonal', 'variant', 'single_climate']}}
+Childsprites: {'fence': {'conditions': ['single', 'remap', 'single_climate', 'old_colours']}, 'trees': {'conditions': ['seasonal', 'variant', 'single_climate']}}
 
-Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}, 'fence': {'sum_prob': 4, 'count': 4}}
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}, 'fence_new': {'sum_prob': 4, 'count': 4}, 'fence_old': {'sum_prob': 4, 'count': 4}}
 	✅ new colour profile has 8 unique colours, with probabilities summing to 8
 	✅ old colour profile has 8 unique colours, with probabilities summing to 8
-	✅ fence colour profile has 4 unique colours, with probabilities summing to 4
+	✅ fence_new colour profile has 4 unique colours, with probabilities summing to 4
+	✅ fence_old colour profile has 4 unique colours, with probabilities summing to 4
 
 Feature		Num		Start	Bits	Storage
 ------------------------------------------------------------------
@@ -107,45 +108,51 @@ Fence 🎨	4		2		2		LOAD_TEMP(2)
 // Random Switches
 	// Building Colours
 		switch (FEAT_HOUSES, SELF, miyazaki_build_clr_new, getbits(random_bits, 1, 3)) {
-			0:	return 25;
-			1:	return 32;
-			2:	return 44;
-			3:	return 45;
-			4:	return 50;
-			5:	return 57;
-			6:	return 69;
-				return 77;
+			0:	return 24;
+			1:	return 31;
+			2:	return 43;
+			3:	return 44;
+			4:	return 49;
+			5:	return 56;
+			6:	return 68;
+				return 76;
 		}
 		switch (FEAT_HOUSES, SELF, miyazaki_build_clr_old, getbits(random_bits, 1, 3)) {
-			0:	return 16;
-			1:	return 17;
-			2:	return 24;
-			3:	return 25;
-			4:	return 26;
-			5:	return 59;
-			6:	return 60;
-				return 61;
+			0:	return 15;
+			1:	return 16;
+			2:	return 23;
+			3:	return 24;
+			4:	return 25;
+			5:	return 58;
+			6:	return 59;
+				return 60;
 		}
-	// Fence Colours
-		switch (FEAT_HOUSES, SELF, miyazaki_fence_clr, getbits(random_bits, 2, 2)) {
-			0:	return 32;
-			1:	return 50;
-			2:	return 69;
-				return 79;
+	// Fence Colours - Fence Colours Profiles: ['fence_new', 'fence_old']
+		switch (FEAT_HOUSES, SELF, miyazaki_fence_new, getbits(random_bits, 2, 2)) {
+			0:	return 31;
+			1:	return 49;
+			2:	return 68;
+				return 78;
+		}
+		switch (FEAT_HOUSES, SELF, miyazaki_fence_old, getbits(random_bits, 2, 2)) {
+			0:	return 31;
+			1:	return 49;
+			2:	return 68;
+				return 78;
 		}
 // Spritelayout Switches
 	// h
 		// f
 			switch (FEAT_HOUSES,SELF, switch_miyazaki_h_f_sprites, [
 				STORE_TEMP((current_year - age) < 1959 ? miyazaki_build_clr_old() : miyazaki_build_clr_new(), 0),
-				STORE_TEMP(miyazaki_fence_clr(), 2),
+				STORE_TEMP((current_year - age) < 1959 ? miyazaki_fence_old() : miyazaki_fence_new(), 2),
 				STORE_TEMP(Season(), 3),
 				terrain_type == TILETYPE_SNOW]) 
 				{1: sprlay_miyazaki_h_f_snow; sprlay_miyazaki_h_f_norm; }
 		// g
 			switch (FEAT_HOUSES,SELF, switch_miyazaki_h_g_sprites, [
 				STORE_TEMP((current_year - age) < 1959 ? miyazaki_build_clr_old() : miyazaki_build_clr_new(), 0),
-				STORE_TEMP(miyazaki_fence_clr(), 2),
+				STORE_TEMP((current_year - age) < 1959 ? miyazaki_fence_old() : miyazaki_fence_new(), 2),
 				STORE_TEMP(Season(), 3),
 				terrain_type == TILETYPE_SNOW]) 
 				{1: sprlay_miyazaki_h_g_snow; sprlay_miyazaki_h_g_norm; }
