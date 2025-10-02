@@ -6,7 +6,31 @@
 	// H variant
 		// F level
 			// Norm
-				spritelayout sprlay_naganuma_h_f_norm {
+				spritelayout sprlay_naganuma_h_f_con_norm {
+					ground {
+						sprite:spr_ground_grass_norm;
+					}
+					building {
+						sprite: spr_naganuma_h_f_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_naganuma_h_f_con_snow {
+					ground {
+						sprite:spr_ground_grass_snow;
+					}
+					building {
+						sprite: spr_naganuma_h_f_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_naganuma_h_f_fin_norm {
 					ground {
 						sprite:spr_ground_grass_norm;
 					}
@@ -29,7 +53,7 @@
 				}
 
 			// Snow
-				spritelayout sprlay_naganuma_h_f_snow {
+				spritelayout sprlay_naganuma_h_f_fin_snow {
 					ground {
 						sprite:spr_ground_grass_snow;
 					}
@@ -53,7 +77,31 @@
 
 		// G level
 			// Norm
-				spritelayout sprlay_naganuma_h_g_norm {
+				spritelayout sprlay_naganuma_h_g_con_norm {
+					ground {
+						sprite:spr_ground_grass_norm;
+					}
+					building {
+						sprite: spr_naganuma_h_g_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_naganuma_h_g_con_snow {
+					ground {
+						sprite:spr_ground_grass_snow;
+					}
+					building {
+						sprite: spr_naganuma_h_g_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_naganuma_h_g_fin_norm {
 					ground {
 						sprite:spr_ground_grass_norm;
 					}
@@ -76,7 +124,7 @@
 				}
 
 			// Snow
-				spritelayout sprlay_naganuma_h_g_snow {
+				spritelayout sprlay_naganuma_h_g_fin_snow {
 					ground {
 						sprite:spr_ground_grass_snow;
 					}
@@ -98,6 +146,24 @@
 					}
 				}
 
+// Construction State Switches
+
+	switch(FEAT_HOUSES, SELF, sprlay_naganuma_h_f_norm, construction_state) {
+		3: sprlay_naganuma_h_f_fin_norm;
+	sprlay_naganuma_h_f_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_naganuma_h_f_snow, construction_state) {
+		3: sprlay_naganuma_h_f_fin_snow;
+	sprlay_naganuma_h_f_con_snow;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_naganuma_h_g_norm, construction_state) {
+		3: sprlay_naganuma_h_g_fin_norm;
+	sprlay_naganuma_h_g_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_naganuma_h_g_snow, construction_state) {
+		3: sprlay_naganuma_h_g_fin_snow;
+	sprlay_naganuma_h_g_con_snow;
+	}
 /*
 ==================
 Getbits Allocation
