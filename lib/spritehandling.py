@@ -383,10 +383,12 @@ def SpriteHandling(b,building_file,variants,levels,construction_layouts,childspr
                 file.write("\n\t\t// " + l)
                 
                 #Header
-                if len(levels) > 1:  # If only 1 level, include level in name
-                    file.write("\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_" + b + "_" + v + "_" + l + "_sprites, [")
-                else:               # Else include level in name
-                    file.write("\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_" + b + "_" + v + "_sprites, [")
+                if len(levels) == 1 and len(variants) ==1:
+                    file.write(f"\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_{b}_sprites, [\t// Only 1 level and 1 variant")
+                elif len(levels) > 1:     # If only 1 level, include level in name
+                    file.write(f"\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_{b}_{v}_{l}_sprites, [")
+                else:                   # Else remove level from name
+                    file.write(f"\n\t\t\tswitch (FEAT_HOUSES,SELF, switch_{b}_{v}_sprites, [")
                 
                 # Building Colours
                 if buildings[b]['colours']['basis'] == 'standard':

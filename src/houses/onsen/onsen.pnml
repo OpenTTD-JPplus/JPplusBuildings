@@ -1,114 +1,78 @@
 
 // onsen
 
-#include "src/houses/onsen/gfx/onsen_sprites.pnml"
-
 // Spritelayouts
+
+	// H variant
+		// L level
+			// Norm
+				spritelayout sprlay_onsen_h_L_norm {
+					ground {
+						sprite:spr_onsen_h_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_onsen_h_L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_onsen_h_L_snow {
+					ground {
+						sprite:spr_onsen_h_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_onsen_h_L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: 🚫
+
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}}
+	✅ new colour profile has 8 unique colours, with probabilities summing to 8
+	✅ old colour profile has 8 unique colours, with probabilities summing to 8
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	8		0		3		LOAD_TEMP(0)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, onsen_build_clr_new, getbits(random_bits, 0, 3)) {
+			0:	return 44;
+			1:	return 50;
+			2:	return 51;
+			3:	return 52;
+			4:	return 60;
+			5:	return 72;
+			6:	return 80;
+				return 81;
+		}
+		switch (FEAT_HOUSES, SELF, onsen_build_clr_old, getbits(random_bits, 0, 3)) {
+			0:	return 15;
+			1:	return 16;
+			2:	return 22;
+			3:	return 23;
+			4:	return 25;
+			5:	return 62;
+			6:	return 63;
+				return 68;
+		}
+// Spritelayout Switches
 	// h
 		// L
-			// black
-				// norm
-				spritelayout sprlay_onsen_h_L_black_norm {
-					ground {
-						sprite: spr_onsen_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 9;
-						xoffset: 3;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_onsen_h_L_black_snow {
-					ground {
-						sprite: spr_onsen_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 9;
-						xoffset: 3;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_onsen_h_L_black_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_onsen_h_L_black_snow;
-					sprlay_onsen_h_L_black_norm;
-				}
-
-			// dark_blue
-				// norm
-				spritelayout sprlay_onsen_h_L_dark_blue_norm {
-					ground {
-						sprite: spr_onsen_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-						xoffset: 3;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_onsen_h_L_dark_blue_snow {
-					ground {
-						sprite: spr_onsen_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-						xoffset: 3;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_onsen_h_L_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_onsen_h_L_dark_blue_snow;
-					sprlay_onsen_h_L_dark_blue_norm;
-				}
-
-			// light_blue
-				// norm
-				spritelayout sprlay_onsen_h_L_light_blue_norm {
-					ground {
-						sprite: spr_onsen_h_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 7;
-						xoffset: 3;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_onsen_h_L_light_blue_snow {
-					ground {
-						sprite: spr_onsen_h_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_onsen_h_L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 7;
-						xoffset: 3;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_onsen_h_L_light_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_onsen_h_L_light_blue_snow;
-					sprlay_onsen_h_L_light_blue_norm;
-				}
-
-
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_onsen_sprites, random_bits % 3 ) { 
-		0:	switch_onsen_h_L_light_blue_snow;
-		1:	switch_onsen_h_L_dark_blue_snow;
-		2:	switch_onsen_h_L_black_snow;
-	}
+			switch (FEAT_HOUSES,SELF, switch_onsen_sprites, [	// Only 1 level and 1 variant
+				STORE_TEMP((current_year - age) < 1959 ? onsen_build_clr_old() : onsen_build_clr_new(), 0),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_onsen_h_L_snow; sprlay_onsen_h_L_norm; }
 
 // Item Block
 	item(FEAT_HOUSES, item_onsen, 93, HOUSE_SIZE_1X1){

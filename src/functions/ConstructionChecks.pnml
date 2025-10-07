@@ -207,14 +207,14 @@
 
 	switch (FEAT_HOUSES, SELF, switch_shirokiya_across_road_con_check, 
 		//SpriteDirectionsABENSWCheck() &&		// Direction Check
-		AcrossRoads(355)
+		AcrossRoads(355)	// Class 99 + 255
 	) {return;}	
 
 	// Check if there is same class within 5, otherwise don't build
 	switch (FEAT_HOUSES, SELF, switch_shirokiya_area_con_check, IsSameClassWithin(5) )
 		{1: switch_shirokiya_across_road_con_check; 0: return 0;}
 
-	// Check if same class witing 1 tile radius
+	// Check if same class within 1 tile radius
 	switch (FEAT_HOUSES, SELF, switch_shirokiya_beside_con_check, IsSameClassWithin(1) )
 		{1: return 1; 0: switch_shirokiya_area_con_check;}
 
