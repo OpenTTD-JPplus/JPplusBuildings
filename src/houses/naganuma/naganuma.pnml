@@ -170,11 +170,11 @@ Getbits Allocation
 ==================
 Childsprites: {'grund': {'conditions': ['single']}, 'fence': {'conditions': ['single', 'remap', 'single_climate', 'old_colours']}, 'trees': {'conditions': ['seasonal', 'variant', 'single_climate']}}
 
-Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}, 'fence_new': {'sum_prob': 4, 'count': 4}, 'fence_old': {'sum_prob': 0, 'count': 0}}
+Colour Profiles: {'new': {'sum_prob': 8, 'count': 8}, 'old': {'sum_prob': 8, 'count': 8}, 'fence_new': {'sum_prob': 4, 'count': 4}, 'fence_old': {'sum_prob': 4, 'count': 4}}
 	✅ new colour profile has 8 unique colours, with probabilities summing to 8
 	✅ old colour profile has 8 unique colours, with probabilities summing to 8
 	✅ fence_new colour profile has 4 unique colours, with probabilities summing to 4
-	❌ naganuma colour profile has 0 unique colours, with probabilities summing to 0
+	✅ fence_old colour profile has 4 unique colours, with probabilities summing to 4
 
 Feature		Num		Start	Bits	Storage
 ------------------------------------------------------------------
@@ -212,7 +212,11 @@ Fence 🎨	4		2		2		LOAD_TEMP(2)
 			2:	return 81;
 				return 86;
 		}
-		switch (FEAT_HOUSES, SELF, naganuma_fence_old, getbits(random_bits, 2, 1)) {
+		switch (FEAT_HOUSES, SELF, naganuma_fence_old, getbits(random_bits, 2, 2)) {
+			0:	return 55;
+			1:	return 64;
+			2:	return 75;
+				return 81;
 		}
 // Spritelayout Switches
 	// h

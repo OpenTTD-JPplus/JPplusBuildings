@@ -48,7 +48,7 @@ def SpriteHandling(b,building_file,variants,levels,construction_layouts,childspr
                                     level_override = level_override.replace("[level]",l)
                                     file.write(f"{level_override}_{k}")
                                 else:
-                                    file.write(f"{buildings[b]['ground']['override']}_{k};")
+                                    file.write(f"{buildings[b]['ground']['override']}_{k}")
                             else:
                                 file.write(f"spr_{buildings[b]['folder']}_{v}_ground_{k}")
                         else:
@@ -58,6 +58,10 @@ def SpriteHandling(b,building_file,variants,levels,construction_layouts,childspr
                         if 'ground' in list(buildings[b].keys()):
                             if 'road_aware' in list(buildings[b]['ground'].keys()):
                                 file.write("(LOAD_TEMP(8));")
+                            elif buildings[b]['tile_size'] == "HOUSE_SIZE_2X2":
+                                file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
+                            else:
+                                file.write(";")
                         else:
                             try:
                                 file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
@@ -72,7 +76,7 @@ def SpriteHandling(b,building_file,variants,levels,construction_layouts,childspr
                                 file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{l}_{k}")
                         except:    
                             file.write(f"\n\t\t\t\t\tbuilding {{\n\t\t\t\t\t\tsprite: spr_{b}_{v}_{l}_{k}")
-                        # Buildings Constructiion State
+                        # Buildings Construction State
                         try:
                             file.write(f" ({buildings[b]['variants'][v]['construction_state']});")
                         except:
