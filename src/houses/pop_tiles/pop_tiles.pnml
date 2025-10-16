@@ -1,45 +1,19 @@
+
 // pop_tiles
 
-spriteset (spr_pop_tiles_1, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(0,0)}
-spriteset (spr_pop_tiles_2, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(65,0)}
-spriteset (spr_pop_tiles_3, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(130,0)}
-spriteset (spr_pop_tiles_4, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(195,0)}
-spriteset (spr_pop_tiles_ground, 	"src/houses/pop_tiles/pop_tiles.png") 			{template_symmetric(0,0)}
+#include "src/houses/pop_tiles/gfx/pop_tiles_sprites.pnml"
 
+#include "src/houses/pop_tiles/pop_tiles_manual_switches.pnml"
 
-// Spritelayouts
-  spritelayout sprlay_pop_tiles_1 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_1;}
-  }
-  spritelayout sprlay_pop_tiles_2 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_2;}
-  }
-  spritelayout sprlay_pop_tiles_3 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_3;}
-  }
-  spritelayout sprlay_pop_tiles_4 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_4;}
-  }
-
-random_switch(FEAT_HOUSES,SELF,sprlay_pop_tiles){
-  1:sprlay_pop_tiles_1;
-  1:sprlay_pop_tiles_2;
-  1:sprlay_pop_tiles_3;
-  1:sprlay_pop_tiles_4;
-}
 // Item Block
 	item(FEAT_HOUSES, item_pop_tiles, 160, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
 			name:						string(NAME_POP_TILE);
 			population:					255;
-			accepted_cargos:			[[PASS, 20],[MAIL, 10]];
-			local_authority_impact:		0;
-			removal_cost_multiplier:	0;
+			accepted_cargos:			[[PASS, 8],[MAIL, 8]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
 			probability:				0;
 			years_available:			[0,0xFFFF];
 			minimum_lifetime:			200;
@@ -47,8 +21,8 @@ random_switch(FEAT_HOUSES,SELF,sprlay_pop_tiles){
 			building_class:				5;
 			}
 		graphics {
-			default:					      sprlay_pop_tiles;
+			default:					switch_pop_tiles_sprites;
 			construction_check:			switch_single_house_con_check;
-			cargo_production:			  func_produce(40,10);
+			cargo_production:			func_produce(40,10);
 		}
 	}

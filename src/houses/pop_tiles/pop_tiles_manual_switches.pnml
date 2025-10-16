@@ -1,0 +1,25 @@
+
+// Spritelayouts
+
+  spritelayout sprlay_pop_tiles_norm {
+    ground {
+      sprite:spr_pop_tiles_norm (0);
+    }
+    building {
+      sprite: spr_pop_tiles_norm (LOAD_TEMP(1));
+    }
+  }
+
+  spritelayout sprlay_pop_tiles_snow {
+    ground {
+      sprite:spr_pop_tiles_snow (0);
+    }
+    building {
+      sprite: spr_pop_tiles_snow (LOAD_TEMP(1));
+    }
+  }
+
+			switch (FEAT_HOUSES,SELF, switch_pop_tiles_sprites, [
+				STORE_TEMP(getbits(random_bits, 1, 2), 1),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_pop_tiles_snow; sprlay_pop_tiles_norm; }

@@ -11,8 +11,8 @@ grf {
 	grfid: 						"KR04";
 	name: 						string(STR_GRF_NAME);
 	desc: 						string(STR_GRF_DESC);
-	version: 					013;	// v0.1.3
-	min_compatible_version: 	013;	// v0.1.3
+	version: 					014;	// v0.1.4
+	min_compatible_version: 	014;	// v0.1.4
 	url: 						string(STR_WEBSITE);
 
 	param 1 {
@@ -35417,6 +35417,287 @@ spriteset (spr_obuilding_h_ground_snow, 			"src/houses/obuilding/gfx/ground.png"
 	}
 # 1 "src/houses/obuilding/obuilding.pnml" 4
 # 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/ogawa/gfx/ogawa_sprites.pnml" 1
+
+// Buildings
+    spriteset (spr_ogawa_m_a_6L_norm, 				"src/houses/ogawa/gfx/norm.png") 				{template_house_norm(80,1)}
+    spriteset (spr_ogawa_m_a_6L_snow, 				"src/houses/ogawa/gfx/snow.png") 				{template_house_norm(80,1)}
+
+    spriteset (spr_ogawa_m_b_6L_norm, 				"src/houses/ogawa/gfx/norm.png") 				{template_house_norm(80,2)}
+    spriteset (spr_ogawa_m_b_6L_snow, 				"src/houses/ogawa/gfx/snow.png") 				{template_house_norm(80,2)}
+
+// Ground Sprites
+    spriteset (spr_ogawa_a_ground_norm, 			"src/houses/ogawa/gfx/ground_norm.png") 		{template_ground_norm(80,1)}
+    spriteset (spr_ogawa_a_ground_snow, 			"src/houses/ogawa/gfx/ground_snow.png") 		{template_ground_norm(80,1)}
+
+    spriteset (spr_ogawa_b_ground_norm, 			"src/houses/ogawa/gfx/ground_norm.png") 		{template_ground_norm(80,2)}
+    spriteset (spr_ogawa_b_ground_snow, 			"src/houses/ogawa/gfx/ground_snow.png") 		{template_ground_norm(80,2)}
+
+// Signs
+    spriteset (spr_ogawa_a_signs, 			        "src/houses/ogawa/gfx/signs.png") 			    {template_child_norm(80,1)}
+    spriteset (spr_ogawa_b_signs, 			        "src/houses/ogawa/gfx/signs.png") 			    {template_child_norm(80,2)}
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/ogawa/ogawa_m.pnml" 1
+
+// ogawa_m
+
+// Spritelayouts
+
+	// A variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_ogawa_m_a_6L_con_norm {
+					ground {
+						sprite:spr_ogawa_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_ogawa_m_a_6L_con_snow {
+					ground {
+						sprite:spr_ogawa_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_ogawa_m_a_6L_fin_norm {
+					ground {
+						sprite:spr_ogawa_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_ogawa_a_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_ogawa_m_a_6L_fin_snow {
+					ground {
+						sprite:spr_ogawa_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_ogawa_a_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+	// B variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_ogawa_m_b_6L_con_norm {
+					ground {
+						sprite:spr_ogawa_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_ogawa_m_b_6L_con_snow {
+					ground {
+						sprite:spr_ogawa_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_ogawa_m_b_6L_fin_norm {
+					ground {
+						sprite:spr_ogawa_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_ogawa_b_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_ogawa_m_b_6L_fin_snow {
+					ground {
+						sprite:spr_ogawa_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_ogawa_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_ogawa_b_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+// Construction State Switches
+
+	switch(FEAT_HOUSES, SELF, sprlay_ogawa_m_a_6L_norm, construction_state) {
+		3: sprlay_ogawa_m_a_6L_fin_norm;
+	sprlay_ogawa_m_a_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_ogawa_m_a_6L_snow, construction_state) {
+		3: sprlay_ogawa_m_a_6L_fin_snow;
+	sprlay_ogawa_m_a_6L_con_snow;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_ogawa_m_b_6L_norm, construction_state) {
+		3: sprlay_ogawa_m_b_6L_fin_norm;
+	sprlay_ogawa_m_b_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_ogawa_m_b_6L_snow, construction_state) {
+		3: sprlay_ogawa_m_b_6L_fin_snow;
+	sprlay_ogawa_m_b_6L_con_snow;
+	}
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: {'signs': {'conditions': ['levels_share', '3only', 'remap', 'single_climate']}}
+
+Colour Profiles: {'new': {'sum_prob': 4, 'count': 4}, 'signs': {'sum_prob': 4, 'count': 4}}
+	✅ new colour profile has 4 unique colours, with probabilities summing to 4
+	✅ signs colour profile has 4 unique colours, with probabilities summing to 4
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	4		0		2		LOAD_TEMP(0)
+Signs 🎨	4		1		2		LOAD_TEMP(6)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, ogawa_m_build_clr_new, getbits(random_bits, 0, 2)) {
+			0:	return 45;
+			1:	return 58;
+			2:	return 70;
+				return 77;
+		}
+	// Sign Colours
+		switch (FEAT_HOUSES, SELF, ogawa_m_signs_clr, getbits(random_bits, 1, 2)) {
+			0:	return 88;
+			1:	return 89;
+			2:	return 90;
+				return 91;
+		}
+// Spritelayout Switches
+	// a
+		// 6L
+			switch (FEAT_HOUSES,SELF, switch_ogawa_m_a_sprites, [
+				STORE_TEMP(ogawa_m_build_clr_new(), 0),
+				STORE_TEMP(ogawa_m_signs_clr(), 6),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_ogawa_m_a_6L_snow; sprlay_ogawa_m_a_6L_norm; }
+
+	// b
+		// 6L
+			switch (FEAT_HOUSES,SELF, switch_ogawa_m_b_sprites, [
+				STORE_TEMP(ogawa_m_build_clr_new(), 0),
+				STORE_TEMP(ogawa_m_signs_clr(), 6),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_ogawa_m_b_6L_snow; sprlay_ogawa_m_b_6L_norm; }
+
+	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
+	
+	random_switch (FEAT_HOUSES, SELF, switch_ogawa_m_random_sprites) {
+		1: switch_ogawa_m_a_sprites;
+		1: switch_ogawa_m_b_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_ogawa_m_south_check, SpriteDirectionsSouth()) {
+		4: switch_ogawa_m_a_sprites;
+		6: switch_ogawa_m_a_sprites;
+		9: switch_ogawa_m_b_sprites;
+		switch_ogawa_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_ogawa_m_east_check, SpriteDirectionsEast()) {
+		4: switch_ogawa_m_a_sprites;
+		6: switch_ogawa_m_a_sprites;
+		9: switch_ogawa_m_b_sprites;
+		switch_ogawa_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_ogawa_m_west_check, SpriteDirectionsWest()) {
+		6: switch_ogawa_m_b_sprites;
+		9: switch_ogawa_m_a_sprites;
+		switch_ogawa_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_ogawa_m_north_check, SpriteDirectionsNorth()) {
+		6: switch_ogawa_m_b_sprites;
+		9: switch_ogawa_m_a_sprites;
+		switch_ogawa_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_ogawa_m_sprites, SpriteDirections() ) {
+		1: switch_ogawa_m_a_sprites;
+		2: switch_ogawa_m_b_sprites;
+		3: switch_ogawa_m_south_check;
+		4: switch_ogawa_m_a_sprites;
+		5: switch_ogawa_m_a_sprites;
+		6: switch_ogawa_m_west_check;
+		8: switch_ogawa_m_b_sprites;
+		9: switch_ogawa_m_east_check;
+		10: switch_ogawa_m_b_sprites;
+		12: switch_ogawa_m_north_check;
+		switch_ogawa_m_random_sprites;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_ogawa_m, 162, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_OGAWA),string(MEDIUM));
+			population:					100;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1960,0xFFFF];
+			minimum_lifetime:			7;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				49;
+			}
+		graphics {
+			default:					switch_ogawa_m_sprites;
+			construction_check:			switch_medium_con_check;
+			cargo_production:			func_produce(10,4);
+		}
+	}
+# 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/okada_office_tower/okada_office_tower.pnml" 1
 
 // okada_office_tower
@@ -39933,6 +40214,287 @@ spriteset (spr_tsuzumi_electronics_centre_b_ground_snow, 	"src/houses/tsuzumi_el
 		}
 	}
 # 1 "src/houses/tsuzumi_electronics_centre/tsuzumi_electronics_centre.pnml" 2
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/uchida/gfx/uchida_sprites.pnml" 1
+
+// Buildings
+    spriteset (spr_uchida_m_a_6L_norm, 				"src/houses/uchida/gfx/norm.png") 				{template_house_norm(80,1)}
+    spriteset (spr_uchida_m_a_6L_snow, 				"src/houses/uchida/gfx/snow.png") 				{template_house_norm(80,1)}
+
+    spriteset (spr_uchida_m_b_6L_norm, 				"src/houses/uchida/gfx/norm.png") 				{template_house_norm(80,2)}
+    spriteset (spr_uchida_m_b_6L_snow, 				"src/houses/uchida/gfx/snow.png") 				{template_house_norm(80,2)}
+
+// Ground Sprites
+    spriteset (spr_uchida_a_ground_norm, 			"src/houses/uchida/gfx/ground_norm.png") 		{template_ground_norm(80,1)}
+    spriteset (spr_uchida_a_ground_snow, 			"src/houses/uchida/gfx/ground_snow.png") 		{template_ground_norm(80,1)}
+
+    spriteset (spr_uchida_b_ground_norm, 			"src/houses/uchida/gfx/ground_norm.png") 		{template_ground_norm(80,2)}
+    spriteset (spr_uchida_b_ground_snow, 			"src/houses/uchida/gfx/ground_snow.png") 		{template_ground_norm(80,2)}
+
+// Signs
+    spriteset (spr_uchida_a_signs, 			        "src/houses/uchida/gfx/signs.png") 			    {template_child_norm(80,1)}
+    spriteset (spr_uchida_b_signs, 			        "src/houses/uchida/gfx/signs.png") 			    {template_child_norm(80,2)}
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/uchida/uchida_m.pnml" 1
+
+// uchida_m
+
+// Spritelayouts
+
+	// A variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_uchida_m_a_6L_con_norm {
+					ground {
+						sprite:spr_uchida_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_uchida_m_a_6L_con_snow {
+					ground {
+						sprite:spr_uchida_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_uchida_m_a_6L_fin_norm {
+					ground {
+						sprite:spr_uchida_a_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_a_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_uchida_a_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_uchida_m_a_6L_fin_snow {
+					ground {
+						sprite:spr_uchida_a_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_a_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_uchida_a_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+	// B variant
+		// 6L level
+			// Norm
+				spritelayout sprlay_uchida_m_b_6L_con_norm {
+					ground {
+						sprite:spr_uchida_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_uchida_m_b_6L_con_snow {
+					ground {
+						sprite:spr_uchida_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+				}
+
+			// Norm
+				spritelayout sprlay_uchida_m_b_6L_fin_norm {
+					ground {
+						sprite:spr_uchida_b_ground_norm (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_b_6L_norm (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_uchida_b_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+			// Snow
+				spritelayout sprlay_uchida_m_b_6L_fin_snow {
+					ground {
+						sprite:spr_uchida_b_ground_snow (construction_state);
+					}
+					building {
+						sprite: spr_uchida_m_b_6L_snow (construction_state);
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(0);
+					}
+					childsprite { // signs
+						sprite: spr_uchida_b_signs (3); // Three only condition
+						recolour_mode: RECOLOUR_REMAP;
+						palette: recolour_remap + LOAD_TEMP(6);
+					}
+				}
+
+// Construction State Switches
+
+	switch(FEAT_HOUSES, SELF, sprlay_uchida_m_a_6L_norm, construction_state) {
+		3: sprlay_uchida_m_a_6L_fin_norm;
+	sprlay_uchida_m_a_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_uchida_m_a_6L_snow, construction_state) {
+		3: sprlay_uchida_m_a_6L_fin_snow;
+	sprlay_uchida_m_a_6L_con_snow;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_uchida_m_b_6L_norm, construction_state) {
+		3: sprlay_uchida_m_b_6L_fin_norm;
+	sprlay_uchida_m_b_6L_con_norm;
+	}
+	switch(FEAT_HOUSES, SELF, sprlay_uchida_m_b_6L_snow, construction_state) {
+		3: sprlay_uchida_m_b_6L_fin_snow;
+	sprlay_uchida_m_b_6L_con_snow;
+	}
+/*
+==================
+Getbits Allocation
+==================
+Childsprites: {'signs': {'conditions': ['levels_share', '3only', 'remap', 'single_climate']}}
+
+Colour Profiles: {'new': {'sum_prob': 4, 'count': 4}, 'signs': {'sum_prob': 4, 'count': 4}}
+	✅ new colour profile has 4 unique colours, with probabilities summing to 4
+	✅ signs colour profile has 4 unique colours, with probabilities summing to 4
+
+Feature		Num		Start	Bits	Storage
+------------------------------------------------------------------
+Building	4		0		2		LOAD_TEMP(0)
+Signs 🎨	4		1		2		LOAD_TEMP(6)
+*/
+
+// Random Switches
+	// Building Colours
+		switch (FEAT_HOUSES, SELF, uchida_m_build_clr_new, getbits(random_bits, 0, 2)) {
+			0:	return 45;
+			1:	return 58;
+			2:	return 70;
+				return 77;
+		}
+	// Sign Colours
+		switch (FEAT_HOUSES, SELF, uchida_m_signs_clr, getbits(random_bits, 1, 2)) {
+			0:	return 88;
+			1:	return 89;
+			2:	return 90;
+				return 91;
+		}
+// Spritelayout Switches
+	// a
+		// 6L
+			switch (FEAT_HOUSES,SELF, switch_uchida_m_a_sprites, [
+				STORE_TEMP(uchida_m_build_clr_new(), 0),
+				STORE_TEMP(uchida_m_signs_clr(), 6),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_uchida_m_a_6L_snow; sprlay_uchida_m_a_6L_norm; }
+
+	// b
+		// 6L
+			switch (FEAT_HOUSES,SELF, switch_uchida_m_b_sprites, [
+				STORE_TEMP(uchida_m_build_clr_new(), 0),
+				STORE_TEMP(uchida_m_signs_clr(), 6),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_uchida_m_b_6L_snow; sprlay_uchida_m_b_6L_norm; }
+
+	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
+	
+	random_switch (FEAT_HOUSES, SELF, switch_uchida_m_random_sprites) {
+		1: switch_uchida_m_a_sprites;
+		1: switch_uchida_m_b_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_uchida_m_south_check, SpriteDirectionsSouth()) {
+		4: switch_uchida_m_a_sprites;
+		6: switch_uchida_m_a_sprites;
+		9: switch_uchida_m_b_sprites;
+		switch_uchida_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_uchida_m_east_check, SpriteDirectionsEast()) {
+		4: switch_uchida_m_a_sprites;
+		6: switch_uchida_m_a_sprites;
+		9: switch_uchida_m_b_sprites;
+		switch_uchida_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_uchida_m_west_check, SpriteDirectionsWest()) {
+		6: switch_uchida_m_b_sprites;
+		9: switch_uchida_m_a_sprites;
+		switch_uchida_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_uchida_m_north_check, SpriteDirectionsNorth()) {
+		6: switch_uchida_m_b_sprites;
+		9: switch_uchida_m_a_sprites;
+		switch_uchida_m_random_sprites;
+	}
+
+	switch (FEAT_HOUSES, SELF, switch_uchida_m_sprites, SpriteDirections() ) {
+		1: switch_uchida_m_a_sprites;
+		2: switch_uchida_m_b_sprites;
+		3: switch_uchida_m_south_check;
+		4: switch_uchida_m_a_sprites;
+		5: switch_uchida_m_a_sprites;
+		6: switch_uchida_m_west_check;
+		8: switch_uchida_m_b_sprites;
+		9: switch_uchida_m_east_check;
+		10: switch_uchida_m_b_sprites;
+		12: switch_uchida_m_north_check;
+		switch_uchida_m_random_sprites;
+	}
+
+// Item Block
+	item(FEAT_HOUSES, item_uchida_m, 161, HOUSE_SIZE_1X1){
+		property {
+			substitute:					27;
+			name:						string(STR_CONCAT_2, string(NAME_UCHIDA),string(MEDIUM));
+			population:					100;
+			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
+			probability:				1;
+			years_available:			[1960,0xFFFF];
+			minimum_lifetime:			7;
+			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+			building_class:				49;
+			}
+		graphics {
+			default:					switch_uchida_m_sprites;
+			construction_check:			switch_medium_con_check;
+			cargo_production:			func_produce(10,4);
+		}
+	}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/xbuilding/xbuilding.pnml" 1
 
@@ -53736,48 +54298,54 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_w_sprites) {
 
 // POPULATION TILE 160
 # 1 "src/houses/pop_tiles/pop_tiles.pnml" 1
+
 // pop_tiles
 
-spriteset (spr_pop_tiles_1, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(0,0)}
-spriteset (spr_pop_tiles_2, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(65,0)}
-spriteset (spr_pop_tiles_3, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(130,0)}
-spriteset (spr_pop_tiles_4, 		"src/houses/pop_tiles/pop_tiles.png") 		{template_symmetric(195,0)}
-spriteset (spr_pop_tiles_ground, 	"src/houses/pop_tiles/pop_tiles.png") 			{template_symmetric(0,0)}
+# 1 "src/houses/pop_tiles/gfx/pop_tiles_sprites.pnml" 1
 
+// pop_tiles
+
+    spriteset (spr_pop_tiles_norm, 		"src/houses/pop_tiles/gfx/pop_tiles.png") 		{template_house_norm(80,1)}
+    spriteset (spr_pop_tiles_snow, 		"src/houses/pop_tiles/gfx/pop_tiles.png") 		{template_house_norm(80,1)}
+# 1 "src/houses/pop_tiles/pop_tiles.pnml" 4
+
+# 1 "src/houses/pop_tiles/pop_tiles_manual_switches.pnml" 1
 
 // Spritelayouts
-  spritelayout sprlay_pop_tiles_1 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_1;}
-  }
-  spritelayout sprlay_pop_tiles_2 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_2;}
-  }
-  spritelayout sprlay_pop_tiles_3 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_3;}
-  }
-  spritelayout sprlay_pop_tiles_4 {
-    ground {sprite: spr_pop_tiles_ground;}
-    building {sprite: spr_pop_tiles_4;}
+
+  spritelayout sprlay_pop_tiles_norm {
+    ground {
+      sprite:spr_pop_tiles_norm (0);
+    }
+    building {
+      sprite: spr_pop_tiles_norm (LOAD_TEMP(1));
+    }
   }
 
-random_switch(FEAT_HOUSES,SELF,sprlay_pop_tiles){
-  1:sprlay_pop_tiles_1;
-  1:sprlay_pop_tiles_2;
-  1:sprlay_pop_tiles_3;
-  1:sprlay_pop_tiles_4;
-}
+  spritelayout sprlay_pop_tiles_snow {
+    ground {
+      sprite:spr_pop_tiles_snow (0);
+    }
+    building {
+      sprite: spr_pop_tiles_snow (LOAD_TEMP(1));
+    }
+  }
+
+			switch (FEAT_HOUSES,SELF, switch_pop_tiles_sprites, [
+				STORE_TEMP(getbits(random_bits, 1, 2), 1),
+				terrain_type == TILETYPE_SNOW]) 
+				{1: sprlay_pop_tiles_snow; sprlay_pop_tiles_norm; }
+# 1 "src/houses/pop_tiles/pop_tiles.pnml" 4
+
 // Item Block
 	item(FEAT_HOUSES, item_pop_tiles, 160, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
 			name:						string(NAME_POP_TILE);
 			population:					255;
-			accepted_cargos:			[[PASS, 20],[MAIL, 10]];
-			local_authority_impact:		0;
-			removal_cost_multiplier:	0;
+			accepted_cargos:			[[PASS, 8],[MAIL, 8]];
+			local_authority_impact:		80;
+			removal_cost_multiplier:	80;
 			probability:				0;
 			years_available:			[0,0xFFFF];
 			minimum_lifetime:			200;
@@ -53785,9 +54353,9 @@ random_switch(FEAT_HOUSES,SELF,sprlay_pop_tiles){
 			building_class:				5;
 			}
 		graphics {
-			default:					      sprlay_pop_tiles;
+			default:					switch_pop_tiles_sprites;
 			construction_check:			switch_single_house_con_check;
-			cargo_production:			  func_produce(40,10);
+			cargo_production:			func_produce(40,10);
 		}
 	}
 # 1 "JPplusBuildings.pnml" 4
