@@ -1,14 +1,39 @@
 
-	switch (FEAT_HOUSES, SELF, GroundTileEastCheck, SpriteDirectionsEast()) {
-		4:  return 3;
-		6:  return 3;
+	switch (FEAT_HOUSES, SELF, GroundTileEastCheckA, HasRoadAdjacentSE()) {
+		1:  return 3;
+		    return 2;
+	}
+	
+	switch (FEAT_HOUSES, SELF, GroundTileEastCheckB, HasRoadAdjacentSW()) {
+		1:  return 3;
 		    return 2;
 	}
 
-	switch (FEAT_HOUSES, SELF, GroundTileWestCheck, SpriteDirectionsWest()) {
-		6:  return 3;
+        
+        switch (FEAT_HOUSES, SELF, sw_ground_tile_ab_east_check, SpriteDirectionsEast()) {
+    4: GroundTileEastCheckA;
+    5: GroundTileEastCheckA;
+    6: GroundTileEastCheckA;
+    9: GroundTileEastCheckB;
+    return 2;
+  }
+        
+        switch (FEAT_HOUSES, SELF, GroundTileWestCheckA, HasRoadAdjacentSE()) {
+		1:  return 3;
 		    return 2;
 	}
+	
+        switch (FEAT_HOUSES, SELF, GroundTileWestCheckB, HasRoadAdjacentSW()) {
+		1:  return 3;
+		    return 2;
+	}
+	
+	switch (FEAT_HOUSES, SELF, sw_ground_tile_ab_west_check, SpriteDirectionsWest()) {
+          5: GroundTileWestCheckB;
+          6: GroundTileWestCheckB;
+          9: GroundTileWestCheckA;
+          return 2;
+        }
 
 	switch (FEAT_HOUSES, SELF, GroundTileCheck, SpriteDirections() ) {
 		1:  return 3;                       // Since will be A due to having road
@@ -16,10 +41,10 @@
 		3:  return 3;                       // Since A & B will have access
 		4:  return 2;                       // Since no SE or SW road
 		5:  return 3;                       // Since will be A with SE road
-		6:  GroundTileWestCheck;            // WEST
+		6:  sw_ground_tile_ab_west_check;            // WEST
         7:  return 3;                       // Since has SE and SW road
 		8:  return 2;                       // Since NE only
-		9:  GroundTileEastCheck;            // EAST
+		9:  sw_ground_tile_ab_east_check;            // EAST
 		10: return 3;                       // Since will be B with SW road
         11: return 3;                       // Since has SE and SW road
 		12: return 2;                       // Since no SE or SW road

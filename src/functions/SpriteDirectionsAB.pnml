@@ -1,0 +1,47 @@
+
+  random_switch (FEAT_HOUSES, SELF, sw_spritedirections_ab_random_sprites) {
+    1: return 0;
+    1: return 1;
+  }
+
+  switch (FEAT_HOUSES, SELF, sw_spritedirections_ab_south_check, SpriteDirectionsSouth()) {
+    4: return 0;
+    6: return 0;
+    9: return 1;
+    sw_spritedirections_ab_random_sprites;
+  }
+
+  switch (FEAT_HOUSES, SELF, sw_spritedirections_ab_east_check, SpriteDirectionsEast()) {
+    4: return 0;
+    5: return 0;
+    6: return 0;
+    9: return 1;
+    sw_spritedirections_ab_random_sprites;
+  }
+
+  switch (FEAT_HOUSES, SELF, sw_spritedirections_ab_west_check, SpriteDirectionsWest()) {
+    5: return 1;
+    6: return 1;
+    9: return 0;
+    sw_spritedirections_ab_random_sprites;
+  }
+
+  switch (FEAT_HOUSES, SELF, sw_spritedirections_ab_north_check, SpriteDirectionsNorth()) {
+    6: return 1;
+    9: return 0;
+    sw_spritedirections_ab_random_sprites;
+  }
+
+  switch (FEAT_HOUSES, SELF, SpriteDirectionsAB, SpriteDirections() ) {
+    1:  return 0;
+    2:  return 1;
+    3:  sw_spritedirections_ab_south_check;
+    4:  return 0;
+    5:  return 0;
+    6:  sw_spritedirections_ab_west_check;
+    8:  return 1;
+    9:  sw_spritedirections_ab_east_check;
+    10: return 1;
+    12: sw_spritedirections_ab_north_check;
+        sw_spritedirections_ab_random_sprites;
+  }

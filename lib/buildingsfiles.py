@@ -46,5 +46,7 @@ def CreateBuildingFiles():
                 CreateBuildingFilesBravo(b)
             elif buildings[b]['code_stream'] == 'manual':
                 CreateBuildingFilesManual(b)
+            elif buildings[b]['code_stream'] == 'charlie':
+                pass
             else:
                 print("YOLO!! " + b ) 
