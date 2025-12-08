@@ -38,7 +38,19 @@
 // Spritelayouts for matsuo
 
 // H variant | F level | Norm
-    spritelayout sprlay_matsuo_h_f_norm {
+    spritelayout sprlay_matsuo_h_f_con_norm {
+        ground {
+            sprite:        spr_ground_grass (construction_state);
+        }
+        building {
+            sprite:        spr_matsuo_h_f_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// H variant | F level | Norm
+    spritelayout sprlay_matsuo_h_f_fin_norm {
         ground {
             sprite:        spr_ground_grass (construction_state);
         }
@@ -61,7 +73,19 @@
     }
 
 // H variant | F level | Snow
-    spritelayout sprlay_matsuo_h_f_snow {
+    spritelayout sprlay_matsuo_h_f_con_snow {
+        ground {
+            sprite:        spr_ground_snow (construction_state);
+        }
+        building {
+            sprite:        spr_matsuo_h_f_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// H variant | F level | Snow
+    spritelayout sprlay_matsuo_h_f_fin_snow {
         ground {
             sprite:        spr_ground_snow (construction_state);
         }
@@ -84,7 +108,19 @@
     }
 
 // H variant | G level | Norm
-    spritelayout sprlay_matsuo_h_g_norm {
+    spritelayout sprlay_matsuo_h_g_con_norm {
+        ground {
+            sprite:        spr_ground_grass (construction_state);
+        }
+        building {
+            sprite:        spr_matsuo_h_g_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// H variant | G level | Norm
+    spritelayout sprlay_matsuo_h_g_fin_norm {
         ground {
             sprite:        spr_ground_grass (construction_state);
         }
@@ -107,7 +143,19 @@
     }
 
 // H variant | G level | Snow
-    spritelayout sprlay_matsuo_h_g_snow {
+    spritelayout sprlay_matsuo_h_g_con_snow {
+        ground {
+            sprite:        spr_ground_snow (construction_state);
+        }
+        building {
+            sprite:        spr_matsuo_h_g_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// H variant | G level | Snow
+    spritelayout sprlay_matsuo_h_g_fin_snow {
         ground {
             sprite:        spr_ground_snow (construction_state);
         }
@@ -129,6 +177,25 @@
         }
     }
 
+
+// Construction State Switches
+
+    switch(FEAT_HOUSES, SELF, sprlay_matsuo_h_f_norm, construction_state) {
+        3: sprlay_matsuo_h_f_fin_norm;
+           sprlay_matsuo_h_f_con_norm;
+    }
+    switch(FEAT_HOUSES, SELF, sprlay_matsuo_h_f_snow, construction_state) {
+        3: sprlay_matsuo_h_f_fin_snow;
+           sprlay_matsuo_h_f_con_snow;
+    }
+    switch(FEAT_HOUSES, SELF, sprlay_matsuo_h_g_norm, construction_state) {
+        3: sprlay_matsuo_h_g_fin_norm;
+           sprlay_matsuo_h_g_con_norm;
+    }
+    switch(FEAT_HOUSES, SELF, sprlay_matsuo_h_g_snow, construction_state) {
+        3: sprlay_matsuo_h_g_fin_snow;
+           sprlay_matsuo_h_g_con_snow;
+    }
 
 // Random Switches
     // Building Colours
