@@ -1,0 +1,17 @@
+
+
+
+switch (FEAT_HOUSES,SELF,GroundAlleyJPCheck, current_year ) {
+    1..1937: return 2;
+    default: return 3;
+    }
+
+switch (FEAT_HOUSES,SELF,GroundAlleyGRFCheck, grf_current_status("YZ\AA\05") == 1 || grf_future_status("YZ\AA\05") == 1 ) {
+    1:  GroundAlleyJPCheck;
+        return 1;
+    }
+
+switch (FEAT_HOUSES,SELF,GroundAlley, construction_state) {
+    3:  GroundAlleyGRFCheck;
+        return 0;
+    }
