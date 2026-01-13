@@ -1,17 +1,24 @@
 
 
-
-switch (FEAT_HOUSES,SELF,GroundAlleyJPCheck, current_year ) {
+// JP+ Roads - Return correct concrete dependent on era
+switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckEra, current_year ) {
     1..1937: return 2;
     default: return 3;
     }
 
-switch (FEAT_HOUSES,SELF,GroundAlleyGRFCheck, grf_current_status("YZ\AA\05") == 1 || grf_future_status("YZ\AA\05") == 1 ) {
-    1:  GroundAlleyJPCheck;
-        return 1;
+switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
+    TOWNZONE_EDGE: return 1;
+    default: GroundAlleyJPCheckEra;
     }
 
-switch (FEAT_HOUSES,SELF,GroundAlley, construction_state) {
-    3:  GroundAlleyGRFCheck;
-        return 0;
-    }
+// Check if JP+ Roads is already present or scheduled for future construction
+    switch (FEAT_HOUSES,SELF,GroundAlleyJPCheck, grf_current_status("YZ\AA\05") == 1 || grf_future_status("YZ\AA\05") == 1 ) {
+        1:  GroundAlleyJPCheckZone;
+            return 1;
+        }
+
+// Check the construction state - if complete, proceed to GRF check
+    switch (FEAT_HOUSES,SELF,GroundAlley, construction_state) {
+        3:  GroundAlleyJPCheck;
+            return 0;
+        }

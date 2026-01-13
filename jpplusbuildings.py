@@ -1,10 +1,10 @@
 
 print("Running jpplusbuildings.py")
 
-from lib import recolour
+#from lib import recolour
 
-recolour.CreateRemapJSON()
-recolour.CreateRecolourPnml()
+#recolour.CreateRemapJSON()
+#recolour.CreateRecolourPnml()
 
 from lib import buildingsjson
 
