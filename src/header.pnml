@@ -1,6 +1,3 @@
-/*
-*	Welcome to JPplusBuildings!
-*/
 
 grf {
 	grfid: 						"KR04";
@@ -18,46 +15,51 @@ grf {
 			def_value: 			0;
 		}
 	}
+
 	param 2 {
-		param_population_threshold_medium {
+		param_numhouses_threshold_medium {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_MEDIUM);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			50000;
-			def_value: 			10000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_MEDIUM);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_MEDIUM);
+			min_value:			25;
+			max_value:			1000;
+			def_value: 			100;
 		}
 	}
+
 	param 3 {
-		param_population_threshold_large {
+		param_numhouses_threshold_large {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_LARGE);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			25000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_LARGE);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_LARGE);
+			min_value:			100;
+			max_value:			2000;
+			def_value: 			250;
 		}
 	}
+
 	param 4 {
-		param_population_threshold_xtra {
+		param_numhouses_threshold_xtra {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_XTRA);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			40000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_XTRA);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_XTRA);
+			min_value:			200;
+			max_value:			5000;
+			def_value: 			500;
 		}
 	}
+
 	param 5 {
-		param_population_threshold_sky {
+		param_numhouses_threshold_sky {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_SKY);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			60000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_SKY);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_SKY);
+			min_value:			300;
+			max_value:			10000;
+			def_value: 			750;
 		}
 	}
+
 	param 6 {
 		param_wideroad_skyscrapers {
 			type:				bool;
@@ -66,22 +68,22 @@ grf {
 			def_value: 			0;
 		}
 	}
-	//*Season Controller */
-	param 7 { 
+
+	param 7 {
 		param_seasons {
-			type: int;
-			name: string(STR_PARAM_SEASONS);
-			desc: string(STR_PARAM_SEASONS);
-			min_value: 0;
-			max_value: 5;
-			def_value: 0;
+			type:				int;
+			name:				string(STR_PARAM_NAME_SEASONS);
+			desc: 				string(STR_PARAM_DESC_SEASONS);
+			min_value:			0;
+			max_value:			5;
+			def_value: 			0;
 			names: {
-				0: string(STR_PARAM_SEASONS_1);
-				1: string(STR_PARAM_SEASONS_2);
-				2: string(STR_PARAM_SEASONS_3);
-				3: string(STR_PARAM_SEASONS_4);
-				4: string(STR_PARAM_SEASONS_5);
-				5: string(STR_PARAM_SEASONS_6);
+				0: string(STR_PARAM_SEASONS_0);
+				1: string(STR_PARAM_SEASONS_1);
+				2: string(STR_PARAM_SEASONS_2);
+				3: string(STR_PARAM_SEASONS_3);
+				4: string(STR_PARAM_SEASONS_4);
+				5: string(STR_PARAM_SEASONS_5);
 			};
 		}
 	}
@@ -90,82 +92,7 @@ grf {
 if (version_openttd(1,10,0,28004) > openttd_version) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
-/*
-// https://jgrennison.github.io/OpenTTD-patches/newgrf-town-nml.html
-if (!extended_feature_test("town_uncapped_variables")) {
-	error(FATAL, string(STR_ERROR_TOWN_UNCAPPED_VARIABLES));
-}
 
-if (!extended_feature_test("town_zone_callback")) {
-	error(FATAL, string(STR_ERROR_GAME_VERSION));
-}
-*/
-
- /* tz01
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 4) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-/* 	tz02
-	- creates a large zone 1, but zone 0 is now insignificant and only present in furthermost corner of city
-
-
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 2) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-
-/*	tz03
-	- zone 1 is larger, but not at the complete expense of zone 0
-
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-
-/* 	tz04 (new construction checks also)
-	- Zone 2 expanded slightly but not at the expense of other zones
-
-*/
-/*
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 3) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-
-item (FEAT_TOWN, town_cb, GENERIC_CALLBACK) {
-	graphics {
-		town_zone: town_zone_cb;
-	}
-}
-*/
 disable_item(FEAT_HOUSES);
 
 if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1)){

@@ -3,9 +3,6 @@
 
 // Define the GRF
 # 1 "src/header.pnml" 1
-/*
-*	Welcome to JPplusBuildings!
-*/
 
 grf {
 	grfid: 						"KR04";
@@ -23,46 +20,51 @@ grf {
 			def_value: 			0;
 		}
 	}
+
 	param 2 {
-		param_population_threshold_medium {
+		param_numhouses_threshold_medium {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_MEDIUM);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			50000;
-			def_value: 			10000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_MEDIUM);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_MEDIUM);
+			min_value:			25;
+			max_value:			1000;
+			def_value: 			100;
 		}
 	}
+
 	param 3 {
-		param_population_threshold_large {
+		param_numhouses_threshold_large {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_LARGE);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			25000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_LARGE);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_LARGE);
+			min_value:			100;
+			max_value:			2000;
+			def_value: 			250;
 		}
 	}
+
 	param 4 {
-		param_population_threshold_xtra {
+		param_numhouses_threshold_xtra {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_XTRA);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			40000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_XTRA);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_XTRA);
+			min_value:			200;
+			max_value:			5000;
+			def_value: 			500;
 		}
 	}
+
 	param 5 {
-		param_population_threshold_sky {
+		param_numhouses_threshold_sky {
 			type:				int;
-			name:				string(STR_PARAM_NAME_POPULATION_THRESHOLD_SKY);
-			desc: 				string(STR_PARAM_DESC_THRESHOLD);
-			min_value:			1000;
-			max_value:			5000000;
-			def_value: 			60000;
+			name:				string(STR_PARAM_NAME_NUMHOUSES_THRESHOLD_SKY);
+			desc: 				string(STR_PARAM_DESC_NUMHOUSES_THRESHOLD_SKY);
+			min_value:			300;
+			max_value:			10000;
+			def_value: 			750;
 		}
 	}
+
 	param 6 {
 		param_wideroad_skyscrapers {
 			type:				bool;
@@ -71,22 +73,22 @@ grf {
 			def_value: 			0;
 		}
 	}
-	//*Season Controller */
-	param 7 { 
+
+	param 7 {
 		param_seasons {
-			type: int;
-			name: string(STR_PARAM_SEASONS);
-			desc: string(STR_PARAM_SEASONS);
-			min_value: 0;
-			max_value: 5;
-			def_value: 0;
+			type:				int;
+			name:				string(STR_PARAM_NAME_SEASONS);
+			desc: 				string(STR_PARAM_DESC_SEASONS);
+			min_value:			0;
+			max_value:			5;
+			def_value: 			0;
 			names: {
-				0: string(STR_PARAM_SEASONS_1);
-				1: string(STR_PARAM_SEASONS_2);
-				2: string(STR_PARAM_SEASONS_3);
-				3: string(STR_PARAM_SEASONS_4);
-				4: string(STR_PARAM_SEASONS_5);
-				5: string(STR_PARAM_SEASONS_6);
+				0: string(STR_PARAM_SEASONS_0);
+				1: string(STR_PARAM_SEASONS_1);
+				2: string(STR_PARAM_SEASONS_2);
+				3: string(STR_PARAM_SEASONS_3);
+				4: string(STR_PARAM_SEASONS_4);
+				5: string(STR_PARAM_SEASONS_5);
 			};
 		}
 	}
@@ -95,82 +97,7 @@ grf {
 if (version_openttd(1,10,0,28004) > openttd_version) {
 	error(FATAL, string(STR_ERROR_GAME_VERSION));
 }
-/*
-// https://jgrennison.github.io/OpenTTD-patches/newgrf-town-nml.html
-if (!extended_feature_test("town_uncapped_variables")) {
-	error(FATAL, string(STR_ERROR_TOWN_UNCAPPED_VARIABLES));
-}
 
-if (!extended_feature_test("town_zone_callback")) {
-	error(FATAL, string(STR_ERROR_GAME_VERSION));
-}
-*/
-
- /* tz01
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 4) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-/* 	tz02
-	- creates a large zone 1, but zone 0 is now insignificant and only present in furthermost corner of city
-
-
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 2) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-
-/*	tz03
-	- zone 1 is larger, but not at the complete expense of zone 0
-
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 4) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-*/
-
-/* 	tz04 (new construction checks also)
-	- Zone 2 expanded slightly but not at the expense of other zones
-
-*/
-/*
-switch (FEAT_TOWN, SELF, town_zone_cb,
-		[
-			STORE_TEMP((num_houses_uncapped) * 255, 0x100),
-			STORE_TEMP((num_houses_uncapped >> 3) * 4, 0x101),
-			STORE_TEMP((num_houses_uncapped >> 3) * 3, 0x102),
-			STORE_TEMP((num_houses_uncapped >> 4) * 2, 0x103),
-			STORE_TEMP((num_houses_uncapped >> 4) * 1, 0x104)
-		]) {
-	return 0;
-}
-
-item (FEAT_TOWN, town_cb, GENERIC_CALLBACK) {
-	graphics {
-		town_zone: town_zone_cb;
-	}
-}
-*/
 disable_item(FEAT_HOUSES);
 
 if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1)){
@@ -182,22 +109,20 @@ if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1))
 }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/cargotable.pnml" 1
-/* Begin cargotable */
 
 cargotable {
-	PASS, 		// Obviously
-	MAIL, 		// Obviously
-	GOOD, 		// For Commercial Buildings
+	PASS,		// Obviously
+	MAIL,		// Obviously
+	GOOD,		// Obviously
 	CASS,		// For Shops
 	EOIL,		// For Restaurants
 	FISH,		// For Restaurants
-	FOOD, 		// For Stadiums and Restaurants
+	FOOD,		// For Stadiums
 	FRUT,		// For Shops
-	JAVA,		// For Restaurants
+	JAVA,		// For Restuarants
 	LVST,		// For Restaurants
-	BEER, 		// For Stadiums
+	BEER,		// for Stadiums, got to have beer
 	PETR,		// For Petrol Stations
-	RFPR,		// For Hospitals	
 }
 
 /* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
@@ -210,8 +135,6 @@ switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 
 
 /* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
 switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
-
-/* End cargotable */
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/recolour.pnml" 1
 // https://newgrf-specs.tt-wiki.net/wiki/NML:Recolour_sprites
@@ -2183,23 +2106,18 @@ switch (FEAT_HOUSES, SELF, IsUniqueClass, same_class_count_town == 0) {return;}
 /* Passenger Service Check */
 switch(FEAT_HOUSES, SELF, NoProhibitionShrine, 	other_house_count_town(113) == 0) {return;}
 # 1 "JPplusBuildings.pnml" 4
+# 1 "src/functions/NumHousesThresholds.pnml" 1
+
+switch (FEAT_HOUSES, PARENT, NumHousesOverMediumThreshold,  num_houses >= param_numhouses_threshold_medium){return;}
+switch (FEAT_HOUSES, PARENT, NumHousesOverLargeThreshold,   num_houses >= param_numhouses_threshold_large) {return;}
+switch (FEAT_HOUSES, PARENT, NumHousesOverXtraThreshold,    num_houses >= param_numhouses_threshold_xtra)  {return;}
+switch (FEAT_HOUSES, PARENT, NumHousesOverSkyThreshold,     num_houses >= param_numhouses_threshold_sky)   {return;}
+# 1 "JPplusBuildings.pnml" 4
 # 1 "src/functions/OnGenerationOnly.pnml" 1
 /* Can only appear when town is being generated */
 switch (FEAT_HOUSES, SELF, OnGenerationOnly, generating_town == 1) {return;}
 # 1 "JPplusBuildings.pnml" 4
-# 1 "src/functions/PopulationThresholds.pnml" 1
-/* Population Thresholds*/
-/*
-switch (FEAT_HOUSES, PARENT, PopOverMediumThreshold,   population_uncapped >= param_population_threshold_medium)  {return;}
-switch (FEAT_HOUSES, PARENT, PopOverLargeThreshold,   population_uncapped >= param_population_threshold_large)  {return;}
-switch (FEAT_HOUSES, PARENT, PopOverXtraThreshold,  population_uncapped >= param_population_threshold_xtra) {return;}
-switch (FEAT_HOUSES, PARENT, PopOverSkyThreshold, population_uncapped >= param_population_threshold_sky) {return;}
-*/
-switch (FEAT_HOUSES, PARENT, PopOverMediumThreshold,   population >= param_population_threshold_medium)  {return;}
-switch (FEAT_HOUSES, PARENT, PopOverLargeThreshold,   population >= param_population_threshold_large)  {return;}
-switch (FEAT_HOUSES, PARENT, PopOverXtraThreshold,  population >= param_population_threshold_xtra) {return;}
-switch (FEAT_HOUSES, PARENT, PopOverSkyThreshold, population>= param_population_threshold_sky) {return;}
-# 1 "JPplusBuildings.pnml" 4
+//#include "src/functions/PopulationThresholds.pnml"
 # 1 "src/functions/Season.pnml" 1
 
 switch(FEAT_HOUSES,SELF,SeasonNorth, current_day_of_year){
@@ -3171,9 +3089,9 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 	switch(FEAT_HOUSES, SELF, switch_house_con_check, 
 		!FuncServicePASS() 
 			&&
-			(!PopOverLargeThreshold() 
+			(!NumHousesOverLargeThreshold() 
 				||
-			(PopOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
+			(NumHousesOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
 			||
 		(FuncServicePASS() && town_zone == TOWNZONE_OUTSKIRT )
 
@@ -3193,17 +3111,17 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 		!WideRoads() &&
 		(
 			town_zone == TOWNZONE_OUTER_SUBURB || 
-			( town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() ) ||
-			( town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() )
+			( town_zone == TOWNZONE_INNER_SUBURB && !NumHousesOverXtraThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !NumHousesOverLargeThreshold() )
 		)
 
 		||
 
 		WideRoads() &&
 		(
-			( town_zone == TOWNZONE_OUTSKIRT && PopOverLargeThreshold() ) ||
-			( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !PopOverLargeThreshold() ) ||
-			( town_zone == TOWNZONE_CENTRE && !PopOverMediumThreshold() )
+			( town_zone == TOWNZONE_OUTSKIRT && NumHousesOverLargeThreshold() ) ||
+			( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !NumHousesOverLargeThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !NumHousesOverMediumThreshold() )
 		)
 	) {return;}
 
@@ -3215,7 +3133,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 
 	// However, if there is no PASS service, exception allowed for Centre Zone in Large Cities
 	switch (FEAT_HOUSES, SELF, switch_tiny_centre_exception_con_check, 	
-		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() && TileGapByClass(1)
+		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && NumHousesOverLargeThreshold() && TileGapByClass(1)
 	) {return;}
 
 	// First check if there is Passenger service #failfast
@@ -3227,26 +3145,26 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 // Medium Height
 	switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
 			(
-				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
+				NumHousesOverMediumThreshold() && !NumHousesOverLargeThreshold() && WideRoads() 
 			) 
 				||
 			(
-				PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
+				NumHousesOverLargeThreshold() && !NumHousesOverXtraThreshold() && !WideRoads() 
 			)
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
 			(
-				PopOverXtraThreshold() && !WideRoads() 
+				NumHousesOverXtraThreshold() && !WideRoads() 
 			) 
 				||
 			(
-				PopOverLargeThreshold() && WideRoads() 
+				NumHousesOverLargeThreshold() && WideRoads() 
 			)
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
-		town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+		town_zone == TOWNZONE_OUTER_SUBURB && NumHousesOverLargeThreshold() && WideRoads() 
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_town_zone_check,	town_zone) {
@@ -3273,18 +3191,18 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 				town_zone == TOWNZONE_CENTRE &&
 
 				(
-					PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads()
+					NumHousesOverLargeThreshold() && !NumHousesOverXtraThreshold() && WideRoads()
 				)
 					||
 				(
-					PopOverXtraThreshold() && !WideRoads()
+					NumHousesOverXtraThreshold() && !WideRoads()
 				)
 
 			)
 				||
 
 			(
-				town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
+				town_zone == TOWNZONE_INNER_SUBURB && NumHousesOverXtraThreshold() && WideRoads()
 			)
 		) {return;}	
 	
@@ -3303,7 +3221,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 // Xtra Large
 	switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
 		FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
-		PopOverXtraThreshold() &&					// City has population above relevant threshold
+		NumHousesOverXtraThreshold() &&					// City has population above relevant threshold
 		TileGapByType(2) &&							// Don't build within x tiles of the same house ID
 		WideRoads()									// Can only build beside a wider road
 		) {return;}	
@@ -3314,7 +3232,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 		IsUniqueHouse() &&						// Only one in city
 		NoProhibitionShrine() &&				// No Prohibition shrine to block construction
 		SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
-		PopOverSkyThreshold() &&				// Population of city check
+		NumHousesOverSkyThreshold() &&				// Population of city check
 		(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 		IfFirstSkyscraper() )					// OR it's the first skyscraper
 	) {return;}	
@@ -3322,7 +3240,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 // Fire Station
 	switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
 		HasRoadAdjacentSE() &&					// Must have road to the SW
-		PopOverMediumThreshold() &&				// Population must be > threshold
+		NumHousesOverMediumThreshold() &&				// Population must be > threshold
 		TileGapByType(30)						// Can't appear within 30 tiles of another
 	) {return;}	
 
@@ -3330,7 +3248,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 	switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
 		IsCity() && 							// Can only appear in Cities
 		IsUniqueHouse()	&&						// Only one per city
-		PopOverMediumThreshold()				// Required city population
+		NumHousesOverMediumThreshold()				// Required city population
 		) {return;}	
 
 // Onsen
@@ -3349,7 +3267,7 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 // Police Station
 	switch (FEAT_HOUSES, SELF, switch_police_station_con_check, 
 		HasRoadAdjacentSW() &&					// Must have road to the SW
-		PopOverMediumThreshold() &&				// Population must be > 10k
+		NumHousesOverMediumThreshold() &&				// Population must be > 10k
 		TileGapByType(30)						// Can't appear within 30 tiles of another
 	) {return;}	
 
@@ -3406,14 +3324,14 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 // Toyoko
 	switch (FEAT_HOUSES, SELF, switch_toyoko_con_check, 
 		FuncServicePASS() &&				// Must have road to the SW
-		PopOverMediumThreshold() &&			// Population must be > 1Medium Threshold
+		NumHousesOverMediumThreshold() &&			// Population must be > 1Medium Threshold
 		TileGapByType(30)					// Can't appear within 30 tiles of another
 	) {return;}	
 
 // Farm
 	switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
 		!IsCity() && 						// Cannot appear in Cities
-		!PopOverMediumThreshold()			// Population criteria
+		!NumHousesOverMediumThreshold()			// Population criteria
 		) {return;}		
 
 // South facing medium
@@ -9765,7 +9683,7 @@ spriteset (spr_fukuda_h_ground_snow, 			"src/houses/fukuda/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_fukuda_m, 17, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_FUKUDA),string(MEDIUM));
+			name:						string(NAME_FUKUDA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -9861,7 +9779,7 @@ spriteset (spr_fukuda_h_ground_snow, 			"src/houses/fukuda/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_fukuda_l, 23, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_FUKUDA),string(LARGE));
+			name:						string(NAME_FUKUDA_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -10134,7 +10052,7 @@ spriteset (spr_harada_h_ground_snow, 			"src/houses/harada/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_harada_m, 24, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HARADA),string(MEDIUM));
+			name:						string(NAME_HARADA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -10385,7 +10303,7 @@ spriteset (spr_harada_h_ground_snow, 			"src/houses/harada/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_harada_l, 25, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HARADA),string(LARGE));
+			name:						string(NAME_HARADA_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -11213,7 +11131,7 @@ Signs 🎨	4		2		2		LOAD_TEMP(6)
 	item(FEAT_HOUSES, item_ichikawa_t, 155, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_ICHIKAWA),string(SMALL));
+			name:						string(NAME_ICHIKAWA_T);
 			population:					75;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -11533,7 +11451,7 @@ Signs 🎨	4		2		2		LOAD_TEMP(6)
 	item(FEAT_HOUSES, item_ichikawa_m, 156, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_ICHIKAWA),string(MEDIUM));
+			name:						string(NAME_ICHIKAWA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -11768,7 +11686,7 @@ Roof 🎨		16		1		3		LOAD_TEMP(4)
 	item(FEAT_HOUSES, item_imai_m, 44, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_IMAI),string(MEDIUM));
+			name:						string(NAME_IMAI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -12198,7 +12116,7 @@ spriteset (spr_kaneko_h_ground_snow, 		"src/houses/kaneko/gfx/ground.png") 				{
 	item(FEAT_HOUSES, item_kaneko_l, 49, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_KANEKO),string(LARGE));
+			name:						string(NAME_KANEKO_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -12605,7 +12523,7 @@ spriteset (spr_kaneko_h_ground_snow, 		"src/houses/kaneko/gfx/ground.png") 				{
 	item(FEAT_HOUSES, item_kaneko_x, 56, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_KANEKO),string(XTRA));
+			name:						string(NAME_KANEKO_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -12882,7 +12800,7 @@ spriteset (spr_kono_h_ground_snow, 				"src/houses/kono/gfx/ground.png") 						{
 	item(FEAT_HOUSES, item_kono_m, 74, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_KONO),string(MEDIUM));
+			name:						string(NAME_KONO_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -13351,7 +13269,7 @@ spriteset (spr_kono_h_ground_snow, 				"src/houses/kono/gfx/ground.png") 						{
 	item(FEAT_HOUSES, item_kono_l, 75, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_KONO),string(LARGE));
+			name:						string(NAME_KONO_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -13662,7 +13580,7 @@ Building	16		1		4		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_mori_t, 40, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_MORI),string(SMALL));
+			name:						string(NAME_MORI_T);
 			population:					75;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -13933,7 +13851,7 @@ Building	16		1		4		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_mori_m, 41, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_MORI),string(MEDIUM));
+			name:						string(NAME_MORI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -14907,7 +14825,7 @@ Building	16		1		4		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_nagoya_m, 85, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_NAGOYA),string(MEDIUM));
+			name:						string(NAME_NAGOYA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -15201,7 +15119,7 @@ Building	8		1		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_nakamura_t, 91, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_NAKAMURA),string(SMALL));
+			name:						string(NAME_NAKAMURA_T);
 			population:					75;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -15456,7 +15374,7 @@ Building	8		1		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_nakamura_m, 94, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_NAKAMURA),string(MEDIUM));
+			name:						string(NAME_NAKAMURA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -16532,7 +16450,7 @@ spriteset (spr_nakayama_b_ground_snow, 			"src/houses/nakayama/gfx/ground_b.png"
 	item(FEAT_HOUSES, item_nakayama_m, 37, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_NAKAYAMA),string(MEDIUM));
+			name:						string(NAME_NAKAYAMA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -17754,7 +17672,7 @@ spriteset (spr_nakayama_b_ground_snow, 			"src/houses/nakayama/gfx/ground_b.png"
 	item(FEAT_HOUSES, item_osaka_m, 45, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OSAKA),string(MEDIUM));
+			name:						string(NAME_OSAKA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -18123,7 +18041,7 @@ spriteset (spr_shibata_h_ground_snow, 			"src/houses/shibata/gfx/ground.png") 		
 	item(FEAT_HOUSES, item_shibata_m, 139, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SHIBATA),string(MEDIUM));
+			name:						string(NAME_SHIBATA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -18468,7 +18386,7 @@ spriteset (spr_shibata_h_ground_snow, 			"src/houses/shibata/gfx/ground.png") 		
 	item(FEAT_HOUSES, item_shibata_l, 140, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SHIBATA),string(LARGE));
+			name:						string(NAME_SHIBATA_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -18696,7 +18614,7 @@ Roof 🎨		8		1		2		LOAD_TEMP(4)
 	item(FEAT_HOUSES, item_shiroi_t, 157, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SHIROI),string(SMALL));
+			name:						string(NAME_SHIROI_T);
 			population:					75;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -18885,7 +18803,7 @@ Roof 🎨		8		1		2		LOAD_TEMP(4)
 	item(FEAT_HOUSES, item_shiroi_m, 158, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SHIROI),string(MEDIUM));
+			name:						string(NAME_SHIROI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -19215,7 +19133,7 @@ spriteset (spr_tanaguchi_h_ground_snow, 			"src/houses/tanaguchi/gfx/ground.png"
 	item(FEAT_HOUSES, item_tanaguchi_m, 141, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TANAGUCHI),string(MEDIUM));
+			name:						string(NAME_TANAGUCHI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -19528,7 +19446,7 @@ spriteset (spr_tanaguchi_h_ground_snow, 			"src/houses/tanaguchi/gfx/ground.png"
 	item(FEAT_HOUSES, item_tanaguchi_x, 142, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_TANAGUCHI),string(XTRA));
+			name:						string(NAME_TANAGUCHI_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -20816,7 +20734,7 @@ spriteset (spr_tanaguchi_h_ground_snow, 			"src/houses/tanaguchi/gfx/ground.png"
 	item(FEAT_HOUSES, item_tetsui_t, 143, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TETSUI),string(SMALL));
+			name:						string(NAME_TETSUI_T);
 			population:					75;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -22079,7 +21997,7 @@ spriteset (spr_tanaguchi_h_ground_snow, 			"src/houses/tanaguchi/gfx/ground.png"
 	item(FEAT_HOUSES, item_tetsui_m, 144, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TETSUI),string(MEDIUM));
+			name:						string(NAME_TETSUI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -22272,7 +22190,7 @@ Building	8		0		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_toki_m, 145, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TOKI),string(MEDIUM));
+			name:						string(NAME_TOKI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -22440,7 +22358,7 @@ Building	8		0		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_toki_l, 146, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TOKI),string(LARGE));
+			name:						string(NAME_TOKI_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -22627,7 +22545,7 @@ Building	8		0		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_tokyo_m, 149, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TOKYO),string(MEDIUM));
+			name:						string(NAME_TOKYO_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -22829,7 +22747,7 @@ spriteset (spr_yano_h_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{t
 	item(FEAT_HOUSES, item_yano_m, 30, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_YANO),string(MEDIUM));
+			name:						string(NAME_YANO_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -24055,7 +23973,7 @@ spriteset (spr_yano_h_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{t
 	item(FEAT_HOUSES, item_yanagi_m, 150, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_YANAGI),string(MEDIUM));
+			name:						string(NAME_YANAGI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -25256,7 +25174,7 @@ spriteset (spr_yano_h_ground_snow, 				"src/houses/yano/gfx/ground.png") 					{t
 	item(FEAT_HOUSES, item_yanagi_l, 151, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_YANAGI),string(LARGE));
+			name:						string(NAME_YANAGI_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -25640,7 +25558,7 @@ spriteset (spr_aoki_office_h_ground_snow, 		    "src/houses/aoki_office/gfx/grou
 	item(FEAT_HOUSES, item_aoki_office_m, 123, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_AOKI_OFFICE),string(MEDIUM));
+			name:						string(NAME_AOKI_OFFICE_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -25997,7 +25915,7 @@ spriteset (spr_aoki_office_h_ground_snow, 		    "src/houses/aoki_office/gfx/grou
 	item(FEAT_HOUSES, item_aoki_office_l, 124, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_AOKI_OFFICE),string(LARGE));
+			name:						string(NAME_AOKI_OFFICE_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -26672,7 +26590,7 @@ spriteset (spr_aoki_office_h_ground_snow, 		    "src/houses/aoki_office/gfx/grou
 	item(FEAT_HOUSES, item_aoki_office_x, 125, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_AOKI_OFFICE),string(XTRA));
+			name:						string(NAME_AOKI_OFFICE_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -27370,7 +27288,7 @@ spriteset (spr_aoyama_office_h_ground_snow, 		"src/houses/aoyama_office/gfx/grou
 	item(FEAT_HOUSES, item_aoyama_office_m, 126, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_AOYAMA_OFFICE),string(MEDIUM));
+			name:						string(NAME_AOYAMA_OFFICE_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -28045,7 +27963,7 @@ spriteset (spr_aoyama_office_h_ground_snow, 		"src/houses/aoyama_office/gfx/grou
 	item(FEAT_HOUSES, item_aoyama_office_l, 127, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_AOYAMA_OFFICE),string(LARGE));
+			name:						string(NAME_AOYAMA_OFFICE_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -28381,7 +28299,7 @@ spriteset (spr_ishida_commercial_building_h_ground_snow, 		"src/houses/ishida_co
 	item(FEAT_HOUSES, item_ishida_commercial_building_l, 35, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_ISHIDA_COMMERCIAL_BUILDING),string(LARGE));
+			name:						string(NAME_ISHIDA_COMMERCIAL_BUILDING_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -28694,7 +28612,7 @@ spriteset (spr_ishida_commercial_building_h_ground_snow, 		"src/houses/ishida_co
 	item(FEAT_HOUSES, item_ishida_commercial_building_x, 39, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_ISHIDA_COMMERCIAL_BUILDING),string(XTRA));
+			name:						string(NAME_ISHIDA_COMMERCIAL_BUILDING_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -29061,7 +28979,7 @@ Sign Var	4		1		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_hasegawa_m, 134, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HASEGAWA),string(MEDIUM));
+			name:						string(NAME_HASEGAWA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -29379,7 +29297,7 @@ Sign Var	4		1		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_hasegawa_l, 135, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HASEGAWA),string(LARGE));
+			name:						string(NAME_HASEGAWA_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -29760,7 +29678,7 @@ spriteset (spr_hashimoto_office_tower_h_ground_snow, 		"src/houses/hashimoto_off
 	item(FEAT_HOUSES, item_hashimoto_office_tower_l, 152, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HASHIMOTO_OFFICE_TOWER),string(LARGE));
+			name:						string(NAME_HASHIMOTO_OFFICE_TOWER_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -30729,7 +30647,7 @@ spriteset (spr_hashimoto_office_tower_h_ground_snow, 		"src/houses/hashimoto_off
 	item(FEAT_HOUSES, item_hashimoto_office_tower_x, 153, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_HASHIMOTO_OFFICE_TOWER),string(XTRA));
+			name:						string(NAME_HASHIMOTO_OFFICE_TOWER_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -31031,7 +30949,7 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_inoue_m, 138, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_INOUE),string(MEDIUM));
+			name:						string(NAME_INOUE_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -31367,7 +31285,7 @@ spriteset (spr_ishii_office_tower_h_ground_snow, 				"src/houses/ishii_office_to
 	item(FEAT_HOUSES, item_ishii_office_tower_l, 46, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_ISHII_OFFICE_TOWER),string(LARGE));
+			name:						string(NAME_ISHII_OFFICE_TOWER_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -31680,7 +31598,7 @@ spriteset (spr_ishii_office_tower_h_ground_snow, 				"src/houses/ishii_office_to
 	item(FEAT_HOUSES, item_ishii_office_tower_x, 31, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_ISHII_OFFICE_TOWER),string(XTRA));
+			name:						string(NAME_ISHII_OFFICE_TOWER_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -31791,7 +31709,7 @@ spriteset (spr_obuilding_h_ground_snow, 			"src/houses/obuilding/gfx/ground.png"
 	item(FEAT_HOUSES, item_obuilding_l, 48, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OBUILDING),string(LARGE));
+			name:						string(NAME_OBUILDING_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -32073,7 +31991,7 @@ Signs 🎨	4		1		2		LOAD_TEMP(6)
 	item(FEAT_HOUSES, item_ogawa_m, 162, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OGAWA),string(MEDIUM));
+			name:						string(NAME_OGAWA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -32328,7 +32246,7 @@ spriteset (spr_okada_office_tower_h_ground_snow, 			"src/houses/okada_office_tow
 	item(FEAT_HOUSES, item_okada_office_tower_m, 120, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OKADA_OFFICE_TOWER),string(MEDIUM));
+			name:						string(NAME_OKADA_OFFICE_TOWER_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -32549,7 +32467,7 @@ spriteset (spr_okada_office_tower_h_ground_snow, 			"src/houses/okada_office_tow
 	item(FEAT_HOUSES, item_okada_office_tower_l, 121, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OKADA_OFFICE_TOWER),string(LARGE));
+			name:						string(NAME_OKADA_OFFICE_TOWER_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -32958,7 +32876,7 @@ spriteset (spr_okada_office_tower_h_ground_snow, 			"src/houses/okada_office_tow
 	item(FEAT_HOUSES, item_okada_office_tower_x, 122, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OKADA_OFFICE_TOWER),string(XTRA));
+			name:						string(NAME_OKADA_OFFICE_TOWER_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -33118,7 +33036,7 @@ Building	8		1		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_old_office_building_m, 115, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OLD_OFFICE_BUILDING),string(MEDIUM));
+			name:						string(NAME_OLD_OFFICE_BUILDING_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -33254,7 +33172,7 @@ Building	8		1		3		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_old_office_building_l, 116, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OLD_OFFICE_BUILDING),string(LARGE));
+			name:						string(NAME_OLD_OFFICE_BUILDING_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -33492,7 +33410,7 @@ spriteset (spr_ota_h_ground_snow, 				"src/houses/ota/gfx/ground.png") 					{tem
 	item(FEAT_HOUSES, item_ota_m, 147, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OTA),string(MEDIUM));
+			name:						string(NAME_OTA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -33712,7 +33630,7 @@ spriteset (spr_ota_h_ground_snow, 				"src/houses/ota/gfx/ground.png") 					{tem
 	item(FEAT_HOUSES, item_ota_x, 148, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_OTA),string(XTRA));
+			name:						string(NAME_OTA_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -33877,7 +33795,7 @@ Building	4		0		2		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_radiokaikan_l, 100, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_RADIOKAIKAN),string(LARGE));
+			name:						string(NAME_RADIOKAIKAN_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
 			local_authority_impact:		80;
@@ -34106,7 +34024,7 @@ Building	16		0		4		LOAD_TEMP(0)
 	item(FEAT_HOUSES, item_shibuyat_l, 90, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SHIBUYAT),string(LARGE));
+			name:						string(NAME_SHIBUYAT_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -34408,7 +34326,7 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_suzuki_m, 136, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SUZUKI),string(MEDIUM));
+			name:						string(NAME_SUZUKI_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -34676,7 +34594,7 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_suzuki_l, 137, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_SUZUKI),string(LARGE));
+			name:						string(NAME_SUZUKI_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -34912,7 +34830,7 @@ spriteset (spr_takada_h_ground_snow, 			"src/houses/takada/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_takada_x, 10, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_TAKADA),string(XTRA));
+			name:						string(NAME_TAKADA_X);
 			population:					150;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED);
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
@@ -35148,7 +35066,7 @@ spriteset (spr_takagi_h_ground_snow, 			"src/houses/takagi/gfx/ground.png") 				
 	item(FEAT_HOUSES, item_takagi_x, 154, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_TAKAGI),string(XTRA));
+			name:						string(NAME_TAKAGI_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -35443,7 +35361,7 @@ spriteset (spr_takemaru_shopping_centre_ground_snow, 		"src/houses/takemaru_shop
 	item(FEAT_HOUSES, item_takemaru_shopping_centre_l, 79, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TAKEMARU_SHOPPING_CENTRE),string(XTRA));
+			name:						string(NAME_TAKEMARU_SHOPPING_CENTRE_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -35645,7 +35563,7 @@ spriteset (spr_tbuilding_h_ground_snow, 		"src/houses/tbuilding/gfx/ground.png")
 	item(FEAT_HOUSES, item_tbuilding_x, 52, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_TBUILDING),string(XTRA));
+			name:						string(NAME_TBUILDING_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -36589,7 +36507,7 @@ spriteset (spr_tsuzumi_electronics_centre_b_ground_snow, 	"src/houses/tsuzumi_el
 	item(FEAT_HOUSES, item_tsuzumi_electronics_centre_x, 118, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_TSUZUMI_ELECTRONICS_CENTRE),string(XTRA));
+			name:						string(NAME_TSUZUMI_ELECTRONICS_CENTRE_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -36871,7 +36789,7 @@ Signs 🎨	4		1		2		LOAD_TEMP(6)
 	item(FEAT_HOUSES, item_uchida_m, 161, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_UCHIDA),string(MEDIUM));
+			name:						string(NAME_UCHIDA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -37103,7 +37021,7 @@ spriteset (spr_xbuilding_h_ground_snow, 		"src/houses/xbuilding/gfx/ground.png")
 	item(FEAT_HOUSES, item_xbuilding_x, 20, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_XBUILDING),string(XTRA));
+			name:						string(NAME_XBUILDING_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -37399,7 +37317,7 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_tanaka_m, 132, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TANAKA),string(MEDIUM));
+			name:						string(NAME_TANAKA_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -37663,7 +37581,7 @@ Sign Var	4		2		2		LOAD_TEMP(7)
 	item(FEAT_HOUSES, item_tanaka_l, 133, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_TANAKA),string(LARGE));
+			name:						string(NAME_TANAKA_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -37835,7 +37753,7 @@ spriteset (spr_yamada_h_ground_snow, 	        "src/houses/yamada/gfx/ground.png"
 	item(FEAT_HOUSES, item_yamada_x, 53, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_YAMADA),string(XTRA));
+			name:						string(NAME_YAMADA_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -37984,7 +37902,7 @@ spriteset (spr_yamada_electronics_centre_h_ground_snow, 	"src/houses/yamada_elec
 	item(FEAT_HOUSES, item_yamada_electronics_centre_m, 128, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(MEDIUM));
+			name:						string(NAME_YAMADA_ELECTRONICS_CENTRE_M);
 			population:					100;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -38111,7 +38029,7 @@ spriteset (spr_yamada_electronics_centre_h_ground_snow, 	"src/houses/yamada_elec
 	item(FEAT_HOUSES, item_yamada_electronics_centre_l, 129, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(STR_CONCAT_2, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(LARGE));
+			name:						string(NAME_YAMADA_ELECTRONICS_CENTRE_L);
 			population:					125;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -38332,7 +38250,7 @@ spriteset (spr_yamada_electronics_centre_h_ground_snow, 	"src/houses/yamada_elec
 	item(FEAT_HOUSES, item_yamada_electronics_centre_x, 130, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_YAMADA_ELECTRONICS_CENTRE),string(XTRA));
+			name:						string(NAME_YAMADA_ELECTRONICS_CENTRE_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -38478,7 +38396,7 @@ spriteset (spr_ybuilding_h_ground_snow, 		"src/houses/ybuilding/gfx/ground.png")
 	item(FEAT_HOUSES, item_ybuilding_x, 27, HOUSE_SIZE_1X1){
 		property {
 			substitute:					5;
-			name:						string(STR_CONCAT_2, string(NAME_YBUILDING),string(XTRA));
+			name:						string(NAME_YBUILDING_X);
 			population:					150;
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
 			local_authority_impact:		80;
@@ -40858,7 +40776,7 @@ spriteset (spr_kuroi_tower_h_ground_snow, 	    "src/houses/kuroi_tower/gfx/groun
 	item(FEAT_HOUSES, item_kuroi_tower, 38, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_KUROI_TOWER),string(SKY));
+			name:						string(NAME_KUROI_TOWER);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -40997,7 +40915,7 @@ spriteset (spr_landmark_tower_h_ground_snow, 		"src/houses/landmark_tower/gfx/gr
 	item(FEAT_HOUSES, item_landmark_tower, 80, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_LANDMARK_TOWER),string(SKY));
+			name:						string(NAME_LANDMARK_TOWER);
 			population:					250;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -41487,7 +41405,7 @@ spriteset (spr_tsuno_building_e_ground_snow, 			"src/houses/tsuno_building/gfx/g
 	item(FEAT_HOUSES, item_tsuno_building, 76, HOUSE_SIZE_1X2){
 		property {
 			substitute:					7;
-			name:						string(STR_CONCAT_2, string(NAME_TSUNO_BUILDING),string(SKY));
+			name:						string(NAME_TSUNO_BUILDING);
 			population:					255;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -41782,7 +41700,7 @@ spriteset (spr_office_tower_h_ground_snow, 			"src/houses/office_tower/gfx/groun
 	item(FEAT_HOUSES, item_office_tower, 78, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_OFFICE_TOWER),string(SKY));
+			name:						string(NAME_OFFICE_TOWER);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -41890,7 +41808,7 @@ spriteset (spr_yamashita_building_h_ground_snow, 			"src/houses/yamashita_buildi
 	item(FEAT_HOUSES, item_yamashita_building, 47, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_YAMASHITA_BUILDING),string(SKY));
+			name:						string(NAME_YAMASHITA_BUILDING);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -42002,7 +41920,7 @@ spriteset (spr_multimedia_offices_h_ground_snow, 		"src/houses/multimedia_office
 	item(FEAT_HOUSES, item_multimedia_offices, 88, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_MULTIMEDIA_OFFICES),string(SKY));
+			name:						string(NAME_MULTIMEDIA_OFFICES);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -42110,7 +42028,7 @@ spriteset (spr_enterprise_tower_h_ground_snow, 	"src/houses/enterprise_tower/gfx
 	item(FEAT_HOUSES, item_enterprise_tower, 81, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_ENTERPRISE_TOWER),string(SKY));
+			name:						string(NAME_ENTERPRISE_TOWER);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -42387,7 +42305,7 @@ spriteset (spr_insurance_tower_h_ground_snow, 	"src/houses/insurance_tower/gfx/g
 	item(FEAT_HOUSES, item_insurance_tower, 82, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_INSURANCE_TOWER),string(SKY));
+			name:						string(NAME_INSURANCE_TOWER);
 			population:					200;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -42620,7 +42538,7 @@ spriteset (spr_mitsui_tower_h_ground_snow, 		"src/houses/mitsui_tower/gfx/ground
 	item(FEAT_HOUSES, item_mitsui_tower, 19, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_MITSUI_TOWER),string(SKY));
+			name:						string(NAME_MITSUI_TOWER);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -42930,7 +42848,7 @@ spriteset (spr_modern_office_tower_h_ground_snow, 	"src/houses/modern_office_tow
 	item(FEAT_HOUSES, item_modern_office_tower, 83, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_MODERN_OFFICE_TOWER),string(SKY));
+			name:						string(NAME_MODERN_OFFICE_TOWER);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -43039,7 +42957,7 @@ spriteset (spr_bank_building_h_ground_snow, 		"src/houses/bank_building/gfx/grou
 	item(FEAT_HOUSES, item_bank_building, 86, HOUSE_SIZE_1X1){
 		property {
 			substitute:					90;
-			name:						string(STR_CONCAT_2, string(NAME_BANK_BUILDING),string(SKY));
+			name:						string(NAME_BANK_BUILDING);
 			population:					220;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
@@ -43147,7 +43065,7 @@ spriteset (spr_sato_building_h_ground_snow, 		"src/houses/sato_building/gfx/grou
 	item(FEAT_HOUSES, item_sato_building, 84, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_SATO_BUILDING),string(SKY));
+			name:						string(NAME_SATO_BUILDING);
 			population:					200;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -43259,7 +43177,7 @@ spriteset (spr_sugiyama_office_building_h_ground_snow, 			"src/houses/sugiyama_o
 	item(FEAT_HOUSES, item_sugiyama_office_building, 87, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_SUGIYAMA_OFFICE_BUILDING),string(SKY));
+			name:						string(NAME_SUGIYAMA_OFFICE_BUILDING);
 			population:					200;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -43493,7 +43411,7 @@ spriteset (spr_tokyo_sky_tree_h_ground_snow, 		"src/houses/tokyo_sky_tree/gfx/gr
 	item(FEAT_HOUSES, item_tokyo_sky_tree, 99, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_TOKYO_SKY_TREE),string(SKY));
+			name:						string(NAME_TOKYO_SKY_TREE);
 			population:					255;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -43931,7 +43849,7 @@ spriteset (spr_toyoko_h_ground_snow, 		    "src/houses/toyoko/gfx/ground.png") 	
 	item(FEAT_HOUSES, item_toyoko, 59, HOUSE_SIZE_1X1){
 		property {
 			substitute:					29;
-			name:						string(NAME_TOYOKO_INN);
+			name:						string(NAME_TOYOKO);
 			population:					150;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 1],[FOOD, 2]];
@@ -44039,7 +43957,7 @@ spriteset (spr_ueda_office_block_h_ground_snow, 	"src/houses/ueda_office_block/g
 	item(FEAT_HOUSES, item_ueda_office_block, 89, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_UEDA_OFFICE_BLOCK),string(SKY));
+			name:						string(NAME_UEDA_OFFICE_BLOCK);
 			population:					200;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -44271,7 +44189,7 @@ spriteset (spr_yamaguchi_office_h_ground_snow, 			"src/houses/yamaguchi_office/g
 	item(FEAT_HOUSES, item_yamaguchi_office, 36, HOUSE_SIZE_1X1){
 		property {
 			substitute:					4;
-			name:						string(STR_CONCAT_2, string(NAME_YAMAGUCHI_OFFICE),string(SKY));
+			name:						string(NAME_YAMAGUCHI_OFFICE);
 			population:					180;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -44657,7 +44575,7 @@ spriteset (spr_yamashiro_office_building_e_ground_snow, 	"src/houses/yamashiro_o
 	item(FEAT_HOUSES, item_yamashiro_office_building, 101, HOUSE_SIZE_1X2){
 		property {
 			substitute:					7;
-			name:						string(STR_CONCAT_2, string(NAME_YAMASHIRO_OFFICE_BUILDING),string(SKY));
+			name:						string(NAME_YAMASHIRO_OFFICE_BUILDING);
 			population:					255;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
 			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
@@ -50100,7 +50018,7 @@ spriteset (spr_hospital_s_ground_snow, 		"src/houses/hospital/gfx/ground.png") 	
 			name:						string(NAME_HOSPITAL);
 			population:					150;
 			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED);
-			accepted_cargos:			[[PASS, 8], [MAIL, 4], [GOOD, 4], [RFPR, 8]];
+			accepted_cargos:			[[PASS, 8], [MAIL, 4], [GOOD, 4]];
 			local_authority_impact:		80;
 			removal_cost_multiplier:	80;
 			probability:				3;
@@ -50952,7 +50870,7 @@ random_switch (FEAT_HOUSES, SELF, switch_farm_w_sprites) {
 	item(FEAT_HOUSES, item_pop_tiles, 160, HOUSE_SIZE_1X1){
 		property {
 			substitute:					27;
-			name:						string(NAME_POP_TILE);
+			name:						string(NAME_POP_TILES);
 			population:					255;
 			accepted_cargos:			[[PASS, 8],[MAIL, 8]];
 			local_authority_impact:		80;

@@ -14,9 +14,9 @@
 	switch(FEAT_HOUSES, SELF, switch_house_con_check, 
 		!FuncServicePASS() 
 			&&
-			(!PopOverLargeThreshold() 
+			(!NumHousesOverLargeThreshold() 
 				||
-			(PopOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
+			(NumHousesOverLargeThreshold() && town_zone != TOWNZONE_CENTRE ))
 			||
 		(FuncServicePASS() && town_zone == TOWNZONE_OUTSKIRT )
 
@@ -36,17 +36,17 @@
 		!WideRoads() &&
 		(
 			town_zone == TOWNZONE_OUTER_SUBURB || 
-			( town_zone == TOWNZONE_INNER_SUBURB && !PopOverXtraThreshold() ) ||
-			( town_zone == TOWNZONE_CENTRE && !PopOverLargeThreshold() )
+			( town_zone == TOWNZONE_INNER_SUBURB && !NumHousesOverXtraThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !NumHousesOverLargeThreshold() )
 		)
 
 		||
 
 		WideRoads() &&
 		(
-			( town_zone == TOWNZONE_OUTSKIRT && PopOverLargeThreshold() ) ||
-			( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !PopOverLargeThreshold() ) ||
-			( town_zone == TOWNZONE_CENTRE && !PopOverMediumThreshold() )
+			( town_zone == TOWNZONE_OUTSKIRT && NumHousesOverLargeThreshold() ) ||
+			( (town_zone == TOWNZONE_OUTER_SUBURB || town_zone == TOWNZONE_INNER_SUBURB ) && !NumHousesOverLargeThreshold() ) ||
+			( town_zone == TOWNZONE_CENTRE && !NumHousesOverMediumThreshold() )
 		)
 	) {return;}
 
@@ -58,7 +58,7 @@
 
 	// However, if there is no PASS service, exception allowed for Centre Zone in Large Cities
 	switch (FEAT_HOUSES, SELF, switch_tiny_centre_exception_con_check, 	
-		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && PopOverLargeThreshold() && TileGapByClass(1)
+		!FuncServicePASS() && town_zone == TOWNZONE_CENTRE && NumHousesOverLargeThreshold() && TileGapByClass(1)
 	) {return;}
 
 	// First check if there is Passenger service #failfast
@@ -70,26 +70,26 @@
 // Medium Height
 	switch (FEAT_HOUSES, SELF, switch_medium_centre_con_check,
 			(
-				PopOverMediumThreshold() && !PopOverLargeThreshold() && WideRoads() 
+				NumHousesOverMediumThreshold() && !NumHousesOverLargeThreshold() && WideRoads() 
 			) 
 				||
 			(
-				PopOverLargeThreshold() && !PopOverXtraThreshold() && !WideRoads() 
+				NumHousesOverLargeThreshold() && !NumHousesOverXtraThreshold() && !WideRoads() 
 			)
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_inner_con_check,
 			(
-				PopOverXtraThreshold() && !WideRoads() 
+				NumHousesOverXtraThreshold() && !WideRoads() 
 			) 
 				||
 			(
-				PopOverLargeThreshold() && WideRoads() 
+				NumHousesOverLargeThreshold() && WideRoads() 
 			)
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_outer_con_check,
-		town_zone == TOWNZONE_OUTER_SUBURB && PopOverLargeThreshold() && WideRoads() 
+		town_zone == TOWNZONE_OUTER_SUBURB && NumHousesOverLargeThreshold() && WideRoads() 
 	) {return;}	
 
 	switch (FEAT_HOUSES, SELF, switch_medium_town_zone_check,	town_zone) {
@@ -116,18 +116,18 @@
 				town_zone == TOWNZONE_CENTRE &&
 
 				(
-					PopOverLargeThreshold() && !PopOverXtraThreshold() && WideRoads()
+					NumHousesOverLargeThreshold() && !NumHousesOverXtraThreshold() && WideRoads()
 				)
 					||
 				(
-					PopOverXtraThreshold() && !WideRoads()
+					NumHousesOverXtraThreshold() && !WideRoads()
 				)
 
 			)
 				||
 
 			(
-				town_zone == TOWNZONE_INNER_SUBURB && PopOverXtraThreshold() && WideRoads()
+				town_zone == TOWNZONE_INNER_SUBURB && NumHousesOverXtraThreshold() && WideRoads()
 			)
 		) {return;}	
 	
@@ -146,7 +146,7 @@
 // Xtra Large
 	switch (FEAT_HOUSES, SELF, switch_xtra_con_check, 	
 		FuncServicePASS() &&						// Only build within the catchment area of a station which received passengers this month or last month
-		PopOverXtraThreshold() &&					// City has population above relevant threshold
+		NumHousesOverXtraThreshold() &&					// City has population above relevant threshold
 		TileGapByType(2) &&							// Don't build within x tiles of the same house ID
 		WideRoads()									// Can only build beside a wider road
 		) {return;}	
@@ -157,7 +157,7 @@
 		IsUniqueHouse() &&						// Only one in city
 		NoProhibitionShrine() &&				// No Prohibition shrine to block construction
 		SkyscraperRoads() &&					// If parameter enabled, must built on wide roads
-		PopOverSkyThreshold() &&				// Population of city check
+		NumHousesOverSkyThreshold() &&				// Population of city check
 		(!TileGapByClass(3) ||					// There is another skyscraper within n tiles
 		IfFirstSkyscraper() )					// OR it's the first skyscraper
 	) {return;}	
@@ -165,7 +165,7 @@
 // Fire Station
 	switch (FEAT_HOUSES, SELF, switch_fire_station_con_check, 
 		HasRoadAdjacentSE() &&					// Must have road to the SW
-		PopOverMediumThreshold() &&				// Population must be > threshold
+		NumHousesOverMediumThreshold() &&				// Population must be > threshold
 		TileGapByType(30)						// Can't appear within 30 tiles of another
 	) {return;}	
 
@@ -173,7 +173,7 @@
 	switch (FEAT_HOUSES, SELF, switch_hospital_con_check, 
 		IsCity() && 							// Can only appear in Cities
 		IsUniqueHouse()	&&						// Only one per city
-		PopOverMediumThreshold()				// Required city population
+		NumHousesOverMediumThreshold()				// Required city population
 		) {return;}	
 
 // Onsen
@@ -192,7 +192,7 @@
 // Police Station
 	switch (FEAT_HOUSES, SELF, switch_police_station_con_check, 
 		HasRoadAdjacentSW() &&					// Must have road to the SW
-		PopOverMediumThreshold() &&				// Population must be > 10k
+		NumHousesOverMediumThreshold() &&				// Population must be > 10k
 		TileGapByType(30)						// Can't appear within 30 tiles of another
 	) {return;}	
 
@@ -249,14 +249,14 @@
 // Toyoko
 	switch (FEAT_HOUSES, SELF, switch_toyoko_con_check, 
 		FuncServicePASS() &&				// Must have road to the SW
-		PopOverMediumThreshold() &&			// Population must be > 1Medium Threshold
+		NumHousesOverMediumThreshold() &&			// Population must be > 1Medium Threshold
 		TileGapByType(30)					// Can't appear within 30 tiles of another
 	) {return;}	
 
 // Farm
 	switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
 		!IsCity() && 						// Cannot appear in Cities
-		!PopOverMediumThreshold()			// Population criteria
+		!NumHousesOverMediumThreshold()			// Population criteria
 		) {return;}		
 
 // South facing medium
