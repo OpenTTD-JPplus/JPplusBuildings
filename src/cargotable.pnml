@@ -1,19 +1,17 @@
-/* Begin cargotable */
 
 cargotable {
-	PASS, 		// Obviously
-	MAIL, 		// Obviously
-	GOOD, 		// For Commercial Buildings
+	PASS,		// Obviously
+	MAIL,		// Obviously
+	GOOD,		// Obviously
 	CASS,		// For Shops
 	EOIL,		// For Restaurants
 	FISH,		// For Restaurants
-	FOOD, 		// For Stadiums and Restaurants
+	FOOD,		// For Stadiums
 	FRUT,		// For Shops
-	JAVA,		// For Restaurants
+	JAVA,		// For Restuarants
 	LVST,		// For Restaurants
-	BEER, 		// For Stadiums
+	BEER,		// for Stadiums, got to have beer
 	PETR,		// For Petrol Stations
-	RFPR,		// For Hospitals	
 }
 
 /* Production loop, shared by all houses. Individual production rates stored in temporary registers in the function below.*/
@@ -26,5 +24,3 @@ switch (FEAT_HOUSES, SELF, switch_alt_production, getbits(extra_callback_info1, 
 
 /* Production levels for passengers and mail, are passed as arguments to this function for use in the production loop. */
 switch (FEAT_HOUSES, SELF, func_produce, pass, mail, [STORE_TEMP(pass, 1), STORE_TEMP(mail, 2)] ) {switch_alt_production;}
-
-/* End cargotable */
