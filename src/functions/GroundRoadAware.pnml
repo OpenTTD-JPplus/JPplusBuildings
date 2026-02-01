@@ -1,57 +1,57 @@
 
 	switch (FEAT_HOUSES, SELF, GroundTileEastCheckA, HasRoadAdjacentSE()) {
-		1:  return 3;
-		    return 2;
+		1:  return 1;
+		    return 3;
 	}
 	
 	switch (FEAT_HOUSES, SELF, GroundTileEastCheckB, HasRoadAdjacentSW()) {
-		1:  return 3;
-		    return 2;
+		1:  return 1;
+		    return 3;
 	}
 
         
         switch (FEAT_HOUSES, SELF, sw_ground_tile_ab_east_check, SpriteDirectionsEast()) {
-    4: GroundTileEastCheckA;
-    5: GroundTileEastCheckA;
-    6: GroundTileEastCheckA;
-    9: GroundTileEastCheckB;
-    return 2;
-  }
+			4: GroundTileEastCheckA;
+			5: GroundTileEastCheckA;
+			6: GroundTileEastCheckA;
+			9: GroundTileEastCheckB;
+			return 3;
+	}
         
         switch (FEAT_HOUSES, SELF, GroundTileWestCheckA, HasRoadAdjacentSE()) {
-		1:  return 3;
-		    return 2;
+		1:  return 1;
+		    return 3;
 	}
 	
         switch (FEAT_HOUSES, SELF, GroundTileWestCheckB, HasRoadAdjacentSW()) {
-		1:  return 3;
-		    return 2;
+		1:  return 1;
+		    return 3;
 	}
 	
 	switch (FEAT_HOUSES, SELF, sw_ground_tile_ab_west_check, SpriteDirectionsWest()) {
           5: GroundTileWestCheckB;
           6: GroundTileWestCheckB;
           9: GroundTileWestCheckA;
-          return 2;
+          return 3;
         }
 
 	switch (FEAT_HOUSES, SELF, GroundTileCheck, SpriteDirections() ) {
-		1:  return 3;                       // Since will be A due to having road
-		2:  return 3;                       // Since will be B due to having road
-		3:  return 3;                       // Since A & B will have access
-		4:  return 2;                       // Since no SE or SW road
-		5:  return 3;                       // Since will be A with SE road
+		1:  return 1;                       // Since will be A due to having road
+		2:  return 1;                       // Since will be B due to having road
+		3:  return 1;                       // Since A & B will have access
+		4:  return 3;                       // Since no SE or SW road
+		5:  return 1;                       // Since will be A with SE road
 		6:  sw_ground_tile_ab_west_check;            // WEST
-        7:  return 3;                       // Since has SE and SW road
-		8:  return 2;                       // Since NE only
+        7:  return 1;                       // Since has SE and SW road
+		8:  return 3;                       // Since NE only
 		9:  sw_ground_tile_ab_east_check;            // EAST
-		10: return 3;                       // Since will be B with SW road
-        11: return 3;                       // Since has SE and SW road
-		12: return 2;                       // Since no SE or SW road
-        13: return 3;                       // Guess
-        14: return 3;                       // Guess
-        15: return 3;                       // Since A & B will have access
-		    return 2;                       // Default to no road
+		10: return 1;                       // Since will be B with SW road
+        11: return 1;                       // Since has SE and SW road
+		12: return 3;                       // Since no SE or SW road
+        13: return 1;                       // Guess
+        14: return 1;                       // Guess
+        15: return 1;                       // Since A & B will have access
+		    return 3;                       // Default to no road
 	}
 
 switch (FEAT_HOUSES,SELF,GroundRoadAware, construction_state) {
