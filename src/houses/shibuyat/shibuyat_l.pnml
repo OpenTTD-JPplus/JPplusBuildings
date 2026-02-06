@@ -1,186 +1,135 @@
+// Ground
 
-// shibuyat_l
+        spriteset (spr_shibuyat_l_a_ground_norm, "src/houses/shibuyat/gfx/ground_norm.png") {template_ground_norm(100,2)}
+        spriteset (spr_shibuyat_l_a_ground_snow, "src/houses/shibuyat/gfx/ground_snow.png") {template_ground_norm(100,2)}
+        spriteset (spr_shibuyat_l_b_ground_norm, "src/houses/shibuyat/gfx/ground_norm.png") {template_ground_norm(100,1)}
+        spriteset (spr_shibuyat_l_b_ground_snow, "src/houses/shibuyat/gfx/ground_snow.png") {template_ground_norm(100,1)}
 
-// Spritelayouts
+// Buildings
 
-	// A variant
-		// 11L level
-			// Norm
-				spritelayout sprlay_shibuyat_l_a_11L_norm {
-					ground {
-						sprite:spr_shibuyat_a_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_shibuyat_l_a_11L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-					childsprite { // trees
-						sprite: spr_shibuyat_l_a_11L_trees_norm (construction_state); // Same as building
-					}
-				}
+    // 11L
+        spriteset (spr_shibuyat_l_a_11L_norm, "src/houses/shibuyat/gfx/norm.png") {template_house_norm(100,2)}
+        spriteset (spr_shibuyat_l_a_11L_snow, "src/houses/shibuyat/gfx/snow.png") {template_house_norm(100,2)}
+        spriteset (spr_shibuyat_l_b_11L_norm, "src/houses/shibuyat/gfx/norm.png") {template_house_norm(100,1)}
+        spriteset (spr_shibuyat_l_b_11L_snow, "src/houses/shibuyat/gfx/snow.png") {template_house_norm(100,1)}
 
-			// Snow
-				spritelayout sprlay_shibuyat_l_a_11L_snow {
-					ground {
-						sprite:spr_shibuyat_a_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_shibuyat_l_a_11L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-					childsprite { // trees
-						sprite: spr_shibuyat_l_a_11L_trees_snow (construction_state); // Same as building
-					}
-				}
 
-	// B variant
-		// 11L level
-			// Norm
-				spritelayout sprlay_shibuyat_l_b_11L_norm {
-					ground {
-						sprite:spr_shibuyat_b_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_shibuyat_l_b_11L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-					childsprite { // trees
-						sprite: spr_shibuyat_l_b_11L_trees_norm (construction_state); // Same as building
-					}
-				}
+// Spritelayouts for shibuyat_l
 
-			// Snow
-				spritelayout sprlay_shibuyat_l_b_11L_snow {
-					ground {
-						sprite:spr_shibuyat_b_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_shibuyat_l_b_11L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-					childsprite { // trees
-						sprite: spr_shibuyat_l_b_11L_trees_snow (construction_state); // Same as building
-					}
-				}
+// A variant | 11L level | Norm
+    spritelayout sprlay_shibuyat_l_a_11L_norm {
+        ground {
+            sprite:        spr_shibuyat_l_a_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_shibuyat_l_a_11L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-/*
-==================
-Getbits Allocation
-==================
-Childsprites: {'trees': {'conditions': ['single', 'variant']}}
+// A variant | 11L level | Snow
+    spritelayout sprlay_shibuyat_l_a_11L_snow {
+        ground {
+            sprite:        spr_shibuyat_l_a_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_shibuyat_l_a_11L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-Colour Profiles: {'new': {'sum_prob': 16, 'count': 16}}
-	✅ new colour profile has 16 unique colours, with probabilities summing to 16
+// B variant | 11L level | Norm
+    spritelayout sprlay_shibuyat_l_b_11L_norm {
+        ground {
+            sprite:        spr_shibuyat_l_b_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_shibuyat_l_b_11L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-Feature		Num		Start	Bits	Storage
-------------------------------------------------------------------
-Building	16		0		4		LOAD_TEMP(0)
-*/
+// B variant | 11L level | Snow
+    spritelayout sprlay_shibuyat_l_b_11L_snow {
+        ground {
+            sprite:        spr_shibuyat_l_b_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_shibuyat_l_b_11L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
 
 // Random Switches
-	// Building Colours
-		switch (FEAT_HOUSES, SELF, shibuyat_l_build_clr_new, getbits(random_bits, 0, 4)) {
-			0:	return 29;
-			1:	return 41;
-			2:	return 42;
-			3:	return 57;
-			4:	return 58;
-			5:	return 63;
-			6:	return 67;
-			7:	return 70;
-			8:	return 71;
-			9:	return 73;
-			10:	return 75;
-			11:	return 80;
-			12:	return 81;
-			13:	return 83;
-			14:	return 85;
-				return 86;
-		}
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, shibuyat_l_build_clr_new, getbits(random_bits, 1, 4)) {
+            0:  return 29;
+            1:  return 41;
+            2:  return 42;
+            3:  return 57;
+            4:  return 58;
+            5:  return 63;
+            6:  return 67;
+            7:  return 70;
+            8:  return 71;
+            9:  return 73;
+            10: return 75;
+            11: return 80;
+            12: return 81;
+            13: return 83;
+            14: return 85;
+                return 86;
+        }
+
+
 // Spritelayout Switches
-	// a
-		// 11L
-			switch (FEAT_HOUSES,SELF, switch_shibuyat_l_a_sprites, [
-				STORE_TEMP(shibuyat_l_build_clr_new(), 0),
-				terrain_type == TILETYPE_SNOW]) 
-				{1: sprlay_shibuyat_l_a_11L_snow; sprlay_shibuyat_l_a_11L_norm; }
+    // a
+        // 11L
+            switch (FEAT_HOUSES,SELF, switch_shibuyat_l_a_11L_sprites, [ 
+                STORE_TEMP(shibuyat_l_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_shibuyat_l_a_11L_snow; sprlay_shibuyat_l_a_11L_norm; } 
+    // b
+        // 11L
+            switch (FEAT_HOUSES,SELF, switch_shibuyat_l_b_11L_sprites, [ 
+                STORE_TEMP(shibuyat_l_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_shibuyat_l_b_11L_snow; sprlay_shibuyat_l_b_11L_norm; } 
 
-	// b
-		// 11L
-			switch (FEAT_HOUSES,SELF, switch_shibuyat_l_b_sprites, [
-				STORE_TEMP(shibuyat_l_build_clr_new(), 0),
-				terrain_type == TILETYPE_SNOW]) 
-				{1: sprlay_shibuyat_l_b_11L_snow; sprlay_shibuyat_l_b_11L_norm; }
 
-	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
-	
-	random_switch (FEAT_HOUSES, SELF, switch_shibuyat_l_random_sprites) {
-		1: switch_shibuyat_l_a_sprites;
-		1: switch_shibuyat_l_b_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_shibuyat_l_south_check, SpriteDirectionsSouth()) {
-		4: switch_shibuyat_l_a_sprites;
-		6: switch_shibuyat_l_a_sprites;
-		9: switch_shibuyat_l_b_sprites;
-		switch_shibuyat_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_shibuyat_l_east_check, SpriteDirectionsEast()) {
-		4: switch_shibuyat_l_a_sprites;
-		6: switch_shibuyat_l_a_sprites;
-		9: switch_shibuyat_l_b_sprites;
-		switch_shibuyat_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_shibuyat_l_west_check, SpriteDirectionsWest()) {
-		6: switch_shibuyat_l_b_sprites;
-		9: switch_shibuyat_l_a_sprites;
-		switch_shibuyat_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_shibuyat_l_north_check, SpriteDirectionsNorth()) {
-		6: switch_shibuyat_l_b_sprites;
-		9: switch_shibuyat_l_a_sprites;
-		switch_shibuyat_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_shibuyat_l_sprites, SpriteDirections() ) {
-		1: switch_shibuyat_l_a_sprites;
-		2: switch_shibuyat_l_b_sprites;
-		3: switch_shibuyat_l_south_check;
-		4: switch_shibuyat_l_a_sprites;
-		5: switch_shibuyat_l_a_sprites;
-		6: switch_shibuyat_l_west_check;
-		8: switch_shibuyat_l_b_sprites;
-		9: switch_shibuyat_l_east_check;
-		10: switch_shibuyat_l_b_sprites;
-		12: switch_shibuyat_l_north_check;
-		switch_shibuyat_l_random_sprites;
-	}
+// Level Selection     
+// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
+    
+    switch (FEAT_HOUSES, SELF, switch_shibuyat_l_sprites, SpriteDirectionsAB() ) {
+        1: switch_shibuyat_l_b_11L_sprites;
+           switch_shibuyat_l_a_11L_sprites;
+    }
 
 // Item Block
-	item(FEAT_HOUSES, item_shibuyat_l, 90, HOUSE_SIZE_1X1){
-		property {
-			substitute:					27;
-			name:						string(NAME_SHIBUYAT_L);
-			population:					125;
-			accepted_cargos:			[[PASS, 4],[MAIL, 2]];
-			local_authority_impact:		80;
-			removal_cost_multiplier:	80;
-			probability:				1;
-			years_available:			[1987,0xFFFF];
-			minimum_lifetime:			10;
-			availability_mask:			[bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-			building_class:				25;
-			}
-		graphics {
-			default:					switch_shibuyat_l_sprites;
-			construction_check:			switch_large_con_check;
-			cargo_production:			func_produce(14,5);
-		}
-	}
+    item(FEAT_HOUSES, item_shibuyat_l, 90, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_SHIBUYAT_L);
+            population:              125;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [1987,0xFFFF];
+            minimum_lifetime:        10;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          25;
+        }
+        graphics {
+            default:                 switch_shibuyat_l_sprites;
+            construction_check:      switch_large_con_check;
+            cargo_production:        func_produce(14,5);
+        }
+    }

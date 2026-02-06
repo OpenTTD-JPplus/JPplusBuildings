@@ -1,162 +1,123 @@
+// Ground
 
-// radiokaikan_l
+        spriteset (spr_radiokaikan_l_a_ground_norm, "src/houses/radiokaikan/gfx/ground_norm.png") {template_ground_norm(80,1)}
+        spriteset (spr_radiokaikan_l_a_ground_snow, "src/houses/radiokaikan/gfx/ground_snow.png") {template_ground_norm(80,1)}
+        spriteset (spr_radiokaikan_l_b_ground_norm, "src/houses/radiokaikan/gfx/ground_norm.png") {template_ground_norm(80,2)}
+        spriteset (spr_radiokaikan_l_b_ground_snow, "src/houses/radiokaikan/gfx/ground_snow.png") {template_ground_norm(80,2)}
 
-// Spritelayouts
+// Buildings
 
-	// A variant
-		// 8L level
-			// Norm
-				spritelayout sprlay_radiokaikan_l_a_8L_norm {
-					ground {
-						sprite:spr_radiokaikan_a_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_radiokaikan_l_a_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-				}
+    // 8L
+        spriteset (spr_radiokaikan_l_a_8L_norm, "src/houses/radiokaikan/gfx/norm.png") {template_house_norm(80,1)}
+        spriteset (spr_radiokaikan_l_a_8L_snow, "src/houses/radiokaikan/gfx/snow.png") {template_house_norm(80,1)}
+        spriteset (spr_radiokaikan_l_b_8L_norm, "src/houses/radiokaikan/gfx/norm.png") {template_house_norm(80,2)}
+        spriteset (spr_radiokaikan_l_b_8L_snow, "src/houses/radiokaikan/gfx/snow.png") {template_house_norm(80,2)}
 
-			// Snow
-				spritelayout sprlay_radiokaikan_l_a_8L_snow {
-					ground {
-						sprite:spr_radiokaikan_a_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_radiokaikan_l_a_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-				}
 
-	// B variant
-		// 8L level
-			// Norm
-				spritelayout sprlay_radiokaikan_l_b_8L_norm {
-					ground {
-						sprite:spr_radiokaikan_b_ground_norm (construction_state);
-					}
-					building {
-						sprite: spr_radiokaikan_l_b_8L_norm (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-				}
+// Spritelayouts for radiokaikan_l
 
-			// Snow
-				spritelayout sprlay_radiokaikan_l_b_8L_snow {
-					ground {
-						sprite:spr_radiokaikan_b_ground_snow (construction_state);
-					}
-					building {
-						sprite: spr_radiokaikan_l_b_8L_snow (construction_state);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + LOAD_TEMP(0);
-					}
-				}
+// A variant | 8L level | Norm
+    spritelayout sprlay_radiokaikan_l_a_8L_norm {
+        ground {
+            sprite:        spr_radiokaikan_l_a_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_radiokaikan_l_a_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-/*
-==================
-Getbits Allocation
-==================
-Childsprites: 🚫
+// A variant | 8L level | Snow
+    spritelayout sprlay_radiokaikan_l_a_8L_snow {
+        ground {
+            sprite:        spr_radiokaikan_l_a_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_radiokaikan_l_a_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-Colour Profiles: {'new': {'sum_prob': 4, 'count': 4}}
-	✅ new colour profile has 4 unique colours, with probabilities summing to 4
+// B variant | 8L level | Norm
+    spritelayout sprlay_radiokaikan_l_b_8L_norm {
+        ground {
+            sprite:        spr_radiokaikan_l_b_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_radiokaikan_l_b_8L_norm (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
 
-Feature		Num		Start	Bits	Storage
-------------------------------------------------------------------
-Building	4		0		2		LOAD_TEMP(0)
-*/
+// B variant | 8L level | Snow
+    spritelayout sprlay_radiokaikan_l_b_8L_snow {
+        ground {
+            sprite:        spr_radiokaikan_l_b_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_radiokaikan_l_b_8L_snow (construction_state);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
 
 // Random Switches
-	// Building Colours
-		switch (FEAT_HOUSES, SELF, radiokaikan_l_build_clr_new, getbits(random_bits, 0, 2)) {
-			0:	return 32;
-			1:	return 39;
-			2:	return 45;
-				return 55;
-		}
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, radiokaikan_l_build_clr_new, getbits(random_bits, 1, 2)) {
+            0:  return 32;
+            1:  return 39;
+            2:  return 45;
+                return 55;
+        }
+
+
 // Spritelayout Switches
-	// a
-		// 8L
-			switch (FEAT_HOUSES,SELF, switch_radiokaikan_l_a_sprites, [
-				STORE_TEMP(radiokaikan_l_build_clr_new(), 0),
-				terrain_type == TILETYPE_SNOW]) 
-				{1: sprlay_radiokaikan_l_a_8L_snow; sprlay_radiokaikan_l_a_8L_norm; }
+    // a
+        // 8L
+            switch (FEAT_HOUSES,SELF, switch_radiokaikan_l_a_8L_sprites, [ 
+                STORE_TEMP(radiokaikan_l_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_radiokaikan_l_a_8L_snow; sprlay_radiokaikan_l_a_8L_norm; } 
+    // b
+        // 8L
+            switch (FEAT_HOUSES,SELF, switch_radiokaikan_l_b_8L_sprites, [ 
+                STORE_TEMP(radiokaikan_l_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_radiokaikan_l_b_8L_snow; sprlay_radiokaikan_l_b_8L_norm; } 
 
-	// b
-		// 8L
-			switch (FEAT_HOUSES,SELF, switch_radiokaikan_l_b_sprites, [
-				STORE_TEMP(radiokaikan_l_build_clr_new(), 0),
-				terrain_type == TILETYPE_SNOW]) 
-				{1: sprlay_radiokaikan_l_b_8L_snow; sprlay_radiokaikan_l_b_8L_norm; }
 
-	// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
-	
-	random_switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_random_sprites) {
-		1: switch_radiokaikan_l_a_sprites;
-		1: switch_radiokaikan_l_b_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_south_check, SpriteDirectionsSouth()) {
-		4: switch_radiokaikan_l_a_sprites;
-		6: switch_radiokaikan_l_a_sprites;
-		9: switch_radiokaikan_l_b_sprites;
-		switch_radiokaikan_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_east_check, SpriteDirectionsEast()) {
-		4: switch_radiokaikan_l_a_sprites;
-		6: switch_radiokaikan_l_a_sprites;
-		9: switch_radiokaikan_l_b_sprites;
-		switch_radiokaikan_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_west_check, SpriteDirectionsWest()) {
-		6: switch_radiokaikan_l_b_sprites;
-		9: switch_radiokaikan_l_a_sprites;
-		switch_radiokaikan_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_north_check, SpriteDirectionsNorth()) {
-		6: switch_radiokaikan_l_b_sprites;
-		9: switch_radiokaikan_l_a_sprites;
-		switch_radiokaikan_l_random_sprites;
-	}
-
-	switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_sprites, SpriteDirections() ) {
-		1: switch_radiokaikan_l_a_sprites;
-		2: switch_radiokaikan_l_b_sprites;
-		3: switch_radiokaikan_l_south_check;
-		4: switch_radiokaikan_l_a_sprites;
-		5: switch_radiokaikan_l_a_sprites;
-		6: switch_radiokaikan_l_west_check;
-		8: switch_radiokaikan_l_b_sprites;
-		9: switch_radiokaikan_l_east_check;
-		10: switch_radiokaikan_l_b_sprites;
-		12: switch_radiokaikan_l_north_check;
-		switch_radiokaikan_l_random_sprites;
-	}
+// Level Selection     
+// Variant Selection for ['a', 'b'] using SpriteDirectionsAB()
+    
+    switch (FEAT_HOUSES, SELF, switch_radiokaikan_l_sprites, SpriteDirectionsAB() ) {
+        1: switch_radiokaikan_l_b_8L_sprites;
+           switch_radiokaikan_l_a_8L_sprites;
+    }
 
 // Item Block
-	item(FEAT_HOUSES, item_radiokaikan_l, 100, HOUSE_SIZE_1X1){
-		property {
-			substitute:					27;
-			name:						string(NAME_RADIOKAIKAN_L);
-			population:					125;
-			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
-			local_authority_impact:		80;
-			removal_cost_multiplier:	80;
-			probability:				1;
-			years_available:			[2014,0xFFFF];
-			minimum_lifetime:			10;
-			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-			building_class:				68;
-			}
-		graphics {
-			default:					switch_radiokaikan_l_sprites;
-			construction_check:			switch_large_con_check;
-			cargo_production:			func_produce(14,5);
-		}
-	}
+    item(FEAT_HOUSES, item_radiokaikan_l, 100, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_RADIOKAIKAN_L);
+            population:              125;
+            accepted_cargos:         [[PASS, 8],[MAIL, 4],[GOOD, 4]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [2014,0xFFFF];
+            minimum_lifetime:        10;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          68;
+        }
+        graphics {
+            default:                 switch_radiokaikan_l_sprites;
+            construction_check:      switch_large_con_check;
+            cargo_production:        func_produce(14,5);
+        }
+    }

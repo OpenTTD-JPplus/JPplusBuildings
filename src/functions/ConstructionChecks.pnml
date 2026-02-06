@@ -30,9 +30,25 @@
 	) {return;}	
 
 // Slopes Only
-	switch(FEAT_HOUSES, SELF, switch_slopes_only_con_check, 
+	/*switch(FEAT_HOUSES, SELF, switch_slopes_only_con_check, 
 		nearby_tile_slope(0,0) != SLOPE_FLAT
+	) {return;}*/
+
+	switch(FEAT_HOUSES, SELF, AdjacentSeaCheck, 
+		nearby_tile_water_class(1,0) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(0,1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(-1,0) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(0,-1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(1,1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(-1,1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(1,-1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(-1,-1) != WATER_CLASS_SEA
 	) {return;}
+
+	switch(FEAT_HOUSES, SELF, switch_slopes_only_con_check, nearby_tile_slope(0,0) ) {
+		SLOPE_FLAT: return 0;
+		AdjacentSeaCheck();
+	}
 
 // Tiny Height
 
