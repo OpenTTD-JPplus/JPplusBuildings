@@ -1,10 +1,3 @@
-// Ground
-
-        spriteset (spr_dense_townhouses_h_g_ground_norm, "src/houses/dense_townhouses/gfx/ground_norm.png") {template_ground_norm(80,1)}
-        spriteset (spr_dense_townhouses_h_g_ground_snow, "src/houses/dense_townhouses/gfx/ground_snow.png") {template_ground_norm(80,1)}
-        spriteset (spr_dense_townhouses_h_h_ground_norm, "src/houses/dense_townhouses/gfx/ground_norm.png") {template_ground_norm(80,2)}
-        spriteset (spr_dense_townhouses_h_h_ground_snow, "src/houses/dense_townhouses/gfx/ground_snow.png") {template_ground_norm(80,2)}
-
 // Buildings
 
     // G
@@ -51,7 +44,7 @@
 // H variant | G level | Norm
     spritelayout sprlay_dense_townhouses_h_g_norm {
         ground {
-            sprite:        spr_dense_townhouses_h_g_ground_norm(LOAD_TEMP(2));
+            sprite:        spr_ground_grass (LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_g_norm (construction_state);
@@ -78,7 +71,7 @@
 // H variant | G level | Snow
     spritelayout sprlay_dense_townhouses_h_g_snow {
         ground {
-            sprite:        spr_dense_townhouses_h_g_ground_snow(LOAD_TEMP(2));
+            sprite:        spr_ground_snow (LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_g_snow (construction_state);
@@ -105,7 +98,7 @@
 // H variant | H level | Norm
     spritelayout sprlay_dense_townhouses_h_h_norm {
         ground {
-            sprite:        spr_dense_townhouses_h_h_ground_norm(LOAD_TEMP(2));
+            sprite:        spr_ground_grass (LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_h_norm (construction_state);
@@ -132,7 +125,7 @@
 // H variant | H level | Snow
     spritelayout sprlay_dense_townhouses_h_h_snow {
         ground {
-            sprite:        spr_dense_townhouses_h_h_ground_snow(LOAD_TEMP(2));
+            sprite:        spr_ground_snow (LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_h_snow (construction_state);
@@ -350,6 +343,7 @@
             minimum_lifetime:        5;
             availability_mask:       [bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_OUTER_SUBURB, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
             building_class:          0;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED);
         }
         graphics {
             default:                 switch_dense_townhouses_sprites;
