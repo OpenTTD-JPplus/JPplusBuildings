@@ -1,0 +1,64 @@
+// Ground
+
+        spriteset (spr_empty_tile_light_concrete_h_ground_norm, "src/houses/empty/gfx/ground_light.png") {template_ground_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_h_ground_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_norm(80,3)}
+
+// Buildings
+
+    // L
+        spriteset (spr_empty_tile_light_concrete_h_L_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_h_L_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,3)}
+
+
+// Spritelayouts for empty_tile_light_concrete
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_h_L_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_h_ground_norm(3);
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_h_L_norm (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_h_L_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_h_ground_snow(3);
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_h_L_snow (3);
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_empty_tile_light_concrete_h_L_snow; sprlay_empty_tile_light_concrete_h_L_norm; }
+
+// Item Block
+    item(FEAT_HOUSES, item_empty_tile_light_concrete, 5, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_EMPTY_TILE_LIGHT_CONCRETE);
+            population:              255;
+            accepted_cargos:         [[PASS, 8],[MAIL, 8]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             0;
+            years_available:         [0,0xFFFF];
+            minimum_lifetime:        200;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          5;
+            building_flags:          bitmask(HOUSE_FLAG_ONLY_SE);
+        }
+        graphics {
+            default:                 switch_empty_tile_light_concrete_sprites;
+            cargo_production:        func_produce(2,1);
+        }
+    }

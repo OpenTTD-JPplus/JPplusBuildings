@@ -1,0 +1,58 @@
+// No spritesets configured for this building
+
+// Spritelayouts for fountain_fallback
+
+// H variant | L level | Norm
+    spritelayout sprlay_fountain_fallback_h_L_norm {
+        ground {
+            sprite:        GROUNDSPRITE_CONCRETE;
+        }
+        building {
+            sprite:        1455;
+            xoffset:     3;
+            yoffset:     3;
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_fountain_fallback_h_L_snow {
+        ground {
+            sprite:        GROUNDSPRITE_SNOW;
+        }
+        building {
+            sprite:        1455;
+            xoffset:     3;
+            yoffset:     3;
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_fountain_fallback_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_fountain_fallback_h_L_snow; sprlay_fountain_fallback_h_L_norm; }
+
+// Item Block
+    item(FEAT_HOUSES, item_fountain_fallback, 55, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_FOUNTAIN_FALLBACK);
+            population:              10;
+            accepted_cargos:         [[PASS, 2],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [0,10];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
+            building_class:          0;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_ONLY_SE);
+        }
+        graphics {
+            default:                 switch_fountain_fallback_sprites;
+            cargo_production:        func_produce(2,1);
+        }
+    }

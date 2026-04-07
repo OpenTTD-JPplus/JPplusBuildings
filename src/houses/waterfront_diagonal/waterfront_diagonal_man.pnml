@@ -1,0 +1,157 @@
+// Buildings
+
+    // L
+        spriteset (spr_waterfront_diagonal_h_L_norm, "src/houses/waterfront_diagonal/gfx/earth_norm.png") {template_house_norm(80,2)}
+        spriteset (spr_waterfront_diagonal_h_L_snow, "src/houses/waterfront_diagonal/gfx/earth_snow.png") {template_house_norm(80,2)}
+
+// Found
+
+        spriteset (spr_waterfront_diagonal_h_found, "src/houses/waterfront_diagonal/gfx/found.png") {template_child_norm(80,2)}
+
+// House
+
+        spriteset (spr_waterfront_diagonal_h_house_norm, "src/houses/waterfront_diagonal/gfx/house_norm.png") {template_child_norm(80,2)}
+        spriteset (spr_waterfront_diagonal_h_house_snow, "src/houses/waterfront_diagonal/gfx/house_snow.png") {template_child_norm(80,2)}
+
+// Fence
+
+        spriteset (spr_waterfront_diagonal_h_fence, "src/houses/waterfront_diagonal/gfx/fence.png") {template_child_norm(80,2)}
+
+
+// Spritelayouts for waterfront_diagonal
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_diagonal_h_L_norm {
+        ground {
+            sprite:        GROUNDSPRITE_WATER;
+        }
+        building {
+            sprite:        spr_waterfront_diagonal_h_L_norm (LOAD_TEMP(2));
+            always_draw:  1;
+        }
+        childsprite { // found
+            sprite:        spr_waterfront_diagonal_h_found (LOAD_TEMP(2)); 
+            always_draw:  1;
+        }
+        childsprite { // house
+            sprite:        spr_waterfront_diagonal_h_house_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(23);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_diagonal_h_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_diagonal_h_L_snow {
+        ground {
+            sprite:        GROUNDSPRITE_WATER;
+        }
+        building {
+            sprite:        spr_waterfront_diagonal_h_L_snow (LOAD_TEMP(2));
+            always_draw:  1;
+        }
+        childsprite { // found
+            sprite:        spr_waterfront_diagonal_h_found (LOAD_TEMP(2)); 
+            always_draw:  1;
+        }
+        childsprite { // house
+            sprite:        spr_waterfront_diagonal_h_house_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(23);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_diagonal_h_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+
+// Random Switches
+    // House Colours - House Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_house_new, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_house_old, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+    // Fence Colours - Fence Colours Profiles: ['mar484Dbla0106', 'mar484Dbrn2025', 'mar484Dbrn2227', 'red_brown']
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_fence_new, getbits(random_bits, 2, 2)) {
+            0:  return 12;
+            1:  return 84;
+            2:  return 85;
+                return 86;
+        }
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_waterfront_diagonal_waterfront, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_diagonal_house_old() : waterfront_diagonal_house_new(), 23), 
+                STORE_TEMP(waterfront_diagonal_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_diagonal_h_L_snow; sprlay_waterfront_diagonal_h_L_norm; } 
+
+    switch (FEAT_HOUSES, SELF, switch_waterfront_diagonal_sprites, CornerSeaCheck() ){
+        1:  switch_waterfront_diagonal_waterfront;
+            switch_fountain_fallback_sprites;
+        } 
+
+// Item Block
+    item(FEAT_HOUSES, item_waterfront_diagonal, 4, HOUSE_SIZE_1X1){
+        property {
+            substitute:              6;
+            name:                    string(NAME_WATERFRONT_DIAGONAL);
+            population:              20;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             5;
+            years_available:         [1870,0xFFFF];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_OUTER_SUBURB , TOWNZONE_OUTSKIRT, TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          0;
+        }
+        graphics {
+            default:                 switch_waterfront_diagonal_sprites;
+            foundations:             CB_RESULT_NO_FOUNDATIONS;
+            construction_check:      CornerSeaCheck();
+            cargo_production:        func_produce(2,1);
+        }
+    }

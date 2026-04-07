@@ -1882,6 +1882,14 @@ replace(recolour_remap) {
         ne: [ x+195,	y,		64,		31,		-31,		-00,	    NOCROP | ANIM]
     }
     
+    template template_ground_child(x, y) {   
+        //left_x, upper_y, width, height, offset_x, offset_y
+        se: [ x,		y,		64,		31,		0,		-00,	    NOCROP | ANIM]
+        sw: [ x+65,		y,		64,		31,		0,		-00,	    NOCROP | ANIM]
+        nw: [ x+130,	y,		64,		31,		0,		-00,	    NOCROP | ANIM]
+        ne: [ x+195,	y,		64,		31,		0,		-00,	    NOCROP | ANIM]
+    }
+    
 
 
 // SymmetricTile Template
@@ -3125,32 +3133,126 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 
 	) {return;}	
 
+// Flat
+	// Three sides up, when the corner that's down is by the sea
+	switch(FEAT_HOUSES, SELF, OtherFlatScenarios,
+		(nearby_tile_slope(0,0) == SLOPE_NWS && nearby_tile_water_class(-1, 1) == WATER_CLASS_SEA )
+			||
+		(nearby_tile_slope(0,0) == SLOPE_WSE && nearby_tile_water_class(-1,-1) == WATER_CLASS_SEA )
+			||
+		(nearby_tile_slope(0,0) == SLOPE_SEN && nearby_tile_water_class( 1,-1) == WATER_CLASS_SEA )
+			||
+		(nearby_tile_slope(0,0) == SLOPE_ENW && nearby_tile_water_class( 1, 1) == WATER_CLASS_SEA )
+
+	) {return;}	
+
+	// Flat is fine, one side up or two sides up are not
+	switch(FEAT_HOUSES, SELF, FlatConCheck, nearby_tile_slope(0,0) ) {
+		SLOPE_FLAT: return 1;
+		SLOPE_W:   	return 0;
+        SLOPE_S:  	return 0;
+        SLOPE_E:   	return 0;
+        SLOPE_N:   	return 0;
+        SLOPE_SW: 	return 0;
+        SLOPE_SE:  	return 0;
+        SLOPE_NW:  	return 0;
+        SLOPE_NE:  	return 0;
+        SLOPE_EW:  	return 0;
+        SLOPE_NS:  	return 0;
+		OtherFlatScenarios();
+	}
+
 // Shotengai
 	switch(FEAT_HOUSES, SELF, switch_shotengai_con_check, 
-		current_year < 1945
-			||
-		(current_year >= 1945 && !FuncServicePASS() )
+		( 
+			current_year < 1945
+				||
+			(current_year >= 1945 && !FuncServicePASS() ) 
+		)
+			&&
+		FlatConCheck()
+
 	) {return;}	
 
 // Slopes Only
-	/*switch(FEAT_HOUSES, SELF, switch_slopes_only_con_check, 
-		nearby_tile_slope(0,0) != SLOPE_FLAT
-	) {return;}*/
+	// Water is in 
 
-	switch(FEAT_HOUSES, SELF, AdjacentSeaCheck, 
-		nearby_tile_water_class(1,0) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(0,1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(-1,0) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(0,-1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(1,1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(-1,1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(1,-1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(-1,-1) != WATER_CLASS_SEA
+	// Corner Slopes - returns 1 if one of the four corners is a sea facing corner
+	switch(FEAT_HOUSES, SELF, CornerSeaCheck,	
+		( 	// East Facing
+			nearby_tile_slope(0,0) == SLOPE_W && 
+			nearby_tile_water_class(-1, 0) == WATER_CLASS_SEA && 	// SE
+			nearby_tile_water_class( 0, 1) == WATER_CLASS_SEA		// NE
+		)
+			||
+		
+		( 	// North Facing
+			nearby_tile_slope(0,0) == SLOPE_S && 
+			nearby_tile_water_class( 0,-1) == WATER_CLASS_SEA &&	// NE
+			nearby_tile_water_class(-1, 0) == WATER_CLASS_SEA 		// NW
+
+		)
+			||
+		(	// West Facing
+			nearby_tile_slope(0,0) == SLOPE_E && 
+			nearby_tile_water_class( 1, 0) == WATER_CLASS_SEA &&	// NW
+			nearby_tile_water_class( 0,-1) == WATER_CLASS_SEA 		// SW
+		)
+			||
+		(
+			// South Facing
+			nearby_tile_slope(0,0) == SLOPE_N && 
+			nearby_tile_water_class( 1, 0) == WATER_CLASS_SEA && 	// SE
+			nearby_tile_water_class( 0, 1) == WATER_CLASS_SEA 		// SW
+		)
 	) {return;}
 
-	switch(FEAT_HOUSES, SELF, switch_slopes_only_con_check, nearby_tile_slope(0,0) ) {
+	// Bank Slopes
+	switch(FEAT_HOUSES, SELF, DiagonalSeaSlopeCheck,	
+		( 	// North East Facing
+			nearby_tile_slope(0,0) == SLOPE_SW && 
+			nearby_tile_water_class( 0,-1) == WATER_CLASS_SEA		// NE
+		)
+			||
+		
+		( 	// North West Facing
+			nearby_tile_slope(0,0) == SLOPE_SE && 
+			nearby_tile_water_class(-1, 0) == WATER_CLASS_SEA		// NW
+		)
+			||
+		(	// South East Facing
+			nearby_tile_slope(0,0) == SLOPE_NW && 
+			nearby_tile_water_class( 1, 0) == WATER_CLASS_SEA 		// SE
+		)
+			||
+		(
+			// South West Facing
+			nearby_tile_slope(0,0) == SLOPE_NE && 
+			nearby_tile_water_class( 0, 1) == WATER_CLASS_SEA 		// SW
+		)
+	) {return;}
+
+	switch(FEAT_HOUSES, SELF, AdjacentSeaCheck, 
+		!CornerSeaCheck() &&
+		!DiagonalSeaSlopeCheck()
+	) {return;}
+
+	// Check it's not flat
+	switch(FEAT_HOUSES, SELF, NoSeaAdjacent, 
+		nearby_tile_water_class(-1,-1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(-1, 0) != WATER_CLASS_SEA &&
+		nearby_tile_water_class(-1, 1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class( 0,-1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class( 0, 1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class( 1,-1) != WATER_CLASS_SEA &&
+		nearby_tile_water_class( 1, 0) != WATER_CLASS_SEA &&
+		nearby_tile_water_class( 1, 1) != WATER_CLASS_SEA
+	) {return;}
+
+	// Slopes not beside the sea
+	switch(FEAT_HOUSES, SELF, SlopesNotByTheSea, nearby_tile_slope(0,0) ) {
 		SLOPE_FLAT: return 0;
-		AdjacentSeaCheck();
+		NoSeaAdjacent();
 	}
 
 // Tiny Height
@@ -3377,6 +3479,11 @@ switch (FEAT_HOUSES,SELF,GroundAlleyJPCheckZone, town_zone ) {
 		TileGapByType(30)					// Can't appear within 30 tiles of another
 	) {return;}	
 
+// Waterfront
+	switch (FEAT_HOUSES, SELF, switch_waterfront_con_check, 
+		!AdjacentSeaCheck()
+	) {return;}	
+
 // Farm
 	switch (FEAT_HOUSES, SELF, switch_farm_con_check, 
 		!IsCity() && 						// Cannot appear in Cities
@@ -3461,10 +3568,403 @@ spriteset (spr_ground_shiro, 							"src/ground/shiro.png") 				{template_ground
 spriteset (spr_ground_shiro_norm, 						"src/ground/shiro.png") 				{template_ground(1,1)}
 spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_ground(1,1)}
 # 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/empty/empty_tile_light_concrete.pnml" 1
+// Ground
+
+        spriteset (spr_empty_tile_light_concrete_h_ground_norm, "src/houses/empty/gfx/ground_light.png") {template_ground_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_h_ground_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_norm(80,3)}
+
+// Buildings
+
+    // L
+        spriteset (spr_empty_tile_light_concrete_h_L_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_h_L_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,3)}
+
+
+// Spritelayouts for empty_tile_light_concrete
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_h_L_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_h_ground_norm(3);
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_h_L_norm (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_h_L_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_h_ground_snow(3);
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_h_L_snow (3);
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_empty_tile_light_concrete_h_L_snow; sprlay_empty_tile_light_concrete_h_L_norm; }
+
+// Item Block
+    item(FEAT_HOUSES, item_empty_tile_light_concrete, 5, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_EMPTY_TILE_LIGHT_CONCRETE);
+            population:              255;
+            accepted_cargos:         [[PASS, 8],[MAIL, 8]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             0;
+            years_available:         [0,0xFFFF];
+            minimum_lifetime:        200;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          5;
+            building_flags:          bitmask(HOUSE_FLAG_ONLY_SE);
+        }
+        graphics {
+            default:                 switch_empty_tile_light_concrete_sprites;
+            cargo_production:        func_produce(2,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/empty/empty_tile_light_concrete_slopes.pnml" 1
+// Ground
+
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_diagonal_light, "src/houses/empty/gfx/ground_light.png") {template_ground_hill(80,1)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_diagonal_dark, "src/houses/empty/gfx/ground_dark.png") {template_ground_hill(80,1)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_diagonal_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_hill(80,1)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_oneup_light, "src/houses/empty/gfx/ground_light.png") {template_ground_hill(80,2)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_oneup_dark, "src/houses/empty/gfx/ground_dark.png") {template_ground_hill(80,2)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_oneup_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_hill(80,2)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_valley_light, "src/houses/empty/gfx/ground_light.png") {template_ground_hill(80,3)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_valley_dark, "src/houses/empty/gfx/ground_dark.png") {template_ground_hill(80,3)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_valley_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_hill(80,3)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_onedown_light, "src/houses/empty/gfx/ground_light.png") {template_ground_hill(80,4)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_onedown_dark, "src/houses/empty/gfx/ground_dark.png") {template_ground_hill(80,4)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_ground_onedown_snow, "src/houses/empty/gfx/ground_snow.png") {template_ground_hill(80,4)}
+
+// Buildings
+
+    // L
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_diagonal_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,1)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_diagonal_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,1)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_oneup_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,2)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_oneup_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,2)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_valley_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_valley_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,3)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_onedown_norm, "src/houses/empty/gfx/norm.png") {template_house_norm(80,4)}
+        spriteset (spr_empty_tile_light_concrete_slopes_h_L_onedown_snow, "src/houses/empty/gfx/snow.png") {template_house_norm(80,4)}
+
+
+// Spritelayouts for empty_tile_light_concrete_slopes
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_light_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_diagonal_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_diagonal_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_dark_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_diagonal_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_diagonal_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_oneup_light_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_oneup_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_oneup_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_oneup_dark_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_oneup_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_oneup_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_valley_light_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_valley_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_valley_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_valley_dark_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_valley_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_valley_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_onedown_light_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_onedown_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_onedown_norm (3);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_onedown_dark_norm {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_onedown_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_onedown_norm (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_diagonal_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_diagonal_snow (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_oneup_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_oneup_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_oneup_snow (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_valley_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_valley_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_valley_snow (3);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_empty_tile_light_concrete_slopes_h_L_onedown_snow {
+        ground {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_ground_onedown_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_empty_tile_light_concrete_slopes_h_L_onedown_snow (3);
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_snow; sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_light_oneup_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_oneup_snow; sprlay_empty_tile_light_concrete_slopes_h_L_oneup_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_light_valley_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_valley_snow; sprlay_empty_tile_light_concrete_slopes_h_L_valley_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_light_onedown_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_onedown_snow; sprlay_empty_tile_light_concrete_slopes_h_L_onedown_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_snow; sprlay_empty_tile_light_concrete_slopes_h_L_diagonal_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_dark_oneup_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_oneup_snow; sprlay_empty_tile_light_concrete_slopes_h_L_oneup_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_dark_valley_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_valley_snow; sprlay_empty_tile_light_concrete_slopes_h_L_valley_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_empty_tile_light_concrete_slopes_h_L_dark_onedown_sprites, [ 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_empty_tile_light_concrete_slopes_h_L_onedown_snow; sprlay_empty_tile_light_concrete_slopes_h_L_onedown_dark_norm; } 
+
+    // Which sprite quartet to use based on slope - light
+    switch (FEAT_HOUSES,SELF,switch_empty_tile_light_concrete_slopes_h_L_light_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_empty_tile_light_concrete_slopes_h_L_light_oneup_sprites;
+        SLOPE_S:   switch_empty_tile_light_concrete_slopes_h_L_light_oneup_sprites;
+        SLOPE_E:   switch_empty_tile_light_concrete_slopes_h_L_light_oneup_sprites;
+        SLOPE_N:   switch_empty_tile_light_concrete_slopes_h_L_light_oneup_sprites;
+        SLOPE_SW:  switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites;
+        SLOPE_SE:  switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites;
+        SLOPE_NW:  switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites;
+        SLOPE_NE:  switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites;
+        SLOPE_EW:  switch_empty_tile_light_concrete_slopes_h_L_light_valley_sprites;
+        SLOPE_NS:  switch_empty_tile_light_concrete_slopes_h_L_light_valley_sprites;
+        SLOPE_NWS: switch_empty_tile_light_concrete_slopes_h_L_light_onedown_sprites;
+        SLOPE_WSE: switch_empty_tile_light_concrete_slopes_h_L_light_onedown_sprites;
+        SLOPE_SEN: switch_empty_tile_light_concrete_slopes_h_L_light_onedown_sprites;
+        SLOPE_ENW: switch_empty_tile_light_concrete_slopes_h_L_light_onedown_sprites;
+        SLOPE_FLAT:switch_empty_tile_light_concrete_slopes_h_L_light_valley_sprites;
+        switch_empty_tile_light_concrete_slopes_h_L_light_diagonal_sprites;
+    }
+
+    // Which sprite quartet to use based on slope - dark
+    switch (FEAT_HOUSES,SELF,switch_empty_tile_light_concrete_slopes_h_L_dark_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_empty_tile_light_concrete_slopes_h_L_dark_oneup_sprites;
+        SLOPE_S:   switch_empty_tile_light_concrete_slopes_h_L_dark_oneup_sprites;
+        SLOPE_E:   switch_empty_tile_light_concrete_slopes_h_L_dark_oneup_sprites;
+        SLOPE_N:   switch_empty_tile_light_concrete_slopes_h_L_dark_oneup_sprites;
+        SLOPE_SW:  switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_SE:  switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_NW:  switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_NE:  switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_EW:  switch_empty_tile_light_concrete_slopes_h_L_dark_valley_sprites;
+        SLOPE_NS:  switch_empty_tile_light_concrete_slopes_h_L_dark_valley_sprites;
+        SLOPE_NWS: switch_empty_tile_light_concrete_slopes_h_L_dark_onedown_sprites;
+        SLOPE_WSE: switch_empty_tile_light_concrete_slopes_h_L_dark_onedown_sprites;
+        SLOPE_SEN: switch_empty_tile_light_concrete_slopes_h_L_dark_onedown_sprites;
+        SLOPE_ENW: switch_empty_tile_light_concrete_slopes_h_L_dark_onedown_sprites;
+        SLOPE_FLAT:switch_empty_tile_light_concrete_slopes_h_L_dark_valley_sprites;
+        switch_empty_tile_light_concrete_slopes_h_L_dark_diagonal_sprites;
+    }
+
+    // Which ground tile to use
+    switch (FEAT_HOUSES,SELF,switch_empty_tile_light_concrete_slopes_sprites, GroundSlopesGround()  ) {
+        0:  switch_empty_tile_light_concrete_slopes_h_L_light_sprites;
+            switch_empty_tile_light_concrete_slopes_h_L_dark_sprites;
+    }
+
+
+// Item Block
+    item(FEAT_HOUSES, item_empty_tile_light_concrete_slopes, 54, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_EMPTY_TILE_LIGHT_CONCRETE_SLOPES);
+            population:              255;
+            accepted_cargos:         [[PASS, 8],[MAIL, 8]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             0;
+            years_available:         [0,0xFFFF];
+            minimum_lifetime:        200;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          5;
+            building_flags:          bitmask(HOUSE_FLAG_ONLY_SE);
+        }
+        graphics {
+            default:                 switch_empty_tile_light_concrete_slopes_sprites;
+            foundations:             CB_RESULT_NO_FOUNDATIONS;
+            cargo_production:        func_produce(2,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
 
 // BUILDINGS
 
 // Houses
+# 1 "src/houses/fountain_fallback/fountain_fallback.pnml" 1
+// No spritesets configured for this building
+
+// Spritelayouts for fountain_fallback
+
+// H variant | L level | Norm
+    spritelayout sprlay_fountain_fallback_h_L_norm {
+        ground {
+            sprite:        GROUNDSPRITE_CONCRETE;
+        }
+        building {
+            sprite:        1455;
+            xoffset:     3;
+            yoffset:     3;
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_fountain_fallback_h_L_snow {
+        ground {
+            sprite:        GROUNDSPRITE_SNOW;
+        }
+        building {
+            sprite:        1455;
+            xoffset:     3;
+            yoffset:     3;
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_fountain_fallback_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_fountain_fallback_h_L_snow; sprlay_fountain_fallback_h_L_norm; }
+
+// Item Block
+    item(FEAT_HOUSES, item_fountain_fallback, 55, HOUSE_SIZE_1X1){
+        property {
+            substitute:              27;
+            name:                    string(NAME_FOUNTAIN_FALLBACK);
+            population:              10;
+            accepted_cargos:         [[PASS, 2],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [0,10];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
+            building_class:          0;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_ONLY_SE);
+        }
+        graphics {
+            default:                 switch_fountain_fallback_sprites;
+            cargo_production:        func_produce(2,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+
 # 1 "src/houses/long_wooden_house/long_wooden_house.pnml" 1
 // Ground
 
@@ -3672,10 +4172,10 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             minimum_lifetime:        5;
             availability_mask:       [bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
             building_class:          0;
-            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED);
         }
         graphics {
             default:                 switch_long_wooden_house_sprites;
+            construction_check:      FlatConCheck();
             cargo_production:        func_produce(1,1);
         }
     }
@@ -6000,10 +6500,10 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             minimum_lifetime:        5;
             availability_mask:       [bitmask(TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
             building_class:          0;
-            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED);
         }
         graphics {
             default:                 switch_old_villa_sprites;
+            construction_check:      FlatConCheck;
             cargo_production:        func_produce(2,1);
         }
     }
@@ -7587,7 +8087,6 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             minimum_lifetime:        5;
             availability_mask:       [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
             building_class:          0;
-            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED);
         }
         graphics {
             default:                 switch_shotengai_sprites;
@@ -7674,7 +8173,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_diagonal_light_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_light(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_light(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_diagonal_norm (construction_state);
@@ -7706,7 +8205,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_diagonal_dark_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_dark(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_dark(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_diagonal_norm (construction_state);
@@ -7738,7 +8237,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_oneup_light_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_oneup_light(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_oneup_light(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_oneup_norm (construction_state);
@@ -7770,7 +8269,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_oneup_dark_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_oneup_dark(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_oneup_dark(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_oneup_norm (construction_state);
@@ -7802,7 +8301,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_valley_light_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_valley_light(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_valley_light(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_valley_norm (construction_state);
@@ -7834,7 +8333,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_valley_dark_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_valley_dark(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_valley_dark(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_valley_norm (construction_state);
@@ -7866,7 +8365,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_onedown_light_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_onedown_light(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_onedown_light(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_onedown_norm (construction_state);
@@ -7898,7 +8397,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Norm
     spritelayout sprlay_shotengai_slopes_h_L_onedown_dark_norm {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_onedown_dark(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_onedown_dark(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_onedown_norm (construction_state);
@@ -7930,7 +8429,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Snow
     spritelayout sprlay_shotengai_slopes_h_L_diagonal_snow {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_snow(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_diagonal_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_diagonal_snow (construction_state);
@@ -7962,7 +8461,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Snow
     spritelayout sprlay_shotengai_slopes_h_L_oneup_snow {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_oneup_snow(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_oneup_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_oneup_snow (construction_state);
@@ -7994,7 +8493,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Snow
     spritelayout sprlay_shotengai_slopes_h_L_valley_snow {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_valley_snow(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_valley_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_valley_snow (construction_state);
@@ -8026,7 +8525,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | L level | Snow
     spritelayout sprlay_shotengai_slopes_h_L_onedown_snow {
         ground {
-            sprite:        spr_shotengai_slopes_h_L_ground_onedown_snow(construction_state);
+            sprite:        spr_shotengai_slopes_h_L_ground_onedown_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_shotengai_slopes_h_L_onedown_snow (construction_state);
@@ -8362,12 +8861,19 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
         graphics {
             default:                 switch_shotengai_slopes_sprites;
             foundations:             CB_RESULT_NO_FOUNDATIONS;
-            construction_check:      switch_slopes_only_con_check;
+            construction_check:      SlopesNotByTheSea;
             cargo_production:        func_produce(3,1);
         }
     }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/dense_townhouses/dense_townhouses.pnml" 1
+// Ground
+
+        spriteset (spr_dense_townhouses_h_g_ground_norm, "src/houses/dense_townhouses/gfx/ground_norm.png") {template_ground_norm(80,1)}
+        spriteset (spr_dense_townhouses_h_g_ground_snow, "src/houses/dense_townhouses/gfx/ground_snow.png") {template_ground_norm(80,1)}
+        spriteset (spr_dense_townhouses_h_h_ground_norm, "src/houses/dense_townhouses/gfx/ground_norm.png") {template_ground_norm(80,2)}
+        spriteset (spr_dense_townhouses_h_h_ground_snow, "src/houses/dense_townhouses/gfx/ground_snow.png") {template_ground_norm(80,2)}
+
 // Buildings
 
     // G
@@ -8414,7 +8920,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | G level | Norm
     spritelayout sprlay_dense_townhouses_h_g_norm {
         ground {
-            sprite:        spr_ground_grass (LOAD_TEMP(2));
+            sprite:        spr_dense_townhouses_h_g_ground_norm(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_g_norm (construction_state);
@@ -8441,7 +8947,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | G level | Snow
     spritelayout sprlay_dense_townhouses_h_g_snow {
         ground {
-            sprite:        spr_ground_snow (LOAD_TEMP(2));
+            sprite:        spr_dense_townhouses_h_g_ground_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_g_snow (construction_state);
@@ -8468,7 +8974,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | H level | Norm
     spritelayout sprlay_dense_townhouses_h_h_norm {
         ground {
-            sprite:        spr_ground_grass (LOAD_TEMP(2));
+            sprite:        spr_dense_townhouses_h_h_ground_norm(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_h_norm (construction_state);
@@ -8495,7 +9001,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
 // H variant | H level | Snow
     spritelayout sprlay_dense_townhouses_h_h_snow {
         ground {
-            sprite:        spr_ground_snow (LOAD_TEMP(2));
+            sprite:        spr_dense_townhouses_h_h_ground_snow(LOAD_TEMP(2));
         }
         building {
             sprite:        spr_dense_townhouses_h_h_snow (construction_state);
@@ -8713,7 +9219,6 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             minimum_lifetime:        5;
             availability_mask:       [bitmask(TOWNZONE_OUTSKIRT, TOWNZONE_OUTER_SUBURB, TOWNZONE_INNER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
             building_class:          0;
-            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED);
         }
         graphics {
             default:                 switch_dense_townhouses_sprites;
@@ -9405,7 +9910,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
         graphics {
             default:                 switch_dense_townhouses_slopes_sprites;
             foundations:             CB_RESULT_NO_FOUNDATIONS;
-            construction_check:      switch_slopes_only_con_check;
+            construction_check:      SlopesNotByTheSea;
             cargo_production:        func_produce(3,1);
         }
     }
@@ -11081,7 +11586,1191 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
         }
         graphics {
             default:                 switch_three_wooden_houses_sprites;
+            construction_check:      FlatConCheck();
             cargo_production:        func_produce(1,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/three_wooden_houses_slopes/three_wooden_houses_slopes.pnml" 1
+// Ground
+
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_diagonal_light, "src/houses/three_wooden_houses_slopes/gfx/ground_light.png") {template_ground_hill(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_diagonal_dark, "src/houses/three_wooden_houses_slopes/gfx/ground_dark.png") {template_ground_hill(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_diagonal_snow, "src/houses/three_wooden_houses_slopes/gfx/ground_snow.png") {template_ground_hill(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_oneup_light, "src/houses/three_wooden_houses_slopes/gfx/ground_light.png") {template_ground_hill(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_oneup_dark, "src/houses/three_wooden_houses_slopes/gfx/ground_dark.png") {template_ground_hill(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_oneup_snow, "src/houses/three_wooden_houses_slopes/gfx/ground_snow.png") {template_ground_hill(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_valley_light, "src/houses/three_wooden_houses_slopes/gfx/ground_light.png") {template_ground_hill(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_valley_dark, "src/houses/three_wooden_houses_slopes/gfx/ground_dark.png") {template_ground_hill(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_valley_snow, "src/houses/three_wooden_houses_slopes/gfx/ground_snow.png") {template_ground_hill(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_onedown_light, "src/houses/three_wooden_houses_slopes/gfx/ground_light.png") {template_ground_hill(80,4)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_onedown_dark, "src/houses/three_wooden_houses_slopes/gfx/ground_dark.png") {template_ground_hill(80,4)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_ground_onedown_snow, "src/houses/three_wooden_houses_slopes/gfx/ground_snow.png") {template_ground_hill(80,4)}
+
+// Buildings
+
+    // L
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_norm, "src/houses/three_wooden_houses_slopes/gfx/norm.png") {template_house_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_snow, "src/houses/three_wooden_houses_slopes/gfx/snow.png") {template_house_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_norm, "src/houses/three_wooden_houses_slopes/gfx/norm.png") {template_house_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_snow, "src/houses/three_wooden_houses_slopes/gfx/snow.png") {template_house_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_norm, "src/houses/three_wooden_houses_slopes/gfx/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_snow, "src/houses/three_wooden_houses_slopes/gfx/snow.png") {template_house_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_norm, "src/houses/three_wooden_houses_slopes/gfx/norm.png") {template_house_norm(80,4)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_snow, "src/houses/three_wooden_houses_slopes/gfx/snow.png") {template_house_norm(80,4)}
+
+// Right
+
+    // L
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_right_norm, "src/houses/dense_townhouses_slopes/gfx/right_norm.png") {template_child_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_right_snow, "src/houses/dense_townhouses_slopes/gfx/right_snow.png") {template_child_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_right_norm, "src/houses/dense_townhouses_slopes/gfx/right_norm.png") {template_child_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_right_snow, "src/houses/dense_townhouses_slopes/gfx/right_snow.png") {template_child_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_right_norm, "src/houses/dense_townhouses_slopes/gfx/right_norm.png") {template_child_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_right_snow, "src/houses/dense_townhouses_slopes/gfx/right_snow.png") {template_child_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_right_norm, "src/houses/dense_townhouses_slopes/gfx/right_norm.png") {template_child_norm(80,4)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_right_snow, "src/houses/dense_townhouses_slopes/gfx/right_snow.png") {template_child_norm(80,4)}
+
+// Front
+
+    // L
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_front_norm, "src/houses/dense_townhouses_slopes/gfx/front_norm.png") {template_child_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_front_snow, "src/houses/dense_townhouses_slopes/gfx/front_snow.png") {template_child_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_front_norm, "src/houses/dense_townhouses_slopes/gfx/front_norm.png") {template_child_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_front_snow, "src/houses/dense_townhouses_slopes/gfx/front_snow.png") {template_child_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_front_norm, "src/houses/dense_townhouses_slopes/gfx/front_norm.png") {template_child_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_front_snow, "src/houses/dense_townhouses_slopes/gfx/front_snow.png") {template_child_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_front_norm, "src/houses/dense_townhouses_slopes/gfx/front_norm.png") {template_child_norm(80,4)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_front_snow, "src/houses/dense_townhouses_slopes/gfx/front_snow.png") {template_child_norm(80,4)}
+
+// Trees
+
+    // L
+        spriteset (spr_three_wooden_houses_slopes_h_L_diagonal_trees, "src/houses/three_wooden_houses_slopes/gfx/trees.png") {template_child_norm(80,1)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_oneup_trees, "src/houses/three_wooden_houses_slopes/gfx/trees.png") {template_child_norm(80,2)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_valley_trees, "src/houses/three_wooden_houses_slopes/gfx/trees.png") {template_child_norm(80,3)}
+        spriteset (spr_three_wooden_houses_slopes_h_L_onedown_trees, "src/houses/three_wooden_houses_slopes/gfx/trees.png") {template_child_norm(80,4)}
+
+
+// Spritelayouts for three_wooden_houses_slopes
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_diagonal_light_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_diagonal_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_diagonal_dark_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_diagonal_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_oneup_light_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_oneup_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_oneup_dark_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_oneup_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_valley_light_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_valley_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_valley_dark_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_valley_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_onedown_light_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_onedown_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_onedown_dark_norm {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_onedown_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_right_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_front_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_diagonal_snow {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_diagonal_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_right_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_front_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_diagonal_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_oneup_snow {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_oneup_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_right_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_front_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_oneup_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_valley_snow {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_valley_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_right_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_front_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_valley_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_three_wooden_houses_slopes_h_L_onedown_snow {
+        ground {
+            sprite:        spr_three_wooden_houses_slopes_h_L_ground_onedown_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // right
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_right_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(17);
+        }
+        childsprite { // front
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_front_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(19);
+        }
+        childsprite { // trees
+            sprite:        spr_three_wooden_houses_slopes_h_L_onedown_trees (LOAD_TEMP(2)); 
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_build_clr_new, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_build_clr_old, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+    // Right Colours - Right Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_right_new, getbits(random_bits, 2, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_right_old, getbits(random_bits, 2, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+    // Front Colours - Front Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_front_new, getbits(random_bits, 3, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_front_old, getbits(random_bits, 3, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_diagonal_snow; sprlay_three_wooden_houses_slopes_h_L_diagonal_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_light_oneup_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_oneup_snow; sprlay_three_wooden_houses_slopes_h_L_oneup_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_light_valley_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_valley_snow; sprlay_three_wooden_houses_slopes_h_L_valley_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_light_onedown_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_onedown_snow; sprlay_three_wooden_houses_slopes_h_L_onedown_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_diagonal_snow; sprlay_three_wooden_houses_slopes_h_L_diagonal_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_dark_oneup_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_oneup_snow; sprlay_three_wooden_houses_slopes_h_L_oneup_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_dark_valley_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_valley_snow; sprlay_three_wooden_houses_slopes_h_L_valley_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_three_wooden_houses_slopes_h_L_dark_onedown_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_build_clr_old() : three_wooden_houses_slopes_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_right_old() : three_wooden_houses_slopes_right_new(), 17), 
+                STORE_TEMP((current_year - age) < 1945 ? three_wooden_houses_slopes_front_old() : three_wooden_houses_slopes_front_new(), 19), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_three_wooden_houses_slopes_h_L_onedown_snow; sprlay_three_wooden_houses_slopes_h_L_onedown_dark_norm; } 
+
+    // Which sprite quartet to use based on slope - light
+    switch (FEAT_HOUSES,SELF,switch_three_wooden_houses_slopes_h_L_light_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_three_wooden_houses_slopes_h_L_light_oneup_sprites;
+        SLOPE_S:   switch_three_wooden_houses_slopes_h_L_light_oneup_sprites;
+        SLOPE_E:   switch_three_wooden_houses_slopes_h_L_light_oneup_sprites;
+        SLOPE_N:   switch_three_wooden_houses_slopes_h_L_light_oneup_sprites;
+        SLOPE_SW:  switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites;
+        SLOPE_SE:  switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites;
+        SLOPE_NW:  switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites;
+        SLOPE_NE:  switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites;
+        SLOPE_EW:  switch_three_wooden_houses_slopes_h_L_light_valley_sprites;
+        SLOPE_NS:  switch_three_wooden_houses_slopes_h_L_light_valley_sprites;
+        SLOPE_NWS: switch_three_wooden_houses_slopes_h_L_light_onedown_sprites;
+        SLOPE_WSE: switch_three_wooden_houses_slopes_h_L_light_onedown_sprites;
+        SLOPE_SEN: switch_three_wooden_houses_slopes_h_L_light_onedown_sprites;
+        SLOPE_ENW: switch_three_wooden_houses_slopes_h_L_light_onedown_sprites;
+        SLOPE_FLAT:switch_three_wooden_houses_slopes_h_L_light_valley_sprites;
+        switch_three_wooden_houses_slopes_h_L_light_diagonal_sprites;
+    }
+
+    // Which sprite quartet to use based on slope - dark
+    switch (FEAT_HOUSES,SELF,switch_three_wooden_houses_slopes_h_L_dark_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_three_wooden_houses_slopes_h_L_dark_oneup_sprites;
+        SLOPE_S:   switch_three_wooden_houses_slopes_h_L_dark_oneup_sprites;
+        SLOPE_E:   switch_three_wooden_houses_slopes_h_L_dark_oneup_sprites;
+        SLOPE_N:   switch_three_wooden_houses_slopes_h_L_dark_oneup_sprites;
+        SLOPE_SW:  switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_SE:  switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_NW:  switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_NE:  switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites;
+        SLOPE_EW:  switch_three_wooden_houses_slopes_h_L_dark_valley_sprites;
+        SLOPE_NS:  switch_three_wooden_houses_slopes_h_L_dark_valley_sprites;
+        SLOPE_NWS: switch_three_wooden_houses_slopes_h_L_dark_onedown_sprites;
+        SLOPE_WSE: switch_three_wooden_houses_slopes_h_L_dark_onedown_sprites;
+        SLOPE_SEN: switch_three_wooden_houses_slopes_h_L_dark_onedown_sprites;
+        SLOPE_ENW: switch_three_wooden_houses_slopes_h_L_dark_onedown_sprites;
+        SLOPE_FLAT:switch_three_wooden_houses_slopes_h_L_dark_valley_sprites;
+        switch_three_wooden_houses_slopes_h_L_dark_diagonal_sprites;
+    }
+
+    // Which ground tile to use
+    switch (FEAT_HOUSES,SELF,switch_three_wooden_houses_slopes_sprites, GroundSlopesGround()  ) {
+        0:  switch_three_wooden_houses_slopes_h_L_light_sprites;
+            switch_three_wooden_houses_slopes_h_L_dark_sprites;
+    }
+
+
+// Item Block
+    item(FEAT_HOUSES, item_three_wooden_houses_slopes, 16, HOUSE_SIZE_1X1){
+        property {
+            substitute:              6;
+            name:                    string(NAME_THREE_WOODEN_HOUSES_SLOPES);
+            population:              20;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [1900,0xFFFF];
+            minimum_lifetime:        5;
+            availability_mask:       [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          0;
+        }
+        graphics {
+            default:                 switch_three_wooden_houses_slopes_sprites;
+            foundations:             CB_RESULT_NO_FOUNDATIONS;
+            construction_check:      SlopesNotByTheSea;
+            cargo_production:        func_produce(3,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/waterfront_house/waterfront_house.pnml" 1
+// Ground
+
+        spriteset (spr_waterfront_house_h_L_ground_diagonal_light, "src/houses/waterfront_house/gfx/ground_light.png") {template_ground_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_ground_diagonal_dark, "src/houses/waterfront_house/gfx/ground_dark.png") {template_ground_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_ground_diagonal_snow, "src/houses/waterfront_house/gfx/ground_snow.png") {template_ground_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_ground_oneup_light, "src/houses/waterfront_house/gfx/ground_light.png") {template_ground_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_ground_oneup_dark, "src/houses/waterfront_house/gfx/ground_dark.png") {template_ground_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_ground_oneup_snow, "src/houses/waterfront_house/gfx/ground_snow.png") {template_ground_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_ground_valley_light, "src/houses/waterfront_house/gfx/ground_light.png") {template_ground_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_ground_valley_dark, "src/houses/waterfront_house/gfx/ground_dark.png") {template_ground_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_ground_valley_snow, "src/houses/waterfront_house/gfx/ground_snow.png") {template_ground_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_ground_onedown_light, "src/houses/waterfront_house/gfx/ground_light.png") {template_ground_norm(80,4)}
+        spriteset (spr_waterfront_house_h_L_ground_onedown_dark, "src/houses/waterfront_house/gfx/ground_dark.png") {template_ground_norm(80,4)}
+        spriteset (spr_waterfront_house_h_L_ground_onedown_snow, "src/houses/waterfront_house/gfx/ground_snow.png") {template_ground_norm(80,4)}
+
+// Buildings
+
+    // L
+        spriteset (spr_waterfront_house_h_L_diagonal_norm, "src/houses/waterfront_house/gfx/norm.png") {template_house_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_diagonal_snow, "src/houses/waterfront_house/gfx/snow.png") {template_house_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_oneup_norm, "src/houses/waterfront_house/gfx/norm.png") {template_house_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_oneup_snow, "src/houses/waterfront_house/gfx/snow.png") {template_house_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_valley_norm, "src/houses/waterfront_house/gfx/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_valley_snow, "src/houses/waterfront_house/gfx/snow.png") {template_house_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_onedown_norm, "src/houses/waterfront_house/gfx/norm.png") {template_house_norm(80,4)}
+        spriteset (spr_waterfront_house_h_L_onedown_snow, "src/houses/waterfront_house/gfx/snow.png") {template_house_norm(80,4)}
+
+// Fence
+
+    // L
+        spriteset (spr_waterfront_house_h_L_diagonal_fence, "src/houses/waterfront_house/gfx/fence.png") {template_child_norm(80,1)}
+        spriteset (spr_waterfront_house_h_L_oneup_fence, "src/houses/waterfront_house/gfx/fence.png") {template_child_norm(80,2)}
+        spriteset (spr_waterfront_house_h_L_valley_fence, "src/houses/waterfront_house/gfx/fence.png") {template_child_norm(80,3)}
+        spriteset (spr_waterfront_house_h_L_onedown_fence, "src/houses/waterfront_house/gfx/fence.png") {template_child_norm(80,4)}
+
+
+// Spritelayouts for waterfront_house
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_diagonal_light_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_diagonal_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_diagonal_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_diagonal_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_diagonal_dark_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_diagonal_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_diagonal_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_diagonal_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_oneup_light_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_oneup_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_oneup_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_oneup_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_oneup_dark_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_oneup_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_oneup_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_oneup_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_valley_light_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_valley_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_valley_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_valley_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_valley_dark_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_valley_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_valley_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_valley_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_onedown_light_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_onedown_light(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_onedown_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_onedown_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_house_h_L_onedown_dark_norm {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_onedown_dark(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_onedown_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_onedown_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_house_h_L_diagonal_snow {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_diagonal_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_diagonal_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_diagonal_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_house_h_L_oneup_snow {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_oneup_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_oneup_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_oneup_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_house_h_L_valley_snow {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_valley_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_valley_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_valley_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_house_h_L_onedown_snow {
+        ground {
+            sprite:        spr_waterfront_house_h_L_ground_onedown_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_waterfront_house_h_L_onedown_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_house_h_L_onedown_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, waterfront_house_build_clr_new, getbits(random_bits, 1, 3)) {
+            0:  return 31;
+            1:  return 53;
+            2:  return 60;
+            3:  return 61;
+            4:  return 62;
+            5:  return 70;
+            6:  return 78;
+                return 84;
+        }
+        switch (FEAT_HOUSES, SELF, waterfront_house_build_clr_old, getbits(random_bits, 1, 3)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 22;
+            3:  return 23;
+            4:  return 25;
+            5:  return 62;
+            6:  return 92;
+                return 93;
+        }
+    // Fence Colours - Fence Colours Profiles: ['mar484Dbla0106', 'mar484Dbrn2025', 'mar484Dbrn2227', 'red_brown']
+        switch (FEAT_HOUSES, SELF, waterfront_house_fence_new, getbits(random_bits, 2, 2)) {
+            0:  return 12;
+            1:  return 84;
+            2:  return 85;
+                return 86;
+        }
+        switch (FEAT_HOUSES, SELF, waterfront_house_fence_old, getbits(random_bits, 2, 2)) {
+            0:  return 12;
+            1:  return 84;
+            2:  return 85;
+                return 86;
+        }
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_light_diagonal_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_diagonal_snow; sprlay_waterfront_house_h_L_diagonal_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_light_oneup_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_oneup_snow; sprlay_waterfront_house_h_L_oneup_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_light_valley_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_valley_snow; sprlay_waterfront_house_h_L_valley_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_light_onedown_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_onedown_snow; sprlay_waterfront_house_h_L_onedown_light_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_dark_diagonal_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_diagonal_snow; sprlay_waterfront_house_h_L_diagonal_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_dark_oneup_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_oneup_snow; sprlay_waterfront_house_h_L_oneup_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_dark_valley_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_valley_snow; sprlay_waterfront_house_h_L_valley_dark_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_waterfront_house_h_L_dark_onedown_sprites, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_build_clr_old() : waterfront_house_build_clr_new(),1), 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_house_fence_old() : waterfront_house_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_house_h_L_onedown_snow; sprlay_waterfront_house_h_L_onedown_dark_norm; } 
+
+    // Which sprite quartet to use based on slope - light
+    switch (FEAT_HOUSES,SELF,switch_waterfront_house_h_L_light_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_waterfront_house_h_L_light_oneup_sprites;
+        SLOPE_S:   switch_waterfront_house_h_L_light_oneup_sprites;
+        SLOPE_E:   switch_waterfront_house_h_L_light_oneup_sprites;
+        SLOPE_N:   switch_waterfront_house_h_L_light_oneup_sprites;
+        SLOPE_SW:  switch_waterfront_house_h_L_light_diagonal_sprites;
+        SLOPE_SE:  switch_waterfront_house_h_L_light_diagonal_sprites;
+        SLOPE_NW:  switch_waterfront_house_h_L_light_diagonal_sprites;
+        SLOPE_NE:  switch_waterfront_house_h_L_light_diagonal_sprites;
+        SLOPE_EW:  switch_waterfront_house_h_L_light_valley_sprites;
+        SLOPE_NS:  switch_waterfront_house_h_L_light_valley_sprites;
+        SLOPE_NWS: switch_waterfront_house_h_L_light_onedown_sprites;
+        SLOPE_WSE: switch_waterfront_house_h_L_light_onedown_sprites;
+        SLOPE_SEN: switch_waterfront_house_h_L_light_onedown_sprites;
+        SLOPE_ENW: switch_waterfront_house_h_L_light_onedown_sprites;
+        SLOPE_FLAT:switch_waterfront_house_h_L_light_valley_sprites;
+        switch_waterfront_house_h_L_light_diagonal_sprites;
+    }
+
+    // Which sprite quartet to use based on slope - dark
+    switch (FEAT_HOUSES,SELF,switch_waterfront_house_h_L_dark_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_waterfront_house_h_L_dark_oneup_sprites;
+        SLOPE_S:   switch_waterfront_house_h_L_dark_oneup_sprites;
+        SLOPE_E:   switch_waterfront_house_h_L_dark_oneup_sprites;
+        SLOPE_N:   switch_waterfront_house_h_L_dark_oneup_sprites;
+        SLOPE_SW:  switch_waterfront_house_h_L_dark_diagonal_sprites;
+        SLOPE_SE:  switch_waterfront_house_h_L_dark_diagonal_sprites;
+        SLOPE_NW:  switch_waterfront_house_h_L_dark_diagonal_sprites;
+        SLOPE_NE:  switch_waterfront_house_h_L_dark_diagonal_sprites;
+        SLOPE_EW:  switch_waterfront_house_h_L_dark_valley_sprites;
+        SLOPE_NS:  switch_waterfront_house_h_L_dark_valley_sprites;
+        SLOPE_NWS: switch_waterfront_house_h_L_dark_onedown_sprites;
+        SLOPE_WSE: switch_waterfront_house_h_L_dark_onedown_sprites;
+        SLOPE_SEN: switch_waterfront_house_h_L_dark_onedown_sprites;
+        SLOPE_ENW: switch_waterfront_house_h_L_dark_onedown_sprites;
+        SLOPE_FLAT:switch_waterfront_house_h_L_dark_valley_sprites;
+        switch_waterfront_house_h_L_dark_diagonal_sprites;
+    }
+
+    // Which ground tile to use
+    switch (FEAT_HOUSES,SELF,switch_waterfront_house_sprites, GroundSlopesGround()  ) {
+        0:  switch_waterfront_house_h_L_light_sprites;
+            switch_waterfront_house_h_L_dark_sprites;
+    }
+
+
+// Item Block
+    item(FEAT_HOUSES, item_waterfront_house, 21, HOUSE_SIZE_1X1){
+        property {
+            substitute:              6;
+            name:                    string(NAME_WATERFRONT_HOUSE);
+            population:              20;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             5;
+            years_available:         [1870,0xFFFF];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_OUTER_SUBURB , TOWNZONE_OUTSKIRT, TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          0;
+        }
+        graphics {
+            default:                 switch_waterfront_house_sprites;
+            construction_check:      switch_waterfront_con_check;
+            cargo_production:        func_produce(2,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/waterfront_diagonal/waterfront_diagonal.pnml" 1
+// Buildings
+
+    // L
+        spriteset (spr_waterfront_diagonal_h_L_norm, "src/houses/waterfront_diagonal/gfx/earth_norm.png") {template_house_norm(80,2)}
+        spriteset (spr_waterfront_diagonal_h_L_snow, "src/houses/waterfront_diagonal/gfx/earth_snow.png") {template_house_norm(80,2)}
+
+// Found
+
+        spriteset (spr_waterfront_diagonal_h_found, "src/houses/waterfront_diagonal/gfx/found.png") {template_child_norm(80,2)}
+
+// House
+
+        spriteset (spr_waterfront_diagonal_h_house_norm, "src/houses/waterfront_diagonal/gfx/house_norm.png") {template_child_norm(80,2)}
+        spriteset (spr_waterfront_diagonal_h_house_snow, "src/houses/waterfront_diagonal/gfx/house_snow.png") {template_child_norm(80,2)}
+
+// Fence
+
+        spriteset (spr_waterfront_diagonal_h_fence, "src/houses/waterfront_diagonal/gfx/fence.png") {template_child_norm(80,2)}
+
+
+// Spritelayouts for waterfront_diagonal
+
+// H variant | L level | Norm
+    spritelayout sprlay_waterfront_diagonal_h_L_norm {
+        ground {
+            sprite:        GROUNDSPRITE_WATER;
+        }
+        building {
+            sprite:        spr_waterfront_diagonal_h_L_norm (LOAD_TEMP(2));
+            always_draw:  1;
+        }
+        childsprite { // found
+            sprite:        spr_waterfront_diagonal_h_found (LOAD_TEMP(2)); 
+            always_draw:  1;
+        }
+        childsprite { // house
+            sprite:        spr_waterfront_diagonal_h_house_norm (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(23);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_diagonal_h_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_waterfront_diagonal_h_L_snow {
+        ground {
+            sprite:        GROUNDSPRITE_WATER;
+        }
+        building {
+            sprite:        spr_waterfront_diagonal_h_L_snow (LOAD_TEMP(2));
+            always_draw:  1;
+        }
+        childsprite { // found
+            sprite:        spr_waterfront_diagonal_h_found (LOAD_TEMP(2)); 
+            always_draw:  1;
+        }
+        childsprite { // house
+            sprite:        spr_waterfront_diagonal_h_house_snow (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(23);
+        }
+        childsprite { // fence
+            sprite:        spr_waterfront_diagonal_h_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+
+// Random Switches
+    // House Colours - House Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_house_new, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_house_old, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+    // Fence Colours - Fence Colours Profiles: ['mar484Dbla0106', 'mar484Dbrn2025', 'mar484Dbrn2227', 'red_brown']
+        switch (FEAT_HOUSES, SELF, waterfront_diagonal_fence_new, getbits(random_bits, 2, 2)) {
+            0:  return 12;
+            1:  return 84;
+            2:  return 85;
+                return 86;
+        }
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_waterfront_diagonal_waterfront, [ 
+                STORE_TEMP((current_year - age) < 1959 ? waterfront_diagonal_house_old() : waterfront_diagonal_house_new(), 23), 
+                STORE_TEMP(waterfront_diagonal_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_waterfront_diagonal_h_L_snow; sprlay_waterfront_diagonal_h_L_norm; } 
+
+    switch (FEAT_HOUSES, SELF, switch_waterfront_diagonal_sprites, CornerSeaCheck() ){
+        1:  switch_waterfront_diagonal_waterfront;
+            switch_fountain_fallback_sprites;
+        } 
+
+// Item Block
+    item(FEAT_HOUSES, item_waterfront_diagonal, 4, HOUSE_SIZE_1X1){
+        property {
+            substitute:              6;
+            name:                    string(NAME_WATERFRONT_DIAGONAL);
+            population:              20;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             5;
+            years_available:         [1870,0xFFFF];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_OUTER_SUBURB , TOWNZONE_OUTSKIRT, TOWNZONE_EDGE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          0;
+        }
+        graphics {
+            default:                 switch_waterfront_diagonal_sprites;
+            foundations:             CB_RESULT_NO_FOUNDATIONS;
+            construction_check:      CornerSeaCheck();
+            cargo_production:        func_produce(2,1);
         }
     }
 # 1 "JPplusBuildings.pnml" 4
