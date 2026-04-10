@@ -35,38 +35,18 @@
 
 	) {return;}	
 
-	// Flat is fine, one side up or two sides up are not
-	switch(FEAT_HOUSES, SELF, FlatConCheck, nearby_tile_slope(0,0) ) {
-		SLOPE_FLAT: return 1;
-		SLOPE_W:   	return 0;
-        SLOPE_S:  	return 0;
-        SLOPE_E:   	return 0;
-        SLOPE_N:   	return 0;
-        SLOPE_SW: 	return 0;
-        SLOPE_SE:  	return 0;
-        SLOPE_NW:  	return 0;
-        SLOPE_NE:  	return 0;
-        SLOPE_EW:  	return 0;
-        SLOPE_NS:  	return 0;
-		OtherFlatScenarios();
-	}
-
-// Shotengai
-	switch(FEAT_HOUSES, SELF, switch_shotengai_con_check, 
-		( 
-			current_year < 1945
-				||
-			(current_year >= 1945 && !FuncServicePASS() ) 
-		)
-			&&
-		FlatConCheck()
-
-	) {return;}	
+// River adjacent
+	switch(FEAT_HOUSES, SELF, RiverAdjacent,	
+		nearby_tile_water_class(-1, 0) == WATER_CLASS_RIVER || nearby_tile_water_class(-1, 0) == WATER_CLASS_CANAL ||
+		nearby_tile_water_class( 1, 0) == WATER_CLASS_RIVER || nearby_tile_water_class( 1, 0) == WATER_CLASS_CANAL ||
+		nearby_tile_water_class( 0,-1) == WATER_CLASS_RIVER || nearby_tile_water_class( 0,-1) == WATER_CLASS_CANAL ||
+		nearby_tile_water_class( 0, 1) == WATER_CLASS_RIVER || nearby_tile_water_class( 0, 1) == WATER_CLASS_CANAL 
+	) {return;}
 
 // Slopes Only
 	// Water is in 
 
-	// Corner Slopes - returns 1 if one of the four corners is a sea facing corner
+	// "Oneup" Corner Slopes - returns 1 if one of the four corners is a sea facing corner
 	switch(FEAT_HOUSES, SELF, CornerSeaCheck,	
 		( 	// East Facing
 			nearby_tile_slope(0,0) == SLOPE_W && 
@@ -96,53 +76,99 @@
 		)
 	) {return;}
 
-	// Bank Slopes
+	// "Diagonal" Bank Slopes
 	switch(FEAT_HOUSES, SELF, DiagonalSeaSlopeCheck,	
 		( 	// North East Facing
 			nearby_tile_slope(0,0) == SLOPE_SW && 
-			nearby_tile_water_class( 0,-1) == WATER_CLASS_SEA		// NE
+			nearby_tile_water_class(-1, 0) == WATER_CLASS_SEA		// NE
 		)
 			||
 		
 		( 	// North West Facing
 			nearby_tile_slope(0,0) == SLOPE_SE && 
-			nearby_tile_water_class(-1, 0) == WATER_CLASS_SEA		// NW
+			nearby_tile_water_class( 0,-1) == WATER_CLASS_SEA		// NW
 		)
 			||
 		(	// South East Facing
 			nearby_tile_slope(0,0) == SLOPE_NW && 
-			nearby_tile_water_class( 1, 0) == WATER_CLASS_SEA 		// SE
+			nearby_tile_water_class( 0, 1) == WATER_CLASS_SEA 		// SE
 		)
 			||
 		(
 			// South West Facing
 			nearby_tile_slope(0,0) == SLOPE_NE && 
-			nearby_tile_water_class( 0, 1) == WATER_CLASS_SEA 		// SW
+			nearby_tile_water_class( 1, 0) == WATER_CLASS_SEA 		// SW
 		)
 	) {return;}
 
-	switch(FEAT_HOUSES, SELF, AdjacentSeaCheck, 
-		!CornerSeaCheck() &&
-		!DiagonalSeaSlopeCheck()
+	// "Onedown"
+	switch(FEAT_HOUSES, SELF, OneDownBySea,
+		(
+			nearby_tile_slope(0,0) == SLOPE_NWS &&
+			nearby_tile_water_class(-1, 1) == WATER_CLASS_SEA
+		)
+			||
+		(
+			nearby_tile_slope(0,0) == SLOPE_WSE &&
+			nearby_tile_water_class(-1,-1) == WATER_CLASS_SEA
+		)
+			||
+		(
+			nearby_tile_slope(0,0) == SLOPE_SEN &&
+			nearby_tile_water_class( 1,-1) == WATER_CLASS_SEA
+		)
+			||
+		(
+			nearby_tile_slope(0,0) == SLOPE_ENW &&
+			nearby_tile_water_class( 1, 1) == WATER_CLASS_SEA
+		)
 	) {return;}
 
-	// Check it's not flat
-	switch(FEAT_HOUSES, SELF, NoSeaAdjacent, 
-		nearby_tile_water_class(-1,-1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(-1, 0) != WATER_CLASS_SEA &&
-		nearby_tile_water_class(-1, 1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class( 0,-1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class( 0, 1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class( 1,-1) != WATER_CLASS_SEA &&
-		nearby_tile_water_class( 1, 0) != WATER_CLASS_SEA &&
-		nearby_tile_water_class( 1, 1) != WATER_CLASS_SEA
+	switch(FEAT_HOUSES, SELF, SeaAdjacent, 
+		CornerSeaCheck() ||
+		DiagonalSeaSlopeCheck() ||
+		OneDownBySea()
 	) {return;}
 
 	// Slopes not beside the sea
 	switch(FEAT_HOUSES, SELF, SlopesNotByTheSea, nearby_tile_slope(0,0) ) {
 		SLOPE_FLAT: return 0;
-		NoSeaAdjacent();
+		!SeaAdjacent();
 	}
+
+	// Flat is fine, one side up or two sides up are not
+	switch(FEAT_HOUSES, SELF, FlatConCheck, nearby_tile_slope(0,0) ) {
+		SLOPE_FLAT: return 1;
+		SLOPE_W:   	return 0;
+        SLOPE_S:  	return 0;
+        SLOPE_E:   	return 0;
+        SLOPE_N:   	return 0;
+        SLOPE_SW: 	return 0;
+        SLOPE_SE:  	return 0;
+        SLOPE_NW:  	return 0;
+        SLOPE_NE:  	return 0;
+        SLOPE_EW:  	return 0;
+        SLOPE_NS:  	return 0;
+		OtherFlatScenarios();
+	}
+
+// Shotengai
+	switch(FEAT_HOUSES, SELF, ShotengaiOnFlat, 
+		( 
+			current_year < 1945
+				||
+			(current_year >= 1945 && !FuncServicePASS() ) 
+		)
+			&&
+		(
+			nearby_tile_slope(0,0) == SLOPE_FLAT
+				||
+			DiagonalSeaSlopeCheck() 
+				||
+			OneDownBySea()
+		)
+
+	) {return;}	
 
 // Tiny Height
 
@@ -366,11 +392,6 @@
 		FuncServicePASS() &&				// Must have road to the SW
 		NumHousesOverMediumThreshold() &&			// Population must be > 1Medium Threshold
 		TileGapByType(30)					// Can't appear within 30 tiles of another
-	) {return;}	
-
-// Waterfront
-	switch (FEAT_HOUSES, SELF, switch_waterfront_con_check, 
-		!AdjacentSeaCheck()
 	) {return;}	
 
 // Farm

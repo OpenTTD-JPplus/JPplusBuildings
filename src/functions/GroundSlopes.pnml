@@ -1,7 +1,28 @@
 
 
+    switch (FEAT_HOUSES,SELF,GroundSlopesRiverDirections, RiverDirections() ) {
+        1:  return 2;   // SE
+        2:  return 3;   // SW
+        3:  return 3;   // SE && SW		SOUTH
+        4:  return 1;   // NW
+        5:  return 2;   // SE 
+        6:  return 2;   // NW && SW		WEST
+        8:  return 0;   // NE
+        9:  return 0;   // NE && SE		EAST
+        12: return 1;   // NE && NW		NORTH
+        13: return 0;   // NE, NW, SE
+        14: return 2;   // NE, NW, SW
+        return 3;
+        }
+
+    switch (FEAT_HOUSES,SELF,GroundSlopesRiverCheck, RiverAdjacent() ) {
+        1:   GroundSlopesRiverDirections;
+        return 3;
+        }
+
+
 // For picking the correct slope sprite for houses on slopes
-    switch (FEAT_HOUSES,SELF,GroundSlopes, nearby_tile_slope(0,0)  ) {
+    switch (FEAT_HOUSES,SELF,GroundSlopes, nearby_tile_slope(0,0) ) {
         SLOPE_W:   return 0;
         SLOPE_S:   return 1;
         SLOPE_E:   return 2;
@@ -16,7 +37,7 @@
         SLOPE_WSE: return 1;
         SLOPE_SEN: return 2;
         SLOPE_ENW: return 3;
-        SLOPE_FLAT:return 3;
+        SLOPE_FLAT:GroundSlopesRiverCheck;
         return 0;
         }
 
