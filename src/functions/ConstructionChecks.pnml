@@ -163,6 +163,22 @@
 		(
 			nearby_tile_slope(0,0) == SLOPE_FLAT
 				||
+			OneDownBySea()
+		)
+
+	) {return;}	
+
+// Waterfront buildings
+	switch(FEAT_HOUSES, SELF, WaterfrontOnFlat, 
+		( 
+			current_year < 1945
+				||
+			(current_year >= 1945 && !FuncServicePASS() ) 
+		)
+			&&
+		(
+			nearby_tile_slope(0,0) == SLOPE_FLAT
+				||
 			DiagonalSeaSlopeCheck() 
 				||
 			OneDownBySea()
