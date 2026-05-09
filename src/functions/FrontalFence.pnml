@@ -1,0 +1,33 @@
+
+
+    switch (FEAT_HOUSES,SELF,FrontalFenceRiverDirections, RiverDirections() ) {
+        1:  return 2;   // SE
+        2:  return 1;   // SW
+        3:  return 3;   // SE && SW		SOUTH
+        5:  return 2;   // SE 
+        6:  return 2;   // NW && SW		WEST
+        9:  return 2;   // NE && SE		EAST
+        13: return 2;   // NE, NW, SE
+        14: return 1;   // NE, NW, SW
+        return 0;
+        }
+
+    switch (FEAT_HOUSES,SELF,FrontalFenceRiverCheck, RiverAdjacent() ) {
+        1:   FrontalFenceRiverDirections;
+        return 0;
+        }
+
+
+// For picking the correct slope sprite for houses on slopes
+    switch (FEAT_HOUSES,SELF,FrontalFence, nearby_tile_slope(0,0) ) {
+        SLOPE_W:   return 0;
+        SLOPE_S:   return 1;
+        SLOPE_E:   return 2;
+        SLOPE_N:   return 3;
+        SLOPE_NW:  return 2;
+        SLOPE_NE:  return 1;
+        SLOPE_EW:  return 0;
+        SLOPE_NS:  return 1;
+        SLOPE_FLAT:FrontalFenceRiverCheck;
+        return 0;
+        }

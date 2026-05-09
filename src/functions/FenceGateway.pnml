@@ -1,0 +1,29 @@
+
+    random_switch (FEAT_HOUSES, SELF, FenceGatewayRandomSESW ) {
+        1: return 1;
+        1: return 2;
+    }
+
+    random_switch (FEAT_HOUSES, SELF, FenceGatewayRandomNENW ) {
+        1: return 1;
+        1: return 2;
+    }
+    
+    switch (FEAT_HOUSES,SELF,FenceGateway, SpriteDirections() ) {
+        1:  return 2;   // SE
+        2:  return 1;   // SW
+        3:  FenceGatewayRandomSESW;
+        4:  return 0;   // NW
+        5:  return 2;   // NW && SE
+        6:  return 1;   // NW && SW	
+        7:  FenceGatewayRandomSESW; // NW, SW, SE
+        8:  return 3;   // NE
+        9:  return 2;   // NE && SE
+        10: return 1;   // NE && SW
+        11: FenceGatewayRandomSESW; // NE, SE, SW   
+        12: FenceGatewayRandomNENW;   // NE && NW
+        13: return 2;   // NE, NW, SE
+        14: return 1;   // NE, NW, SW   
+        15: FenceGatewayRandomSESW; // All
+        FenceGatewayRandomSESW;
+        }
