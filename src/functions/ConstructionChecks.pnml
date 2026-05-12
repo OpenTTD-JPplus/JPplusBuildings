@@ -333,6 +333,14 @@
 		NumHousesOverMediumThreshold()				// Required city population
 		) {return;}	
 
+// Kabuki
+	switch (FEAT_HOUSES, SELF, switch_kabuki_con_check,
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueHouse() && 						// Only one Temple per city
+		OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
+		nearby_tile_class(2,0) == TILE_CLASS_ROAD || nearby_tile_class(2,0) == TILE_CLASS_STATION 		// Requires a road to the SW, due to sticking out entrance
+		) {return;}	
+
 // Onsen
 	switch (FEAT_HOUSES, SELF, switch_onsen_con_check, 
 		HasRoadAdjacentSW() &&		// Must have road to the SW

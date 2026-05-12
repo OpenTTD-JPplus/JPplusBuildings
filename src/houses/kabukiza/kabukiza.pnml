@@ -1,0 +1,184 @@
+// Ground
+
+        spriteset (spr_kabukiza_e_ground_norm, "src/houses/kabukiza/gfx/ground_norm.png") {template_ground_norm(100,3)}
+        spriteset (spr_kabukiza_e_ground_snow, "src/houses/kabukiza/gfx/ground_snow.png") {template_ground_norm(100,3)}
+        spriteset (spr_kabukiza_n_ground_norm, "src/houses/kabukiza/gfx/ground_norm.png") {template_ground_norm(100,4)}
+        spriteset (spr_kabukiza_n_ground_snow, "src/houses/kabukiza/gfx/ground_snow.png") {template_ground_norm(100,4)}
+        spriteset (spr_kabukiza_s_ground_norm, "src/houses/kabukiza/gfx/ground_norm.png") {template_ground_norm(100,2)}
+        spriteset (spr_kabukiza_s_ground_snow, "src/houses/kabukiza/gfx/ground_snow.png") {template_ground_norm(100,2)}
+        spriteset (spr_kabukiza_w_ground_norm, "src/houses/kabukiza/gfx/ground_norm.png") {template_ground_norm(100,1)}
+        spriteset (spr_kabukiza_w_ground_snow, "src/houses/kabukiza/gfx/ground_snow.png") {template_ground_norm(100,1)}
+
+// Buildings
+
+    // L
+        spriteset (spr_kabukiza_L_norm, "src/houses/kabukiza/gfx/norm.png") {template_house_norm(100,1)}
+        spriteset (spr_kabukiza_L_snow, "src/houses/kabukiza/gfx/snow.png") {template_house_norm(100,1)}
+
+
+// Spritelayouts for kabukiza
+
+// E variant | L level | Norm
+    spritelayout sprlay_kabukiza_e_L_norm {
+        ground {
+            sprite:        spr_kabukiza_e_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_norm (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// E variant | L level | Snow
+    spritelayout sprlay_kabukiza_e_L_snow {
+        ground {
+            sprite:        spr_kabukiza_e_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_snow (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// N variant | L level | Norm
+    spritelayout sprlay_kabukiza_n_L_norm {
+        ground {
+            sprite:        spr_kabukiza_n_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_norm (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+            hide_sprite:  1;
+        }
+    }
+
+// N variant | L level | Snow
+    spritelayout sprlay_kabukiza_n_L_snow {
+        ground {
+            sprite:        spr_kabukiza_n_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_snow (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+            hide_sprite:  1;
+        }
+    }
+
+// S variant | L level | Norm
+    spritelayout sprlay_kabukiza_s_L_norm {
+        ground {
+            sprite:        spr_kabukiza_s_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_norm (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// S variant | L level | Snow
+    spritelayout sprlay_kabukiza_s_L_snow {
+        ground {
+            sprite:        spr_kabukiza_s_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_snow (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// W variant | L level | Norm
+    spritelayout sprlay_kabukiza_w_L_norm {
+        ground {
+            sprite:        spr_kabukiza_w_ground_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_norm (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+// W variant | L level | Snow
+    spritelayout sprlay_kabukiza_w_L_snow {
+        ground {
+            sprite:        spr_kabukiza_w_ground_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_kabukiza_L_snow (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, kabukiza_build_clr_new, getbits(random_bits, 1, 2)) {
+            0:  return 44;
+            1:  return 45;
+            2:  return 53;
+                return 72;
+        }
+
+
+// Spritelayout Switches
+    // e
+        // L
+            switch (FEAT_HOUSES,SELF, switch_kabukiza_e_sprites, [ 
+                STORE_TEMP(kabukiza_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_kabukiza_e_L_snow; sprlay_kabukiza_e_L_norm; } 
+    // n
+        // L
+            switch (FEAT_HOUSES,SELF, switch_kabukiza_n_sprites, [ 
+                STORE_TEMP(kabukiza_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_kabukiza_n_L_snow; sprlay_kabukiza_n_L_norm; } 
+    // s
+        // L
+            switch (FEAT_HOUSES,SELF, switch_kabukiza_s_sprites, [ 
+                STORE_TEMP(kabukiza_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_kabukiza_s_L_snow; sprlay_kabukiza_s_L_norm; } 
+    // w
+        // L
+            switch (FEAT_HOUSES,SELF, switch_kabukiza_w_sprites, [ 
+                STORE_TEMP(kabukiza_build_clr_new(), 1), 
+                STORE_TEMP(GroundAlley(), 2),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_kabukiza_w_L_snow; sprlay_kabukiza_w_L_norm; } 
+
+// Item Block
+    item(FEAT_HOUSES, item_kabukiza, 66, HOUSE_SIZE_2X2){
+        property {
+            substitute:              20;
+            name:                    string(NAME_KABUKIZA);
+            population:              100;
+            accepted_cargos:         [[PASS, 8],[MAIL, 1],[FOOD, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [1870,0xFFFF];
+            minimum_lifetime:        20;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
+            building_class:          3;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+        }
+        graphics {
+            graphics_north:          switch_kabukiza_n_sprites;
+            graphics_east:           switch_kabukiza_e_sprites;
+            graphics_west:           switch_kabukiza_w_sprites;
+            graphics_south:          switch_kabukiza_s_sprites;
+            construction_check:      switch_kabuki_con_check;
+            cargo_production:        func_produce(10,2);
+        }
+    }
