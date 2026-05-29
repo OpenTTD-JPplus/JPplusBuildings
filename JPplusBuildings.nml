@@ -108,6 +108,7 @@ if ((grf_current_status("RE\34\00") == 1)||(grf_future_status("RE\34\00") == 1))
 	error( ERROR, string(GRF_JAPANSETBUILDINGS));
 }
 # 1 "JPplusBuildings.pnml" 4
+//#include "src/badges.pnml"
 # 1 "src/cargotable.pnml" 1
 
 cargotable {
@@ -2168,6 +2169,22 @@ switch (FEAT_HOUSES,SELF,Season ,param_seasons) {
       5:    return 3;
             SeasonNorthConCheck;
       }
+
+/* SEASON OR SNOW */
+
+switch (FEAT_HOUSES,SELF,SeasonOrSnowParameters ,param_seasons) {
+      1:    SeasonSouth;
+      2:    return 0;
+      3:    return 1;
+      4:    return 2;
+      5:    return 3;
+            SeasonNorth;
+      }
+
+switch(FEAT_HOUSES,SELF,SeasonOrSnow, terrain_type){
+      TILETYPE_SNOW:    return 4;   // Show Snow variant
+      SeasonOrSnowParameters;       // What parameter is set for season display?
+      }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/functions/TileGapByClass.pnml" 1
 /* Range Checks */
@@ -3514,11 +3531,18 @@ switch (FEAT_HOUSES,SELF,GroundRoadAware, construction_state) {
 	) {return;}	
 
 // Temple
-	switch (FEAT_HOUSES, SELF, switch_temple_con_check, 
+	switch (FEAT_HOUSES, SELF, switch_temple_SEroad_con_check, 
 		IsCity() && 							// Can only appear in Cities
-		IsUniqueHouse() && 						// Only one Temple per city
+		IsUniqueClass() && 						// Only one Temple per city
 		OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
 		nearby_tile_class(0,2) == TILE_CLASS_ROAD || nearby_tile_class(0,2) == TILE_CLASS_STATION 		// Requires a road to the SE, due to sticking out entrance
+		) {return;}	
+
+		switch (FEAT_HOUSES, SELF, switch_temple_SWroad_con_check, 
+		IsCity() && 							// Can only appear in Cities
+		IsUniqueClass() && 						// Only one Temple per city
+		OnGenerationOnly() && 					// Will only spawn when Map is generated - not realistic being built in modern times!
+		nearby_tile_class(2,0) == TILE_CLASS_ROAD || nearby_tile_class(2,0) == TILE_CLASS_STATION 		// Requires a road to the SW, due to sticking out entrance
 		) {return;}	
 
 // Toyoko
@@ -4966,8 +4990,383 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
         }
         graphics {
             default:                 switch_miyazaki_sprites;
-            construction_check:      switch_single_house_con_check;
+            construction_check:      FlatConCheck();
             cargo_production:        func_produce(2,1);
+        }
+    }
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/miyazaki/miyazaki_slopes.pnml" 1
+// Ground
+
+        spriteset (spr_miyazaki_slopes_h_L_ground_diagonal_norm, "src/houses/miyazaki/gfx/slopes/ground_norm.png") {template_ground_hill(80,1)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_diagonal_snow, "src/houses/miyazaki/gfx/slopes/ground_snow.png") {template_ground_hill(80,1)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_oneup_norm, "src/houses/miyazaki/gfx/slopes/ground_norm.png") {template_ground_hill(80,2)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_oneup_snow, "src/houses/miyazaki/gfx/slopes/ground_snow.png") {template_ground_hill(80,2)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_valley_norm, "src/houses/miyazaki/gfx/slopes/ground_norm.png") {template_ground_hill(80,3)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_valley_snow, "src/houses/miyazaki/gfx/slopes/ground_snow.png") {template_ground_hill(80,3)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_onedown_norm, "src/houses/miyazaki/gfx/slopes/ground_norm.png") {template_ground_hill(80,4)}
+        spriteset (spr_miyazaki_slopes_h_L_ground_onedown_snow, "src/houses/miyazaki/gfx/slopes/ground_snow.png") {template_ground_hill(80,4)}
+
+// Buildings
+
+    // L
+        spriteset (spr_miyazaki_slopes_h_L_diagonal_norm, "src/houses/miyazaki/gfx/slopes/norm.png") {template_house_norm(80,1)}
+        spriteset (spr_miyazaki_slopes_h_L_diagonal_snow, "src/houses/miyazaki/gfx/slopes/snow.png") {template_house_norm(80,1)}
+        spriteset (spr_miyazaki_slopes_h_L_oneup_norm, "src/houses/miyazaki/gfx/slopes/norm.png") {template_house_norm(80,2)}
+        spriteset (spr_miyazaki_slopes_h_L_oneup_snow, "src/houses/miyazaki/gfx/slopes/snow.png") {template_house_norm(80,2)}
+        spriteset (spr_miyazaki_slopes_h_L_valley_norm, "src/houses/miyazaki/gfx/slopes/norm.png") {template_house_norm(80,3)}
+        spriteset (spr_miyazaki_slopes_h_L_valley_snow, "src/houses/miyazaki/gfx/slopes/snow.png") {template_house_norm(80,3)}
+        spriteset (spr_miyazaki_slopes_h_L_onedown_norm, "src/houses/miyazaki/gfx/slopes/norm.png") {template_house_norm(80,4)}
+        spriteset (spr_miyazaki_slopes_h_L_onedown_snow, "src/houses/miyazaki/gfx/slopes/snow.png") {template_house_norm(80,4)}
+
+// Fence
+
+        spriteset (spr_miyazaki_slopes_h_diagonal_fence, "src/houses/miyazaki/gfx/slopes/fence.png") {template_child_norm(80,1)}
+        spriteset (spr_miyazaki_slopes_h_oneup_fence, "src/houses/miyazaki/gfx/slopes/fence.png") {template_child_norm(80,2)}
+        spriteset (spr_miyazaki_slopes_h_valley_fence, "src/houses/miyazaki/gfx/slopes/fence.png") {template_child_norm(80,3)}
+        spriteset (spr_miyazaki_slopes_h_onedown_fence, "src/houses/miyazaki/gfx/slopes/fence.png") {template_child_norm(80,4)}
+
+// Trees
+
+        spriteset (spr_miyazaki_slopes_h_diagonal_trees, "src/houses/miyazaki/gfx/slopes/trees.png") {template_child_norm(80,1)}
+        spriteset (spr_miyazaki_slopes_h_oneup_trees, "src/houses/miyazaki/gfx/slopes/trees.png") {template_child_norm(80,2)}
+        spriteset (spr_miyazaki_slopes_h_valley_trees, "src/houses/miyazaki/gfx/slopes/trees.png") {template_child_norm(80,3)}
+        spriteset (spr_miyazaki_slopes_h_onedown_trees, "src/houses/miyazaki/gfx/slopes/trees.png") {template_child_norm(80,4)}
+
+// Front
+
+        spriteset (spr_miyazaki_slopes_h_diagonal_front, "src/fences/fence_slope_single_house_front.png") {template_child_norm(80,1)}
+        spriteset (spr_miyazaki_slopes_h_oneup_front, "src/fences/fence_slope_single_house_front.png") {template_child_norm(80,2)}
+        spriteset (spr_miyazaki_slopes_h_valley_front, "src/fences/fence_slope_single_house_front.png") {template_child_norm(80,3)}
+        spriteset (spr_miyazaki_slopes_h_onedown_front, "src/fences/fence_slope_single_house_front.png") {template_child_norm(80,4)}
+
+
+// Spritelayouts for miyazaki_slopes
+
+// H variant | L level | Norm
+    spritelayout sprlay_miyazaki_slopes_h_L_diagonal_norm {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_diagonal_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_diagonal_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_diagonal_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_diagonal_trees (LOAD_TEMP(10)); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_diagonal_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_miyazaki_slopes_h_L_oneup_norm {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_oneup_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_oneup_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_oneup_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_oneup_trees (LOAD_TEMP(10)); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_oneup_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_miyazaki_slopes_h_L_valley_norm {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_valley_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_valley_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_valley_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_valley_trees (LOAD_TEMP(10)); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_valley_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Norm
+    spritelayout sprlay_miyazaki_slopes_h_L_onedown_norm {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_onedown_norm(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_onedown_norm (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_onedown_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_onedown_trees (LOAD_TEMP(10)); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_onedown_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_miyazaki_slopes_h_L_diagonal_snow {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_diagonal_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_diagonal_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_diagonal_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_diagonal_trees (3); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_diagonal_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_miyazaki_slopes_h_L_oneup_snow {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_oneup_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_oneup_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_oneup_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_oneup_trees (3); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_oneup_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_miyazaki_slopes_h_L_valley_snow {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_valley_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_valley_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_valley_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_valley_trees (3); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_valley_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+// H variant | L level | Snow
+    spritelayout sprlay_miyazaki_slopes_h_L_onedown_snow {
+        ground {
+            sprite:        spr_miyazaki_slopes_h_L_ground_onedown_snow(LOAD_TEMP(2));
+        }
+        building {
+            sprite:        spr_miyazaki_slopes_h_L_onedown_snow (LOAD_TEMP(2));
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // fence
+            sprite:        spr_miyazaki_slopes_h_onedown_fence (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+        childsprite { // trees
+            sprite:        spr_miyazaki_slopes_h_onedown_trees (3); 
+        }
+        childsprite { // front
+            sprite:        spr_miyazaki_slopes_h_onedown_front (LOAD_TEMP(2)); 
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(5);
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, miyazaki_slopes_build_clr_new, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 23;
+            3:  return 31;
+            4:  return 32;
+            5:  return 34;
+            6:  return 44;
+            7:  return 50;
+            8:  return 53;
+            9:  return 54;
+            10: return 56;
+            11: return 57;
+            12: return 60;
+            13: return 72;
+            14: return 73;
+                return 80;
+        }
+        switch (FEAT_HOUSES, SELF, miyazaki_slopes_build_clr_old, getbits(random_bits, 1, 4)) {
+            0:  return 15;
+            1:  return 16;
+            2:  return 17;
+            3:  return 19;
+            4:  return 20;
+            5:  return 22;
+            6:  return 23;
+            7:  return 24;
+            8:  return 25;
+            9:  return 26;
+            10: return 62;
+            11: return 63;
+            12: return 64;
+            13: return 67;
+            14: return 68;
+                return 92;
+        }
+    // Fence Colours
+        switch (FEAT_HOUSES, SELF, miyazaki_slopes_fence_new, getbits(random_bits, 2, 2)) {
+            0:  return 15;
+            1:  return 22;
+            2:  return 29;
+                return 72;
+        }
+
+
+// Spritelayout Switches
+    // h
+        // L
+            switch (FEAT_HOUSES,SELF, switch_miyazaki_slopes_h_L_norm_diagonal_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? miyazaki_slopes_build_clr_old() : miyazaki_slopes_build_clr_new(),1), 
+                STORE_TEMP(miyazaki_slopes_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2), 
+                STORE_TEMP(Season(), 10),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_miyazaki_slopes_h_L_diagonal_snow; sprlay_miyazaki_slopes_h_L_diagonal_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_miyazaki_slopes_h_L_norm_oneup_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? miyazaki_slopes_build_clr_old() : miyazaki_slopes_build_clr_new(),1), 
+                STORE_TEMP(miyazaki_slopes_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2), 
+                STORE_TEMP(Season(), 10),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_miyazaki_slopes_h_L_oneup_snow; sprlay_miyazaki_slopes_h_L_oneup_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_miyazaki_slopes_h_L_norm_valley_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? miyazaki_slopes_build_clr_old() : miyazaki_slopes_build_clr_new(),1), 
+                STORE_TEMP(miyazaki_slopes_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2), 
+                STORE_TEMP(Season(), 10),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_miyazaki_slopes_h_L_valley_snow; sprlay_miyazaki_slopes_h_L_valley_norm; } 
+
+            switch (FEAT_HOUSES,SELF, switch_miyazaki_slopes_h_L_norm_onedown_sprites, [ 
+                STORE_TEMP((current_year - age) < 1945 ? miyazaki_slopes_build_clr_old() : miyazaki_slopes_build_clr_new(),1), 
+                STORE_TEMP(miyazaki_slopes_fence_new(), 5), 
+                STORE_TEMP(GroundSlopes(), 2), 
+                STORE_TEMP(Season(), 10),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_miyazaki_slopes_h_L_onedown_snow; sprlay_miyazaki_slopes_h_L_onedown_norm; } 
+
+    // Which slope sprite to use
+    switch (FEAT_HOUSES,SELF,switch_miyazaki_slopes_sprites, nearby_tile_slope(0,0)  ) {
+        SLOPE_W:   switch_miyazaki_slopes_h_L_norm_oneup_sprites;
+        SLOPE_S:   switch_miyazaki_slopes_h_L_norm_oneup_sprites;
+        SLOPE_E:   switch_miyazaki_slopes_h_L_norm_oneup_sprites;
+        SLOPE_N:   switch_miyazaki_slopes_h_L_norm_oneup_sprites;
+        SLOPE_SW:  switch_miyazaki_slopes_h_L_norm_diagonal_sprites;
+        SLOPE_SE:  switch_miyazaki_slopes_h_L_norm_diagonal_sprites;
+        SLOPE_NW:  switch_miyazaki_slopes_h_L_norm_diagonal_sprites;
+        SLOPE_NE:  switch_miyazaki_slopes_h_L_norm_diagonal_sprites;
+        SLOPE_EW:  switch_miyazaki_slopes_h_L_norm_valley_sprites;
+        SLOPE_NS:  switch_miyazaki_slopes_h_L_norm_valley_sprites;
+        SLOPE_NWS: switch_miyazaki_slopes_h_L_norm_onedown_sprites;
+        SLOPE_WSE: switch_miyazaki_slopes_h_L_norm_onedown_sprites;
+        SLOPE_SEN: switch_miyazaki_slopes_h_L_norm_onedown_sprites;
+        SLOPE_ENW: switch_miyazaki_slopes_h_L_norm_onedown_sprites;
+        SLOPE_FLAT:switch_miyazaki_slopes_h_L_norm_valley_sprites;
+        switch_miyazaki_slopes_h_L_norm_diagonal_sprites;
+    }
+
+
+// Item Block
+    item(FEAT_HOUSES, item_miyazaki_slopes, 63, HOUSE_SIZE_1X1){
+        property {
+            substitute:              6;
+            name:                    string(NAME_MIYAZAKI_SLOPES);
+            population:              20;
+            accepted_cargos:         [[PASS, 4],[MAIL, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             1;
+            years_available:         [1900,0xFFFF];
+            minimum_lifetime:        5;
+            availability_mask:       [bitmask(TOWNZONE_EDGE, TOWNZONE_OUTSKIRT, TOWNZONE_OUTER_SUBURB), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPIC, ABOVE_SNOWLINE)];
+            building_class:          0;
+        }
+        graphics {
+            default:                 switch_miyazaki_slopes_sprites;
+            foundations:             CB_RESULT_NO_FOUNDATIONS;
+            construction_check:      SlopesNotByTheSea;
+            cargo_production:        func_produce(3,1);
         }
     }
 # 1 "JPplusBuildings.pnml" 4
@@ -7181,6 +7580,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_a_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -7214,6 +7614,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_a_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -7247,6 +7648,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_b_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -7280,6 +7682,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_b_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -7313,6 +7716,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_s_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -7346,6 +7750,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             sprite:        spr_shotengai_3_s_fence (LOAD_TEMP(4)); 
             recolour_mode: RECOLOUR_REMAP;
             palette:       recolour_remap + LOAD_TEMP(5);
+            always_draw:  1;
         }
     }
 
@@ -13640,7 +14045,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             14: return 68;
                 return 92;
         }
-    // Right Colours - Right Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+    // Right Colours
         switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_right_new, getbits(random_bits, 2, 4)) {
             0:  return 15;
             1:  return 22;
@@ -13677,7 +14082,7 @@ spriteset (spr_ground_shiro_snow, 						"src/ground/snow.png") 					{template_gr
             14: return 68;
                 return 92;
         }
-    // Front Colours - Front Colours Profiles: ['brn2227bla0106', 'brn2227bla0308', 'brn2227brn484D', 'brn686Dbla0106', 'brn6A6Fbla0106', 'brn6A6Fbla0308', 'gry050Abla0106', 'gry050Abla0308', 'gry050Abrn686D', 'sil1116bla0106', 'sil1116bla0308', 'sil1116brn2025', 'sil1116brn686D', 'sil1116mar292E', 'whi080Dbla0106', 'whi080Dbrn484D']
+    // Front Colours
         switch (FEAT_HOUSES, SELF, three_wooden_houses_slopes_front_new, getbits(random_bits, 3, 4)) {
             0:  return 15;
             1:  return 22;
@@ -43002,335 +43407,282 @@ spriteset (spr_tokyo_sky_tree_h_ground_snow, 		"src/houses/tokyo_sky_tree/gfx/gr
 	}
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 1
+// Ground
 
-// tokyo_tower
+        spriteset (spr_tokyo_tower_p_ground_norm, "src/houses/tokyo_tower/gfx/ground_norm_tokyo.png") {template_ground_norm(255,1)}
+        spriteset (spr_tokyo_tower_p_ground_snow, "src/houses/tokyo_tower/gfx/ground_snow_tokyo.png") {template_ground_norm(255,1)}
+        spriteset (spr_tokyo_tower_q_ground_norm, "src/houses/tokyo_tower/gfx/ground_norm_sapporo.png") {template_ground_norm(255,1)}
+        spriteset (spr_tokyo_tower_q_ground_snow, "src/houses/tokyo_tower/gfx/ground_snow_sapporo.png") {template_ground_norm(255,1)}
 
-# 1 "src/houses/tokyo_tower/gfx/tokyo_tower_sprites.pnml" 1
+// Buildings
 
-// Building Sprites
+    // P
+        spriteset (spr_tokyo_tower_p_norm, "src/houses/tokyo_tower/gfx/norm_tokyo.png") {template_house_norm(255,1)}
+        spriteset (spr_tokyo_tower_p_snow, "src/houses/tokyo_tower/gfx/norm_tokyo.png") {template_house_norm(255,1)}
 
-    // Tokyo
-    spriteset (spr_tokyo_tower_p_norm, 			"src/houses/tokyo_tower/gfx/building.png") 			{template_house_250_wide64(1,1)}
-    spriteset (spr_tokyo_tower_p_snow, 			"src/houses/tokyo_tower/gfx/building.png") 			{template_house_250_wide64(1,1)}
-
-    // Sapporo
-    spriteset (spr_tokyo_tower_q_norm, 			"src/houses/tokyo_tower/gfx/sapporo_tv_tower.png") 	{template_house_200(1,1)}
-    spriteset (spr_tokyo_tower_q_snow, 			"src/houses/tokyo_tower/gfx/sapporo_tv_tower.png") 	{template_house_200(1,202)}
-
-// Ground Sprites
-
-    // Tokyo
-    spriteset (spr_tokyo_tower_p_ground_norm, 	"src/houses/tokyo_tower/gfx/ground.png") 			{template_ground(1,1)}
-    spriteset (spr_tokyo_tower_p_ground_snow, 	"src/houses/tokyo_tower/gfx/ground.png") 			{template_ground(1,33)}
-
-    // Sapporo
-    spriteset (spr_tokyo_tower_q_ground_norm, 	"src/houses/tokyo_tower/gfx/sapporo_tv_tower_ground.png") 	{template_ground(1,170)}
-    spriteset (spr_tokyo_tower_q_ground_snow, 	"src/houses/tokyo_tower/gfx/sapporo_tv_tower_ground.png") 	{template_ground(1,371)}
-# 1 "src/houses/tokyo_tower/tokyo_tower.pnml" 4
-
-// Spritelayouts
-	// n
-		// p
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_n_p_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_norm (0);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_norm (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_n_p_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_snow (0);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_snow (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_n_p_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_n_p_dark_blue_snow;
-					sprlay_tokyo_tower_n_p_dark_blue_norm;
-				}
-
-		// q
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_n_q_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_norm (0);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_norm (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_n_q_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_snow (0);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_snow (0);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_n_q_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_n_q_dark_blue_snow;
-					sprlay_tokyo_tower_n_q_dark_blue_norm;
-				}
-
-	// e
-		// p
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_e_p_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_norm (2);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_norm (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_e_p_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_snow (2);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_snow (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_e_p_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_e_p_dark_blue_snow;
-					sprlay_tokyo_tower_e_p_dark_blue_norm;
-				}
-
-		// q
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_e_q_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_norm (2);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_norm (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_e_q_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_snow (2);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_snow (2);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_e_q_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_e_q_dark_blue_snow;
-					sprlay_tokyo_tower_e_q_dark_blue_norm;
-				}
-
-	// w
-		// p
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_w_p_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_norm (1);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_norm (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_w_p_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_snow (1);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_snow (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_w_p_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_w_p_dark_blue_snow;
-					sprlay_tokyo_tower_w_p_dark_blue_norm;
-				}
-
-		// q
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_w_q_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_norm (1);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_norm (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_w_q_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_snow (1);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_snow (1);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_w_q_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_w_q_dark_blue_snow;
-					sprlay_tokyo_tower_w_q_dark_blue_norm;
-				}
-
-	// s
-		// p
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_s_p_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_s_p_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_p_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_tower_p_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_s_p_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_s_p_dark_blue_snow;
-					sprlay_tokyo_tower_s_p_dark_blue_norm;
-				}
-
-		// q
-			// dark_blue
-				// norm
-				spritelayout sprlay_tokyo_tower_s_q_dark_blue_norm {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_norm (3);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_norm (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				// snow
-				spritelayout sprlay_tokyo_tower_s_q_dark_blue_snow {
-					ground {
-						sprite: spr_tokyo_tower_q_ground_snow (3);
-					}
-					building {
-						sprite: spr_tokyo_tower_q_snow (3);
-						recolour_mode: RECOLOUR_REMAP;
-						palette: recolour_remap + 8;
-					}
-			}
-
-				switch(FEAT_HOUSES, SELF, switch_tokyo_tower_s_q_dark_blue_snow, terrain_type) {
-					TILETYPE_SNOW: sprlay_tokyo_tower_s_q_dark_blue_snow;
-					sprlay_tokyo_tower_s_q_dark_blue_norm;
-				}
+    // Q
+        spriteset (spr_tokyo_tower_q_norm, "src/houses/tokyo_tower/gfx/norm_sapporo.png") {template_house_norm(255,1)}
+        spriteset (spr_tokyo_tower_q_snow, "src/houses/tokyo_tower/gfx/snow_sapporo.png") {template_house_norm(255,1)}
 
 
-// Colour Switches
-	switch (FEAT_HOUSES, SELF, switch_tokyo_tower_n_sprites, random_bits % 2 ) { 
-		0:	switch_tokyo_tower_n_p_dark_blue_snow;
-		1:	switch_tokyo_tower_n_q_dark_blue_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_tokyo_tower_e_sprites, random_bits % 2 ) { 
-		0:	switch_tokyo_tower_e_p_dark_blue_snow;
-		1:	switch_tokyo_tower_e_q_dark_blue_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_tokyo_tower_w_sprites, random_bits % 2 ) { 
-		0:	switch_tokyo_tower_w_p_dark_blue_snow;
-		1:	switch_tokyo_tower_w_q_dark_blue_snow;
-	}
-	switch (FEAT_HOUSES, SELF, switch_tokyo_tower_s_sprites, random_bits % 2 ) { 
-		0:	switch_tokyo_tower_s_p_dark_blue_snow;
-		1:	switch_tokyo_tower_s_q_dark_blue_snow;
-	}
+// Spritelayouts for tokyo_tower
+
+// E variant | P level | Norm
+    spritelayout sprlay_tokyo_tower_e_p_norm {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_norm(2);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_norm (2);
+        }
+    }
+
+// E variant | P level | Snow
+    spritelayout sprlay_tokyo_tower_e_p_snow {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_snow(2);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_snow (2);
+        }
+    }
+
+// E variant | Q level | Norm
+    spritelayout sprlay_tokyo_tower_e_q_norm {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_norm(2);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_norm (2);
+        }
+    }
+
+// E variant | Q level | Snow
+    spritelayout sprlay_tokyo_tower_e_q_snow {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_snow(2);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_snow (2);
+        }
+    }
+
+// N variant | P level | Norm
+    spritelayout sprlay_tokyo_tower_n_p_norm {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_norm(3);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_norm (3);
+        }
+    }
+
+// N variant | P level | Snow
+    spritelayout sprlay_tokyo_tower_n_p_snow {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_snow(3);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_snow (3);
+        }
+    }
+
+// N variant | Q level | Norm
+    spritelayout sprlay_tokyo_tower_n_q_norm {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_norm(3);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_norm (3);
+        }
+    }
+
+// N variant | Q level | Snow
+    spritelayout sprlay_tokyo_tower_n_q_snow {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_snow(3);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_snow (3);
+        }
+    }
+
+// S variant | P level | Norm
+    spritelayout sprlay_tokyo_tower_s_p_norm {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_norm(1);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_norm (1);
+        }
+    }
+
+// S variant | P level | Snow
+    spritelayout sprlay_tokyo_tower_s_p_snow {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_snow(1);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_snow (1);
+        }
+    }
+
+// S variant | Q level | Norm
+    spritelayout sprlay_tokyo_tower_s_q_norm {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_norm(1);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_norm (1);
+        }
+    }
+
+// S variant | Q level | Snow
+    spritelayout sprlay_tokyo_tower_s_q_snow {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_snow(1);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_snow (1);
+        }
+    }
+
+// W variant | P level | Norm
+    spritelayout sprlay_tokyo_tower_w_p_norm {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_norm(0);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_norm (0);
+        }
+    }
+
+// W variant | P level | Snow
+    spritelayout sprlay_tokyo_tower_w_p_snow {
+        ground {
+            sprite:        spr_tokyo_tower_p_ground_snow(0);
+        }
+        building {
+            sprite:        spr_tokyo_tower_p_snow (0);
+        }
+    }
+
+// W variant | Q level | Norm
+    spritelayout sprlay_tokyo_tower_w_q_norm {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_norm(0);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_norm (0);
+        }
+    }
+
+// W variant | Q level | Snow
+    spritelayout sprlay_tokyo_tower_w_q_snow {
+        ground {
+            sprite:        spr_tokyo_tower_q_ground_snow(0);
+        }
+        building {
+            sprite:        spr_tokyo_tower_q_snow (0);
+        }
+    }
+
+
+
+// Spritelayout Switches
+    // e
+        // p
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_e_p_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_e_p_snow; sprlay_tokyo_tower_e_p_norm; }
+        // q
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_e_q_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_e_q_snow; sprlay_tokyo_tower_e_q_norm; }
+    // n
+        // p
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_n_p_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_n_p_snow; sprlay_tokyo_tower_n_p_norm; }
+        // q
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_n_q_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_n_q_snow; sprlay_tokyo_tower_n_q_norm; }
+    // s
+        // p
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_s_p_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_s_p_snow; sprlay_tokyo_tower_s_p_norm; }
+        // q
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_s_q_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_s_q_snow; sprlay_tokyo_tower_s_q_norm; }
+    // w
+        // p
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_w_p_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_w_p_snow; sprlay_tokyo_tower_w_p_norm; }
+        // q
+            switch (FEAT_HOUSES,SELF, switch_tokyo_tower_w_q_sprites,
+                terrain_type == TILETYPE_SNOW)
+                {1: sprlay_tokyo_tower_w_q_snow; sprlay_tokyo_tower_w_q_norm; }
+
+
+// Level Selection     
+    switch (FEAT_HOUSES, SELF, switch_tokyo_tower_e_sprites, getbits(random_bits, 0, 1)) {         
+        0: switch_tokyo_tower_e_p_sprites;             
+             switch_tokyo_tower_e_q_sprites;     
+    } 
+
+    switch (FEAT_HOUSES, SELF, switch_tokyo_tower_n_sprites, getbits(random_bits, 0, 1)) {         
+        0: switch_tokyo_tower_n_p_sprites;             
+             switch_tokyo_tower_n_q_sprites;     
+    } 
+
+    switch (FEAT_HOUSES, SELF, switch_tokyo_tower_s_sprites, getbits(random_bits, 0, 1)) {         
+        0: switch_tokyo_tower_s_p_sprites;             
+             switch_tokyo_tower_s_q_sprites;     
+    } 
+
+    switch (FEAT_HOUSES, SELF, switch_tokyo_tower_w_sprites, getbits(random_bits, 0, 1)) {         
+        0: switch_tokyo_tower_w_p_sprites;             
+             switch_tokyo_tower_w_q_sprites;     
+    } 
+
+
 
 // Name Switches
-	switch (FEAT_HOUSES, SELF, switch_tokyo_tower_name, random_bits % 2 ) { 
-		0:	return string(NAME_TOKYO_TOWER);
-		1:	return string(NAME_SAPPORO_TV_TOWER);
-	}
+
+    switch (FEAT_HOUSES, SELF, switch_tokyo_tower_name, getbits(random_bits, 0, 1) ){
+        0: return string(NAME_TOKYO_TOWER); // p 
+        return string(NAME_SAPPORO_TV_TOWER); // q 
+    }
 
 // Item Block
-	item(FEAT_HOUSES, item_tokyo_tower, 220, HOUSE_SIZE_2X2){
-		property {
-			substitute:					20;
-			population:					200;
-			building_flags:				bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
-			accepted_cargos:			[[PASS, 8],[MAIL, 4],[GOOD, 4]];
-			local_authority_impact:		80;
-			removal_cost_multiplier:	80;
-			probability:				5;
-			years_available:			[1958,0xFFFF];
-			minimum_lifetime:			25;
-			availability_mask:			[bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-			building_class:				5;
-			}
-		graphics {
-			graphics_north:				switch_tokyo_tower_n_sprites;
-			graphics_east:				switch_tokyo_tower_e_sprites;
-			graphics_west:				switch_tokyo_tower_w_sprites;
-			graphics_south:				switch_tokyo_tower_s_sprites;
-			name:						switch_tokyo_tower_name;
-			construction_check:			switch_skyscraper_con_check;
-			cargo_production:			func_produce(24,10);
-		}
-	}
+    item(FEAT_HOUSES, item_tokyo_tower, 220, HOUSE_SIZE_2X2){
+        property {
+            substitute:              20;
+            population:              200;
+            accepted_cargos:         [[PASS, 8],[MAIL, 4],[GOOD, 4]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             5;
+            years_available:         [1958,0xFFFF];
+            minimum_lifetime:        25;
+            availability_mask:       [bitmask(TOWNZONE_CENTRE), bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          5;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+        }
+        graphics {
+            graphics_north:          switch_tokyo_tower_n_sprites;
+            graphics_east:           switch_tokyo_tower_e_sprites;
+            graphics_west:           switch_tokyo_tower_w_sprites;
+            graphics_south:          switch_tokyo_tower_s_sprites;
+            name:                    switch_tokyo_tower_name;
+            construction_check:      switch_skyscraper_con_check;
+            cargo_production:        func_produce(24,10);
+        }
+    }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/toyoko/toyoko.pnml" 1
 
@@ -47239,17 +47591,219 @@ spriteset (spr_temple_ground_snow, 			"src/houses/temple/gfx/ground.png") 					{
 			years_available:			[1700,0xFFFF];
 			minimum_lifetime:			20;
 			availability_mask:			[ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
-			building_class:				3;
+			building_class:				1;
 			}
 		graphics {
 			graphics_north:				switch_temple_n_sprites;
 			graphics_east:				switch_temple_e_sprites;
 			graphics_west:				switch_temple_w_sprites;
 			graphics_south:				switch_temple_s_sprites;
-			construction_check:			switch_temple_con_check;
+			construction_check:			switch_temple_SEroad_con_check;
 			cargo_production:			func_produce(10,2);
 		}
 	}
+# 1 "JPplusBuildings.pnml" 4
+# 1 "src/houses/temple/temple_horyuji.pnml" 1
+// Ground
+
+        spriteset (spr_temple_horyuji_ground_norm, "src/houses/temple/gfx/horyuji/ground_norm.png") {template_ground_norm(100,1)}
+        spriteset (spr_temple_horyuji_ground_snow, "src/houses/temple/gfx/horyuji/ground_snow.png") {template_ground_norm(100,1)}
+
+// Buildings
+
+    // L
+        spriteset (spr_temple_horyuji_L_norm, "src/houses/temple/gfx/horyuji/norm.png") {template_house_norm(100,1)}
+        spriteset (spr_temple_horyuji_L_snow, "src/houses/temple/gfx/horyuji/snow.png") {template_house_norm(100,1)}
+
+// Trees
+
+        spriteset (spr_temple_horyuji_trees, "src/houses/temple/gfx/horyuji/trees.png") {template_child_norm(100,1)}
+
+
+// Spritelayouts for temple_horyuji
+
+// E variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_e_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(2);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (2); 
+        }
+    }
+
+// E variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_e_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(2);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (2); 
+        }
+    }
+
+// N variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_n_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(3);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (3); 
+        }
+    }
+
+// N variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_n_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(3);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (3); 
+        }
+    }
+
+// S variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_s_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(1);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (1); 
+        }
+    }
+
+// S variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_s_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(1);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (1); 
+        }
+    }
+
+// W variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_w_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(0);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (0); 
+        }
+    }
+
+// W variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_w_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(0);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (0); 
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, temple_horyuji_build_clr_new, getbits(random_bits, 1, 2)) {
+            0:  return 62;
+            1:  return 73;
+            2:  return 78;
+                return 92;
+        }
+
+
+// Spritelayout Switches
+    // e
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_e_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_e_L_snow; sprlay_temple_horyuji_e_L_norm; } 
+    // n
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_n_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_n_L_snow; sprlay_temple_horyuji_n_L_norm; } 
+    // s
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_s_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_s_L_snow; sprlay_temple_horyuji_s_L_norm; } 
+    // w
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_w_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_w_L_snow; sprlay_temple_horyuji_w_L_norm; } 
+
+// Item Block
+    item(FEAT_HOUSES, item_temple_horyuji, 224, HOUSE_SIZE_2X2){
+        property {
+            substitute:              20;
+            name:                    string(NAME_TEMPLE_HORYUJI);
+            population:              100;
+            accepted_cargos:         [[PASS, 8],[MAIL, 1],[FOOD, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             3;
+            years_available:         [1700,0xFFFF];
+            minimum_lifetime:        20;
+            availability_mask:       [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          1;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+        }
+        graphics {
+            graphics_north:          switch_temple_horyuji_n_sprites;
+            graphics_east:           switch_temple_horyuji_e_sprites;
+            graphics_west:           switch_temple_horyuji_w_sprites;
+            graphics_south:          switch_temple_horyuji_s_sprites;
+            construction_check:      switch_temple_SWroad_con_check;
+            cargo_production:        func_produce(10,2);
+        }
+    }
 # 1 "JPplusBuildings.pnml" 4
 # 1 "src/houses/shiro/shiro.pnml" 1
 // Buildings

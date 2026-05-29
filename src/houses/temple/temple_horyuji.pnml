@@ -1,0 +1,200 @@
+// Ground
+
+        spriteset (spr_temple_horyuji_ground_norm, "src/houses/temple/gfx/horyuji/ground_norm.png") {template_ground_norm(100,1)}
+        spriteset (spr_temple_horyuji_ground_snow, "src/houses/temple/gfx/horyuji/ground_snow.png") {template_ground_norm(100,1)}
+
+// Buildings
+
+    // L
+        spriteset (spr_temple_horyuji_L_norm, "src/houses/temple/gfx/horyuji/norm.png") {template_house_norm(100,1)}
+        spriteset (spr_temple_horyuji_L_snow, "src/houses/temple/gfx/horyuji/snow.png") {template_house_norm(100,1)}
+
+// Trees
+
+        spriteset (spr_temple_horyuji_trees, "src/houses/temple/gfx/horyuji/trees.png") {template_child_norm(100,1)}
+
+
+// Spritelayouts for temple_horyuji
+
+// E variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_e_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(2);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (2); 
+        }
+    }
+
+// E variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_e_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(2);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (2);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (2); 
+        }
+    }
+
+// N variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_n_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(3);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (3); 
+        }
+    }
+
+// N variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_n_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(3);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (3);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (3); 
+        }
+    }
+
+// S variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_s_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(1);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (1); 
+        }
+    }
+
+// S variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_s_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(1);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (1);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (1); 
+        }
+    }
+
+// W variant | L level | Norm
+    spritelayout sprlay_temple_horyuji_w_L_norm {
+        ground {
+            sprite:        spr_temple_horyuji_ground_norm(0);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_norm (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (0); 
+        }
+    }
+
+// W variant | L level | Snow
+    spritelayout sprlay_temple_horyuji_w_L_snow {
+        ground {
+            sprite:        spr_temple_horyuji_ground_snow(0);
+        }
+        building {
+            sprite:        spr_temple_horyuji_L_snow (0);
+            recolour_mode: RECOLOUR_REMAP;
+            palette:       recolour_remap + LOAD_TEMP(1);
+        }
+        childsprite { // trees
+            sprite:        spr_temple_horyuji_trees (0); 
+        }
+    }
+
+
+// Random Switches
+    // Building Colours
+        switch (FEAT_HOUSES, SELF, temple_horyuji_build_clr_new, getbits(random_bits, 1, 2)) {
+            0:  return 62;
+            1:  return 73;
+            2:  return 78;
+                return 92;
+        }
+
+
+// Spritelayout Switches
+    // e
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_e_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_e_L_snow; sprlay_temple_horyuji_e_L_norm; } 
+    // n
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_n_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_n_L_snow; sprlay_temple_horyuji_n_L_norm; } 
+    // s
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_s_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_s_L_snow; sprlay_temple_horyuji_s_L_norm; } 
+    // w
+        // L
+            switch (FEAT_HOUSES,SELF, switch_temple_horyuji_w_sprites, [ 
+                STORE_TEMP(temple_horyuji_build_clr_new(), 1),
+                terrain_type == TILETYPE_SNOW])
+                {1: sprlay_temple_horyuji_w_L_snow; sprlay_temple_horyuji_w_L_norm; } 
+
+// Item Block
+    item(FEAT_HOUSES, item_temple_horyuji, 224, HOUSE_SIZE_2X2){
+        property {
+            substitute:              20;
+            name:                    string(NAME_TEMPLE_HORYUJI);
+            population:              100;
+            accepted_cargos:         [[PASS, 8],[MAIL, 1],[FOOD, 2]];
+            local_authority_impact:  80;
+            removal_cost_multiplier: 80;
+            probability:             3;
+            years_available:         [1700,0xFFFF];
+            minimum_lifetime:        20;
+            availability_mask:       [ALL_TOWNZONES, bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, ABOVE_SNOWLINE, CLIMATE_TROPIC)];
+            building_class:          1;
+            building_flags:          bitmask(HOUSE_FLAG_NOT_SLOPED,HOUSE_FLAG_PROTECTED);
+        }
+        graphics {
+            graphics_north:          switch_temple_horyuji_n_sprites;
+            graphics_east:           switch_temple_horyuji_e_sprites;
+            graphics_west:           switch_temple_horyuji_w_sprites;
+            graphics_south:          switch_temple_horyuji_s_sprites;
+            construction_check:      switch_temple_SWroad_con_check;
+            cargo_production:        func_produce(10,2);
+        }
+    }
