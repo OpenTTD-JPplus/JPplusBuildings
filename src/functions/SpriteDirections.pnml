@@ -131,3 +131,25 @@ switch (FEAT_HOUSES, SELF, SpriteDirections,
 		switch_north_SE_Two_IsBuilding() +	// 0 or 4
 		switch_north_SE_Two_IsRoad()		// 0 or 8
 	){return;}
+
+// Diagonal Corner Cases
+
+	switch (FEAT_HOUSES, SELF, switch_diagonal_road_E, HasRoadAdjacentE())
+		{1: return 1; return 0;}
+
+	switch (FEAT_HOUSES, SELF, switch_diagonal_road_S, HasRoadAdjacentS() )
+		{1: return 2; return 0;}
+
+	switch (FEAT_HOUSES, SELF, switch_diagonal_road_W, HasRoadAdjacentW() )
+		{1: return 4; return 0;}
+
+	switch (FEAT_HOUSES, SELF, switch_diagonal_road_N, HasRoadAdjacentN() )
+		{1: return 8; return 0;}
+
+
+	switch (FEAT_HOUSES, SELF, SpriteDirectionsDiagonal, 
+		switch_diagonal_road_E() + 		// 0 or 1
+		switch_diagonal_road_S() +		// 0 or 2
+		switch_diagonal_road_W() +		// 0 or 4
+		switch_diagonal_road_N()		// 0 or 8
+	){return;}

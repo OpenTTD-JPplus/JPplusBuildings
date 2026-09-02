@@ -1,0 +1,44 @@
+
+// Colidas Ground
+
+    // JP+ Roads - Return correct concrete dependent on era
+    switch (FEAT_HOUSES,SELF,ColidasJPCheckEra, current_year ) {
+        1..1937: return 1;  // Light Grey Concrete
+        default: return 2;  // Dark Grey Concrete
+        }
+
+    switch (FEAT_HOUSES,SELF,ColidasJPCheckZone, town_zone == TOWNZONE_EDGE && !SeaAdjacent() ) {
+        1: return 1;
+        default: ColidasJPCheckEra;
+        }
+
+    // Check if JP+ Roads is already present or scheduled for future construction
+    switch (FEAT_HOUSES,SELF,ColidasJPCheck, grf_current_status("YZ\AA\05") == 1 || grf_future_status("YZ\AA\05") == 1 ) {
+            1:  ColidasJPCheckZone;
+                return 1;
+            }
+
+        
+    switch (FEAT_HOUSES,SELF,ColidasGroundSnowCheck, terrain_type ) {
+        TILETYPE_SNOW:  return 3;
+        default: ColidasJPCheck;
+        }
+
+    
+    switch (FEAT_HOUSES,SELF,ColidasGround, construction_state ) {
+        3: ColidasGroundSnowCheck;
+        default: return 0;
+        }
+
+// Collidas Building
+
+        switch (FEAT_HOUSES,SELF,ColidasBuildingSnowCheck, terrain_type ) {
+        TILETYPE_SNOW:  return 3;
+        default: return 2;
+        }
+
+    switch (FEAT_HOUSES,SELF,ColidasBuilding, construction_state ) {
+        0: return 0;
+        3:ColidasBuildingSnowCheck;
+        default: return 1;
+        }
